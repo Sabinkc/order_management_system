@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:icons_plus/icons_plus.dart';
 import 'package:lottie/lottie.dart';
 import 'package:order_management_system/common/common_button.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/common_textfield.dart';
-import 'package:icons_plus/icons_plus.dart';
-import 'package:order_management_system/features/register/presentation/register_screen.dart';
+import 'package:order_management_system/features/login/presentation/login_screen.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,27 +23,34 @@ class LoginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: screenHeight * 0.02,
+                height: screenHeight * 0.03,
               ),
               Center(
-                  child: Lottie.asset("assets/login_animation.json",
-                      height: screenHeight * 0.35)),
+                  child: Lottie.asset("assets/register_animation.json",
+                      height: screenHeight * 0.25)),
               SizedBox(
-                height: screenHeight * 0.01,
+                height: screenHeight * 0.02,
               ),
               Text(
-                "Login",
+                "Register",
                 style: TextStyle(
                     color: CommonColor.primaryColor,
                     fontSize: 50,
                     fontWeight: FontWeight.w600),
               ),
               Text(
-                "Please login to continue!",
+                "Please register to login!",
                 style: TextStyle(
                   fontSize: 20,
                   color: CommonColor.primaryColor,
                 ),
+              ),
+              SizedBox(
+                height: screenHeight * 0.02,
+              ),
+              CommonTextfield(
+                hintText: "Username",
+                prefixIcon: Icons.person,
               ),
               SizedBox(
                 height: screenHeight * 0.02,
@@ -62,9 +68,20 @@ class LoginScreen extends StatelessWidget {
                 suffixIcon: Icons.visibility,
               ),
               SizedBox(
+                height: screenHeight * 0.02,
+              ),
+              CommonTextfield(
+                hintText: "Confirm Password",
+                prefixIcon: Icons.lock,
+                suffixIcon: Icons.visibility,
+              ),
+              SizedBox(
                 height: screenHeight * 0.01,
               ),
-              Text(" Forgot password?"),
+              SizedBox(
+                height: screenHeight * 0.02,
+              ),
+              Divider(),
               SizedBox(
                 height: screenHeight * 0.02,
               ),
@@ -75,41 +92,17 @@ class LoginScreen extends StatelessWidget {
                 height: screenHeight * 0.02,
               ),
               Row(
-                children: [
-                  Expanded(child: Divider()),
-                  Text(" OR CONTINUE WITH "),
-                  Expanded(child: Divider()),
-                ],
-              ),
-              SizedBox(
-                height: screenHeight * 0.02,
-              ),
-              Center(
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    height: screenHeight * 0.06,
-                    padding: EdgeInsets.all(5),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.grey[300]),
-                    child: Brand(Brands.google),
-                  ),
-                ),
-              ),
-              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Don't have an account?"),
+                  Text("Already have an account?"),
                   TextButton(
                       onPressed: () {
                         Navigator.push(
                             context,
                             CupertinoPageRoute(
-                                builder: (context) => RegisterScreen()));
+                                builder: (context) => LoginScreen()));
                       },
-                      child: Text("SignUp"))
+                      child: Text("LogIn"))
                 ],
               )
             ],
