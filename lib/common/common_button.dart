@@ -16,6 +16,12 @@ class CommonButton extends StatelessWidget {
           width: double.infinity,
           height: screenHeight * 0.06,
           decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black,
+                    offset: Offset(0.5, 0.5),
+                    blurRadius: 2)
+              ],
               color: CommonColor.primaryColor,
               borderRadius: BorderRadius.circular(20)),
           child: Center(
