@@ -43,7 +43,8 @@ class RegisterScreen extends StatelessWidget {
                       ),
                       //animation at the top
                       Center(
-                          child: Lottie.asset("assets/animations/register_animation.json",
+                          child: Lottie.asset(
+                              "assets/animations/register_animation.json",
                               height: screenHeight * 0.25)),
                       SizedBox(
                         height: screenHeight * 0.02,

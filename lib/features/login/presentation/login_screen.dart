@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 import 'package:lottie/lottie.dart';
-import 'package:order_management_system/common/common_button.dart';
+
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/common_textfield.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:order_management_system/features/dashboard/presentation/dashboard_screen.dart';
-import 'package:order_management_system/features/dashboard/presentation/landing_screen.dart';
+
 import 'package:order_management_system/features/register/presentation/register_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -123,7 +123,7 @@ class LoginScreen extends StatelessWidget {
                                       context,
                                       CupertinoPageRoute(
                                           builder: (context) =>
-                                              LandingScreen()));
+                                              DashboardScreen()));
                                 },
                                 child: Text(
                                   "LogIn",

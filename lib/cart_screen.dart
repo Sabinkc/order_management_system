@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:order_management_system/cart_screen.dart';
 import 'package:order_management_system/common/common_color.dart';
-import 'package:order_management_system/test_screen.dart';
 
-class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
+class CartScreen extends StatelessWidget {
+  const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +35,10 @@ class DashboardScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.push(context,
-                    CupertinoPageRoute(builder: (context) => CartScreen()));
+                Navigator.pop(context);
               },
               icon: Icon(
-                Icons.shopping_cart,
+                Icons.arrow_back_ios,
               )),
           const SizedBox(
             width: 10,
@@ -51,10 +48,9 @@ class DashboardScreen extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              height: screenHeight * 0.33,
+              height: screenHeight * 0.48,
               child: ListView.builder(
                   itemCount: 4,
                   itemBuilder: (context, index) {
@@ -162,15 +158,12 @@ class DashboardScreen extends StatelessWidget {
                     );
                   }),
             ),
-            SizedBox(
-              height: 10,
-            ),
             Divider(),
             SizedBox(
               height: 10,
             ),
             Column(
-              spacing: 15,
+              spacing: 10,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -283,56 +276,6 @@ class DashboardScreen extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet(
-                      isScrollControlled: true,
-                      context: context,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      builder: (context) {
-                        return TestScreen();
-                      },
-                    );
-                  },
-                  child: Container(
-                    width: screenWidth * 0.75,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.grey[200],
-                    ),
-                    child: Row(
-                      spacing: 10,
-                      children: [
-                        SizedBox(
-                          width: 7,
-                        ),
-                        Icon(Icons.search),
-                        Text("Search products here...")
-                      ],
-                    ),
-                  ),
-                ),
-                CircleAvatar(
-                  radius: 25,
-                  // foregroundColor: CommonColor.primaryColor,
-                  // backgroundColor: CommonColor.primaryColor,
-                  child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.person,
-                        size: 35,
-                      )),
-                ),
-              ],
-            )
           ],
         ),
       ),
