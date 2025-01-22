@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/data/product_model.dart';
 import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
-import 'package:provider/provider.dart'; // Import provider package
+import 'package:provider/provider.dart';
 
 class TestScreen extends StatelessWidget {
   const TestScreen({super.key});
@@ -18,6 +18,8 @@ class TestScreen extends StatelessWidget {
       "Camera",
     ];
 
+
+
     return ChangeNotifierProvider(
       create: (_) => TabBarProvider(), // Provide TabBarProvider
       child: Consumer<TabBarProvider>(
@@ -25,13 +27,20 @@ class TestScreen extends StatelessWidget {
           // Determine the selected category
           String selectedCategory = categoryList[tabBarProvider.selectedIndex];
 
-          // Filter products based on the selected category
+          // Get the search keyword from the controller
+          String searchKeyword =
+              tabBarProvider.searchController.text.toLowerCase();
+
+          // Filter products based on the selected category and search keyword
           List filteredProducts = selectedCategory == "All"
-              ? products
+              ? products.where((product) {
+                  return product["name"].toLowerCase().contains(searchKeyword);
+                }).toList()
               : products
                   .where((product) =>
                       product["category"].toLowerCase() ==
-                      selectedCategory.toLowerCase())
+                          selectedCategory.toLowerCase() &&
+                      product["name"].toLowerCase().contains(searchKeyword))
                   .toList();
 
           return DefaultTabController(
@@ -46,6 +55,15 @@ class TestScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: TextFormField(
+                          controller: tabBarProvider.searchController,
+                          onChanged: (value) {
+                            Provider.of<TabBarProvider>(context, listen: false)
+                                .updateSearchKeyword(value);
+                          },
+                          onFieldSubmitted: (value) {
+                            Provider.of<TabBarProvider>(context, listen: false)
+                                .updateSearchKeyword(value);
+                          },
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.search),
                             hintText: "Search products here...",
@@ -98,45 +116,56 @@ class TestScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   Expanded(
-                    child: GridView.builder(
-                      itemCount: filteredProducts.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                      ),
-                      itemBuilder: (context, index) {
-                        return Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Image.asset(
-                                  filteredProducts[index]["image"],
-                                  fit: BoxFit.cover,
-                                ),
+                    child: filteredProducts.isEmpty
+                        ? Center(
+                            child: Text(
+                              "No products found",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[600],
                               ),
-                              const SizedBox(height: 8),
-                              Text(
-                                filteredProducts[index]["name"],
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
+                            ),
+                          )
+                        : GridView.builder(
+                            itemCount: filteredProducts.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10,
+                            ),
+                            itemBuilder: (context, index) {
+                              return Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                              ),
-                            ],
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: Image.asset(
+                                        filteredProducts[index]["image"],
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      filteredProducts[index]["name"],
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
-                  )
+                  ),
                 ],
               ),
             ),

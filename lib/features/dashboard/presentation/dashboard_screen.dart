@@ -67,24 +67,16 @@ class DashboardScreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 5),
                             child: Container(
                               padding: EdgeInsets.all(5),
-                              // width: screenWidth * 0.8,
                               height: screenHeight * 0.15,
-
                               decoration: BoxDecoration(
                                   color: Colors.grey[200],
-                                  // color: Colors.grey,
-                                  // color: Colors.grey[100],
                                   borderRadius: BorderRadius.circular(10),
                                   boxShadow: [
                                     BoxShadow(
                                         color: Colors.grey,
                                         offset: Offset(0.2, 0.2),
                                         blurRadius: 5)
-                                  ]
-                                  // border: Border.all(
-                                  // color: Colors.grey,
-                                  // ),
-                                  ),
+                                  ]),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 
@@ -8,7 +7,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -63,24 +62,16 @@ class CartScreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 5),
                             child: Container(
                               padding: EdgeInsets.all(5),
-                              // width: screenWidth * 0.8,
                               height: screenHeight * 0.15,
-
                               decoration: BoxDecoration(
                                   color: Colors.grey[200],
-                                  // color: Colors.grey,
-                                  // color: Colors.grey[100],
                                   borderRadius: BorderRadius.circular(10),
                                   boxShadow: [
                                     BoxShadow(
                                         color: Colors.grey,
                                         offset: Offset(0.2, 0.2),
                                         blurRadius: 5)
-                                  ]
-                                  // border: Border.all(
-                                  // color: Colors.grey,
-                                  // ),
-                                  ),
+                                  ]),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

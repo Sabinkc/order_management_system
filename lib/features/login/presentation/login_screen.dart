@@ -17,7 +17,6 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-    final double screenWidth = MediaQuery.of(context).size.width;
 
     return KeyboardDismisser(
       child: Scaffold(
@@ -62,12 +61,6 @@ class LoginScreen extends StatelessWidget {
                       child: Text(
                         "Login",
                         style: TextStyle(
-                          // shadows: [
-                          //   Shadow(
-                          //       color: CommonColor.secondaryColor,
-                          //       blurRadius: 10,
-                          //       offset: Offset(1, 1)),
-                          // ],
                           color: CommonColor.primaryColor,
                           fontSize: 50,
                           fontWeight: FontWeight.w600,
@@ -90,7 +83,6 @@ class LoginScreen extends StatelessWidget {
                             prefixIcon: Icons.lock,
                             suffixIcon: Icons.visibility,
                           ),
-                          // SizedBox(height: screenHeight * 0.01),
                           Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
@@ -98,19 +90,12 @@ class LoginScreen extends StatelessWidget {
                               child: Text(
                                 "Forgot password?",
                                 style: TextStyle(
-                                  // shadows: [
-                                  //   Shadow(
-                                  //       color: Colors.black,
-                                  //       offset: Offset(0.5, 0.5),
-                                  //       blurRadius: 5)
-                                  // ],
                                   color: CommonColor.secondaryColor,
                                 ),
                               ),
                             ),
                           ),
                           SizedBox(height: screenHeight * 0.02),
-                          // CommonButton(buttonText: "LogIn"),
                           SizedBox(
                             width: double.infinity,
                             height: screenHeight * 0.06,
@@ -155,14 +140,7 @@ class LoginScreen extends StatelessWidget {
                                 border: Border.all(
                                     color: CommonColor.primaryColor,
                                     width: 1.5),
-                                // boxShadow: [
-                                //   BoxShadow(
-                                //       color: Colors.black,
-                                //       offset: Offset(0.5, 0.5),
-                                //       blurRadius: 2)
-                                // ],
                                 borderRadius: BorderRadius.circular(30),
-                                // color: Colors.grey[300],
                               ),
                               child: Center(
                                 child: Row(
@@ -202,16 +180,7 @@ class LoginScreen extends StatelessWidget {
                                 },
                                 child: Text(
                                   "SignUp",
-                                  style: TextStyle(
-
-                                      // decoration: TextDecoration.underline,
-                                      // shadows: [
-                                      //   Shadow(
-                                      //       color: Colors.black,
-                                      //       offset: Offset(0.5, 0.5),
-                                      //       blurRadius: 5)
-                                      // ],
-                                      ),
+                                  style: TextStyle(),
                                 ),
                               )
                             ],

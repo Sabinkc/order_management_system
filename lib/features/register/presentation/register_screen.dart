@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:lottie/lottie.dart';
-import 'package:order_management_system/common/common_button.dart';
+
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/common_textfield.dart';
 import 'package:order_management_system/features/login/presentation/login_screen.dart';
@@ -54,12 +54,6 @@ class RegisterScreen extends StatelessWidget {
                         child: Text(
                           "Register",
                           style: TextStyle(
-                              // shadows: [
-                              //   Shadow(
-                              //       color: CommonColor.secondaryColor,
-                              //       blurRadius: 10,
-                              //       offset: Offset(1, 1)),
-                              // ],
                               color: CommonColor.primaryColor,
                               fontSize: 50,
                               fontWeight: FontWeight.w600),
@@ -111,10 +105,7 @@ class RegisterScreen extends StatelessWidget {
                       SizedBox(
                         height: screenHeight * 0.02,
                       ),
-                      //login button
-                      // CommonButton(
-                      //   buttonText: "Log In",
-                      // ),
+
                       SizedBox(
                         width: double.infinity,
                         height: screenHeight * 0.06,
@@ -145,15 +136,7 @@ class RegisterScreen extends StatelessWidget {
                               },
                               child: Text(
                                 "LogIn",
-                                style: TextStyle(
-                                    // decoration: TextDecoration.underline,
-                                    // shadows: [
-                                    //   Shadow(
-                                    //       color: Colors.black,
-                                    //       offset: Offset(0.5, 0.5),
-                                    //       blurRadius: 5)
-                                    // ],
-                                    ),
+                                style: TextStyle(),
                               ))
                         ],
                       )
