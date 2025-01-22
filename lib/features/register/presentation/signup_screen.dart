@@ -5,6 +5,9 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/common_textfield.dart';
 import 'package:order_management_system/features/dashboard/presentation/dashboard_screen.dart';
 import 'package:order_management_system/features/login/presentation/login_screen.dart';
+import 'package:order_management_system/features/register/domain/checkbox_provider.dart';
+import 'package:order_management_system/features/register/domain/signup_textfield_provider.dart';
+import 'package:provider/provider.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
@@ -135,11 +138,18 @@ class SignupScreen extends StatelessWidget {
                           SizedBox(
                             height: screenHeight * 0.008,
                           ),
-                          CommonTextfield(
-                            hintText: "••••••••",
-                            prefixIcon: Icons.lock,
-                            suffixIcon: Icons.visibility,
-                          ),
+                          Consumer<SignupTextfieldProvider>(
+                              builder: (context, provider, child) {
+                            return CommonTextfield(
+                              isObscure: provider.isPasswordObscure,
+                              onSuffixPressed: provider.switchPasswordObscure,
+                              hintText: "••••••••",
+                              prefixIcon: Icons.lock,
+                              suffixIcon: provider.isPasswordObscure == true
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            );
+                          }),
                           SizedBox(height: screenHeight * 0.015),
                           Align(
                             alignment: Alignment.centerLeft,
@@ -167,24 +177,34 @@ class SignupScreen extends StatelessWidget {
                           SizedBox(
                             height: screenHeight * 0.008,
                           ),
-                          CommonTextfield(
-                            hintText: "••••••••",
-                            prefixIcon: Icons.lock,
-                            suffixIcon: Icons.visibility,
-                          ),
+                          Consumer<SignupTextfieldProvider>(
+                              builder: (context, provider, child) {
+                            return CommonTextfield(
+                              isObscure: provider.isConfirmObscure,
+                              onSuffixPressed: provider.switchConfirmObscure,
+                              hintText: "••••••••",
+                              prefixIcon: Icons.lock,
+                              suffixIcon: provider.isConfirmObscure == true
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            );
+                          }),
                           SizedBox(
                             height: screenHeight * 0.01,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              IconButton(
-                                  padding: EdgeInsets.all(0),
-                                  onPressed: () {},
-                                  icon: Icon(
-                                      size: 28,
-                                      color: CommonColor.primaryColor,
-                                      Icons.check_box_outlined)),
+                              Consumer<CheckboxProvider>(
+                                builder: (context, provider, child) {
+                                  return Checkbox(
+                                      activeColor: CommonColor.primaryColor,
+                                      value: provider.isSelected,
+                                      onChanged: (value) {
+                                        provider.switchSelection();
+                                      });
+                                },
+                              ),
                               Text(
                                 "I agree to the ",
                                 style: TextStyle(

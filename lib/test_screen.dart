@@ -18,8 +18,6 @@ class TestScreen extends StatelessWidget {
       "Camera",
     ];
 
-
-
     return ChangeNotifierProvider(
       create: (_) => TabBarProvider(), // Provide TabBarProvider
       child: Consumer<TabBarProvider>(

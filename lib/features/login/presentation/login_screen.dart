@@ -5,7 +5,9 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/common_textfield.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:order_management_system/features/dashboard/presentation/dashboard_screen.dart';
+import 'package:order_management_system/features/login/domain/login_textfield_provider.dart';
 import 'package:order_management_system/features/register/presentation/signup_screen.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -114,11 +116,18 @@ class LoginScreen extends StatelessWidget {
                           SizedBox(
                             height: screenHeight * 0.008,
                           ),
-                          CommonTextfield(
-                            hintText: "••••••••",
-                            prefixIcon: Icons.lock,
-                            suffixIcon: Icons.visibility,
-                          ),
+                          Consumer<LoginTextfieldProvider>(
+                              builder: (context, provider, child) {
+                            return CommonTextfield(
+                              isObscure: provider.isObscure,
+                              onSuffixPressed: provider.switchObscure,
+                              hintText: "••••••••",
+                              prefixIcon: Icons.lock,
+                              suffixIcon: provider.isObscure == true
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            );
+                          }),
                           Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
