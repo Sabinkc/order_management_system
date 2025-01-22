@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:order_management_system/common/common_color.dart';
 
 class CommonTextfield extends StatelessWidget {
   final String hintText;
@@ -17,13 +18,52 @@ class CommonTextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      
       controller: controller,
       decoration: InputDecoration(
-        
+        contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+        fillColor: Colors.white,
+        filled: true,
         hintText: hintText,
-        prefixIcon: Icon(prefixIcon),
-        suffixIcon: Icon(suffixIcon),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+        hintStyle: TextStyle(
+          color: CommonColor.darkGreyColor,
+        
+        ),
+        prefixIcon: Icon(
+          prefixIcon,
+          size: 20,
+          color: CommonColor.primaryColor,
+        ),
+        suffixIcon: Icon(
+          suffixIcon,
+          size: 20,
+          color: CommonColor.primaryColor,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide:
+              BorderSide(color: Colors.transparent), // Transparent border
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+              color: CommonColor.primaryColor,
+              width: 2), // Focused border color
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide:
+              BorderSide(color: Colors.red, width: 2), // Error border color
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+              color: Colors.red, width: 2), // Focused error border color
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: Colors.grey), // Disabled border color
+        ),
       ),
     );
   }

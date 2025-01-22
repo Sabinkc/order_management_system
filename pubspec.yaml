@@ -40,6 +40,7 @@ dependencies:
   keyboard_dismisser: ^3.0.0
   water_drop_nav_bar: ^2.2.2
   provider: ^6.1.2
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:

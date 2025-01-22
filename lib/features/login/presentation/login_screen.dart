@@ -1,15 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-
-import 'package:lottie/lottie.dart';
-
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/common_textfield.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:order_management_system/features/dashboard/presentation/dashboard_screen.dart';
-
-import 'package:order_management_system/features/register/presentation/register_screen.dart';
+import 'package:order_management_system/features/register/presentation/signup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -26,60 +22,100 @@ class LoginScreen extends StatelessWidget {
             children: [
               Positioned(
                 top: screenHeight *
-                    0.25, // Start the green background below the "Login" text
+                    0.27, // Start the green background below the "Login" text
                 left: 0,
                 right: 0,
                 bottom: 0,
                 child: Container(
                   decoration: BoxDecoration(
-                    color:
-                        Colors.white, // Replace with your desired green color
+                    color: CommonColor
+                        .commonGreyColor, // Replace with your desired green color
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(50),
                     ),
                   ),
                 ),
               ),
               // Main content
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: screenHeight * 0.02),
-                    // Animation at the top
-                    Center(
-                      child: Lottie.asset(
-                        "assets/animations/login_animation.json",
-                        height: screenHeight * 0.35,
-                      ),
+                    SizedBox(
+                      height: screenHeight * 0.13,
                     ),
-                    SizedBox(height: screenHeight * 0.01),
-                    // Login text
                     Center(
                       child: Text(
                         "Login",
                         style: TextStyle(
-                          color: CommonColor.primaryColor,
-                          fontSize: 50,
+                          color: Colors.white,
+                          fontSize: 40,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
-                    SizedBox(height: screenHeight * 0.02),
-                    // Form container (overlapping the green background)
+                    SizedBox(
+                      height: screenHeight * 0.01,
+                    ),
+                    Center(
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don't have an account? ",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) => SignupScreen()));
+                          },
+                          child: Text(
+                            "Sign Up",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    )),
+                    SizedBox(height: screenHeight * 0.09),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text(
+                            "Email",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: screenHeight * 0.008,
+                          ),
                           CommonTextfield(
-                            hintText: "Email",
+                            hintText: "Johndoe@gmail.com",
                             prefixIcon: Icons.email,
                           ),
                           SizedBox(height: screenHeight * 0.02),
+                          Text(
+                            "Password",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: screenHeight * 0.008,
+                          ),
                           CommonTextfield(
-                            hintText: "Password",
+                            hintText: "••••••••",
                             prefixIcon: Icons.lock,
                             suffixIcon: Icons.visibility,
                           ),
@@ -88,19 +124,22 @@ class LoginScreen extends StatelessWidget {
                             child: TextButton(
                               onPressed: () {},
                               child: Text(
-                                "Forgot password?",
+                                "Forget password?",
                                 style: TextStyle(
-                                  color: CommonColor.secondaryColor,
-                                ),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
                               ),
                             ),
                           ),
                           SizedBox(height: screenHeight * 0.02),
                           SizedBox(
                             width: double.infinity,
-                            height: screenHeight * 0.06,
+                            height: screenHeight * 0.065,
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8)),
                                     foregroundColor: Colors.white,
                                     backgroundColor: CommonColor.primaryColor),
                                 onPressed: () {
@@ -111,36 +150,46 @@ class LoginScreen extends StatelessWidget {
                                               DashboardScreen()));
                                 },
                                 child: Text(
-                                  "LogIn",
+                                  "Login",
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 )),
                           ),
-                          SizedBox(height: screenHeight * 0.02),
+                          SizedBox(height: screenHeight * 0.05),
                           Row(
                             children: [
-                              Expanded(child: Divider(color: Colors.grey)),
+                              Expanded(
+                                  child: Padding(
+                                      padding: EdgeInsets.only(left: 15),
+                                      child: Divider(
+                                          color: CommonColor.primaryColor))),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: Text(
-                                  "OR CONTINUE WITH",
-                                  style: TextStyle(color: Colors.black),
+                                  "Or login with",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
                                 ),
                               ),
-                              Expanded(child: Divider(color: Colors.grey)),
+                              Expanded(
+                                  child: Padding(
+                                      padding: EdgeInsets.only(right: 15),
+                                      child: Divider(
+                                          color: CommonColor.primaryColor))),
                             ],
                           ),
-                          SizedBox(height: screenHeight * 0.02),
+                          SizedBox(height: screenHeight * 0.05),
                           GestureDetector(
                             onTap: () {},
                             child: Container(
-                              height: screenHeight * 0.06,
+                              height: screenHeight * 0.065,
                               padding: EdgeInsets.all(5),
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: CommonColor.primaryColor,
-                                    width: 1.5),
-                                borderRadius: BorderRadius.circular(30),
+                                color: Colors.white,
+                                border:
+                                    Border.all(color: Colors.white, width: 1.5),
+                                borderRadius: BorderRadius.circular(8),
                               ),
                               child: Center(
                                 child: Row(
@@ -159,35 +208,49 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(height: screenHeight * 0.02),
+                          SizedBox(height: screenHeight * 0.05),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Don't have an account?",
-                                style: TextStyle(color: Colors.black),
+                                "By using this app, you agree to our ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 9,
+                                    color: Colors.black),
                               ),
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                    padding: EdgeInsets.all(0)),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                      builder: (context) => RegisterScreen(),
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  "SignUp",
-                                  style: TextStyle(),
-                                ),
-                              )
+                              Text(
+                                "Privacy Policy ",
+                                style: TextStyle(
+                                    fontSize: 9,
+                                    color: CommonColor.primaryColor),
+                              ),
+                              Text(
+                                "and ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 9,
+                                    color: Colors.black),
+                              ),
+                              Text(
+                                "Terms of",
+                                style: TextStyle(
+                                    fontSize: 9,
+                                    color: CommonColor.primaryColor),
+                              ),
                             ],
+                          ),
+                          Center(
+                            child: Text(
+                              "Condition",
+                              style: TextStyle(
+                                  fontSize: 9, color: CommonColor.primaryColor),
+                            ),
                           ),
                         ],
                       ),
                     ),
+                    SizedBox(height: screenHeight * 0.03),
                   ],
                 ),
               ),
