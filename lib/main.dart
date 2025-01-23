@@ -18,7 +18,7 @@ class MyApplication extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<TabBarProvider>(create: (_) => TabBarProvider()),
+        ChangeNotifierProvider<TabBarProvider>(create: (_) => TabBarProvider()),
         ChangeNotifierProvider<CheckboxProvider>(
             create: (_) => CheckboxProvider()),
         ChangeNotifierProvider<LoginTextfieldProvider>(

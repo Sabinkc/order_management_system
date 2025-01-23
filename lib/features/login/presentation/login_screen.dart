@@ -89,7 +89,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ],
                     )),
-                    SizedBox(height: screenHeight * 0.09),
+                    SizedBox(height: screenHeight * 0.1),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
@@ -141,7 +141,7 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(height: screenHeight * 0.02),
+                          SizedBox(height: screenHeight * 0.01),
                           SizedBox(
                             width: double.infinity,
                             height: screenHeight * 0.065,
@@ -228,11 +228,14 @@ class LoginScreen extends StatelessWidget {
                                     fontSize: 9,
                                     color: Colors.black),
                               ),
-                              Text(
-                                "Privacy Policy ",
-                                style: TextStyle(
-                                    fontSize: 9,
-                                    color: CommonColor.primaryColor),
+                              GestureDetector(
+                                onTap: () {},
+                                child: Text(
+                                  "Privacy Policy ",
+                                  style: TextStyle(
+                                      fontSize: 9,
+                                      color: CommonColor.primaryColor),
+                                ),
                               ),
                               Text(
                                 "and ",
@@ -250,10 +253,14 @@ class LoginScreen extends StatelessWidget {
                             ],
                           ),
                           Center(
-                            child: Text(
-                              "Condition",
-                              style: TextStyle(
-                                  fontSize: 9, color: CommonColor.primaryColor),
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Text(
+                                "Condition",
+                                style: TextStyle(
+                                    fontSize: 9,
+                                    color: CommonColor.primaryColor),
+                              ),
                             ),
                           ),
                         ],

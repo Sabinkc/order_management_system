@@ -7,16 +7,16 @@ class CommonTextfield extends StatelessWidget {
   final IconData? suffixIcon;
   final TextEditingController? controller;
   final void Function()? onSuffixPressed;
-  bool isObscure;
+  final bool isObscure;
 
-   CommonTextfield({
+  const CommonTextfield({
     super.key,
     required this.hintText,
     this.prefixIcon,
     this.suffixIcon,
     this.controller,
     this.onSuffixPressed,
-    this.isObscure=false,
+    this.isObscure = false,
   });
 
   @override
@@ -25,25 +25,26 @@ class CommonTextfield extends StatelessWidget {
       obscureText: isObscure,
       controller: controller,
       decoration: InputDecoration(
-        
         contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
         fillColor: Colors.white,
         filled: true,
         hintText: hintText,
         hintStyle: TextStyle(
           color: CommonColor.darkGreyColor,
-        
         ),
         prefixIcon: Icon(
           prefixIcon,
           size: 20,
           color: CommonColor.primaryColor,
         ),
-        suffixIcon: IconButton(onPressed: onSuffixPressed, icon: Icon(
-          suffixIcon,
-          size: 20,
-          color: CommonColor.primaryColor,
-        ),),
+        suffixIcon: IconButton(
+          onPressed: onSuffixPressed,
+          icon: Icon(
+            suffixIcon,
+            size: 20,
+            color: CommonColor.primaryColor,
+          ),
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide:
