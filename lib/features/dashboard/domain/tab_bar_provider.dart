@@ -16,6 +16,6 @@ class TabBarProvider with ChangeNotifier {
 
   void updateSearchKeyword(String keyword) {
     _searchKeyword = keyword;
-    notifyListeners(); 
+    notifyListeners();
   }
 }
