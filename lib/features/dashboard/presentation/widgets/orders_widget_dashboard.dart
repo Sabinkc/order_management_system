@@ -10,6 +10,7 @@ class OrdersWidgetDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: SizedBox(
@@ -180,10 +181,141 @@ class OrdersWidgetDashboard extends StatelessWidget {
                               ),
                               IconButton(
                                   onPressed: () {
-                                    Provider.of<CartQuantityProvider>(context,
-                                            listen: false)
-                                        .removeFromCart(
-                                            provider.cartItems[index].id);
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                              backgroundColor: Colors.white,
+                                              alignment: Alignment.center,
+                                              titlePadding: EdgeInsets.only(
+                                                top: 12,
+                                                bottom: 10,
+                                              ),
+                                              contentPadding:
+                                                  EdgeInsets.only(bottom: 12),
+                                              title: Text(
+                                                "Confirm to delete?",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 17,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                spacing: 10,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 10),
+                                                    child: Text(
+                                                      "Are you sure you want to delete this item from cart?",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 13,
+                                                          color: CommonColor
+                                                              .darkGreyColor),
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    spacing: 15,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 122,
+                                                        child: ElevatedButton(
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                      side:
+                                                                          BorderSide(
+                                                                        color: CommonColor
+                                                                            .primaryColor,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              8)),
+                                                              backgroundColor:
+                                                                  Colors.white,
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Text(
+                                                              "Cancel",
+                                                              style: TextStyle(
+                                                                  color: CommonColor
+                                                                      .primaryColor),
+                                                            )),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 122,
+                                                        child: ElevatedButton(
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8)),
+                                                              backgroundColor:
+                                                                  CommonColor
+                                                                      .primaryColor,
+                                                            ),
+                                                            onPressed: () {
+                                                              Provider.of<CartQuantityProvider>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .removeFromCart(provider
+                                                                      .cartItems[
+                                                                          index]
+                                                                      .id);
+                                                              Navigator.pop(
+                                                                  context);
+                                                              ScaffoldMessenger
+                                                                      .of(
+                                                                          context)
+                                                                  .showSnackBar(
+                                                                      SnackBar(
+                                                                          duration: Duration(
+                                                                              seconds:
+                                                                                  1),
+                                                                          content:
+                                                                              Center(
+                                                                            child:
+                                                                                Text(
+                                                                              "An item deleted successfully!",
+                                                                              style: TextStyle(color: Colors.white),
+                                                                            ),
+                                                                          )));
+                                                            },
+                                                            child: Text(
+                                                              "Delete",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                            )),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ));
+                                        });
                                   },
                                   icon: Icon(
                                     size: 18,

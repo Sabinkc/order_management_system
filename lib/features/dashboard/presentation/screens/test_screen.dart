@@ -202,6 +202,32 @@ class TestScreen extends StatelessWidget {
                                     builder: (context, provider, child) {
                                   return GestureDetector(
                                     onTap: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            Future.delayed(Duration(seconds: 1),
+                                                () {
+                                              if (context.mounted) {
+                                                Navigator.pop(context);
+                                              }
+                                            });
+                                            return AlertDialog(
+                                              backgroundColor: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                              title: Center(
+                                                child: Text(
+                                                  "Item added to cart successfully!",
+                                                  style: TextStyle(
+                                                      color: CommonColor
+                                                          .darkGreyColor,
+                                                      fontSize: 14),
+                                                ),
+                                              ),
+                                            );
+                                          });
                                       Provider.of<CartQuantityProvider>(context,
                                               listen: false)
                                           .addToCart(filteredProducts[index]
