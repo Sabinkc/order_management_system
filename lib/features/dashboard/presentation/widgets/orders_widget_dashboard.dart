@@ -28,17 +28,10 @@ class OrdersWidgetDashboard extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5),
                         child: Container(
-                          // padding: EdgeInsets.all(5),
                           height: screenHeight * 0.15,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(8),
-                            // boxShadow: [
-                            //   BoxShadow(
-                            //       color: Colors.grey,
-                            //       offset: Offset(0.2, 0.2),
-                            //       blurRadius: 5)
-                            // ],
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,7 +74,7 @@ class OrdersWidgetDashboard extends StatelessWidget {
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           Text(
-                                            "300",
+                                            item.price.toString(),
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 color: CommonColor.primaryColor,
@@ -91,7 +84,7 @@ class OrdersWidgetDashboard extends StatelessWidget {
                                             width: 7,
                                           ),
                                           Text(
-                                            "Cold Drinks",
+                                            item.category,
                                             style: TextStyle(
                                                 fontSize: 11,
                                                 color:
@@ -102,23 +95,32 @@ class OrdersWidgetDashboard extends StatelessWidget {
                                       ),
                                       Row(
                                         children: [
-                                          Container(
-                                            height: 25,
-                                            width: 25,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(3),
-                                                  bottomLeft:
-                                                      Radius.circular(3)),
-                                              border: Border.all(
-                                                  color: CommonColor
-                                                      .mediumGreyColor),
-                                            ),
-                                            child: Center(
-                                              child: Icon(
-                                                size: 16,
-                                                Icons.remove,
-                                                color: CommonColor.primaryColor,
+                                          GestureDetector(
+                                            onTap: () {
+                                              Provider.of<CartQuantityProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .updateQuantity(item.id, -1);
+                                            },
+                                            child: Container(
+                                              height: 25,
+                                              width: 25,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(3),
+                                                    bottomLeft:
+                                                        Radius.circular(3)),
+                                                border: Border.all(
+                                                    color: CommonColor
+                                                        .mediumGreyColor),
+                                              ),
+                                              child: Center(
+                                                child: Icon(
+                                                  size: 16,
+                                                  Icons.remove,
+                                                  color:
+                                                      CommonColor.primaryColor,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -134,7 +136,7 @@ class OrdersWidgetDashboard extends StatelessWidget {
                                             ),
                                             child: Center(
                                               child: Text(
-                                                "1",
+                                                item.quantity.toString(),
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 16,
@@ -143,22 +145,31 @@ class OrdersWidgetDashboard extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                          Container(
-                                            height: 25,
-                                            width: 25,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(
-                                                  topRight: Radius.circular(3),
-                                                  bottomRight:
-                                                      Radius.circular(3)),
-                                              border: Border.all(
-                                                  color: CommonColor
-                                                      .mediumGreyColor),
-                                            ),
-                                            child: Icon(
-                                              Icons.add,
-                                              size: 16,
-                                              color: CommonColor.primaryColor,
+                                          GestureDetector(
+                                            onTap: () {
+                                              Provider.of<CartQuantityProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .updateQuantity(item.id, 1);
+                                            },
+                                            child: Container(
+                                              height: 25,
+                                              width: 25,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                    topRight:
+                                                        Radius.circular(3),
+                                                    bottomRight:
+                                                        Radius.circular(3)),
+                                                border: Border.all(
+                                                    color: CommonColor
+                                                        .mediumGreyColor),
+                                              ),
+                                              child: Icon(
+                                                Icons.add,
+                                                size: 16,
+                                                color: CommonColor.primaryColor,
+                                              ),
                                             ),
                                           ),
                                         ],

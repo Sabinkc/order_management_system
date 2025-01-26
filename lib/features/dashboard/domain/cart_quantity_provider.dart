@@ -50,4 +50,24 @@ class CartQuantityProvider extends ChangeNotifier {
   double getTotalPrice() {
     return cartItems.fold(0, (sum, item) => sum + (item.price * item.quantity));
   }
+
+
+void updateQuantity(String productId, int quantityChange) {
+  final existingIndex = cartItems.indexWhere((item) => item.id == productId);
+
+  if (existingIndex != -1) {
+    final updatedQuantity = cartItems[existingIndex].quantity + quantityChange;
+
+    if (updatedQuantity > 0) {
+      // Update quantity if it doesn't drop below 1
+      cartItems[existingIndex].quantity = updatedQuantity;
+    } else {
+      // Remove item from cart if quantity becomes 0
+      cartItems.removeAt(existingIndex);
+    }
+    notifyListeners(); // Notify UI to rebuild
+  }
+}
+
+  
 }
