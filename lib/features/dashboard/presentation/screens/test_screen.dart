@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
@@ -200,20 +199,18 @@ class TestScreen extends StatelessWidget {
                               ),
                               itemBuilder: (context, index) {
                                 return Consumer<CartQuantityProvider>(
-
-                                  builder: (context, provider, child){
-return GestureDetector(
-                                    onTap: (){
-
-        //                               Provider.of<CartQuantityProvider>(context, listen: false)
-        // .addToCart(filteredProducts[index]["[product_id]]"]);
-         Provider.of<CartQuantityProvider>(context, listen: false)
-        .addToCart(filteredProducts[index]["product_id"]);
+                                    builder: (context, provider, child) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Provider.of<CartQuantityProvider>(context,
+                                              listen: false)
+                                          .addToCart(filteredProducts[index]
+                                              ["product_id"]);
                                     },
                                     child: Container(
-                                      // padding: const EdgeInsets.all(12),
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                           color: Colors.white),
                                       child: Column(
                                         crossAxisAlignment:
@@ -222,8 +219,10 @@ return GestureDetector(
                                           Container(
                                             decoration: BoxDecoration(
                                                 color: Color(0XFFFAFAFA),
-                                                borderRadius: BorderRadius.vertical(
-                                                    top: Radius.circular(8))),
+                                                borderRadius:
+                                                    BorderRadius.vertical(
+                                                        top: Radius.circular(
+                                                            8))),
                                             height: 130,
                                             width: double.infinity,
                                             child: Image.asset(
@@ -233,8 +232,8 @@ return GestureDetector(
                                           ),
                                           const SizedBox(height: 15),
                                           Padding(
-                                            padding:
-                                                EdgeInsets.symmetric(horizontal: 8),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 8),
                                             child: Text(
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
@@ -250,25 +249,28 @@ return GestureDetector(
                                             height: 7,
                                           ),
                                           Padding(
-                                            padding:
-                                                EdgeInsets.symmetric(horizontal: 8),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 8),
                                             child: Row(
                                               children: [
                                                 Text(
                                                   "Rs.",
                                                   style: TextStyle(
-                                                      fontWeight: FontWeight.bold,
-                                                      color:
-                                                          CommonColor.primaryColor,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: CommonColor
+                                                          .primaryColor,
                                                       fontSize: 12),
                                                 ),
                                                 Text(
-                                                  filteredProducts[index]["price"]
+                                                  filteredProducts[index]
+                                                          ["price"]
                                                       .toString(),
                                                   style: TextStyle(
-                                                      fontWeight: FontWeight.bold,
-                                                      color:
-                                                          CommonColor.primaryColor),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: CommonColor
+                                                          .primaryColor),
                                                 ),
                                                 SizedBox(
                                                   width: 8,
@@ -279,7 +281,8 @@ return GestureDetector(
                                                       .toString(),
                                                   style: TextStyle(
                                                       fontSize: 11,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                       color: CommonColor
                                                           .mediumGreyColor),
                                                 ),
@@ -289,11 +292,8 @@ return GestureDetector(
                                         ],
                                       ),
                                     ),
-);
-
-                                  }
-                                  
-                                );
+                                  );
+                                });
                               },
                             ),
                           ),
