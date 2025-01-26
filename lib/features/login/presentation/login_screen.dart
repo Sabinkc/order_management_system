@@ -4,7 +4,7 @@ import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/common_textfield.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:order_management_system/features/dashboard/presentation/dashboard_screen.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:order_management_system/features/login/domain/login_textfield_provider.dart';
 import 'package:order_management_system/features/register/presentation/signup_screen.dart';
 import 'package:provider/provider.dart';
@@ -104,7 +104,7 @@ class LoginScreen extends StatelessWidget {
                             height: screenHeight * 0.008,
                           ),
                           CommonTextfield(
-                            hintText: "Johndoe@gmail.com",
+                            hintText: "johndoe@gmail.com",
                             prefixIcon: Icons.email,
                           ),
                           SizedBox(height: screenHeight * 0.02),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/common_textfield.dart';
-import 'package:order_management_system/features/dashboard/presentation/dashboard_screen.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:order_management_system/features/login/presentation/login_screen.dart';
 import 'package:order_management_system/features/register/domain/checkbox_provider.dart';
 import 'package:order_management_system/features/register/domain/signup_textfield_provider.dart';

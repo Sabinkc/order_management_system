@@ -1,101 +1,101 @@
-final List products = [
+final List<Map<String,dynamic>> products = [
   {
     "product_id": "1",
-    "name": "Wireless Bluetooth Camera",
-    "image": "assets/images/camera.png",
+    "name": "Amul Cheese - 100 Slices, 200g",
+    "image": "assets/images/amulcheese.png",
     "description":
         "High-quality wireless Bluetooth headphones with noise cancellation and long battery life.",
     "price": 300,
-    "category": "Camera"
+    "category": "Diary & Milk",
   },
   {
     "product_id": "2",
-    "name": "Phone with Heart Rate Monitor",
-    "image": "assets/images/phone.png",
+    "name": "Cetaphil - 100 pieces, 1kg",
+    "image": "assets/images/cetaphil.png",
     "description":
         "A smartwatch that tracks your heart rate, steps, and provides notifications on the go.",
     "price": 400,
-    "category": "Phone"
+    "category": "Cosmetic"
   },
   {
     "product_id": "3",
-    "name": "Portable Power Bank Laptop",
-    "image": "assets/images/laptop.png",
+    "name": "Real juice Flavoured Cold Drink",
+    "image": "assets/images/realjuice.png",
     "description":
         "A compact and powerful portable power bank to charge your devices on the go.",
     "price": 500,
-    "category": "Laptop"
+    "category": "Cold Drink"
   },
   {
     "product_id": "4",
-    "name": "4K Ultra HD Camera",
-    "image": "assets/images/camera.png",
+    "name": "Sprite Lemon-Lime Flavoured Cold Drink",
+    "image": "assets/images/sprite.png",
     "description":
         "A 55-inch 4K Ultra HD Smart TV with voice control and smart features.",
     "price": 300,
-    "category": "Camera"
+    "category": "Cold Drink"
   },
   {
     "product_id": "5",
-    "name": "Wireless Bluetooth Phone",
-    "image": "assets/images/phone.png",
+    "name": "Nature's Way Kids Smart Omega3 Fish Oil 60s",
+    "image": "assets/images/vitamin.png",
     "description":
         "High-quality wireless Bluetooth headphones with noise cancellation and long battery life.",
     "price": 100,
-    "category": "Phone"
+    "category": "Vitamin"
   },
   {
     "product_id": "6",
-    "name": "Laptop with Heart Rate Monitor",
-    "image": "assets/images/laptop.png",
+    "name": "Cold Drink Xtreme Drink 200ml",
+    "image": "assets/images/xtremedrink.png",
     "description":
         "A smartwatch that tracks your heart rate, steps, and provides notifications on the go.",
     "price": 900,
-    "category": "Laptop"
+    "category": "Cold Drink"
   },
   {
     "product_id": "7",
-    "name": "Camera",
-    "image": "assets/images/camera.png",
+    "name": "Mazza Original Mango Juice",
+    "image": "assets/images/realjuice.png",
     "description":
         "A compact and powerful portable power bank to charge your devices on the go.",
     "price": 1000,
-    "category": "Camera"
+    "category": "Cold Drink"
   },
   {
     "product_id": "8",
-    "name": "4K Ultra HD Phone",
-    "image": "assets/images/phone.png",
+    "name": "Sprite Lemon-Lime Flavoured Cold Drink",
+    "image": "assets/images/sprite.png",
     "description":
         "A 55-inch 4K Ultra HD Smart TV with voice control and smart features.",
     "price": 700,
-    "category": "Phone"
+    "category": "Cold Drink"
   },
   {
     "product_id": "9",
-    "name": "Wireless Bluetooth Laptop",
-    "image": "assets/images/laptop.png",
+    "name": "Nature's Way Kids Smart Omega3 Fish Oil 60s",
+    "image": "assets/images/vitamin.png",
     "description":
         "High-quality wireless Bluetooth headphones with noise cancellation and long battery life.",
     "price": 555,
-    "category": "Laptop"
+    "category": "Vitamin"
   },
   {
     "product_id": "10",
-    "name": "Camera with Heart Rate Monitor",
-    "image": "assets/images/camera.png",
+    "name": "Cetaphil Moustarizing Lotion 300 ML",
+    "image": "assets/images/cetaphil.png",
     "description":
         "A smartwatch that tracks your heart rate, steps, and provides notifications on the go.",
     "price": 250,
-    "category": "Camera"
+    "category": "Cosmetic"
   },
   {
     "product_id": "11",
-    "name": "Smart Watch with Heart Rate Monitor",
-    "image": "assets/images/smartwatch.png",
+    "name": "Real Juice Flavoured Cold Drink",
+    "image": "assets/images/realjuice.png",
     "description":
         "A smartwatch that tracks your heart rate, steps, and provides notifications on the go.",
     "price": 250,
-    "category": "SmartWatch"
+    "category": "Cold Drink"
   },
 ];

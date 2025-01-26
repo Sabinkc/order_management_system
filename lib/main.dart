@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
 import 'package:order_management_system/features/login/domain/login_textfield_provider.dart';
 import 'package:order_management_system/features/login/presentation/login_screen.dart';
@@ -24,7 +25,9 @@ class MyApplication extends StatelessWidget {
         ChangeNotifierProvider<LoginTextfieldProvider>(
             create: (_) => LoginTextfieldProvider()),
         ChangeNotifierProvider<SignupTextfieldProvider>(
-            create: (_) => SignupTextfieldProvider())
+            create: (_) => SignupTextfieldProvider()),
+            ChangeNotifierProvider<CartQuantityProvider>(
+            create: (_) => CartQuantityProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
