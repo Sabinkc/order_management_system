@@ -50,10 +50,10 @@ class TestScreen extends StatelessWidget {
               decoration: BoxDecoration(
                   color: CommonColor.commonGreyColor,
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(50),
-                      topRight: Radius.circular(50))),
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25))),
               // padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              height: screenHeight * 0.9,
+              height: screenHeight * 0.7,
               child: Column(
                 children: [
                   SizedBox(

@@ -23,7 +23,7 @@ class TextfieldWidgetLogin extends StatelessWidget {
           hintText: "johndoe@gmail.com",
           prefixIcon: Icons.email,
         ),
-        SizedBox(height: screenHeight * 0.03),
+        SizedBox(height: screenHeight * 0.04),
         Text(
           "Password",
           style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),

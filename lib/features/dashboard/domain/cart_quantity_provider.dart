@@ -69,5 +69,10 @@ void updateQuantity(String productId, int quantityChange) {
   }
 }
 
+void clearCart(){
+  cartItems.clear();
+  notifyListeners();
+}
+
   
 }

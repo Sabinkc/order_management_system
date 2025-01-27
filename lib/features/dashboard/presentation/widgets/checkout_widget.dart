@@ -51,7 +51,32 @@ class CheckoutWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8)),
                   backgroundColor: Color(0xFF100045),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Provider.of<CartQuantityProvider>(context, listen: false)
+                      .clearCart();
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        Future.delayed(Duration(seconds: 1), () {
+                          if (context.mounted) {
+                            Navigator.pop(context);
+                          }
+                        });
+                        return AlertDialog(
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          title: Center(
+                            child: Text(
+                              "Checkout completed!",
+                              style: TextStyle(
+                                  color: CommonColor.darkGreyColor,
+                                  fontSize: 14),
+                            ),
+                          ),
+                        );
+                      });
+                },
                 child: Text(
                   "Check Out",
                   style: TextStyle(

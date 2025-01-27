@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/test_screen.dart';
 
-
 class SearchWidgetDashboard extends StatelessWidget {
   const SearchWidgetDashboard({super.key});
 
@@ -22,8 +21,8 @@ class SearchWidgetDashboard extends StatelessWidget {
                 context: context,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(50),
-                        topRight: Radius.circular(50))),
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25))),
                 builder: (context) {
                   return TestScreen();
                 },
