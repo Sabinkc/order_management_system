@@ -287,22 +287,42 @@ class OrdersWidgetDashboard extends StatelessWidget {
                                                                       .id);
                                                               Navigator.pop(
                                                                   context);
-                                                              ScaffoldMessenger
-                                                                      .of(
-                                                                          context)
-                                                                  .showSnackBar(
-                                                                      SnackBar(
-                                                                          duration: Duration(
-                                                                              seconds:
-                                                                                  1),
-                                                                          content:
-                                                                              Center(
-                                                                            child:
-                                                                                Text(
-                                                                              "Item deleted successfully!",
-                                                                              style: TextStyle(color: Colors.white),
-                                                                            ),
-                                                                          )));
+                                                              
+                                                              showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (context) {
+                                                                    Future.delayed(
+                                                                        Duration(
+                                                                            seconds:
+                                                                                1),
+                                                                        () {
+                                                                      if (context
+                                                                          .mounted) {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      }
+                                                                    });
+                                                                    return AlertDialog(
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .white,
+                                                                      shape: RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(15)),
+                                                                      title:
+                                                                          Center(
+                                                                        child:
+                                                                            Text(
+                                                                          "Item deleted successfully!",
+                                                                          style: TextStyle(
+                                                                              color: CommonColor.darkGreyColor,
+                                                                              fontSize: 14),
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  });
                                                             },
                                                             child: Text(
                                                               "Delete",

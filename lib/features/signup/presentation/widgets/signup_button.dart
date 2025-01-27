@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
-import 'package:order_management_system/features/dashboard/presentation/screens/dashboard_screen.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
+
 
 class SignupButton extends StatelessWidget {
   const SignupButton({super.key});
@@ -20,7 +21,7 @@ class SignupButton extends StatelessWidget {
               backgroundColor: CommonColor.primaryColor),
           onPressed: () {
             Navigator.push(context,
-                CupertinoPageRoute(builder: (context) => DashboardScreen()));
+                CupertinoPageRoute(builder: (context) => LandingScreen()));
           },
           child: Text(
             "Sign Up",

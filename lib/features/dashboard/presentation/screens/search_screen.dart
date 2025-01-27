@@ -6,8 +6,8 @@ import 'package:order_management_system/features/dashboard/domain/cart_quantity_
 import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
 import 'package:provider/provider.dart';
 
-class TestScreen extends StatelessWidget {
-  const TestScreen({super.key});
+class SearchScreen extends StatelessWidget {
+  const SearchScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -23,6 +23,7 @@ class DashboardScreen extends StatelessWidget {
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(kToolbarHeight),
             child: AppbarDashboard()),
+       
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -30,13 +31,13 @@ class DashboardScreen extends StatelessWidget {
             children: [
               TopContainerDashboard(),
               SizedBox(
-                height: screenWidth * 0.05,
+                height: screenWidth * 0.03,
               ),
               Consumer<CartQuantityProvider>(
                   builder: (context, provider, child) {
                 return provider.cartItems.isEmpty
                     ? SizedBox(
-                        height: screenHeight * 0.69,
+                        height: screenHeight * 0.64,
                         child: Center(
                           child: Text(
                             "No products in the cart!",
@@ -55,16 +56,16 @@ class DashboardScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold, fontSize: 16),
                               )),
                           SizedBox(
-                            height: screenWidth * 0.02,
+                            height: screenWidth * 0.001,
                           ),
                           Divider(),
                           OrdersWidgetDashboard(),
                           SizedBox(
-                            height: 10,
+                            height: 5,
                           ),
                           Divider(),
                           SizedBox(
-                            height: screenHeight * 0.01,
+                            height: screenHeight * 0.001,
                           ),
                           Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -78,22 +79,22 @@ class DashboardScreen extends StatelessWidget {
                           ),
                           InvoiceWidgetDashboard(),
                           SizedBox(
-                            height: screenHeight * 0.01,
+                            height: screenHeight * 0.005,
                           ),
                           Divider(),
                           SizedBox(
-                            height: screenHeight * 0.01,
+                            height: screenHeight * 0.005,
                           ),
                           CheckoutWidget(),
                           SizedBox(
-                            height: screenHeight * 0.02,
+                            height: screenHeight * 0.01,
                           ),
                           Divider(),
                         ],
                       );
               }),
               SizedBox(
-                height: screenHeight * 0.02,
+                height: screenHeight * 0.005,
               ),
               SearchWidgetDashboard(),
             ],
