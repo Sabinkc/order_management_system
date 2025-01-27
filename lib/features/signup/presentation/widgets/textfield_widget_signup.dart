@@ -26,7 +26,7 @@ class TextfieldWidgetSignup extends StatelessWidget {
           hintText: "John Doe",
           prefixIcon: Icons.person,
         ),
-        SizedBox(height: screenHeight * 0.02),
+        SizedBox(height: screenHeight * 0.03),
         Padding(
           padding: EdgeInsets.only(left: 8),
           child: Text(
@@ -41,7 +41,7 @@ class TextfieldWidgetSignup extends StatelessWidget {
           hintText: "johndoe@gmail.com",
           prefixIcon: Icons.email,
         ),
-        SizedBox(height: screenHeight * 0.02),
+        SizedBox(height: screenHeight * 0.03),
         Padding(
           padding: EdgeInsets.only(left: 8),
           child: Text(
@@ -78,7 +78,7 @@ class TextfieldWidgetSignup extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: screenHeight * 0.02),
+        SizedBox(height: screenHeight * 0.025),
         Padding(
           padding: EdgeInsets.only(left: 8),
           child: Text(

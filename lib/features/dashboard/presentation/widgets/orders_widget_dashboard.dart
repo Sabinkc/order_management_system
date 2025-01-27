@@ -299,7 +299,7 @@ class OrdersWidgetDashboard extends StatelessWidget {
                                                                               Center(
                                                                             child:
                                                                                 Text(
-                                                                              "An item deleted successfully!",
+                                                                              "Item deleted successfully!",
                                                                               style: TextStyle(color: Colors.white),
                                                                             ),
                                                                           )));

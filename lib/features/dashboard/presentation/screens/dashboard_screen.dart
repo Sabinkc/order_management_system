@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/appbar_dashboard.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/checkout_widget.dart';
@@ -37,7 +38,11 @@ class DashboardScreen extends StatelessWidget {
                     ? SizedBox(
                         height: screenHeight * 0.69,
                         child: Center(
-                          child: Text("No products in the cart"),
+                          child: Text(
+                            "No products in the cart!",
+                            style: TextStyle(
+                                fontSize: 20, color: CommonColor.darkGreyColor),
+                          ),
                         ))
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
