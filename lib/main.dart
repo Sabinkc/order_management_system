@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:order_management_system/features/dashboard/domain/bottom_navigationbar_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
+import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/domain/login_textfield_provider.dart';
 import 'package:order_management_system/features/login/presentation/screens/login_screen.dart';
 import 'package:order_management_system/features/signup/domain/checkbox_provider.dart';
@@ -33,6 +34,7 @@ class MyApplication extends StatelessWidget {
             create: (_) => SignupTextfieldProvider()),
         ChangeNotifierProvider<BottomNavigationbarProvider>(
             create: (_) => BottomNavigationbarProvider()),
+        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(
