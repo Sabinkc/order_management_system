@@ -1,14 +1,17 @@
 import 'package:device_info_plus/device_info_plus.dart';
+import 'dart:io';
 
 class DeviceInfoHelper {
   static Future<String> getDeviceName() async {
     final deviceInfo = DeviceInfoPlugin();
-    if (await deviceInfo.deviceInfo is AndroidDeviceInfo) {
+
+    // Check platform
+    if (Platform.isAndroid) {
       final androidInfo = await deviceInfo.androidInfo;
-      return androidInfo.model;
-    } else if (await deviceInfo.deviceInfo is IosDeviceInfo) {
+      return "Android Device: ${androidInfo.model}";
+    } else if (Platform.isIOS) {
       final iosInfo = await deviceInfo.iosInfo;
-      return iosInfo.utsname.machine;
+      return "iOS Device: ${iosInfo.utsname.machine}";
     }
     return "Unknown Device";
   }

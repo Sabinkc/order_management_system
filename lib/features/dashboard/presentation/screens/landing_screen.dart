@@ -36,7 +36,7 @@ class LandingScreen extends StatelessWidget {
             items: [
               BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.history), label: "History"),
+                  icon: Icon(Icons.history), label: "Orders"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.person), label: "Profile"),
             ]);
