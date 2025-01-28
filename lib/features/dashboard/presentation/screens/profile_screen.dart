@@ -6,6 +6,8 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         title: RichText(
@@ -36,7 +38,114 @@ class ProfileScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(child: Text("Profile")),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+
+              child: Container(
+                height: 120,
+                width: 120,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Image.asset(
+                    "assets/images/profile.jpg",
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: screenHeight * 0.01),
+            Text("John Doe",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+            Text("johndoe@gmail.com",
+                style: TextStyle(
+                    fontSize: 16, color: CommonColor.mediumGreyColor)),
+            SizedBox(height: screenHeight * 0.02),
+            Divider(
+              height: 0,
+              color: CommonColor.commonGreyColor,
+            ),
+            ListTile(
+              leading: Icon(Icons.person_outline),
+              title: Text(
+                "My Profile",
+                style: TextStyle(),
+              ),
+              trailing: Icon(Icons.keyboard_arrow_right),
+            ),
+            Divider(
+              height: 0,
+              color: CommonColor.commonGreyColor,
+            ),
+            ListTile(
+              leading: Icon(Icons.location_on_outlined),
+              title: Text(
+                "My address",
+                style: TextStyle(),
+              ),
+              trailing: Icon(Icons.keyboard_arrow_right),
+            ),
+            Divider(
+              height: 0,
+              color: CommonColor.commonGreyColor,
+            ),
+            ListTile(
+              leading: Icon(Icons.shopping_bag_outlined),
+              title: Text(
+                "My orders",
+                style: TextStyle(),
+              ),
+              trailing: Icon(Icons.keyboard_arrow_right),
+            ),
+            Divider(
+              height: 0,
+              color: CommonColor.commonGreyColor,
+            ),
+            ListTile(
+              leading: Icon(Icons.card_travel_outlined),
+              title: Text(
+                "My cards",
+                style: TextStyle(),
+              ),
+              trailing: Icon(Icons.keyboard_arrow_right),
+            ),
+            Divider(
+              height: 0,
+              color: CommonColor.commonGreyColor,
+            ),
+            ListTile(
+              leading: Icon(Icons.settings_outlined),
+              title: Text(
+                "Settings",
+                style: TextStyle(),
+              ),
+              trailing: Icon(Icons.keyboard_arrow_right),
+            ),
+            Divider(
+              height: 0,
+              color: CommonColor.commonGreyColor,
+            ),
+            ListTile(
+              leading: Icon(Icons.logout_outlined),
+              title: Text(
+                "Log out",
+                style: TextStyle(),
+              ),
+              trailing: Icon(Icons.keyboard_arrow_right),
+            ),
+            Divider(
+              height: 0,
+              color: CommonColor.commonGreyColor,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
