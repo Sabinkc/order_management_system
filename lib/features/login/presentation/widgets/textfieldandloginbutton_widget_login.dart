@@ -90,8 +90,7 @@ import 'package:logger/logger.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/common_textfield.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
-import 'package:order_management_system/features/login/data/api_service.dart';
-// import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
+import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/domain/login_textfield_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -105,8 +104,6 @@ class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     final logger = Logger();
-
-    final ApiService apiService = ApiService();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,43 +156,53 @@ class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {
         SizedBox(
           height: screenHeight * 0.03,
         ),
-        SizedBox(
-          width: double.infinity,
-          height: screenHeight * 0.065,
-          child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  foregroundColor: Colors.white,
-                  backgroundColor: CommonColor.primaryColor),
-              onPressed: () async {
-                bool successfulLogin = await apiService.login(
-                    emailController.text, passwordController.text);
+        Consumer<AuthProvider>(
+          builder: (context, provider, child) {
+            return SizedBox(
+              width: double.infinity,
+              height: screenHeight * 0.065,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      foregroundColor: Colors.white,
+                      backgroundColor: CommonColor.primaryColor),
+                  onPressed: () async {
+                    bool successfulLogin = await provider.login(
+                        emailController.text, passwordController.text);
 
-                if (successfulLogin) {
-                  if (context.mounted) {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(builder: (context) => LandingScreen()),
-                    );
-                  }
-                } else {
-                  logger.i("Login Failed");
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        duration: Duration(milliseconds: 300),
-                        content: Text("Login Failed!"),
-                      ),
-                    );
-                  }
-                }
-                logger.i("login pressed");
-              },
-              child: Text(
-                "Login",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )),
+                    if (successfulLogin) {
+                      if (context.mounted) {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => LandingScreen()),
+                        );
+                      }
+                    } else {
+                      logger.i("Login Failed");
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            duration: Duration(milliseconds: 300),
+                            content: Text("Login Failed!"),
+                          ),
+                        );
+                      }
+                    }
+                    logger.i("login pressed");
+                  },
+                  child: provider.isLoading == true
+                      ? Center(
+                          child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ))
+                      : Text(
+                          "Login",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+            );
+          },
         ),
       ],
     );

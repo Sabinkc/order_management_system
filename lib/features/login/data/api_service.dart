@@ -5,7 +5,7 @@ import 'package:logger/logger.dart';
 class ApiService {
   final logger = Logger();
 
-  Future<bool> login(String email, String password) async {
+  Future<bool> login(String email, String password,String device) async {
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ class ApiService {
     request.body = json.encode({
       "email": email,
       "password": password,
-      "device": "android 20344"
+      "device": device,
     });
 
     request.headers.addAll(headers);

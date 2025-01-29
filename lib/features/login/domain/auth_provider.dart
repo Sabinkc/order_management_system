@@ -1,33 +1,21 @@
-// import 'package:flutter/material.dart';
-// import 'package:order_management_system/features/login/data/api_service.dart';
+import 'package:flutter/material.dart';
+import 'package:order_management_system/features/login/data/api_service.dart';
+import 'package:order_management_system/features/login/domain/device_info_helper.dart';
 
-// class AuthProvider with ChangeNotifier {
-//   final ApiService _apiService = ApiService();
-//   bool _isLoading = false;
+class AuthProvider extends ChangeNotifier {
+  final ApiService apiService = ApiService();
+  bool isLoading = false;
 
-//   bool get isLoading => _isLoading;
+  Future<bool> login(String email, String password) async {
+    isLoading = true;
+    notifyListeners();
+    String device = await DeviceInfoHelper.getDeviceName();
 
-//   Future<String?> login({
-//     required String email,
-//     required String password,
-//     required String deviceName,
-//   }) async {
-//     _isLoading = true;
-//     notifyListeners();
+    bool success = await apiService.login(email, password, device);
 
-//     final response = await _apiService.login(
-//       email: email,
-//       password: password,
-//       deviceName: deviceName,
-//     );
+    isLoading = false;
+    notifyListeners();
 
-//     _isLoading = false;
-//     notifyListeners();
-
-//     if (response["success"]) {
-//       return null; // Successful login
-//     } else {
-//       return response["error"]; // Error message
-//     }
-//   }
-// }
+    return success;
+  }
+}
