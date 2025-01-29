@@ -1,41 +1,43 @@
-import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:logger/logger.dart';
 
 class ApiService {
-  final String baseUrl = "https://oms.sysqube.com.np/api";
+  final logger = Logger();
 
-  Future<Map<String, dynamic>> login({
-    required String email,
-    required String password,
-    required String deviceName,
-  }) async {
-    final url = Uri.parse("$baseUrl/v1/login");
-    final headers = {
-      "Accept": "application/json",
-      "Content-Type": "application/json",
-      'Authorization':
-          'Bearer 2|7e2fZxXODoZpbRLACLTlanKkk8xrFiv46gUl6wtZ1ac3fe10',
+  Future<bool> login(String email, String password) async {
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer 6|yqwRA9g7KMUwPG5sqSAg2ujOMrNJLiI0wJ5jJ0c0b73ced75'
     };
-    final body = jsonEncode({
+
+    var request = http.Request(
+        'POST', Uri.parse('https://oms.sysqube.com.np/api/v1/login'));
+
+    request.body = json.encode({
       "email": email,
       "password": password,
-      "device_name": deviceName,
+      "device": "android 20344"
     });
 
-    try {
-      final response = await http.post(url, headers: headers, body: body);
+    request.headers.addAll(headers);
 
-      print('Response Status Code: ${response.statusCode}');
-      print('Response Body: ${response.body}');
-      print(deviceName);
+    try {
+      http.StreamedResponse response = await request.send();
+      String responseBody = await response.stream.bytesToString();
+
+      logger.i("Response Status Code: ${response.statusCode}");
+      logger.i("Response Body: $responseBody");
 
       if (response.statusCode == 200) {
-        return {"success": true, "data": jsonDecode(response.body)};
+        return true; // Login successful
       } else {
-        return {"success": false, "error": jsonDecode(response.body)["error"]};
+        return false; // Login failed
       }
     } catch (e) {
-      return {"success": false, "error": "An error occurred: $e"};
+      logger.e("Error: $e");
+      return false;
     }
   }
 }
