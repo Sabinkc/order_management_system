@@ -6,6 +6,7 @@ import 'package:order_management_system/features/dashboard/domain/tab_bar_provid
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/domain/login_textfield_provider.dart';
 import 'package:order_management_system/features/login/presentation/screens/login_screen.dart';
+import 'package:order_management_system/features/profile/domain/profile_data_provider.dart';
 import 'package:order_management_system/features/signup/domain/checkbox_provider.dart';
 import 'package:order_management_system/features/signup/domain/signup_textfield_provider.dart';
 import 'package:provider/provider.dart';
@@ -35,6 +36,8 @@ class MyApplication extends StatelessWidget {
         ChangeNotifierProvider<BottomNavigationbarProvider>(
             create: (_) => BottomNavigationbarProvider()),
         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
+        ChangeNotifierProvider<ProfileDataProvider>(
+            create: (_) => ProfileDataProvider()),
       ],
       child: MaterialApp(
         theme: ThemeData(

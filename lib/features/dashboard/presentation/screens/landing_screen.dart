@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/domain/bottom_navigationbar_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/dashboard_screen.dart';
-import 'package:order_management_system/features/dashboard/presentation/screens/profile_screen.dart';
+import 'package:order_management_system/features/profile/presentation/screens/profile_screen.dart';
 import 'package:order_management_system/features/order%20history/presentation/screens/order_history_screen.dart';
 import 'package:provider/provider.dart';
 
