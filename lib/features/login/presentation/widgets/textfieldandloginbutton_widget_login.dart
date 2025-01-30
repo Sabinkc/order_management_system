@@ -1,8 +1,10 @@
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
+// import 'package:logger/logger.dart';
 // import 'package:order_management_system/common/common_color.dart';
 // import 'package:order_management_system/common/common_textfield.dart';
 // import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
+// import 'package:order_management_system/features/login/domain/auth_provider.dart';
 // import 'package:order_management_system/features/login/domain/login_textfield_provider.dart';
 // import 'package:provider/provider.dart';
 
@@ -12,6 +14,11 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     final double screenHeight = MediaQuery.of(context).size.height;
+
+//     TextEditingController emailController = TextEditingController();
+//     TextEditingController passwordController = TextEditingController();
+//     final logger = Logger();
+
 //     return Column(
 //       crossAxisAlignment: CrossAxisAlignment.start,
 //       children: [
@@ -23,6 +30,7 @@
 //           height: screenHeight * 0.008,
 //         ),
 //         CommonTextfield(
+//           controller: emailController,
 //           hintText: "johndoe@gmail.com",
 //           prefixIcon: Icons.email,
 //         ),
@@ -36,6 +44,7 @@
 //         ),
 //         Consumer<LoginTextfieldProvider>(builder: (context, provider, child) {
 //           return CommonTextfield(
+//             controller: passwordController,
 //             isObscure: provider.isObscure,
 //             onSuffixPressed: provider.switchObscure,
 //             hintText: "••••••••",
@@ -61,23 +70,64 @@
 //         SizedBox(
 //           height: screenHeight * 0.03,
 //         ),
-//         SizedBox(
-//           width: double.infinity,
-//           height: screenHeight * 0.065,
-//           child: ElevatedButton(
-//               style: ElevatedButton.styleFrom(
-//                   shape: RoundedRectangleBorder(
-//                       borderRadius: BorderRadius.circular(8)),
-//                   foregroundColor: Colors.white,
-//                   backgroundColor: CommonColor.primaryColor),
-//               onPressed: () {
-//                 Navigator.push(context,
-//                     CupertinoPageRoute(builder: (context) => LandingScreen()));
-//               },
-//               child: Text(
-//                 "Login",
-//                 style: TextStyle(fontWeight: FontWeight.bold),
-//               )),
+//         Consumer<AuthProvider>(
+//           builder: (context, provider, child) {
+//             return SizedBox(
+//               width: double.infinity,
+//               height: screenHeight * 0.065,
+//               child: ElevatedButton(
+//                   style: ElevatedButton.styleFrom(
+//                       shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(8)),
+//                       foregroundColor: Colors.white,
+//                       backgroundColor: CommonColor.primaryColor),
+//                   onPressed: () async {
+//                     if (emailController.text.isEmpty ||
+//                         passwordController.text.isEmpty) {
+//                       ScaffoldMessenger.of(context).showSnackBar(
+//                         SnackBar(
+//                           duration: Duration(milliseconds: 300),
+//                           content: Text("Please enter the required field!"),
+//                         ),
+//                       );
+//                       return;
+//                     }
+//                     bool successfulLogin = await provider.login(
+//                         emailController.text, passwordController.text);
+
+//                     if (successfulLogin) {
+//                       if (context.mounted) {
+//                         Navigator.push(
+//                           context,
+//                           CupertinoPageRoute(
+//                               builder: (context) => LandingScreen()),
+//                         );
+//                       }
+//                     } else {
+//                       logger.i("Unable to login!");
+//                       if (context.mounted) {
+//                         ScaffoldMessenger.of(context).showSnackBar(
+//                           SnackBar(
+//                             duration: Duration(milliseconds: 300),
+//                             content: Text("Login Failed!"),
+//                           ),
+//                         );
+//                       }
+//                     }
+//                     logger.i("login pressed");
+//                   },
+
+//                   child: provider.isLoading == true
+//                       ? Center(
+//                           child: CircularProgressIndicator(
+//                           color: Colors.white,
+//                         ))
+//                       : Text(
+//                           "Login",
+//                           style: TextStyle(fontWeight: FontWeight.bold),
+//                         )),
+//             );
+//           },
 //         ),
 //       ],
 //     );
@@ -168,10 +218,22 @@ class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {
                       foregroundColor: Colors.white,
                       backgroundColor: CommonColor.primaryColor),
                   onPressed: () async {
-                    bool successfulLogin = await provider.login(
-                        emailController.text, passwordController.text);
+                    final email = emailController.text.trim();
+                    final password = passwordController.text.trim();
 
-                    if (successfulLogin) {
+                    if (email.isEmpty || password.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Please enter the required fields"),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                      return;
+                    }
+
+                    final response = await provider.login(email, password);
+
+                    if (response["success"] == true) {
                       if (context.mounted) {
                         Navigator.push(
                           context,
@@ -180,17 +242,27 @@ class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {
                         );
                       }
                     } else {
-                      logger.i("Login Failed");
+                      logger.i("Login Failed: ${response['message']}");
+
+                      String errorMessage = "Login Failed!";
+
+                      if (response["message"] is Map &&
+                          response["message"].containsKey("email")) {
+                        errorMessage = response["message"]["email"]
+                            [0]; // Extract email error
+                      } else if (response["message"] is String) {
+                        errorMessage = response["message"];
+                      }
+
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            duration: Duration(milliseconds: 300),
-                            content: Text("Login Failed!"),
+                            content: Text(errorMessage),
+                            duration: Duration(seconds: 2),
                           ),
                         );
                       }
                     }
-                    logger.i("login pressed");
                   },
                   child: provider.isLoading == true
                       ? Center(

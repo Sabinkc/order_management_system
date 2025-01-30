@@ -6,4 +6,6 @@ class CommonColor {
   static Color secondaryColor = Colors.deepPurple;
   static Color mediumGreyColor = Color(0xFF9C9C9C);
   static Color darkGreyColor = Color(0xFF626262);
+  static Color whiteColor = Color(0xFFFFFFFF);
+  static Color blackColor = Color(0xFF000000);
 }

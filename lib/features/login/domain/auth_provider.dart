@@ -1,21 +1,50 @@
+// import 'package:flutter/material.dart';
+// import 'package:logger/logger.dart';
+// import 'package:order_management_system/features/login/data/api_service.dart';
+// import 'package:order_management_system/features/login/domain/device_info_helper.dart';
+
+// class AuthProvider extends ChangeNotifier {
+//   final ApiService apiService = ApiService();
+//   bool isLoading = false;
+//   final logger = Logger();
+
+//   Future<bool> login(String email, String password) async {
+//     isLoading = true;
+//     notifyListeners();
+//     String device = await DeviceInfoHelper.getDeviceName();
+//     logger.i(device);
+
+//     bool success = await apiService.login(email, password, device);
+
+//     isLoading = false;
+//     notifyListeners();
+
+//     return success;
+//   }
+// }
+
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:order_management_system/features/login/data/api_service.dart';
 import 'package:order_management_system/features/login/domain/device_info_helper.dart';
 
 class AuthProvider extends ChangeNotifier {
   final ApiService apiService = ApiService();
   bool isLoading = false;
+  final logger = Logger();
 
-  Future<bool> login(String email, String password) async {
+  Future<Map<String, dynamic>> login(String email, String password) async {
     isLoading = true;
     notifyListeners();
-    String device = await DeviceInfoHelper.getDeviceName();
 
-    bool success = await apiService.login(email, password, device);
+    String device = await DeviceInfoHelper.getDeviceName();
+    logger.i("Device: $device");
+
+    final response = await apiService.login(email, password, device);
 
     isLoading = false;
     notifyListeners();
 
-    return success;
+    return response; // Returning full response to handle errors in UI
   }
 }
