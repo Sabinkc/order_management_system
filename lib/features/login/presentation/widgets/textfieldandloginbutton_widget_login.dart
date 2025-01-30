@@ -125,15 +125,19 @@ class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {
                         "Email:${response["data"]["data"]["profile"]["email"]}");
 
                     if (response["success"] == true) {
-                      
+                      // final String accessToken = response["data"]["accessToken"];
+                      // SharedPrefLoggedinState.saveLoginState(true, accessToken);
+
                       if (context.mounted) {
                         final ProfileDataProvider profileProvider =
-                          Provider.of<ProfileDataProvider>(context,listen: false);
-                      final name = response["data"]["data"]["profile"]["name"];
-                      final email =
-                          response["data"]["data"]["profile"]["email"];
+                            Provider.of<ProfileDataProvider>(context,
+                                listen: false);
+                        final name =
+                            response["data"]["data"]["profile"]["name"];
+                        final email =
+                            response["data"]["data"]["profile"]["email"];
 
-                      profileProvider.addProfileData(name, email);
+                        profileProvider.addProfileData(name, email);
                         Navigator.push(
                           context,
                           CupertinoPageRoute(

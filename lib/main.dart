@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:order_management_system/features/dashboard/domain/bottom_navigationbar_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
+import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/domain/login_textfield_provider.dart';
 import 'package:order_management_system/features/login/presentation/screens/login_screen.dart';
@@ -11,12 +13,17 @@ import 'package:order_management_system/features/signup/domain/checkbox_provider
 import 'package:order_management_system/features/signup/domain/signup_textfield_provider.dart';
 import 'package:provider/provider.dart';
 
-void main(List<String> args) {
-  runApp(MyApplication());
+void main(List<String> args) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final isLoggedin = await SharedPrefLoggedinState.getLoginState();
+  runApp(MyApplication(
+    isLoggedin: isLoggedin,
+  ));
 }
 
 class MyApplication extends StatelessWidget {
-  const MyApplication({super.key});
+  final bool isLoggedin;
+  const MyApplication({super.key, required this.isLoggedin});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +51,7 @@ class MyApplication extends StatelessWidget {
           textTheme: GoogleFonts.interTextTheme(),
         ),
         debugShowCheckedModeBanner: false,
-        home: LoginScreen(),
+        home: isLoggedin ? LandingScreen() : LoginScreen(),
       ),
     );
   }

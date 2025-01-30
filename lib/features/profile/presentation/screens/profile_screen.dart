@@ -1,5 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/features/login/data/api_service.dart';
+import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
+import 'package:order_management_system/features/login/presentation/screens/login_screen.dart';
 import 'package:order_management_system/features/profile/domain/profile_data_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -42,116 +47,152 @@ class ProfileScreen extends StatelessWidget {
             ),
           ],
         ),
-        body:
-            Consumer<ProfileDataProvider>(builder: (context, provider, child) {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                  child: Container(
-                    height: 120,
-                    width: 120,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.asset(
-                        "assets/images/profile.jpg",
-                        fit: BoxFit.cover,
+        body: SingleChildScrollView(
+          child: Consumer<ProfileDataProvider>(
+              builder: (context, provider, child) {
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Container(
+                      height: 120,
+                      width: 120,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Image.asset(
+                          "assets/images/profile.jpg",
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: screenHeight * 0.01),
-                Text(provider.userName,
-                    style:
-                        TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-                Text(provider.userEmail,
-                    style: TextStyle(
-                        fontSize: 16, color: CommonColor.mediumGreyColor)),
-                SizedBox(height: screenHeight * 0.02),
-                Divider(
-                  height: 0,
-                  color: CommonColor.commonGreyColor,
-                ),
-                ListTile(
-                  leading: Icon(Icons.person_outline),
-                  title: Text(
-                    "My Profile",
-                    style: TextStyle(),
+                  SizedBox(height: screenHeight * 0.01),
+                  Text(provider.userName,
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                  Text(provider.userEmail,
+                      style: TextStyle(
+                          fontSize: 16, color: CommonColor.mediumGreyColor)),
+                  SizedBox(height: screenHeight * 0.02),
+                  Divider(
+                    height: 0,
+                    color: CommonColor.commonGreyColor,
                   ),
-                  trailing: Icon(Icons.keyboard_arrow_right),
-                ),
-                Divider(
-                  height: 0,
-                  color: CommonColor.commonGreyColor,
-                ),
-                ListTile(
-                  leading: Icon(Icons.location_on_outlined),
-                  title: Text(
-                    "My address",
-                    style: TextStyle(),
+                  ListTile(
+                    leading: Icon(Icons.person_outline),
+                    title: Text(
+                      "My Profile",
+                      style: TextStyle(),
+                    ),
+                    trailing: Icon(Icons.keyboard_arrow_right),
                   ),
-                  trailing: Icon(Icons.keyboard_arrow_right),
-                ),
-                Divider(
-                  height: 0,
-                  color: CommonColor.commonGreyColor,
-                ),
-                ListTile(
-                  leading: Icon(Icons.shopping_bag_outlined),
-                  title: Text(
-                    "My orders",
-                    style: TextStyle(),
+                  Divider(
+                    height: 0,
+                    color: CommonColor.commonGreyColor,
                   ),
-                  trailing: Icon(Icons.keyboard_arrow_right),
-                ),
-                Divider(
-                  height: 0,
-                  color: CommonColor.commonGreyColor,
-                ),
-                ListTile(
-                  leading: Icon(Icons.card_travel_outlined),
-                  title: Text(
-                    "My cards",
-                    style: TextStyle(),
+                  ListTile(
+                    leading: Icon(Icons.location_on_outlined),
+                    title: Text(
+                      "My address",
+                      style: TextStyle(),
+                    ),
+                    trailing: Icon(Icons.keyboard_arrow_right),
                   ),
-                  trailing: Icon(Icons.keyboard_arrow_right),
-                ),
-                Divider(
-                  height: 0,
-                  color: CommonColor.commonGreyColor,
-                ),
-                ListTile(
-                  leading: Icon(Icons.settings_outlined),
-                  title: Text(
-                    "Settings",
-                    style: TextStyle(),
+                  Divider(
+                    height: 0,
+                    color: CommonColor.commonGreyColor,
                   ),
-                  trailing: Icon(Icons.keyboard_arrow_right),
-                ),
-                Divider(
-                  height: 0,
-                  color: CommonColor.commonGreyColor,
-                ),
-                ListTile(
-                  leading: Icon(Icons.logout_outlined),
-                  title: Text(
-                    "Log out",
-                    style: TextStyle(),
+                  ListTile(
+                    leading: Icon(Icons.shopping_bag_outlined),
+                    title: Text(
+                      "My orders",
+                      style: TextStyle(),
+                    ),
+                    trailing: Icon(Icons.keyboard_arrow_right),
                   ),
-                  trailing: Icon(Icons.keyboard_arrow_right),
-                ),
-                Divider(
-                  height: 0,
-                  color: CommonColor.commonGreyColor,
-                ),
-              ],
-            ),
-          );
-        }));
+                  Divider(
+                    height: 0,
+                    color: CommonColor.commonGreyColor,
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.card_travel_outlined),
+                    title: Text(
+                      "My cards",
+                      style: TextStyle(),
+                    ),
+                    trailing: Icon(Icons.keyboard_arrow_right),
+                  ),
+                  Divider(
+                    height: 0,
+                    color: CommonColor.commonGreyColor,
+                  ),
+                  ListTile(
+                    onTap: () {
+                      final logger = Logger();
+                      SharedPrefLoggedinState.clearLoginState();
+                      logger.i(
+                          "Access token: ${SharedPrefLoggedinState.getAccessToken()}");
+                      logger.i(
+                          "Login state: ${SharedPrefLoggedinState.getLoginState()}");
+                      if (context.mounted) {
+                        Navigator.pushReplacement(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => LoginScreen()));
+                      }
+                    },
+                    leading: Icon(Icons.settings_outlined),
+                    title: Text(
+                      "Settings",
+                      style: TextStyle(),
+                    ),
+                    trailing: Icon(Icons.keyboard_arrow_right),
+                  ),
+                  Divider(
+                    height: 0,
+                    color: CommonColor.commonGreyColor,
+                  ),
+                  ListTile(
+                    onTap: () async {
+                      final logger = Logger();
+                      final ApiService apiService = ApiService();
+                      bool logoutSuccessful = await apiService.logout();
+                      if (logoutSuccessful == true) {
+                        // SharedPrefLoggedinState.clearLoginState();
+                        logger.i(
+                            "Access token after logout: ${SharedPrefLoggedinState.getAccessToken()}");
+                        logger.i(
+                            "Login state afrer logout: ${SharedPrefLoggedinState.getLoginState()}");
+                        if (context.mounted) {
+                          Navigator.pushReplacement(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => LoginScreen()));
+                        }
+                      } else {
+                        logger.i("Logout failed!");
+                      }
+                    },
+                    leading: Icon(Icons.logout_outlined),
+                    title: Text(
+                      "Log out",
+                      style: TextStyle(),
+                    ),
+                    trailing: Icon(Icons.keyboard_arrow_right),
+                  ),
+                  Divider(
+                    height: 0,
+                    color: CommonColor.commonGreyColor,
+                  ),
+                ],
+              ),
+            );
+          }),
+        ));
   }
 }
