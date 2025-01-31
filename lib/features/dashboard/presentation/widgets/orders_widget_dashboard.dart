@@ -62,7 +62,7 @@ class OrdersWidgetDashboard extends StatelessWidget {
                                         maxLines: 1,
                                         item.productName,
                                         style: TextStyle(
-                                            fontSize: 14,
+                                            fontSize: 16,
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Row(
@@ -287,7 +287,7 @@ class OrdersWidgetDashboard extends StatelessWidget {
                                                                       .id);
                                                               Navigator.pop(
                                                                   context);
-                                                              
+
                                                               showDialog(
                                                                   context:
                                                                       context,

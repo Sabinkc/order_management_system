@@ -6,6 +6,7 @@ import 'package:order_management_system/features/login/domain/device_info_helper
 class AuthProvider extends ChangeNotifier {
   final ApiService apiService = ApiService();
   bool isLoading = false;
+  bool isLogoutLoading = false;
   final logger = Logger();
 
   Future<Map<String, dynamic>> login(String email, String password) async {
@@ -21,5 +22,14 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
 
     return response; // Returning full response to handle errors in UI
+  }
+
+  Future logout() async{
+isLogoutLoading = true;
+notifyListeners();
+final logoutResponse = await apiService.logout();
+ isLoading =false;
+ notifyListeners();
+ return logoutResponse;
   }
 }

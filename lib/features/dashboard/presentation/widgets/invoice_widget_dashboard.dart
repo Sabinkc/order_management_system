@@ -20,7 +20,7 @@ class InvoiceWidgetDashboard extends StatelessWidget {
                 "Total Amount:",
                 style: TextStyle(
                   color: Colors.grey,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                   fontSize: 16,
                 ),
               ),
@@ -57,7 +57,7 @@ class InvoiceWidgetDashboard extends StatelessWidget {
                 "Total Quantity:",
                 style: TextStyle(
                   color: Colors.grey,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                   fontSize: 16,
                 ),
               ),
@@ -66,7 +66,7 @@ class InvoiceWidgetDashboard extends StatelessWidget {
                   Consumer<CartQuantityProvider>(
                     builder: (context, provider, child) {
                       return Text(
-                        provider.getTotalQuantity().toString(),
+                        "(${provider.getTotalQuantity().toString()})",
                         style: TextStyle(
                           color: CommonColor.primaryColor,
                           fontWeight: FontWeight.bold,

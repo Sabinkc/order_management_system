@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CommonColor {
-  static Color primaryColor = Color(0xFF7067DB);
+  static Color primaryColor = Color(0xFF589A73);
   static Color commonGreyColor = Color(0xFFEBEFEE);
   static Color secondaryColor = Colors.deepPurple;
   static Color mediumGreyColor = Color(0xFF9C9C9C);

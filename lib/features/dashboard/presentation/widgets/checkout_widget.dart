@@ -49,7 +49,7 @@ class CheckoutWidget extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
-                  backgroundColor: Color(0xFF100045),
+                  backgroundColor: CommonColor.primaryColor,
                 ),
                 onPressed: () {
                   Provider.of<CartQuantityProvider>(context, listen: false)

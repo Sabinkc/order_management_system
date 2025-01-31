@@ -27,17 +27,7 @@ class OrderHistoryScreen extends StatelessWidget {
             ),
           ])),
           centerTitle: true,
-          leading: IconButton(
-            icon: Icon(
-              Icons.menu,
-            ),
-            onPressed: () {},
-          ),
-          actions: [
-            const SizedBox(
-              width: 10,
-            ),
-          ],
+          automaticallyImplyLeading: false,
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
