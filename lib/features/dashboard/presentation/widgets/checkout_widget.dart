@@ -52,30 +52,7 @@ class CheckoutWidget extends StatelessWidget {
                   backgroundColor: CommonColor.primaryColor,
                 ),
                 onPressed: () {
-                  Provider.of<CartQuantityProvider>(context, listen: false)
-                      .clearCart();
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        Future.delayed(Duration(seconds: 1), () {
-                          if (context.mounted) {
-                            Navigator.pop(context);
-                          }
-                        });
-                        return AlertDialog(
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
-                          title: Center(
-                            child: Text(
-                              "Checkout completed!",
-                              style: TextStyle(
-                                  color: CommonColor.darkGreyColor,
-                                  fontSize: 14),
-                            ),
-                          ),
-                        );
-                      });
+                  showLogoutDialogAndCheckout(context);
                 },
                 child: Text(
                   "Check Out",
@@ -88,5 +65,113 @@ class CheckoutWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  showLogoutDialogAndCheckout(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+              backgroundColor: Colors.white,
+              alignment: Alignment.center,
+              titlePadding: EdgeInsets.only(
+                top: 12,
+                bottom: 10,
+              ),
+              contentPadding: EdgeInsets.only(bottom: 12),
+              title: Text(
+                "Confirm to checkout?",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 10,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      "Are you sure you want to checkout?",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 13, color: CommonColor.darkGreyColor),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    spacing: 15,
+                    children: [
+                      SizedBox(
+                        width: 122,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    color: CommonColor.primaryColor,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8)),
+                              backgroundColor: Colors.white,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              "Cancel",
+                              style: TextStyle(color: CommonColor.primaryColor),
+                            )),
+                      ),
+                      SizedBox(
+                        width: 122,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)),
+                              backgroundColor: CommonColor.primaryColor,
+                            ),
+                            onPressed: () {
+                              checkout(context);
+                            },
+                            child: Text(
+                              "Checkout",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ),
+                    ],
+                  )
+                ],
+              ));
+        });
+  }
+
+  checkout(BuildContext context) {
+    Provider.of<CartQuantityProvider>(context, listen: false).clearCart();
+    showDialog(
+        context: context,
+        builder: (context) {
+          Future.delayed(Duration(seconds: 1), () {
+            if (context.mounted) {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            }
+          });
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            title: SizedBox(
+              height: 90,
+              child: Center(
+                child: Text(
+                  "Checkout completed!",
+                  style:
+                      TextStyle(color: CommonColor.darkGreyColor, fontSize: 14),
+                ),
+              ),
+            ),
+          );
+        });
   }
 }

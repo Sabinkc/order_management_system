@@ -83,105 +83,8 @@ class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {
                       foregroundColor: Colors.white,
                       backgroundColor: CommonColor.primaryColor),
                   onPressed: () async {
-                    final email = emailController.text;
-                    final password = passwordController.text;
-
-                    if (email.isEmpty || password.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: CommonColor.snackbarColor,
-                          content: Center(
-                              child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            spacing: 10,
-                            children: [
-                              Icon(
-                                Icons.warning_rounded,
-                                color: CommonColor.whiteColor,
-                                size: 30,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  "Please enter the required fields!",
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                              ),
-                            ],
-                          )),
-                          duration: Duration(seconds: 1),
-                        ),
-                      );
-                      return;
-                    }
-
-                    final response = await provider.login(email, password);
-                    logger.i("Response:$response");
-
-                    if (response["success"] == true) {
-                      if (context.mounted) {
-                        final ProfileDataProvider profileProvider =
-                            Provider.of<ProfileDataProvider>(context,
-                                listen: false);
-                        final name =
-                            response["data"]["data"]["profile"]["name"];
-                        final email =
-                            response["data"]["data"]["profile"]["email"];
-
-                        profileProvider.addProfileData(name, email);
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => LandingScreen()),
-                        );
-                      }
-                    } else {
-                      String errorMessage = "Unable to login!";
-
-                      if (response["message"] is Map &&
-                          response["message"].containsKey("email")) {
-                        errorMessage = response["message"]["email"]
-                            [0]; // Extract email error
-                        logger.i("error message: $errorMessage");
-                      } else if (response["message"] is String) {
-                        errorMessage = response["message"];
-                        logger.i("error message: $errorMessage");
-                      }
-
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: CommonColor.snackbarColor,
-                            content: Center(
-                                child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.warning_rounded,
-                                  color: CommonColor.whiteColor,
-                                  size: 40,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    errorMessage,
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                                ),
-                              ],
-                            )),
-                            duration: Duration(seconds: 1),
-                          ),
-                        );
-                      }
-                    }
+                    login(context, emailController, passwordController, logger,
+                        provider);
                   },
                   child: provider.isLoading == true
                       ? Center(
@@ -197,5 +100,107 @@ class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future login(
+      BuildContext context,
+      TextEditingController emailController,
+      TextEditingController passwordController,
+      Logger logger,
+      AuthProvider provider) async {
+    final email = emailController.text;
+    final password = passwordController.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: CommonColor.snackbarColor,
+          content: Center(
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 10,
+            children: [
+              Icon(
+                Icons.warning_rounded,
+                color: CommonColor.whiteColor,
+                size: 30,
+              ),
+              Expanded(
+                child: Text(
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  "Please enter the required fields!",
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            ],
+          )),
+          duration: Duration(seconds: 1),
+        ),
+      );
+      return;
+    }
+
+    final response = await provider.login(email, password);
+    logger.i("Response:$response");
+
+    if (response["success"] == true) {
+      if (context.mounted) {
+        final ProfileDataProvider profileProvider =
+            Provider.of<ProfileDataProvider>(context, listen: false);
+        final name = response["data"]["data"]["profile"]["name"];
+        final email = response["data"]["data"]["profile"]["email"];
+
+        profileProvider.addProfileData(name, email);
+        Navigator.pushReplacement(
+          context,
+          CupertinoPageRoute(builder: (context) => LandingScreen()),
+        );
+      }
+    } else {
+      String errorMessage = "Unable to login!";
+
+      if (response["message"] is Map &&
+          response["message"].containsKey("email")) {
+        errorMessage = response["message"]["email"][0]; // Extract email error
+        logger.i("error message: $errorMessage");
+      } else if (response["message"] is String) {
+        errorMessage = response["message"];
+        logger.i("error message: $errorMessage");
+      }
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: CommonColor.snackbarColor,
+            content: Center(
+                child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.warning_rounded,
+                  color: CommonColor.whiteColor,
+                  size: 40,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: Text(
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    errorMessage,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ],
+            )),
+            duration: Duration(seconds: 1),
+          ),
+        );
+      }
+    }
   }
 }
