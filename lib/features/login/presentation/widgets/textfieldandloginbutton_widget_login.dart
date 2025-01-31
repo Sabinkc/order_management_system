@@ -119,15 +119,8 @@ class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {
 
                     final response = await provider.login(email, password);
                     logger.i("Response:$response");
-                    logger.i(
-                        "Username:${response["data"]["data"]["profile"]["name"]}");
-                    logger.i(
-                        "Email:${response["data"]["data"]["profile"]["email"]}");
 
                     if (response["success"] == true) {
-                      // final String accessToken = response["data"]["accessToken"];
-                      // SharedPrefLoggedinState.saveLoginState(true, accessToken);
-
                       if (context.mounted) {
                         final ProfileDataProvider profileProvider =
                             Provider.of<ProfileDataProvider>(context,
@@ -145,16 +138,16 @@ class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {
                         );
                       }
                     } else {
-                      logger.i("Login Failed: ${response['message']}");
-
-                      String errorMessage = "Login Failed!";
+                      String errorMessage = "Unable to login!";
 
                       if (response["message"] is Map &&
                           response["message"].containsKey("email")) {
                         errorMessage = response["message"]["email"]
                             [0]; // Extract email error
+                        logger.i("error message: $errorMessage");
                       } else if (response["message"] is String) {
                         errorMessage = response["message"];
+                        logger.i("error message: $errorMessage");
                       }
 
                       if (context.mounted) {
