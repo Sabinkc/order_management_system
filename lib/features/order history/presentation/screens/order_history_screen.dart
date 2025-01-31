@@ -141,6 +141,29 @@ class OrderHistoryScreen extends StatelessWidget {
                       ],
                     );
                   }),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Row(
+                  children: [
+                    Text(
+                      "Status: ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3),
+                            border: Border.all(color: Colors.red)),
+                        child: Text(
+                          "Pending",
+                          style: TextStyle(
+                              color: CommonColor.mediumGreyColor,
+                              fontWeight: FontWeight.w600),
+                        )),
+                  ],
+                ),
+              ),
               SizedBox(
                 height: screenHeight * 0.02,
               ),
@@ -229,6 +252,29 @@ class OrderHistoryScreen extends StatelessWidget {
                       ],
                     );
                   }),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Row(
+                  children: [
+                    Text(
+                      "Status: ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3),
+                            border: Border.all(color: Colors.deepPurple)),
+                        child: Text(
+                          "Delivered",
+                          style: TextStyle(
+                              color: CommonColor.mediumGreyColor,
+                              fontWeight: FontWeight.w600),
+                        )),
+                  ],
+                ),
+              ),
               SizedBox(
                 height: screenHeight * 0.02,
               ),
@@ -301,6 +347,30 @@ class OrderHistoryScreen extends StatelessWidget {
                       ],
                     );
                   }),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Row(
+                  children: [
+                    Text(
+                      "Status: ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3),
+                            border:
+                                Border.all(color: CommonColor.primaryColor)),
+                        child: Text(
+                          "Completed",
+                          style: TextStyle(
+                              color: CommonColor.mediumGreyColor,
+                              fontWeight: FontWeight.w600),
+                        )),
+                  ],
+                ),
+              ),
             ],
           ),
         ));

@@ -48,6 +48,12 @@ dependencies:
   logger: ^2.5.0
   shared_preferences: ^2.5.1
   connectivity_plus: ^6.1.2
+  flutter_native_splash: ^2.4.4
+
+flutter_native_splash:
+  color: "#589A73" # Replace with your desired color in hex format
+  android: true
+  ios: true
 
 dev_dependencies:
   flutter_test:
