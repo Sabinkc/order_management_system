@@ -14,4 +14,11 @@ class CartModel {
     required this.quantity,
     required this.category,
   });
+
+  @override
+  String toString() {
+    return 'CartModel(id: $id, productName: $productName, imagePath: $imagePath, price: $price, quantity: $quantity, category: $category)';
+  }
 }
+
+
