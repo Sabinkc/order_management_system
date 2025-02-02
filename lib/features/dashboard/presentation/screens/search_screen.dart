@@ -6,8 +6,33 @@ import 'package:order_management_system/features/dashboard/domain/cart_quantity_
 import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
 import 'package:provider/provider.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  late FocusNode _searchFocusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchFocusNode = FocusNode();
+    // Automatically focus the search field when the screen is loaded
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_searchFocusNode.canRequestFocus) {
+        _searchFocusNode.requestFocus();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +77,6 @@ class SearchScreen extends StatelessWidget {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(25),
                       topRight: Radius.circular(25))),
-              // padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               height: screenHeight * 0.7,
               child: Column(
                 children: [
@@ -92,6 +116,8 @@ class SearchScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     child: TextFormField(
                       controller: tabBarProvider.searchController,
+                      focusNode: _searchFocusNode, // Assign the FocusNode
+                      autofocus: true, // Automatically focus the field
                       onChanged: (value) {
                         Provider.of<TabBarProvider>(context, listen: false)
                             .updateSearchKeyword(value);
@@ -163,9 +189,7 @@ class SearchScreen extends StatelessWidget {
                             child: Text(
                               tab,
                               style: TextStyle(
-                                  // color: CommonColor.darkGreyColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17),
+                                  fontWeight: FontWeight.bold, fontSize: 17),
                             ),
                           ),
                         )

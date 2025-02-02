@@ -40,7 +40,7 @@ class DashboardScreen extends StatelessWidget {
                     builder: (context, provider, child) {
                   return provider.cartItems.isEmpty
                       ? SizedBox(
-                          height: screenHeight * 0.67,
+                          height: screenHeight * 0.65,
                           child: Center(
                             child: Text(
                               "No products in the cart!",
@@ -81,7 +81,7 @@ class DashboardScreen extends StatelessWidget {
                                       fontSize: 16),
                                 )),
                             SizedBox(
-                              height: screenHeight * 0.02,
+                              height: screenHeight * 0.01,
                             ),
                             InvoiceWidgetDashboard(),
                             SizedBox(
@@ -100,7 +100,7 @@ class DashboardScreen extends StatelessWidget {
                         );
                 }),
                 SizedBox(
-                  height: screenHeight * 0.013,
+                  height: screenHeight * 0.005,
                 ),
                 SearchWidgetDashboard(),
               ],

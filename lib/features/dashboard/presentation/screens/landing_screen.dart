@@ -30,46 +30,51 @@ class LandingScreen extends StatelessWidget {
         ),
         bottomNavigationBar: Consumer<BottomNavigationbarProvider>(
           builder: (context, provider, child) {
-            return BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
+            return SizedBox(
+              height: 80,
+              child: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
 
-              backgroundColor: Colors.grey[100],
-              onTap: (index) {
-                Provider.of<BottomNavigationbarProvider>(context, listen: false)
-                    .updateSelectedIndex(index);
-              },
-              currentIndex: provider.selectedIndex,
-              selectedItemColor: CommonColor.primaryColor,
-              selectedIconTheme: IconThemeData(color: CommonColor.primaryColor),
-              unselectedIconTheme:
-                  IconThemeData(color: CommonColor.mediumGreyColor),
-              unselectedLabelStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: CommonColor.mediumGreyColor),
-              unselectedItemColor: CommonColor.mediumGreyColor,
-              showUnselectedLabels: true,
-              selectedLabelStyle:
-                  TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-              // Reduce font size for selected label
-              items: [
-                BottomNavigationBarItem(
-                  label: "Home",
-                  icon: Icon(BoxIcons.bx_home),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(BoxIcons.bx_cart),
-                  label: "Orders",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Bootstrap.card_list),
-                  label: "Invoices",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.settings_outlined),
-                  label: "Settings",
-                ),
-              ],
+                backgroundColor: Colors.grey[100],
+                onTap: (index) {
+                  Provider.of<BottomNavigationbarProvider>(context,
+                          listen: false)
+                      .updateSelectedIndex(index);
+                },
+                currentIndex: provider.selectedIndex,
+                selectedItemColor: CommonColor.primaryColor,
+                selectedIconTheme:
+                    IconThemeData(color: CommonColor.primaryColor),
+                unselectedIconTheme:
+                    IconThemeData(color: CommonColor.mediumGreyColor),
+                unselectedLabelStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: CommonColor.mediumGreyColor),
+                unselectedItemColor: CommonColor.mediumGreyColor,
+                showUnselectedLabels: true,
+                selectedLabelStyle:
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                // Reduce font size for selected label
+                items: [
+                  BottomNavigationBarItem(
+                    label: "Home",
+                    icon: Icon(BoxIcons.bx_home),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(BoxIcons.bx_cart),
+                    label: "Orders",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Bootstrap.card_list),
+                    label: "Invoices",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.settings_outlined),
+                    label: "Settings",
+                  ),
+                ],
+              ),
             );
           },
         ),

@@ -1,10 +1,10 @@
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:logger/logger.dart';
+import 'package:order_management_system/common/constants.dart';
 import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
 
-class ApiService {
+class AuthApiService {
   final logger = Logger();
 
   /// **Login Function**
@@ -15,8 +15,7 @@ class ApiService {
       'Content-Type': 'application/json',
     };
 
-    var request = http.Request(
-        'POST', Uri.parse('https://oms.sysqube.com.np/api/v1/login'));
+    var request = http.Request('POST', Uri.parse(Constants.loginUrl));
 
     request.body = json.encode({
       "email": email,
@@ -76,8 +75,7 @@ class ApiService {
       'Authorization': 'Bearer $accessToken'
     };
 
-    var request = http.Request(
-        'POST', Uri.parse('https://oms.sysqube.com.np/api/v1/logout'));
+    var request = http.Request('POST', Uri.parse(Constants.logoutUrl));
 
     request.headers.addAll(headers);
 
