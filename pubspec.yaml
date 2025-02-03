@@ -50,6 +50,8 @@ dependencies:
   connectivity_plus: ^6.1.2
   flutter_native_splash: ^2.4.4
   intl: ^0.20.2
+  internet_connection_checker: ^3.0.1
+  get: ^4.6.6
 
 flutter_native_splash:
   color: "#589A73" # Replace with your desired color in hex format

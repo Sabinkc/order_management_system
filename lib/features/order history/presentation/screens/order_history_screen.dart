@@ -65,7 +65,8 @@ class OrderHistoryScreen extends StatelessWidget {
               return Center(
                 child: Text(
                   "No orders till now!",
-                  style: TextStyle(fontSize: 20),
+                  style:
+                      TextStyle(color: CommonColor.darkGreyColor, fontSize: 20),
                 ),
               );
             }
@@ -147,7 +148,7 @@ class OrderHistoryScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  "Quantity: ${item.quantity} | Rs. ${item.price}",
+                                  "Quantity: ${item.quantity} | Rs. ${item.price * item.quantity}",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       color: CommonColor.mediumGreyColor),
@@ -174,7 +175,7 @@ class OrderHistoryScreen extends StatelessWidget {
                               border: Border.all(color: Colors.red),
                             ),
                             child: Text(
-                              "Pending",
+                              order["status"],
                               style: TextStyle(
                                   color: CommonColor.mediumGreyColor,
                                   fontWeight: FontWeight.w600),
@@ -183,8 +184,13 @@ class OrderHistoryScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Divider(color: Colors.grey),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: Divider(color: Colors.grey),
+                    ),
                   ],
                 );
               },
