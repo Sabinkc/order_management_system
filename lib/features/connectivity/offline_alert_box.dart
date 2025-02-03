@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:order_management_system/common/common_color.dart';
 
-class TestScreen extends StatelessWidget {
-  const TestScreen({super.key});
+class OfflineAlertBox extends StatelessWidget {
+  const OfflineAlertBox({super.key});
 
   @override
   Widget build(BuildContext context) {
