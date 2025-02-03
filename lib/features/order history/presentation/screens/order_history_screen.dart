@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
@@ -63,7 +61,6 @@ class OrderHistoryScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Consumer<OrderHistoryProvider>(
           builder: (context, provider, child) {
-            // Check if orders are null or empty
             if (provider.orders.isEmpty) {
               return Center(
                 child: Text(
@@ -73,78 +70,124 @@ class OrderHistoryScreen extends StatelessWidget {
               );
             }
 
-            return ListView(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            return ListView.builder(
+              itemCount: provider.orders.length,
+              itemBuilder: (context, orderIndex) {
+                final order = provider.orders[orderIndex];
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Order History",
+                      DateFormat('yyyy-MM-dd')
+                          .format(order["date"] as DateTime),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontSize: 14,
                       ),
                     ),
+                    SizedBox(height: 10),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Sort",
+                          "#ABC23RC",
                           style: TextStyle(
-                            color: CommonColor.mediumGreyColor,
-                            fontWeight: FontWeight.bold,
-                          ),
+                              color: CommonColor.darkGreyColor,
+                              fontWeight: FontWeight.bold),
                         ),
-                        Icon(
-                          Icons.arrow_drop_down_outlined,
-                          color: CommonColor.mediumGreyColor,
-                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Details",
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                decorationColor: CommonColor.mediumGreyColor,
+                                color: CommonColor.mediumGreyColor,
+                              ),
+                            ),
+                            Icon(
+                              Icons.keyboard_arrow_right_rounded,
+                              color: CommonColor.mediumGreyColor,
+                            )
+                          ],
+                        )
                       ],
                     ),
-                  ],
-                ),
-                SizedBox(height: screenHeight * 0.02),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics:
-                      NeverScrollableScrollPhysics(), // Prevent inner ListView from scrolling
-                  itemCount: provider.orders.length,
-                  itemBuilder: (context, orderindex) {
-                    final order = provider.orders[orderindex];
-
-                    return Column(
+                    SizedBox(height: screenHeight * 0.01),
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Display formatted date
-                        Text(
-                          DateFormat('yyyy-MM-dd')
-                              .format(order["date"] as DateTime),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        // Display product names
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: order["items"]
-                              .map<Widget>((item) => Text(
+                      children: order["items"].map<Widget>((item) {
+                        return Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 5),
+                              child: Container(
+                                height: 80,
+                                width: 110,
+                                color: Colors.grey[100],
+                                child: Image.asset(
+                                  item.imagePath,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: 200,
+                                  child: Text(
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     item.productName,
                                     style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                    ),
-                                  ))
-                              .toList(),
-                        ),
-                        SizedBox(height: 10),
-                        Divider(
-                            color: Colors.grey), // Add a divider between orders
-                      ],
-                    );
-                  },
-                ),
-              ],
+                                        fontWeight: FontWeight.bold,
+                                        color: CommonColor.mediumGreyColor),
+                                  ),
+                                ),
+                                Text(
+                                  "Quantity: ${item.quantity} | Rs. ${item.price}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: CommonColor.mediumGreyColor),
+                                )
+                              ],
+                            )
+                          ],
+                        );
+                      }).toList(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Status: ",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 3, vertical: 1),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              border: Border.all(color: Colors.red),
+                            ),
+                            child: Text(
+                              "Pending",
+                              style: TextStyle(
+                                  color: CommonColor.mediumGreyColor,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Divider(color: Colors.grey),
+                  ],
+                );
+              },
             );
           },
         ),
