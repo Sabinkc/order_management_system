@@ -9,7 +9,8 @@ class OrderHistoryProvider with ChangeNotifier {
     orders.add({
       'date': DateTime.now(),
       'items': items,
-      'status': 'Pending', // Default status
+      'status': 'Pending',
+      'orderId': "0123456",
     });
     final Logger logger = Logger();
     logger.i("Item added");
