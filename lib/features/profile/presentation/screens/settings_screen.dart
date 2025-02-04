@@ -16,7 +16,9 @@ class SettingsScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.white,
           title: RichText(
               text: TextSpan(children: [
             TextSpan(
@@ -112,7 +114,7 @@ class SettingsScreen extends StatelessWidget {
                   ListTile(
                     leading: Icon(Icons.card_travel_outlined),
                     title: Text(
-                      "My cards",
+                      "Languages",
                       style: TextStyle(),
                     ),
                     trailing: Icon(Icons.keyboard_arrow_right),
