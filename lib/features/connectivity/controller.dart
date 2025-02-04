@@ -1,37 +1,4 @@
-// import 'package:connectivity_plus/connectivity_plus.dart';
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
 
-// import 'package:order_management_system/test_screen.dart';
-
-// class NetworkController extends GetxController {
-//   final Connectivity _connectivity = Connectivity();
-
-//   @override
-//   void onInit() {
-//     super.onInit();
-//     _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
-//   }
-
-//   void _updateConnectionStatus(List<ConnectivityResult> connectivityResult) {
-//     if (connectivityResult.contains(ConnectivityResult.none)) {
-//       if (Get.isDialogOpen != true) {
-//         // Prevent multiple dialogs
-//         Get.dialog(
-//           PopScope(
-//             canPop: true, // Prevent back button dismissal
-//             child: AlertDialog(content: TestScreen()),
-//           ),
-//           barrierDismissible: false, // Prevent tapping outside to dismiss
-//         );
-//       }
-//     } else {
-//       if (Get.isDialogOpen == true) {
-//         Get.back(); // Close the dialog when the internet is restored
-//       }
-//     }
-//   }
-// }
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -61,7 +28,7 @@ class NetworkController extends GetxController {
         // Show alert dialog when internet is lost
         Get.dialog(
           PopScope(
-            canPop: false, // Prevent back button dismissal
+            // canPop: false, // Prevent back button dismissal
             child: AlertDialog(content: OfflineAlertBox()),
           ),
           barrierDismissible: false, // Prevent tapping outside to dismiss

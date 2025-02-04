@@ -31,7 +31,7 @@ class LandingScreen extends StatelessWidget {
         bottomNavigationBar: Consumer<BottomNavigationbarProvider>(
           builder: (context, provider, child) {
             return SizedBox(
-              height: 80,
+              height: 85,
               child: BottomNavigationBar(
                 type: BottomNavigationBarType.fixed,
 
@@ -49,12 +49,14 @@ class LandingScreen extends StatelessWidget {
                     IconThemeData(color: CommonColor.mediumGreyColor),
                 unselectedLabelStyle: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 14,
+                    // fontSize: 14,
                     color: CommonColor.mediumGreyColor),
                 unselectedItemColor: CommonColor.mediumGreyColor,
                 showUnselectedLabels: true,
-                selectedLabelStyle:
-                    TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                selectedLabelStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  //  fontSize: 14,
+                ),
                 // Reduce font size for selected label
                 items: [
                   BottomNavigationBarItem(

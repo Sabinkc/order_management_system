@@ -147,7 +147,13 @@ class ShippingLocationScreen extends StatelessWidget {
                                   )),
                                 ),
                                 TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AddShippingLoationScreen()));
+                                    },
                                     child: Text(
                                       "Edit",
                                       style: TextStyle(
