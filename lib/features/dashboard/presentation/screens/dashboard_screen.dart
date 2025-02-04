@@ -40,7 +40,7 @@ class DashboardScreen extends StatelessWidget {
                     builder: (context, provider, child) {
                   return provider.cartItems.isEmpty
                       ? SizedBox(
-                          height: screenHeight * 0.64,
+                          height: screenHeight * 0.65,
                           child: Center(
                             child: Text(
                               "No products in the cart!",

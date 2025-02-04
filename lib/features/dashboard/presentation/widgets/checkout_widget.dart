@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:order_management_system/common/common_color.dart';
@@ -21,6 +19,7 @@ class CheckoutWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 "Total Price:",
@@ -150,7 +149,6 @@ class CheckoutWidget extends StatelessWidget {
               ));
         });
   }
-
 
   void checkout(BuildContext context) {
     final cartQuantityProvider =
