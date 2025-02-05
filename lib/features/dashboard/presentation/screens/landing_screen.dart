@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/domain/bottom_navigationbar_provider.dart';
@@ -49,9 +50,9 @@ class LandingScreen extends StatelessWidget {
                     IconThemeData(color: CommonColor.mediumGreyColor),
                 unselectedLabelStyle: TextStyle(
                     fontWeight: FontWeight.bold,
-                    // fontSize: 14,
-                    color: CommonColor.mediumGreyColor),
-                unselectedItemColor: CommonColor.mediumGreyColor,
+                    fontSize: 14,
+                    color: CommonColor.darkGreyColor),
+                unselectedItemColor: CommonColor.darkGreyColor,
                 showUnselectedLabels: true,
                 selectedLabelStyle: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -61,18 +62,46 @@ class LandingScreen extends StatelessWidget {
                 items: [
                   BottomNavigationBarItem(
                     label: "Home",
-                    icon: Icon(BoxIcons.bx_home),
+                    icon: SvgPicture.asset(
+                      "assets/icons/home.svg",
+                      colorFilter: ColorFilter.mode(
+                          provider.selectedIndex == 0
+                              ? CommonColor.primaryColor
+                              : CommonColor.darkGreyColor,
+                          BlendMode.srcIn),
+                    ),
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(BoxIcons.bx_cart),
+                    icon: SvgPicture.asset(
+                      "assets/icons/order.svg",
+                      colorFilter: ColorFilter.mode(
+                          provider.selectedIndex == 1
+                              ? CommonColor.primaryColor
+                              : CommonColor.darkGreyColor,
+                          BlendMode.srcIn),
+                    ),
                     label: "Orders",
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Bootstrap.card_list),
+                    icon: SvgPicture.asset(
+                      "assets/icons/invoice.svg",
+                      colorFilter: ColorFilter.mode(
+                          provider.selectedIndex == 2
+                              ? CommonColor.primaryColor
+                              : CommonColor.darkGreyColor,
+                          BlendMode.srcIn),
+                    ),
                     label: "Invoices",
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.settings_outlined),
+                    icon: SvgPicture.asset(
+                      "assets/icons/setting.svg",
+                      colorFilter: ColorFilter.mode(
+                          provider.selectedIndex == 3
+                              ? CommonColor.primaryColor
+                              : CommonColor.darkGreyColor,
+                          BlendMode.srcIn),
+                    ),
                     label: "Settings",
                   ),
                 ],
