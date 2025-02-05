@@ -1,6 +1,5 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:order_management_system/common/common_color.dart';
 
 class OrderHistoryTrackorderWidget extends StatelessWidget {
@@ -10,32 +9,38 @@ class OrderHistoryTrackorderWidget extends StatelessWidget {
     {
       "title": "Order Placed",
       "subtitle": "Your Order has been received on 04-Feb-2025",
-      "isActive": true
+      "isActive": true,
+      "image": "assets/icons/order_placed.svg"
     },
     {
       "title": "Order Confirmed",
       "subtitle": "Your Order has been confirmed on 04-Feb-2025",
-      "isActive": true
+      "isActive": true,
+      "image": "assets/icons/order_confirmed.svg"
     },
     {
       "title": "Order Processed",
       "subtitle": "We are preparing your order",
-      "isActive": true
+      "isActive": true,
+      "image": "assets/icons/order_processed.svg"
     },
     {
       "title": "Ready to Ship",
       "subtitle": "Your order is ready for shipping",
-      "isActive": false
+      "isActive": false,
+      "image": "assets/icons/ready_to_ship.svg"
     },
     {
       "title": "Out for Delivery",
       "subtitle": "Your order is Out for Delivery",
-      "isActive": false
+      "isActive": false,
+      "image": "assets/icons/out_for_delivery.svg"
     },
     {
       "title": "Delivered",
       "subtitle": "Your order is Delivered",
-      "isActive": false
+      "isActive": false,
+      "image": "assets/icons/delivered.svg"
     },
   ];
 
@@ -153,12 +158,34 @@ class OrderHistoryTrackorderWidget extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 12),
-                          IconButton.outlined(
-                              onPressed: () {},
-                              icon: Icon(
-                                  color: CommonColor.primaryColor, Icons.list)),
+
+                          // IconButton.outlined(
+                          //     onPressed: () {},
+                          //     icon: Icon(
+                          //         color: CommonColor.primaryColor, Icons.list)),
+
+                          Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: isActive
+                                    ? CommonColor.primaryColor
+                                    : Colors.grey[300],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: SvgPicture.asset(
+                                    steps[index]["image"],
+                                    fit: BoxFit.cover,
+                                    colorFilter: ColorFilter.mode(
+                                        isActive
+                                            ? Colors.white
+                                            : CommonColor.darkGreyColor,
+                                        BlendMode.srcIn),
+                                  ),
+                                ),
+                              )),
                           const SizedBox(width: 15),
-                          // Step Title and Subtitle
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

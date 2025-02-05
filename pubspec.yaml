@@ -53,6 +53,7 @@ dependencies:
   internet_connection_checker: ^3.0.1
   get: ^4.6.6
   easy_stepper: ^0.8.5+1
+  flutter_svg: ^2.0.17
 
 flutter_native_splash:
   color: "#589A73" # Replace with your desired color in hex format
@@ -84,6 +85,7 @@ flutter:
   assets:
     - assets/images/
     - assets/animations/
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
