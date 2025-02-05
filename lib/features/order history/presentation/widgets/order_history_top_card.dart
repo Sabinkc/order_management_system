@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/order%20history/domain/order_history_provider.dart';
+import 'package:order_management_system/features/order%20history/domain/switch_order_screen_provider.dart';
 import 'package:provider/provider.dart';
 
 class OrderHistoryTopCard extends StatelessWidget {
@@ -9,6 +10,8 @@ class OrderHistoryTopCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    final SwitchOrderScreenProvider switchOrderScreenProvider =
+        Provider.of<SwitchOrderScreenProvider>(context);
     return Consumer<OrderHistoryProvider>(
       builder: (context, provider, child) {
         final order = provider.orders;
@@ -130,12 +133,21 @@ class OrderHistoryTopCard extends StatelessWidget {
                         width: 150,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
+                            side: BorderSide(
+                                color:
+                                    switchOrderScreenProvider.selectedIndex == 0
+                                        ? Colors.blue
+                                        : Colors.white),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
                             backgroundColor: Colors.white,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Provider.of<SwitchOrderScreenProvider>(context,
+                                    listen: false)
+                                .switchSelectedIndex(0);
+                          },
                           child: Text(
                             "Track Order",
                             style: TextStyle(
@@ -149,12 +161,21 @@ class OrderHistoryTopCard extends StatelessWidget {
                         width: 150,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
+                            side: BorderSide(
+                                color:
+                                    switchOrderScreenProvider.selectedIndex == 1
+                                        ? Colors.blue
+                                        : Colors.white),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
                             backgroundColor: Colors.white,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Provider.of<SwitchOrderScreenProvider>(context,
+                                    listen: false)
+                                .switchSelectedIndex(1);
+                          },
                           child: Text(
                             "View Invoice",
                             style: TextStyle(
