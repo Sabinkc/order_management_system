@@ -1,6 +1,6 @@
 {
-    "Home": "ホーム",
-    "Orders": "注文",
-    "Invoices": "請求書",
-    "Settings": "設定"
+    "home": "ホーム",
+    "orders": "注文",
+    "invoices": "請求書",
+    "settings": "設定"
 }
