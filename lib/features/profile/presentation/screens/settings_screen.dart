@@ -6,6 +6,7 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/presentation/screens/login_screen.dart';
 import 'package:order_management_system/features/profile/domain/profile_data_provider.dart';
+import 'package:order_management_system/localization/language_provider.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -111,14 +112,70 @@ class SettingsScreen extends StatelessWidget {
                     height: 0,
                     color: CommonColor.commonGreyColor,
                   ),
-                  ListTile(
-                    leading: Icon(Icons.card_travel_outlined),
-                    title: Text(
-                      "Languages",
-                      style: TextStyle(),
-                    ),
-                    trailing: Icon(Icons.keyboard_arrow_right),
+                 Consumer<LanguageProvider>(
+  builder: (context, provider, child) {
+    return ListTile(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Choose a language:",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 14),
                   ),
+                  SizedBox(height: 10),
+
+                  // English Radio Button
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Radio(
+                        value: "English",
+                        groupValue: provider.selectedLanguage,
+                        onChanged: (value) {
+                          provider.setSelectedLanguage(value.toString());
+                          provider.toggleLanguage(); // Updates Locale
+                          Navigator.pop(context); // CLOSE DIALOG
+                        },
+                      ),
+                      Text("English"),
+                    ],
+                  ),
+
+                  // Japanese Radio Button
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Radio(
+                        value: "Japanese",
+                        groupValue: provider.selectedLanguage,
+                        onChanged: (value) {
+                          provider.setSelectedLanguage(value.toString());
+                          provider.toggleLanguage(); // Updates Locale
+                          Navigator.pop(context); // CLOSE DIALOG
+                        },
+                      ),
+                      Text("Japanese"),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+      leading: Icon(Icons.language),
+      title: Text("Languages"),
+      trailing: Icon(Icons.keyboard_arrow_right),
+    );
+  },
+),
+
                   Divider(
                     height: 0,
                     color: CommonColor.commonGreyColor,
