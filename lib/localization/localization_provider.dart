@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalizationProvider extends ChangeNotifier {
@@ -8,15 +9,17 @@ class LocalizationProvider extends ChangeNotifier {
 
   void setLocale(Locale locale) {
     if (locale == _locale) return;
-    
+
     _locale = locale;
     saveLocale(locale);
+    Get.updateLocale(locale);
     notifyListeners();
   }
 
   init() {
     getLocale().then((value) {
       _locale = value;
+      Get.updateLocale(_locale);
       notifyListeners();
     });
   }

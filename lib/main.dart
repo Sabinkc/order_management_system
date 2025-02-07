@@ -69,14 +69,12 @@
 //   }
 // }
 
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:order_management_system/features/connectivity/connectivty_provider.dart';
+import 'package:order_management_system/features/connectivity/dependency_injection.dart';
 import 'package:order_management_system/features/dashboard/domain/bottom_navigationbar_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
@@ -90,10 +88,8 @@ import 'package:order_management_system/features/order%20history/domain/switch_o
 import 'package:order_management_system/features/profile/domain/profile_data_provider.dart';
 import 'package:order_management_system/features/signup/domain/checkbox_provider.dart';
 import 'package:order_management_system/features/signup/domain/signup_textfield_provider.dart';
-
 import 'package:order_management_system/localization/l10n.dart';
 import 'package:order_management_system/localization/localization_provider.dart';
-
 import 'package:provider/provider.dart';
 
 void main(List<String> args) async {
@@ -130,7 +126,7 @@ void main(List<String> args) async {
         isLoggedin: isLoggedin,
       )));
 
-  // DependencyInjection.init();
+  DependencyInjection.init();
 }
 
 class MyApplication extends StatelessWidget {
@@ -140,23 +136,22 @@ class MyApplication extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<LocalizationProvider>(
-      builder: (context,localizationProvider,child) {
-        return MaterialApp(
-          theme: ThemeData(
-            textTheme: GoogleFonts.interTextTheme(),
-          ),
-          localizationsDelegates: const [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: S.delegate.supportedLocales,
-          locale: localizationProvider.locale,
-          debugShowCheckedModeBanner: false,
-          home: isLoggedin ? LandingScreen() : LoginScreen(),
-        );
-      }
-    );
+        builder: (context, localizationProvider, child) {
+      return GetMaterialApp(
+        theme: ThemeData(
+          textTheme: GoogleFonts.interTextTheme(),
+        ),
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        locale: localizationProvider.locale,
+        debugShowCheckedModeBanner: false,
+        home: isLoggedin ? LandingScreen() : LoginScreen(),
+      );
+    });
   }
 }
