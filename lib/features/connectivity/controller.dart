@@ -2,7 +2,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:order_management_system/features/connectivity/offline_alert_box.dart';
 
 class NetworkController extends GetxController {
