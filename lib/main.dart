@@ -69,134 +69,135 @@
 //   }
 // }
 
+
+
 // import 'package:flutter/material.dart';
 // import 'package:flutter_localizations/flutter_localizations.dart';
-// import 'package:get/get_navigation/src/root/get_material_app.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:order_management_system/features/connectivity/connectivty_provider.dart';
-// import 'package:order_management_system/features/connectivity/dependency_injection.dart';
-// import 'package:order_management_system/features/dashboard/domain/bottom_navigationbar_provider.dart';
-// import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
-// import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
-// import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
-// import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
-// import 'package:order_management_system/features/login/domain/auth_provider.dart';
-// import 'package:order_management_system/features/login/domain/login_textfield_provider.dart';
-// import 'package:order_management_system/features/login/presentation/screens/login_screen.dart';
-// import 'package:order_management_system/features/order%20history/domain/order_history_provider.dart';
-// import 'package:order_management_system/features/order%20history/domain/switch_order_screen_provider.dart';
-// import 'package:order_management_system/features/profile/domain/profile_data_provider.dart';
-// import 'package:order_management_system/features/signup/domain/checkbox_provider.dart';
-// import 'package:order_management_system/features/signup/domain/signup_textfield_provider.dart';
+
 // import 'package:order_management_system/localization/home_screen.dart';
 // import 'package:order_management_system/localization/l10n.dart';
 // import 'package:order_management_system/localization/localization_provider.dart';
-// import 'package:order_management_system/localization/test_screen.dart';
 // import 'package:provider/provider.dart';
 
-// void main(List<String> args) async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   final isLoggedin = await SharedPrefLoggedinState.getLoginState();
-//   runApp(MultiProvider(
-//       providers: [
-//         ChangeNotifierProvider<LocalizationProvider>(
-//             create: (_) => LocalizationProvider()..init()),
-//         ChangeNotifierProvider<TabBarProvider>(create: (_) => TabBarProvider()),
-//         ChangeNotifierProvider<CheckboxProvider>(
-//             create: (_) => CheckboxProvider()),
-//         ChangeNotifierProvider<LoginTextfieldProvider>(
-//             create: (_) => LoginTextfieldProvider()),
-//         ChangeNotifierProvider<SignupTextfieldProvider>(
-//             create: (_) => SignupTextfieldProvider()),
-//         ChangeNotifierProvider<CartQuantityProvider>(
-//             create: (_) => CartQuantityProvider()),
-//         ChangeNotifierProvider<SignupTextfieldProvider>(
-//             create: (_) => SignupTextfieldProvider()),
-//         ChangeNotifierProvider<BottomNavigationbarProvider>(
-//             create: (_) => BottomNavigationbarProvider()),
-//         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
-//         ChangeNotifierProvider<ProfileDataProvider>(
-//             create: (_) => ProfileDataProvider()),
-//         ChangeNotifierProvider<OrderHistoryProvider>(
-//             create: (_) => OrderHistoryProvider()),
-//         ChangeNotifierProvider<ConnectivityProvider>(
-//             create: (_) => ConnectivityProvider()),
-//         ChangeNotifierProvider<SwitchOrderScreenProvider>(
-//             create: (_) => SwitchOrderScreenProvider()),
-//       ],
-//       child: MyApplication(
-//         isLoggedin: isLoggedin,
-//       )));
-
-//   DependencyInjection.init();
+// void main() {
+//   runApp(MultiProvider(providers: [
+//     ChangeNotifierProvider(create: (_) => LocalizationProvider()..init()),
+//   ], child: const MyApp()));
 // }
 
-// class MyApplication extends StatelessWidget {
-//   final bool isLoggedin;
-//   const MyApplication({super.key, required this.isLoggedin});
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
 
 //   @override
 //   Widget build(BuildContext context) {
 //     return Consumer<LocalizationProvider>(
-//       builder: (context,localizationProvider,child) {
-//         return GetMaterialApp(
-//           theme: ThemeData(
-//             textTheme: GoogleFonts.interTextTheme(),
-//           ),
-//           localizationsDelegates: const [
-//             S.delegate,
-//             GlobalMaterialLocalizations.delegate,
-//             GlobalWidgetsLocalizations.delegate,
-//             GlobalCupertinoLocalizations.delegate,
-//           ],
-//           supportedLocales: S.delegate.supportedLocales,
-//           locale: localizationProvider.locale,
-//           debugShowCheckedModeBanner: false,
-//           home: HomeScreen(),
-//         );
-//       }
-//     );
+//         builder: (context, localizationProvider, child) {
+//       return MaterialApp(
+//         title: 'Flutter Demo',
+//         theme: ThemeData(
+//           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+//           useMaterial3: true,
+//         ),
+//         localizationsDelegates: const [
+//           S.delegate,
+//           GlobalMaterialLocalizations.delegate,
+//           GlobalWidgetsLocalizations.delegate,
+//           GlobalCupertinoLocalizations.delegate,
+//         ],
+//         supportedLocales: S.delegate.supportedLocales,
+//         locale: localizationProvider.locale,
+//         home: const HomeScreen(),
+//       );
+//     });
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:order_management_system/features/connectivity/connectivty_provider.dart';
+import 'package:order_management_system/features/connectivity/dependency_injection.dart';
+import 'package:order_management_system/features/dashboard/domain/bottom_navigationbar_provider.dart';
+import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
+import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
+import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
+import 'package:order_management_system/features/login/domain/auth_provider.dart';
+import 'package:order_management_system/features/login/domain/login_textfield_provider.dart';
+import 'package:order_management_system/features/login/presentation/screens/login_screen.dart';
+import 'package:order_management_system/features/order%20history/domain/order_history_provider.dart';
+import 'package:order_management_system/features/order%20history/domain/switch_order_screen_provider.dart';
+import 'package:order_management_system/features/profile/domain/profile_data_provider.dart';
+import 'package:order_management_system/features/signup/domain/checkbox_provider.dart';
+import 'package:order_management_system/features/signup/domain/signup_textfield_provider.dart';
 
-import 'package:order_management_system/localization/home_screen.dart';
 import 'package:order_management_system/localization/l10n.dart';
 import 'package:order_management_system/localization/localization_provider.dart';
+
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => LocalizationProvider()..init()),
-  ], child: const MyApp()));
+void main(List<String> args) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final isLoggedin = await SharedPrefLoggedinState.getLoginState();
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider<LocalizationProvider>(
+            create: (_) => LocalizationProvider()..init()),
+        ChangeNotifierProvider<TabBarProvider>(create: (_) => TabBarProvider()),
+        ChangeNotifierProvider<CheckboxProvider>(
+            create: (_) => CheckboxProvider()),
+        ChangeNotifierProvider<LoginTextfieldProvider>(
+            create: (_) => LoginTextfieldProvider()),
+        ChangeNotifierProvider<SignupTextfieldProvider>(
+            create: (_) => SignupTextfieldProvider()),
+        ChangeNotifierProvider<CartQuantityProvider>(
+            create: (_) => CartQuantityProvider()),
+        ChangeNotifierProvider<SignupTextfieldProvider>(
+            create: (_) => SignupTextfieldProvider()),
+        ChangeNotifierProvider<BottomNavigationbarProvider>(
+            create: (_) => BottomNavigationbarProvider()),
+        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
+        ChangeNotifierProvider<ProfileDataProvider>(
+            create: (_) => ProfileDataProvider()),
+        ChangeNotifierProvider<OrderHistoryProvider>(
+            create: (_) => OrderHistoryProvider()),
+        ChangeNotifierProvider<ConnectivityProvider>(
+            create: (_) => ConnectivityProvider()),
+        ChangeNotifierProvider<SwitchOrderScreenProvider>(
+            create: (_) => SwitchOrderScreenProvider()),
+      ],
+      child: MyApplication(
+        isLoggedin: isLoggedin,
+      )));
+
+  // DependencyInjection.init();
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApplication extends StatelessWidget {
+  final bool isLoggedin;
+  const MyApplication({super.key, required this.isLoggedin});
 
   @override
   Widget build(BuildContext context) {
     return Consumer<LocalizationProvider>(
-        builder: (context, localizationProvider, child) {
-      return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        locale: localizationProvider.locale,
-        home: const HomeScreen(),
-      );
-    });
+      builder: (context,localizationProvider,child) {
+        return MaterialApp(
+          theme: ThemeData(
+            textTheme: GoogleFonts.interTextTheme(),
+          ),
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
+          locale: localizationProvider.locale,
+          debugShowCheckedModeBanner: false,
+          home: isLoggedin ? LandingScreen() : LoginScreen(),
+        );
+      }
+    );
   }
 }

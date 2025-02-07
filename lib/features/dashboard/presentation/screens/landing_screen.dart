@@ -6,6 +6,7 @@ import 'package:order_management_system/features/dashboard/presentation/screens/
 import 'package:order_management_system/features/invoice/presentation/screens/invoice_screen.dart';
 import 'package:order_management_system/features/profile/presentation/screens/settings_screen.dart';
 import 'package:order_management_system/features/order%20history/presentation/screens/order_history_screen.dart';
+import 'package:order_management_system/localization/l10n.dart';
 import 'package:provider/provider.dart';
 
 class LandingScreen extends StatelessWidget {
