@@ -8,6 +8,7 @@ class LocalizationProvider extends ChangeNotifier {
 
   void setLocale(Locale locale) {
     if (locale == _locale) return;
+    
     _locale = locale;
     saveLocale(locale);
     notifyListeners();
@@ -28,7 +29,6 @@ class LocalizationProvider extends ChangeNotifier {
   Future<Locale> getLocale() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String languageCode = prefs.getString('language') ?? 'en';
-    print(languageCode);
     return Locale(languageCode);
   }
 }

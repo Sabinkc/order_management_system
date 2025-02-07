@@ -18,16 +18,16 @@ final messages = new MessageLookup();
 typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 
 class MessageLookup extends MessageLookupByLibrary {
-  String get localeName => 'hi';
+  String get localeName => 'ja';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "example_text": MessageLookupByLibrary.simpleMessage(
-            "यह स्पंदन में स्थानीयकरण का उदाहरण है"),
-        "hello_world": MessageLookupByLibrary.simpleMessage("नमस्ते दुनिया"),
-        "language": MessageLookupByLibrary.simpleMessage("भाषा"),
-        "name": MessageLookupByLibrary.simpleMessage("फ़्लटर लोकलाइजेशन"),
-        "world_text":
-            MessageLookupByLibrary.simpleMessage("ये दुनिया बहुत खूबसूरत है")
+        "home": MessageLookupByLibrary.simpleMessage(
+            "ホーム"),
+        "invoices": MessageLookupByLibrary.simpleMessage("請求書"),
+        "language": MessageLookupByLibrary.simpleMessage("言語"),
+        "orders": MessageLookupByLibrary.simpleMessage("注文"),
+        "settings":
+            MessageLookupByLibrary.simpleMessage("設定")
       };
 }

@@ -71,53 +71,12 @@
 
 
 
-// import 'package:flutter/material.dart';
-// import 'package:flutter_localizations/flutter_localizations.dart';
 
-// import 'package:order_management_system/localization/home_screen.dart';
-// import 'package:order_management_system/localization/l10n.dart';
-// import 'package:order_management_system/localization/localization_provider.dart';
-// import 'package:provider/provider.dart';
-
-// void main() {
-//   runApp(MultiProvider(providers: [
-//     ChangeNotifierProvider(create: (_) => LocalizationProvider()..init()),
-//   ], child: const MyApp()));
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Consumer<LocalizationProvider>(
-//         builder: (context, localizationProvider, child) {
-//       return MaterialApp(
-//         title: 'Flutter Demo',
-//         theme: ThemeData(
-//           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-//           useMaterial3: true,
-//         ),
-//         localizationsDelegates: const [
-//           S.delegate,
-//           GlobalMaterialLocalizations.delegate,
-//           GlobalWidgetsLocalizations.delegate,
-//           GlobalCupertinoLocalizations.delegate,
-//         ],
-//         supportedLocales: S.delegate.supportedLocales,
-//         locale: localizationProvider.locale,
-//         home: const HomeScreen(),
-//       );
-//     });
-//   }
-// }
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:order_management_system/features/connectivity/connectivty_provider.dart';
-import 'package:order_management_system/features/connectivity/dependency_injection.dart';
 import 'package:order_management_system/features/dashboard/domain/bottom_navigationbar_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';

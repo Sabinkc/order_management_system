@@ -1,3 +1,4 @@
+
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -52,50 +53,50 @@ class S {
   }
 
   /// `Flutter Localization`
-  String get name {
+  String get home {
     return Intl.message(
-      'Flutter Localization',
-      name: 'name',
+      'Home',
+      name: 'home',
       desc: '',
       args: [],
     );
   }
 
   /// `Hello World`
-  String get hello_world {
+  String get orders {
     return Intl.message(
-      'Hello World',
-      name: 'hello_world',
+      'Orders',
+      name: 'orders',
       desc: '',
       args: [],
     );
   }
 
   /// `This is example of localization in flutter`
-  String get example_text {
+  String get invoices {
     return Intl.message(
-      'This is example of localization in flutter',
-      name: 'example_text',
+      'Invoices',
+      name: 'invoices',
       desc: '',
       args: [],
     );
   }
 
   /// `This world is so beautiful`
-  String get world_text {
+  String get settings {
     return Intl.message(
-      'This world is so beautiful',
-      name: 'world_text',
+      'Settings',
+      name: 'settings',
       desc: '',
       args: [],
     );
   }
 
   /// `Language`
-  String get language {
+  String get languages {
     return Intl.message(
-      'Language',
-      name: 'language',
+      'Languages',
+      name: 'languages',
       desc: '',
       args: [],
     );
@@ -108,8 +109,8 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
-      Locale.fromSubtags(languageCode: 'ar'),
-      Locale.fromSubtags(languageCode: 'hi'),
+      Locale.fromSubtags(languageCode: 'ja'),
+  
     ];
   }
 

@@ -61,7 +61,7 @@ class LandingScreen extends StatelessWidget {
                 // Reduce font size for selected label
                 items: [
                   BottomNavigationBarItem(
-                    label: "Home",
+                    label: S.current.home,
                     icon: SvgPicture.asset(
                       "assets/icons/home.svg",
                       colorFilter: ColorFilter.mode(
@@ -80,7 +80,7 @@ class LandingScreen extends StatelessWidget {
                               : CommonColor.darkGreyColor,
                           BlendMode.srcIn),
                     ),
-                    label: "Orders",
+                    label: S.current.orders,
                   ),
                   BottomNavigationBarItem(
                     icon: SvgPicture.asset(
@@ -91,7 +91,7 @@ class LandingScreen extends StatelessWidget {
                               : CommonColor.darkGreyColor,
                           BlendMode.srcIn),
                     ),
-                    label: "Invoices",
+                    label: S.current.invoices,
                   ),
                   BottomNavigationBarItem(
                     icon: SvgPicture.asset(
@@ -102,7 +102,7 @@ class LandingScreen extends StatelessWidget {
                               : CommonColor.darkGreyColor,
                           BlendMode.srcIn),
                     ),
-                    label: "Settings",
+                    label: S.current.settings,
                   ),
                 ],
               ),

@@ -22,12 +22,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "example_text": MessageLookupByLibrary.simpleMessage(
-            "This is example of localization in flutter"),
-        "hello_world": MessageLookupByLibrary.simpleMessage("Hello World"),
-        "language": MessageLookupByLibrary.simpleMessage("Language"),
-        "name": MessageLookupByLibrary.simpleMessage("Flutter Localization"),
-        "world_text":
-            MessageLookupByLibrary.simpleMessage("This world is so beautiful")
+        "home": MessageLookupByLibrary.simpleMessage(
+            "Home"),
+        "orders": MessageLookupByLibrary.simpleMessage("Orders"),
+        "invoices": MessageLookupByLibrary.simpleMessage("Invoices"),
+        "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "language":
+            MessageLookupByLibrary.simpleMessage("Language")
       };
 }

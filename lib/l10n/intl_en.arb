@@ -1,7 +1,8 @@
 {
-    "name": "Flutter Localization",
-    "hello_world": "Hello World",
-    "example_text": "This is example of localization in flutter",
-    "world_text": "This world is so beautiful",
-    "language": "Language"
+  "home": "Home",
+  "orders": "Orders",
+  "invoices": "Invoices",
+  "settings": "Settings",
+  "languages": "Languages"
 }
+
