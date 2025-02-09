@@ -12,7 +12,7 @@ class InvoiceHistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+    // final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Consumer<InvoiceScreenProvider>(
         builder: (context, invoiceScreenProvider, child) {
@@ -57,7 +57,7 @@ class InvoiceHistoryScreen extends StatelessWidget {
                   icon: Icon(
                     MingCute.delete_2_fill,
                     size: 20,
-                    color: CommonColor.darkGreyColor,
+                    color: CommonColor.mediumGreyColor,
                   ),
                 ),
               ),
@@ -147,7 +147,7 @@ class InvoiceHistoryScreen extends StatelessWidget {
                                   onPressed: () {},
                                   icon: Icon(
                                     Icons.sort,
-                                    color: CommonColor.mediumGreyColor,
+                                    color: CommonColor.darkGreyColor,
                                   )),
                             )
                           ],
@@ -169,62 +169,36 @@ class InvoiceHistoryScreen extends StatelessWidget {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 15, vertical: 15),
                               decoration: BoxDecoration(
+                                // color: Colors.grey[100],
                                 borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                    color: CommonColor.mediumGreyColor),
+                                border: Border.all(color: Colors.grey[200]!),
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                spacing: 3,
                                 children: [
-                                  SizedBox(height: 10),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
+                                        "Date:",
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: CommonColor.mediumGreyColor),
+                                      ),
+                                      Text(
                                         DateFormat('yyyy-MM-dd')
                                             .format(order["date"] as DateTime),
                                         style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                        ),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                            color: CommonColor.primaryColor),
                                       ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Provider.of<InvoiceScreenProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .switchInvoiceDetailPage();
-                                          Provider.of<InvoiceScreenProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .selectInvoiceIndex(orderIndex);
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              "Details",
-                                              style: TextStyle(
-                                                decoration:
-                                                    TextDecoration.underline,
-                                                decorationColor:
-                                                    CommonColor.mediumGreyColor,
-                                                color:
-                                                    CommonColor.mediumGreyColor,
-                                              ),
-                                            ),
-                                            Icon(
-                                              Icons
-                                                  .keyboard_arrow_right_rounded,
-                                              color:
-                                                  CommonColor.mediumGreyColor,
-                                            )
-                                          ],
-                                        ),
-                                      )
                                     ],
                                   ),
-                                  SizedBox(height: screenHeight * 0.01),
+                                  // SizedBox(height: screenHeight * 0.01),
                                   // Column(
                                   //   crossAxisAlignment: CrossAxisAlignment.start,
                                   //   children: order["items"].map<Widget>((item) {
@@ -273,48 +247,99 @@ class InvoiceHistoryScreen extends StatelessWidget {
                                   //     );
                                   //   }).toList(),
                                   // ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "#ABC23RC",
-                                          style: TextStyle(
-                                              color: CommonColor.darkGreyColor,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "Status: ",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 8, vertical: 3),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(3),
-                                                border: Border.all(
-                                                    color: Colors.red),
-                                              ),
-                                              child: Text(
-                                                "Paid",
-                                                style: TextStyle(
-                                                    color: CommonColor
-                                                        .mediumGreyColor,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Invoice no:",
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: CommonColor.mediumGreyColor),
+                                      ),
+                                      Text(
+                                        "0123456",
+                                        style: TextStyle(
+                                            color: CommonColor.primaryColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
                                   ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Total price: ",
+                                        style: TextStyle(
+                                            color: CommonColor.mediumGreyColor,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "Rs.${order["items"]?.fold(0.0, (sum, item) => sum + (item.price * item.quantity)) ?? 0.0}",
+                                        style: TextStyle(
+                                            color: CommonColor.primaryColor,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Status: ",
+                                        style: TextStyle(
+                                            color: CommonColor.mediumGreyColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "Paid",
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  ),
+                                  Center(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Provider.of<InvoiceScreenProvider>(
+                                                context,
+                                                listen: false)
+                                            .switchInvoiceDetailPage();
+                                        Provider.of<InvoiceScreenProvider>(
+                                                context,
+                                                listen: false)
+                                            .selectInvoiceIndex(orderIndex);
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "View Details",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              decorationColor:
+                                                  CommonColor.mediumGreyColor,
+                                              color:
+                                                  CommonColor.mediumGreyColor,
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.keyboard_arrow_right_rounded,
+                                            size: 14,
+                                            color: CommonColor.mediumGreyColor,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )
                                 ],
                               ),
                             ),
