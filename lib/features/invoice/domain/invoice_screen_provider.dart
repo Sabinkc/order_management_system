@@ -10,4 +10,11 @@ class InvoiceScreenProvider extends ChangeNotifier {
     final Logger logger = Logger();
     logger.i("isInvocieDetailPage: $isInvoiceDetailPage");
   }
+
+  int invoiceIndex=0;
+
+  selectInvoiceIndex(int index){
+invoiceIndex = index;
+notifyListeners();
+  }
 }

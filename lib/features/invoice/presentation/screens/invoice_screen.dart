@@ -16,7 +16,7 @@ class InvoiceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Consumer<InvoiceScreenProvider>(builder: (context, invoicescreenProvider, child){
-      return invoicescreenProvider.isInvoiceDetailPage==true?InvoiceDetailScreen(): InvoiceHistoryScreen();
+      return invoicescreenProvider.isInvoiceDetailPage==true?InvoiceDetailScreen(index: invoicescreenProvider.invoiceIndex,): InvoiceHistoryScreen();
     });
   }
 }
