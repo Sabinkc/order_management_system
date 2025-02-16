@@ -6,7 +6,7 @@ import 'package:order_management_system/common/common_textfield.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/profile/domain/profile_data_provider.dart';
-// import 'package:order_management_system/features/signup/domain/checkbox_provider.dart';
+import 'package:order_management_system/features/signup/domain/checkbox_provider.dart';
 import 'package:order_management_system/features/signup/domain/signup_textfield_provider.dart';
 import 'package:order_management_system/features/signup/presentation/widgets/checkbox_widget_signup.dart';
 
@@ -22,7 +22,6 @@ class TextfieldWidgetSignup extends StatelessWidget {
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
     final confirmPasswordController = TextEditingController();
-    // final checkBoxProvider = Provider.of<CheckboxProvider>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,46 +122,61 @@ class TextfieldWidgetSignup extends StatelessWidget {
         const CheckboxWidgetSignup(),
         SizedBox(height: screenHeight * 0.015),
         Consumer<AuthProvider>(
-          builder: (context, authProvider, child){
+          builder: (context, authProvider, child) {
             return SizedBox(
-            width: double.infinity,
-            height: screenHeight * 0.065,
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    foregroundColor: Colors.white,
-                    backgroundColor: CommonColor.primaryColor),
-                onPressed: () async{
-                  final logger = Logger();
-                 signup(context, fullnameController, emailController, passwordController, confirmPasswordController, logger,authProvider );
-                },
-                child: authProvider.isSignupLoading == true ? Center(child: CircularProgressIndicator(color: Colors.white,),) :Text(
-                  "Sign Up",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-          );
+              width: double.infinity,
+              height: screenHeight * 0.065,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      foregroundColor: Colors.white,
+                      backgroundColor: CommonColor.primaryColor),
+                  onPressed: () async {
+                    final logger = Logger();
+                    signup(
+                        context,
+                        fullnameController,
+                        emailController,
+                        passwordController,
+                        confirmPasswordController,
+                        logger,
+                        authProvider);
+                  },
+                  child: authProvider.isSignupLoading == true
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        )
+                      : Text(
+                          "Sign Up",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+            );
           },
-        
         ),
       ],
     );
   }
+
   Future signup(
       BuildContext context,
       TextEditingController fullnameController,
-
-    TextEditingController emailController,
+      TextEditingController emailController,
       TextEditingController passwordController,
       TextEditingController confirmPasswordController,
       Logger logger,
       AuthProvider provider) async {
-        final fullname = fullnameController.text;
+    final fullname = fullnameController.text;
     final email = emailController.text;
     final password = passwordController.text;
     final confirmPassword = confirmPasswordController.text;
 
-    if (fullname.isEmpty|| email.isEmpty || password.isEmpty||confirmPassword.isEmpty) {
+    if (fullname.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: CommonColor.snackbarColor,
@@ -192,8 +206,68 @@ class TextfieldWidgetSignup extends StatelessWidget {
       );
       return;
     }
-
-  final response = await provider.signup(fullname, email, password);
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: CommonColor.snackbarColor,
+          content: Center(
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 10,
+            children: [
+              Icon(
+                Icons.warning_rounded,
+                color: CommonColor.whiteColor,
+                size: 30,
+              ),
+              Expanded(
+                child: Text(
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  "Passwords donot match.",
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            ],
+          )),
+          duration: Duration(seconds: 1),
+        ),
+      );
+      return;
+    }
+    final checkBoxProvider = Provider.of<CheckboxProvider>(context,listen: false);
+    if (checkBoxProvider.isSelected == false) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: CommonColor.snackbarColor,
+          content: Center(
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 10,
+            children: [
+              Icon(
+                Icons.warning_rounded,
+                color: CommonColor.whiteColor,
+                size: 30,
+              ),
+              Expanded(
+                child: Text(
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  "You must agree to the terms and conditions to continue.",
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            ],
+          )),
+          duration: Duration(seconds: 1),
+        ),
+      );
+      return;
+    }
+    final response = await provider.signup(fullname, email, password);
     logger.i("Response:$response");
 
     if (response["success"] == true) {
@@ -215,6 +289,11 @@ class TextfieldWidgetSignup extends StatelessWidget {
       if (response["message"] is Map &&
           response["message"].containsKey("email")) {
         errorMessage = response["message"]["email"][0]; // Extract email error
+        logger.i("error message: $errorMessage");
+      } else if (response["message"] is Map &&
+          response["message"].containsKey("password")) {
+        errorMessage =
+            response["message"]["password"][0]; // Extract email error
         logger.i("error message: $errorMessage");
       } else if (response["message"] is String) {
         errorMessage = response["message"];
@@ -251,6 +330,7 @@ class TextfieldWidgetSignup extends StatelessWidget {
             duration: Duration(seconds: 1),
           ),
         );
-}
-    }}
+      }
+    }
+  }
 }
