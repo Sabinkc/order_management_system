@@ -160,6 +160,8 @@ class TextfieldWidgetSignup extends StatelessWidget {
     );
   }
 
+//Logical part
+//sign up function
   Future signup(
       BuildContext context,
       TextEditingController fullnameController,
@@ -236,7 +238,8 @@ class TextfieldWidgetSignup extends StatelessWidget {
       );
       return;
     }
-    final checkBoxProvider = Provider.of<CheckboxProvider>(context,listen: false);
+    final checkBoxProvider =
+        Provider.of<CheckboxProvider>(context, listen: false);
     if (checkBoxProvider.isSelected == false) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

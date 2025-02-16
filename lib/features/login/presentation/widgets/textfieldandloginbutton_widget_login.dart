@@ -102,6 +102,9 @@ class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {
     );
   }
 
+
+//logical part
+//function to login
   Future login(
       BuildContext context,
       TextEditingController emailController,

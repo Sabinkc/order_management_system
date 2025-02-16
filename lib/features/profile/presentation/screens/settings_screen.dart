@@ -228,86 +228,7 @@ class SettingsScreen extends StatelessWidget {
                                   contentPadding:
                                       EdgeInsets.only(left: 12, right: 8),
                                   onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          backgroundColor: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8)),
-                                          content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Choose a language:",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                              SizedBox(height: 10),
-
-                                              // English Radio Button
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Radio(
-                                                        value: "en",
-                                                        groupValue:
-                                                            localizationProvider
-                                                                .locale
-                                                                .languageCode,
-                                                        onChanged: (value) {
-                                                          localizationProvider
-                                                              .setLocale(Locale(
-                                                                  value!));
-                                                          Navigator.pop(
-                                                              context); // Close dialog
-                                                        },
-                                                      ),
-                                                      Text("English"),
-                                                    ],
-                                                  ),
-
-                                                  // Japanese Radio Button
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Radio(
-                                                        value: "ja",
-                                                        groupValue:
-                                                            localizationProvider
-                                                                .locale
-                                                                .languageCode,
-                                                        onChanged: (value) {
-                                                          localizationProvider
-                                                              .setLocale(Locale(
-                                                                  value!));
-                                                          Navigator.pop(
-                                                              context); // Close dialog
-                                                        },
-                                                      ),
-                                                      Text("Japanese"),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    );
+                                    showLanguageDialogue(context, localizationProvider);
                                   },
                                   leading: Icon(
                                     Icons.language,
@@ -370,6 +291,9 @@ class SettingsScreen extends StatelessWidget {
           );
         }));
   }
+
+  //Logical part
+  //dialog to confirm logout
 
   showLogoutDialogAndLogout(BuildContext context) {
     showDialog(
@@ -450,6 +374,91 @@ class SettingsScreen extends StatelessWidget {
         });
   }
 
+//function to show language dialog
+  showLanguageDialogue(BuildContext context, LocalizationProvider localizationProvider){
+    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          backgroundColor: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "Choose a language:",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                              SizedBox(height: 10),
+
+                                              // English Radio Button
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Radio(
+                                                        value: "en",
+                                                        groupValue:
+                                                            localizationProvider
+                                                                .locale
+                                                                .languageCode,
+                                                        onChanged: (value) {
+                                                          localizationProvider
+                                                              .setLocale(Locale(
+                                                                  value!));
+                                                          Navigator.pop(
+                                                              context); // Close dialog
+                                                        },
+                                                      ),
+                                                      Text("English"),
+                                                    ],
+                                                  ),
+
+                                                  // Japanese Radio Button
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Radio(
+                                                        value: "ja",
+                                                        groupValue:
+                                                            localizationProvider
+                                                                .locale
+                                                                .languageCode,
+                                                        onChanged: (value) {
+                                                          localizationProvider
+                                                              .setLocale(Locale(
+                                                                  value!));
+                                                          Navigator.pop(
+                                                              context); // Close dialog
+                                                        },
+                                                      ),
+                                                      Text("Japanese"),
+                                                    ],
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+  }
+
+//logout function
   Future<void> logout(BuildContext context) async {
     final logger = Logger();
     final AuthProvider authProvider =
