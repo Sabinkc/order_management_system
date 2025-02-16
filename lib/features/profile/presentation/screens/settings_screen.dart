@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 import 'package:order_management_system/common/common_color.dart';
 
@@ -18,206 +19,356 @@ class SettingsScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: CommonColor.primaryColor,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: CommonColor.primaryColor,
           title: RichText(
               text: TextSpan(children: [
             TextSpan(
-              text: "Sett",
+              text: "Settings",
               style: TextStyle(
                   fontSize: 22,
-                  color: CommonColor.primaryColor,
-                  fontWeight: FontWeight.bold),
-            ),
-            TextSpan(
-              text: "ings",
-              style: TextStyle(
-                  fontSize: 22,
-                  color: Colors.black,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold),
             ),
           ])),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
-        body: SingleChildScrollView(
-          child: Consumer<ProfileDataProvider>(
-              builder: (context, provider, child) {
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Container(
-                      height: 120,
-                      width: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: Image.asset(
-                          "assets/images/profile.jpg",
-                          fit: BoxFit.cover,
+        body: LayoutBuilder(builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: Consumer<ProfileDataProvider>(
+                builder: (context, provider, child) {
+              return ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Stack(children: [
+                    Positioned(
+                      top: screenHeight * 0.09,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        height: double
+                            .infinity, // Ensures it covers the remaining area
+                        decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(25),
+                            topRight: Radius.circular(25),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: screenHeight * 0.01),
-                  Text(provider.userName,
-                      style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-                  Text(provider.userEmail,
-                      style: TextStyle(
-                          fontSize: 16, color: CommonColor.mediumGreyColor)),
-                  SizedBox(height: screenHeight * 0.02),
-                  Divider(
-                    height: 0,
-                    color: CommonColor.commonGreyColor,
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.person_outline),
-                    title: Text(
-                      "My Profile",
-                      style: TextStyle(),
-                    ),
-                    trailing: Icon(Icons.keyboard_arrow_right),
-                  ),
-                  Divider(
-                    height: 0,
-                    color: CommonColor.commonGreyColor,
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.location_on_outlined),
-                    title: Text(
-                      "My address",
-                      style: TextStyle(),
-                    ),
-                    trailing: Icon(Icons.keyboard_arrow_right),
-                  ),
-                  Divider(
-                    height: 0,
-                    color: CommonColor.commonGreyColor,
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.shopping_bag_outlined),
-                    title: Text(
-                      "My orders",
-                      style: TextStyle(),
-                    ),
-                    trailing: Icon(Icons.keyboard_arrow_right),
-                  ),
-                  Divider(
-                    height: 0,
-                    color: CommonColor.commonGreyColor,
-                  ),
-                  Consumer<LocalizationProvider>(
-                    builder: (context, localizationProvider, child) {
-                      return ListTile(
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                backgroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8)),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Choose a language:",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-
-                                    // English Radio Button
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Radio(
-                                              value: "en",
-                                              groupValue: localizationProvider
-                                                  .locale.languageCode,
-                                              onChanged: (value) {
-                                                localizationProvider
-                                                    .setLocale(Locale(value!));
-                                                Navigator.pop(
-                                                    context); // Close dialog
-                                              },
-                                            ),
-                                            Text("English"),
-                                          ],
-                                        ),
-
-                                        // Japanese Radio Button
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Radio(
-                                              value: "ja",
-                                              groupValue: localizationProvider
-                                                  .locale.languageCode,
-                                              onChanged: (value) {
-                                                localizationProvider
-                                                    .setLocale(Locale(value!));
-                                                Navigator.pop(
-                                                    context); // Close dialog
-                                              },
-                                            ),
-                                            Text("Japanese"),
-                                          ],
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 40),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: screenHeight * 0.03,
+                          ),
+                          Center(
+                            child: Container(
+                              height: 100,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Image.asset(
+                                  "assets/images/profile.jpg",
+                                  fit: BoxFit.cover,
                                 ),
-                              );
-                            },
-                          );
-                        },
-                        leading: Icon(Icons.language),
-                        title: Text("Languages"),
-                        trailing: Icon(Icons.keyboard_arrow_right),
-                      );
-                    },
-                  ),
-                  Divider(
-                    height: 0,
-                    color: CommonColor.commonGreyColor,
-                  ),
-                  ListTile(
-                    onTap: () {
-                      showLogoutDialogAndLogout(context);
-                    },
-                    leading: Icon(Icons.logout_outlined),
-                    title: Text(
-                      "Log out",
-                      style: TextStyle(),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.01),
+                          Text(provider.userName,
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold)),
+                          Text(provider.userEmail,
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: CommonColor.darkGreyColor)),
+                          SizedBox(height: screenHeight * 0.02),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8)),
+                            child: ListTile(
+                              contentPadding:
+                                  EdgeInsets.only(left: 12, right: 8),
+                              leading: SvgPicture.asset(
+                                  "assets/icons/my_profile.svg"),
+                              title: Text(
+                                "My Profile",
+                                style: TextStyle(
+                                    color: CommonColor.darkGreyColor,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              trailing: Icon(
+                                Icons.keyboard_arrow_right,
+                                color: CommonColor.primaryColor,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: screenHeight * 0.01,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8)),
+                            child: ListTile(
+                              contentPadding:
+                                  EdgeInsets.only(left: 12, right: 8),
+                              leading: SvgPicture.asset(
+                                  "assets/icons/payment_method.svg"),
+                              title: Text(
+                                "Payment Method",
+                                style: TextStyle(
+                                    color: CommonColor.darkGreyColor,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              trailing: Icon(
+                                Icons.keyboard_arrow_right,
+                                color: CommonColor.primaryColor,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: screenHeight * 0.01,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8)),
+                            child: ListTile(
+                              contentPadding:
+                                  EdgeInsets.only(left: 12, right: 8),
+                              leading: SvgPicture.asset(
+                                  "assets/icons/order_history.svg"),
+                              title: Text(
+                                "Order History",
+                                style: TextStyle(
+                                    color: CommonColor.darkGreyColor,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              trailing: Icon(
+                                Icons.keyboard_arrow_right,
+                                color: CommonColor.primaryColor,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: screenHeight * 0.01,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8)),
+                            child: ListTile(
+                              contentPadding:
+                                  EdgeInsets.only(left: 12, right: 8),
+                              leading:
+                                  SvgPicture.asset("assets/icons/vouchers.svg"),
+                              title: Text(
+                                "Vouchers",
+                                style: TextStyle(
+                                    color: CommonColor.darkGreyColor,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              trailing: Icon(
+                                Icons.keyboard_arrow_right,
+                                color: CommonColor.primaryColor,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: screenHeight * 0.01,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8)),
+                            child: ListTile(
+                              contentPadding:
+                                  EdgeInsets.only(left: 12, right: 8),
+                              leading: SvgPicture.asset(
+                                  "assets/icons/help_and_support.svg"),
+                              title: Text(
+                                "Help & Support",
+                                style: TextStyle(
+                                    color: CommonColor.darkGreyColor,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              trailing: Icon(
+                                Icons.keyboard_arrow_right,
+                                color: CommonColor.primaryColor,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: screenHeight * 0.01,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Consumer<LocalizationProvider>(
+                              builder: (context, localizationProvider, child) {
+                                return ListTile(
+                                  contentPadding:
+                                      EdgeInsets.only(left: 12, right: 8),
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          backgroundColor: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "Choose a language:",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                              SizedBox(height: 10),
+
+                                              // English Radio Button
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Radio(
+                                                        value: "en",
+                                                        groupValue:
+                                                            localizationProvider
+                                                                .locale
+                                                                .languageCode,
+                                                        onChanged: (value) {
+                                                          localizationProvider
+                                                              .setLocale(Locale(
+                                                                  value!));
+                                                          Navigator.pop(
+                                                              context); // Close dialog
+                                                        },
+                                                      ),
+                                                      Text("English"),
+                                                    ],
+                                                  ),
+
+                                                  // Japanese Radio Button
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Radio(
+                                                        value: "ja",
+                                                        groupValue:
+                                                            localizationProvider
+                                                                .locale
+                                                                .languageCode,
+                                                        onChanged: (value) {
+                                                          localizationProvider
+                                                              .setLocale(Locale(
+                                                                  value!));
+                                                          Navigator.pop(
+                                                              context); // Close dialog
+                                                        },
+                                                      ),
+                                                      Text("Japanese"),
+                                                    ],
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  leading: Icon(
+                                    Icons.language,
+                                    color: CommonColor.primaryColor,
+                                    size: 30,
+                                  ),
+                                  title: Text(
+                                    "Languages",
+                                    style: TextStyle(
+                                        color: CommonColor.darkGreyColor,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  trailing: Icon(
+                                    Icons.keyboard_arrow_right,
+                                    color: CommonColor.primaryColor,
+                                    size: 30,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: screenHeight * 0.01,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8)),
+                            child: ListTile(
+                              onTap: () {
+                                showLogoutDialogAndLogout(context);
+                              },
+                              contentPadding:
+                                  EdgeInsets.only(left: 12, right: 8),
+                              leading: Icon(
+                                size: 30,
+                                Icons.logout,
+                                color: CommonColor.primaryColor,
+                              ),
+                              title: Text(
+                                "Logout",
+                                style: TextStyle(
+                                    color: CommonColor.darkGreyColor,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              trailing: Icon(
+                                Icons.keyboard_arrow_right,
+                                color: CommonColor.primaryColor,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    trailing: Icon(Icons.keyboard_arrow_right),
-                  ),
-                  Divider(
-                    height: 0,
-                    color: CommonColor.commonGreyColor,
-                  ),
-                ],
-              ),
-            );
-          }),
-        ));
+                  ]),
+                ),
+              );
+            }),
+          );
+        }));
   }
 
   showLogoutDialogAndLogout(BuildContext context) {

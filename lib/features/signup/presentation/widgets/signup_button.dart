@@ -32,34 +32,4 @@ class SignupButton extends StatelessWidget {
 }
 
 
-// import 'package:flutter/material.dart';
-// import 'package:order_management_system/common/common_color.dart';
-
-
-
-// class SignupButton extends StatelessWidget {
-//   final void Function() onPressed;
-//   const SignupButton({super.key, 
-//   required this.onPressed});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final double screenHeight = MediaQuery.of(context).size.height;
-//     return SizedBox(
-//       width: double.infinity,
-//       height: screenHeight * 0.065,
-//       child: ElevatedButton(
-//           style: ElevatedButton.styleFrom(
-//               shape: RoundedRectangleBorder(
-//                   borderRadius: BorderRadius.circular(8)),
-//               foregroundColor: Colors.white,
-//               backgroundColor: CommonColor.primaryColor),
-//           onPressed:onPressed,
-//           child: Text(
-//             "Sign Up",
-//             style: TextStyle(fontWeight: FontWeight.bold),
-//           )),
-//     );
-//   }
-// }
 
