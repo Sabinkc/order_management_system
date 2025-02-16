@@ -28,18 +28,12 @@ class InvoiceDetailScreen extends StatelessWidget {
               icon: Icon(
                 Icons.arrow_back_ios,
                 color: CommonColor.primaryColor,
+                size: 20,
               )),
           title: RichText(
               text: TextSpan(children: [
             TextSpan(
-              text: "Invoice",
-              style: TextStyle(
-                  fontSize: 22,
-                  color: CommonColor.primaryColor,
-                  fontWeight: FontWeight.bold),
-            ),
-            TextSpan(
-              text: "Details",
+              text: "InvoiceDetails",
               style: TextStyle(
                   fontSize: 22,
                   color: Colors.black,
@@ -49,196 +43,204 @@ class InvoiceDetailScreen extends StatelessWidget {
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            // Text(index.toString()),
-            SizedBox(
-              height: screenHeight * 0.01,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                "Orders",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              // Text(index.toString()),
+              SizedBox(
+                height: screenHeight * 0.01,
               ),
-            ),
-            SizedBox(
-              height: screenHeight * 0.01,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: SizedBox(
-                height: 450,
-                child: ListView.builder(
-                  itemCount: 1,
-                  itemBuilder: (context, index) {
-                    final order = orderHistoryProvider.orders[orderIndex];
-                    final Logger logger = Logger();
-                    logger.i("Order Index: $orderIndex");
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: order["items"].map<Widget>((item) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 5),
-                                    child: Container(
-                                      height: 90,
-                                      width: 70,
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey[100],
-                                          borderRadius:
-                                              BorderRadius.circular(8)),
-                                      child: Image.asset(
-                                        item.imagePath,
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: 220,
-                                        child: Text(
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          "${item.productName}",
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      Text(
-                                        "${item.category} | Qty: ${item.quantity}",
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                            color: CommonColor.mediumGreyColor),
-                                      ),
-                                      RichText(
-                                          text: TextSpan(children: [
-                                        TextSpan(
-                                          text: "Rs.",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: CommonColor.primaryColor),
-                                        ),
-                                        TextSpan(
-                                          text: "${item.price * item.quantity}",
-                                          style: TextStyle(
-                                              fontSize: 21,
-                                              fontWeight: FontWeight.bold,
-                                              color: CommonColor.primaryColor),
-                                        ),
-                                      ])),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Divider(),
-            ),
-            Spacer(),
-            Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  "Invoice Details:",
+                  "Orders",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                )),
-            SizedBox(
-              height: screenHeight * 0.02,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                spacing: 15,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Total Amount:",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Rs.",
-                            style: TextStyle(
-                              color: CommonColor.primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                            ),
-                          ),
-                          Text(
-                            "${orderHistoryProvider.orders[orderIndex]["items"]?.fold(0.0, (sum, item) => sum + (item.price * item.quantity)) ?? 0.0}",
-                            style: TextStyle(
-                              color: CommonColor.primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Total Quantity:",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "(${orderHistoryProvider.orders[orderIndex]["items"]?.fold(0, (sum, item) => sum + item.quantity) ?? 0})",
-                            style: TextStyle(
-                              color: CommonColor.primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-          ],
+              SizedBox(
+                height: screenHeight * 0.01,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: SizedBox(
+                  height: 450,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: 1,
+                    itemBuilder: (context, index) {
+                      final order = orderHistoryProvider.orders[orderIndex];
+                      final Logger logger = Logger();
+                      logger.i("Order Index: $orderIndex");
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: order["items"].map<Widget>((item) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 5),
+                                      child: Container(
+                                        height: 90,
+                                        width: 70,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[100],
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        child: Image.asset(
+                                          item.imagePath,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: 220,
+                                          child: Text(
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            "${item.productName}",
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          "${item.category} | Qty: ${item.quantity}",
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              color:
+                                                  CommonColor.mediumGreyColor),
+                                        ),
+                                        RichText(
+                                            text: TextSpan(children: [
+                                          TextSpan(
+                                            text: "Rs.",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color:
+                                                    CommonColor.primaryColor),
+                                          ),
+                                          TextSpan(
+                                            text:
+                                                "${item.price * item.quantity}",
+                                            style: TextStyle(
+                                                fontSize: 21,
+                                                fontWeight: FontWeight.bold,
+                                                color:
+                                                    CommonColor.primaryColor),
+                                          ),
+                                        ])),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Divider(),
+              ),
+              // Spacer(),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    "Invoice Details:",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  )),
+              SizedBox(
+                height: screenHeight * 0.02,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  spacing: 15,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Total Amount:",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Rs.",
+                              style: TextStyle(
+                                color: CommonColor.primaryColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              "${orderHistoryProvider.orders[orderIndex]["items"]?.fold(0.0, (sum, item) => sum + (item.price * item.quantity)) ?? 0.0}",
+                              style: TextStyle(
+                                color: CommonColor.primaryColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Total Quantity:",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "(${orderHistoryProvider.orders[orderIndex]["items"]?.fold(0, (sum, item) => sum + item.quantity) ?? 0})",
+                              style: TextStyle(
+                                color: CommonColor.primaryColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
         ),
       );
     });
