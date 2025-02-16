@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/invoice/domain/invoice_screen_provider.dart';
 import 'package:order_management_system/features/order%20history/domain/order_history_provider.dart';
@@ -13,7 +12,7 @@ class InvoiceHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
+    // final screenWidth = MediaQuery.of(context).size.width;
     return Consumer<InvoiceScreenProvider>(
         builder: (context, invoiceScreenProvider, child) {
       return Scaffold(
@@ -24,15 +23,7 @@ class InvoiceHistoryScreen extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: "Inv",
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: CommonColor.primaryColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  TextSpan(
-                    text: "oice",
+                    text: "My Invoices",
                     style: TextStyle(
                       fontSize: 22,
                       color: Colors.black,
@@ -42,26 +33,6 @@ class InvoiceHistoryScreen extends StatelessWidget {
                 ],
               ),
             ),
-            actions: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                child: IconButton(
-                  onPressed: () {
-                    final orderHistoryProvider =
-                        Provider.of<OrderHistoryProvider>(context,
-                            listen: false);
-                    orderHistoryProvider.deleteOrders();
-                    final Logger logger = Logger();
-                    logger.i(orderHistoryProvider.orders.length);
-                  },
-                  icon: Icon(
-                    MingCute.delete_2_fill,
-                    size: 20,
-                    color: CommonColor.mediumGreyColor,
-                  ),
-                ),
-              ),
-            ],
             centerTitle: true,
             automaticallyImplyLeading: false,
           ),
@@ -83,75 +54,71 @@ class InvoiceHistoryScreen extends StatelessWidget {
                   children: [
                     Padding(
                         padding: EdgeInsets.only(top: 10, bottom: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: screenWidth * 0.75,
-                              child: TextFormField(
-                                onChanged: (value) {},
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 15),
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText: "Search for your invoice..",
-                                  hintStyle: TextStyle(
-                                      color: CommonColor.darkGreyColor,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
-                                  prefixIcon: Icon(
-                                    Icons.search,
-                                    size: 23,
-                                    color: CommonColor.primaryColor,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                        color: CommonColor
-                                            .primaryColor), // Transparent border
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                        color: CommonColor.primaryColor,
-                                        width: 2), // Focused border color
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                        color: Colors.red,
-                                        width: 2), // Error border color
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                        color: Colors.red,
-                                        width: 2), // Focused error border color
-                                  ),
-                                  disabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                        color: Colors
-                                            .grey), // Disabled border color
-                                  ),
-                                ),
+                        child: TextFormField(
+                          onChanged: (value) {},
+                          decoration: InputDecoration(
+                            // contentPadding: EdgeInsets.symmetric(
+                            //     horizontal: 10, vertical: 15),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 10,
+                            ),
+                            fillColor: Colors.grey[100],
+                            filled: true,
+                            hintText: "Search.....",
+                            hintStyle: TextStyle(
+                                color: CommonColor.darkGreyColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
+                            prefixIcon: Icon(
+                              Icons.search,
+                              size: 25,
+                              color: CommonColor.primaryColor,
+                            ),
+                            suffixIcon: Padding(
+                              padding: const EdgeInsets.only(right: 5.0),
+                              child: SvgPicture.asset(
+                                "assets/icons/filter.svg",
+                                fit: BoxFit.contain,
                               ),
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: CommonColor.primaryColor),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.sort,
-                                    color: CommonColor.darkGreyColor,
-                                  )),
-                            )
-                          ],
+                            suffixIconConstraints: BoxConstraints(
+                                maxHeight: 30,
+                                maxWidth: 30,
+                                minHeight: 30,
+                                minWidth: 30),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                  color:
+                                      Colors.grey[100]!), // Transparent border
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                  color: CommonColor.primaryColor,
+                                  width: 2), // Focused border color
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                  color: Colors.red,
+                                  width: 2), // Error border color
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                  color: Colors.red,
+                                  width: 2), // Focused error border color
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                  color: Colors
+                                      .grey[100]!), // Disabled border color
+                            ),
+                          ),
                         )),
+                    Divider(),
                     Expanded(
                       child: ListView.builder(
                         itemCount: provider.orders.length,
@@ -165,182 +132,88 @@ class InvoiceHistoryScreen extends StatelessWidget {
 
                           return Padding(
                             padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 15),
-                              decoration: BoxDecoration(
-                                // color: Colors.grey[100],
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: Colors.grey[200]!),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                spacing: 3,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Date:",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            color: CommonColor.mediumGreyColor),
-                                      ),
-                                      Text(
-                                        DateFormat('yyyy-MM-dd')
-                                            .format(order["date"] as DateTime),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                            color: CommonColor.primaryColor),
-                                      ),
-                                    ],
-                                  ),
-                                  // SizedBox(height: screenHeight * 0.01),
-                                  // Column(
-                                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                                  //   children: order["items"].map<Widget>((item) {
-                                  //     return Row(
-                                  //       children: [
-                                  //         Padding(
-                                  //           padding:
-                                  //               EdgeInsets.symmetric(vertical: 5),
-                                  //           child: Container(
-                                  //             height: 80,
-                                  //             width: 110,
-                                  //             color: Colors.grey[100],
-                                  //             child: Image.asset(
-                                  //               item.imagePath,
-                                  //               fit: BoxFit.contain,
-                                  //             ),
-                                  //           ),
-                                  //         ),
-                                  //         SizedBox(width: 10),
-                                  //         Column(
-                                  //           crossAxisAlignment:
-                                  //               CrossAxisAlignment.start,
-                                  //           children: [
-                                  //             SizedBox(
-                                  //               width: 200,
-                                  //               child: Text(
-                                  //                 maxLines: 1,
-                                  //                 overflow: TextOverflow.ellipsis,
-                                  //                 item.productName,
-                                  //                 style: TextStyle(
-                                  //                     fontWeight: FontWeight.bold,
-                                  //                     color: CommonColor
-                                  //                         .mediumGreyColor),
-                                  //               ),
-                                  //             ),
-                                  //             Text(
-                                  //               "Quantity: ${item.quantity} | Rs. ${item.price * item.quantity}",
-                                  //               style: TextStyle(
-                                  //                   fontWeight: FontWeight.w500,
-                                  //                   color: CommonColor
-                                  //                       .mediumGreyColor),
-                                  //             )
-                                  //           ],
-                                  //         )
-                                  //       ],
-                                  //     );
-                                  //   }).toList(),
-                                  // ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Invoice no:",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            color: CommonColor.mediumGreyColor),
-                                      ),
-                                      Text(
-                                        "0123456",
-                                        style: TextStyle(
-                                            color: CommonColor.primaryColor,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Total price: ",
-                                        style: TextStyle(
-                                            color: CommonColor.mediumGreyColor,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        "Rs.${order["items"]?.fold(0.0, (sum, item) => sum + (item.price * item.quantity)) ?? 0.0}",
-                                        style: TextStyle(
-                                            color: CommonColor.primaryColor,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Status: ",
-                                        style: TextStyle(
-                                            color: CommonColor.mediumGreyColor,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        "Paid",
-                                        style: TextStyle(
-                                            color: Colors.red,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ],
-                                  ),
-                                  Center(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Provider.of<InvoiceScreenProvider>(
-                                                context,
-                                                listen: false)
-                                            .switchInvoiceDetailPage();
-                                        Provider.of<InvoiceScreenProvider>(
-                                                context,
-                                                listen: false)
-                                            .selectInvoiceIndex(orderIndex);
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "View Details",
-                                            style: TextStyle(
+                            child: GestureDetector(
+                              onTap: () {
+                                Provider.of<InvoiceScreenProvider>(context,
+                                        listen: false)
+                                    .switchInvoiceDetailPage();
+                                Provider.of<InvoiceScreenProvider>(context,
+                                        listen: false)
+                                    .selectInvoiceIndex(orderIndex);
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 15),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[100],
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  spacing: 3,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Order No: 01234567",
+                                          style: TextStyle(
+                                              fontSize: 15,
                                               fontWeight: FontWeight.bold,
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              decorationColor:
-                                                  CommonColor.mediumGreyColor,
-                                              color:
-                                                  CommonColor.mediumGreyColor,
-                                            ),
-                                          ),
-                                          Icon(
-                                            Icons.keyboard_arrow_right_rounded,
-                                            size: 14,
-                                            color: CommonColor.mediumGreyColor,
-                                          )
-                                        ],
-                                      ),
+                                              color: CommonColor.darkGreyColor),
+                                        ),
+                                        Text(
+                                          "Rs.${order["items"]?.fold(0.0, (sum, item) => sum + (item.price * item.quantity)) ?? 0.0}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                              color: CommonColor.primaryColor),
+                                        ),
+                                      ],
                                     ),
-                                  )
-                                ],
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          DateFormat('yyyy-MM-dd, hh:mm a')
+                                              .format(
+                                                  order["date"] as DateTime),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12,
+                                            color: CommonColor.mediumGreyColor,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Qty: ${order["items"]?.fold(0, (sum, item) => sum + item.quantity) ?? 0}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12,
+                                              color:
+                                                  CommonColor.mediumGreyColor),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Status: ",
+                                          style: TextStyle(
+                                              color: CommonColor.darkGreyColor,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          "Pending",
+                                          style: TextStyle(
+                                              color: CommonColor.primaryColor,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           );
