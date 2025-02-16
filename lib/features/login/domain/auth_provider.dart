@@ -7,6 +7,7 @@ class AuthProvider extends ChangeNotifier {
   final AuthApiService apiService = AuthApiService();
   bool isLoading = false;
   bool isLogoutLoading = false;
+  bool isSignupLoading = false;
   final logger = Logger();
 
   Future<Map<String, dynamic>> login(String email, String password) async {
@@ -19,6 +20,21 @@ class AuthProvider extends ChangeNotifier {
     final response = await apiService.login(email, password, device);
 
     isLoading = false;
+    notifyListeners();
+
+    return response; // Returning full response to handle errors in UI
+  }
+
+  Future<Map<String, dynamic>> signup(String name, String email, String password) async {
+    isSignupLoading = true;
+    notifyListeners();
+
+    String device = await DeviceInfoHelper.getDeviceName();
+    logger.i("Device: $device");
+
+    final response = await apiService.signup(name, email, password, device);
+
+    isSignupLoading = false;
     notifyListeners();
 
     return response; // Returning full response to handle errors in UI

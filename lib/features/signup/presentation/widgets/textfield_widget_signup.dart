@@ -1,6 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/common_textfield.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
+import 'package:order_management_system/features/login/domain/auth_provider.dart';
+import 'package:order_management_system/features/profile/domain/profile_data_provider.dart';
+import 'package:order_management_system/features/signup/domain/checkbox_provider.dart';
 import 'package:order_management_system/features/signup/domain/signup_textfield_provider.dart';
+import 'package:order_management_system/features/signup/presentation/widgets/checkbox_widget_signup.dart';
+
 import 'package:provider/provider.dart';
 
 class TextfieldWidgetSignup extends StatelessWidget {
@@ -9,6 +18,12 @@ class TextfieldWidgetSignup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
+    final fullnameController = TextEditingController();
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+    final confirmPasswordController = TextEditingController();
+    final checkBoxProvider = Provider.of<CheckboxProvider>(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -23,6 +38,7 @@ class TextfieldWidgetSignup extends StatelessWidget {
           height: screenHeight * 0.008,
         ),
         CommonTextfield(
+          controller: fullnameController,
           hintText: "John Doe",
           prefixIcon: Icons.person,
         ),
@@ -38,6 +54,7 @@ class TextfieldWidgetSignup extends StatelessWidget {
           height: screenHeight * 0.008,
         ),
         CommonTextfield(
+          controller: emailController,
           hintText: "johndoe@gmail.com",
           prefixIcon: Icons.email,
         ),
@@ -54,6 +71,7 @@ class TextfieldWidgetSignup extends StatelessWidget {
         ),
         Consumer<SignupTextfieldProvider>(builder: (context, provider, child) {
           return CommonTextfield(
+            controller: passwordController,
             isObscure: provider.isPasswordObscure,
             onSuffixPressed: provider.switchPasswordObscure,
             hintText: "••••••••",
@@ -91,6 +109,7 @@ class TextfieldWidgetSignup extends StatelessWidget {
         ),
         Consumer<SignupTextfieldProvider>(builder: (context, provider, child) {
           return CommonTextfield(
+            controller: confirmPasswordController,
             isObscure: provider.isConfirmObscure,
             onSuffixPressed: provider.switchConfirmObscure,
             hintText: "••••••••",
@@ -100,7 +119,138 @@ class TextfieldWidgetSignup extends StatelessWidget {
                 : Icons.visibility,
           );
         }),
+        SizedBox(height: screenHeight * 0.015),
+        const CheckboxWidgetSignup(),
+        SizedBox(height: screenHeight * 0.015),
+        Consumer<AuthProvider>(
+          builder: (context, authProvider, child){
+            return SizedBox(
+            width: double.infinity,
+            height: screenHeight * 0.065,
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    foregroundColor: Colors.white,
+                    backgroundColor: CommonColor.primaryColor),
+                onPressed: () async{
+                  final logger = Logger();
+                 signup(context, fullnameController, emailController, passwordController, confirmPasswordController, logger,authProvider );
+                },
+                child: authProvider.isSignupLoading == true ? Center(child: CircularProgressIndicator(color: Colors.white,),) :Text(
+                  "Sign Up",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                )),
+          );
+          },
+        
+        ),
       ],
     );
   }
+  Future signup(
+      BuildContext context,
+      TextEditingController fullnameController,
+
+    TextEditingController emailController,
+      TextEditingController passwordController,
+      TextEditingController confirmPasswordController,
+      Logger logger,
+      AuthProvider provider) async {
+        final fullname = fullnameController.text;
+    final email = emailController.text;
+    final password = passwordController.text;
+    final confirmPassword = confirmPasswordController.text;
+
+    if (fullname.isEmpty|| email.isEmpty || password.isEmpty||confirmPassword.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: CommonColor.snackbarColor,
+          content: Center(
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 10,
+            children: [
+              Icon(
+                Icons.warning_rounded,
+                color: CommonColor.whiteColor,
+                size: 30,
+              ),
+              Expanded(
+                child: Text(
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  "Please enter the required fields!",
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            ],
+          )),
+          duration: Duration(seconds: 1),
+        ),
+      );
+      return;
+    }
+
+  final response = await provider.signup(fullname, email, password);
+    logger.i("Response:$response");
+
+    if (response["success"] == true) {
+      if (context.mounted) {
+        final ProfileDataProvider profileProvider =
+            Provider.of<ProfileDataProvider>(context, listen: false);
+        final name = response["data"]["data"]["profile"]["name"];
+        final email = response["data"]["data"]["profile"]["email"];
+
+        profileProvider.addProfileData(name, email);
+        Navigator.pushReplacement(
+          context,
+          CupertinoPageRoute(builder: (context) => LandingScreen()),
+        );
+      }
+    } else {
+      String errorMessage = "Unable to signup!";
+
+      if (response["message"] is Map &&
+          response["message"].containsKey("email")) {
+        errorMessage = response["message"]["email"][0]; // Extract email error
+        logger.i("error message: $errorMessage");
+      } else if (response["message"] is String) {
+        errorMessage = response["message"];
+        logger.i("error message: $errorMessage");
+      }
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: CommonColor.snackbarColor,
+            content: Center(
+                child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.warning_rounded,
+                  color: CommonColor.whiteColor,
+                  size: 40,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: Text(
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    errorMessage,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ],
+            )),
+            duration: Duration(seconds: 1),
+          ),
+        );
+}
+    }}
 }
