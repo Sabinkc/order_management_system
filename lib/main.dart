@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:order_management_system/common/simple_ui_provider.dart';
 import 'package:order_management_system/features/connectivity/connectivty_provider.dart';
 import 'package:order_management_system/features/connectivity/dependency_injection.dart';
 import 'package:order_management_system/features/dashboard/domain/bottom_navigationbar_provider.dart';
@@ -53,6 +54,7 @@ void main(List<String> args) async {
             create: (_) => SwitchOrderScreenProvider()),
                ChangeNotifierProvider<InvoiceScreenProvider>(
             create: (_) => InvoiceScreenProvider()),
+            ChangeNotifierProvider<SimpleUiProvider>(create: (_)=>SimpleUiProvider()),
       ],
       child: MyApplication(
         isLoggedin: isLoggedin,

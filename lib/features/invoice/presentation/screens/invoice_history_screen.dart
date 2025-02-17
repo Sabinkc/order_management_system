@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/common/simple_ui_provider.dart';
 import 'package:order_management_system/features/invoice/domain/invoice_screen_provider.dart';
 import 'package:order_management_system/features/order%20history/domain/order_history_provider.dart';
 import 'package:provider/provider.dart';
@@ -76,12 +77,164 @@ class InvoiceHistoryScreen extends StatelessWidget {
                                 size: 25,
                                 color: CommonColor.primaryColor,
                               ),
-                              suffixIcon: Padding(
-                                padding: const EdgeInsets.only(right: 5.0),
-                                child: SvgPicture.asset(
-                                  "assets/icons/filter.svg",
-                                  fit: BoxFit.contain,
-                                ),
+
+                              suffixIcon: Theme(
+                                data: ThemeData(
+                                    popupMenuTheme: PopupMenuThemeData(
+                                  color: Colors.white,
+                                )),
+                                child: PopupMenuButton(
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 5.0),
+                                      child: SvgPicture.asset(
+                                        "assets/icons/filter.svg",
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                    itemBuilder: (context) {
+                                      return [
+                                        PopupMenuItem(
+                                            padding: EdgeInsets.only(
+                                              left: 15,
+                                              right: 15,
+                                              top: 0,
+                                              bottom: 0,
+                                            ),
+                                            onTap: () {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return Consumer<
+                                                            SimpleUiProvider>(
+                                                        builder: (context,
+                                                            simpleUiProvider,
+                                                            child) {
+                                                      return AlertDialog(
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8)),
+                                                        contentPadding:
+                                                            EdgeInsets.only(
+                                                          top: 20,
+                                                          bottom: 10,
+                                                          left: 20,
+                                                          right: 20,
+                                                        ),
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        content: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                              "Search filter by date",
+                                                              style: TextStyle(
+                                                                  color: CommonColor
+                                                                      .darkGreyColor,
+                                                                  fontSize: 18,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              spacing: 10,
+                                                              children: [
+                                                                Text(
+                                                                  "Date:",
+                                                                  style: TextStyle(
+                                                                      color: CommonColor
+                                                                          .darkGreyColor,
+                                                                      fontSize:
+                                                                          16,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600),
+                                                                ),
+                                                                DropdownButton(
+                                                                    value: simpleUiProvider
+                                                                        .selectedDate,
+                                                                    items: [
+                                                                      DropdownMenuItem(
+                                                                          value:
+                                                                              "all",
+                                                                          child:
+                                                                              Text("All")),
+                                                                      DropdownMenuItem(
+                                                                          value:
+                                                                              "last_week",
+                                                                          child:
+                                                                              Text("Last week")),
+                                                                      DropdownMenuItem(
+                                                                          value:
+                                                                              "last_month",
+                                                                          child:
+                                                                              Text("Last month")),
+                                                                      DropdownMenuItem(
+                                                                          value:
+                                                                              "last_year",
+                                                                          child:
+                                                                              Text("Last year")),
+                                                                    ],
+                                                                    onChanged:
+                                                                        (value) {
+                                                                      simpleUiProvider
+                                                                          .switchSelectedDate(
+                                                                              value!);
+                                                                      debugPrint(
+                                                                          value);
+                                                                      debugPrint(
+                                                                          simpleUiProvider
+                                                                              .selectedDate);
+                                                                    })
+                                                              ],
+                                                            ),
+                                                            Row(
+                                                              spacing: 15,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .end,
+                                                              children: [
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: Text(
+                                                                        "Cancel")),
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: Text(
+                                                                        "Apply")),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      );
+                                                    });
+                                                  });
+                                            },
+                                            child: Center(
+                                                child: Text("Search filters"))),
+                                      ];
+                                    }),
                               ),
                               suffixIconConstraints: BoxConstraints(
                                   maxHeight: 30,
