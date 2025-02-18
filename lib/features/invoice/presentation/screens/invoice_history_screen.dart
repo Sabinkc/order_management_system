@@ -187,17 +187,18 @@
 //                       Expanded(
 //                         child: Consumer<SearchProvider>(
 //                           builder: (context, searchProvider, child) {
-//                             // Listen to the search provider for the updated search keyword
+//                             // searchKeyword
 //                             String searchKeyword =
 //                                 searchProvider.searchKeyword.toLowerCase();
 
 //                             final SimpleUiProvider simpleUiProvider =
 //                                 Provider.of<SimpleUiProvider>(context,
 //                                     listen: false);
+//                                     //selected date category
 //                             String selectedDateCategory =
 //                                 simpleUiProvider.selectedDate;
 
-//                             // Filtering the orders based on the selected date and search keyword
+//                             // returns the list that is gained from filtered orders based on datecategory matching with searched keyword as filtered list
 //                             List filteredList = orderHistoryProvider
 //                                 .filteredOrders
 //                                 .where((invoice) {
@@ -227,16 +228,19 @@
 //                               );
 //                             }
 
+// //filtered list displayed in listview
 //                             return ListView.builder(
 //                               itemCount: filteredList.length,
 //                               itemBuilder: (context, filteredOrderIndex) {
 //                                 final sortedOrders = List.from(
-//                                     orderHistoryProvider.filteredOrders)
+//                                     filteredList)
 //                                   ..sort((a, b) => (b["date"] as DateTime)
 //                                       .compareTo(a["date"] as DateTime));
-//                                 final order = sortedOrders[filteredOrderIndex];
-//                                 // final order = filteredList[filteredOrderIndex];
 
+//                                       //assigns items individually from filtered list to orders that comes from filtering with date and matching with searchkeyword based on checkedout date(reverse filteredlist)
+//                                 final order = sortedOrders[filteredOrderIndex];
+
+// //individual items from filtered list as order(in reverse), filtered list displayed in list view
 //                                 return Padding(
 //                                   padding:
 //                                       const EdgeInsets.symmetric(vertical: 10),
@@ -447,7 +451,7 @@
 //                             fontWeight: FontWeight.w600),
 //                       ),
 //                       DropdownButton(
-//                           value: "all",
+//                           value: simpleUiProvider.selectedStatus,
 //                           items: [
 //                             DropdownMenuItem(value: "all", child: Text("All")),
 //                             DropdownMenuItem(
@@ -459,7 +463,10 @@
 //                             DropdownMenuItem(
 //                                 value: "refunded", child: Text("Refunded")),
 //                           ],
-//                           onChanged: (value) {})
+//                           onChanged: (value) {
+
+//                             simpleUiProvider.switchSelectedStatus(value!);
+//                           })
 //                     ],
 //                   ),
 //                   Row(
@@ -683,17 +690,18 @@ class InvoiceHistoryScreen extends StatelessWidget {
                       Expanded(
                         child: Consumer<SearchProvider>(
                           builder: (context, searchProvider, child) {
-                            // Listen to the search provider for the updated search keyword
+                            // searchKeyword
                             String searchKeyword =
                                 searchProvider.searchKeyword.toLowerCase();
 
                             final SimpleUiProvider simpleUiProvider =
                                 Provider.of<SimpleUiProvider>(context,
                                     listen: false);
+                            //selected date category
                             String selectedDateCategory =
                                 simpleUiProvider.selectedDate;
 
-                            // Filtering the orders based on the selected date and search keyword
+                            // returns the list that is gained from filtered orders based on datecategory matching with searched keyword as filtered list
                             List filteredList = orderHistoryProvider
                                 .filteredOrders
                                 .where((invoice) {
@@ -712,6 +720,9 @@ class InvoiceHistoryScreen extends StatelessWidget {
                               }
                             }).toList();
 
+                            final Logger logger = Logger();
+                            logger.i("filtered List: $filteredList");
+
                             if (filteredList.isEmpty) {
                               return Center(
                                 child: Text(
@@ -723,16 +734,18 @@ class InvoiceHistoryScreen extends StatelessWidget {
                               );
                             }
 
+//filtered list displayed in listview
                             return ListView.builder(
                               itemCount: filteredList.length,
                               itemBuilder: (context, filteredOrderIndex) {
-                                final sortedOrders = List.from(
-                                    orderHistoryProvider.filteredOrders)
+                                final sortedOrders = List.from(filteredList)
                                   ..sort((a, b) => (b["date"] as DateTime)
                                       .compareTo(a["date"] as DateTime));
-                                final order = sortedOrders[filteredOrderIndex];
-                                // final order = filteredList[filteredOrderIndex];
 
+                                //assigns items individually from filtered list to orders that comes from filtering with date and matching with searchkeyword based on checkedout date(reverse filteredlist)
+                                final order = sortedOrders[filteredOrderIndex];
+
+//individual items from filtered list as order(in reverse), filtered list displayed in list view
                                 return Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 10),
@@ -819,7 +832,7 @@ class InvoiceHistoryScreen extends StatelessWidget {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                "${randomStatusList[filteredOrderIndex]}",
+                                                "${order["status"]}",
                                                 style: TextStyle(
                                                     color: CommonColor
                                                         .primaryColor,
@@ -853,7 +866,7 @@ class InvoiceHistoryScreen extends StatelessWidget {
   //function to show filter dialog
 
   void showFilterDialog(BuildContext context) {
-    String filterValue = "All";
+    String filterValue = "all";
     showDialog(
       context: context,
       builder: (context) {
@@ -943,9 +956,9 @@ class InvoiceHistoryScreen extends StatelessWidget {
                             fontWeight: FontWeight.w600),
                       ),
                       DropdownButton(
-                          value: "all",
+                          value: simpleUiProvider.selectedStatus,
                           items: [
-                            DropdownMenuItem(value: "all", child: Text("All")),
+                            DropdownMenuItem(value: "all_status", child: Text("All")),
                             DropdownMenuItem(
                                 value: "paid", child: Text("Paid")),
                             DropdownMenuItem(
@@ -955,7 +968,10 @@ class InvoiceHistoryScreen extends StatelessWidget {
                             DropdownMenuItem(
                                 value: "refunded", child: Text("Refunded")),
                           ],
-                          onChanged: (value) {})
+                          onChanged: (value) {
+                            simpleUiProvider.switchSelectedStatus(value!);
+                            filterValue = value;
+                          })
                     ],
                   ),
                   Row(
@@ -989,4 +1005,3 @@ class InvoiceHistoryScreen extends StatelessWidget {
     );
   }
 }
-
