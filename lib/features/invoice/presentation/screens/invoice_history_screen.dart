@@ -464,7 +464,7 @@ class InvoiceHistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController searchController = SearchController();
+    final TextEditingController searchController = TextEditingController();
     final Random random = Random();
 
     // Function to generate random numbers between 000000 and 100000
@@ -482,19 +482,17 @@ class InvoiceHistoryScreen extends StatelessWidget {
     List orderNoList =
         generateRandomNumbers(orderHistoryProvider.filteredOrders.length);
 
-    // final Logger logger = Logger();
     String filterValue = "All";
-    // final screenHeight = MediaQuery.of(context).size.height;
-    // final screenWidth = MediaQuery.of(context).size.width;
+
     return Consumer<InvoiceScreenProvider>(
-        builder: (context, invoiceScreenProvider, child) {
-      return KeyboardDismisser(
-        child: Scaffold(
+      builder: (context, invoiceScreenProvider, child) {
+        return KeyboardDismisser(
+          child: Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
               backgroundColor: Colors.white,
               title: RichText(
-                text: TextSpan(
+                text: const TextSpan(
                   children: [
                     TextSpan(
                       text: "My Invoices",
@@ -511,7 +509,7 @@ class InvoiceHistoryScreen extends StatelessWidget {
               automaticallyImplyLeading: false,
             ),
             body: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Consumer<OrderHistoryProvider>(
                 builder: (context, orderHistoryProvider, child) {
                   if (orderHistoryProvider.orders.isEmpty) {
@@ -527,420 +525,414 @@ class InvoiceHistoryScreen extends StatelessWidget {
                   return Column(
                     children: [
                       Padding(
-                          padding: EdgeInsets.only(top: 10, bottom: 10),
-                          child: TextFormField(
-                            controller: searchController,
-                            onChanged: (value) {
-                              // Update the search keyword in the SearchProvider
-                              Provider.of<SearchProvider>(context,
-                                      listen: false)
-                                  .updateSearchKeyword(value);
-                            },
-                            decoration: InputDecoration(
-                              // contentPadding: EdgeInsets.symmetric(
-                              //     horizontal: 10, vertical: 15),
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: 10,
-                              ),
-                              fillColor: Colors.grey[100],
-                              filled: true,
-                              hintText: "Search.....",
-                              hintStyle: TextStyle(
-                                  color: CommonColor.darkGreyColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16),
-                              prefixIcon: Icon(
-                                Icons.search,
-                                size: 25,
-                                color: CommonColor.primaryColor,
-                              ),
-
-                              suffixIcon: Theme(
-                                data: ThemeData(
-                                    popupMenuTheme: PopupMenuThemeData(
-                                  color: Colors.white,
-                                )),
-                                child: PopupMenuButton(
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 5.0),
-                                      child: SvgPicture.asset(
-                                        "assets/icons/filter.svg",
-                                        fit: BoxFit.contain,
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        child: TextFormField(
+                          controller: searchController,
+                          onChanged: (value) {
+                            // Update the search keyword in the SearchProvider
+                            Provider.of<SearchProvider>(context, listen: false)
+                                .updateSearchKeyword(value);
+                          },
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                            ),
+                            fillColor: Colors.grey[100],
+                            filled: true,
+                            hintText: "Search.....",
+                            hintStyle: TextStyle(
+                                color: CommonColor.darkGreyColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
+                            prefixIcon: Icon(
+                              Icons.search,
+                              size: 25,
+                              color: CommonColor.primaryColor,
+                            ),
+                            suffixIcon: Theme(
+                              data: ThemeData(
+                                  popupMenuTheme: PopupMenuThemeData(
+                                color: Colors.white,
+                              )),
+                              child: PopupMenuButton(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 5.0),
+                                  child: SvgPicture.asset(
+                                    "assets/icons/filter.svg",
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                                itemBuilder: (context) {
+                                  return [
+                                    PopupMenuItem(
+                                      padding: const EdgeInsets.only(
+                                        left: 15,
+                                        right: 15,
+                                        top: 0,
+                                        bottom: 0,
                                       ),
-                                    ),
-                                    itemBuilder: (context) {
-                                      return [
-                                        PopupMenuItem(
-                                            padding: EdgeInsets.only(
-                                              left: 15,
-                                              right: 15,
-                                              top: 0,
-                                              bottom: 0,
-                                            ),
-                                            onTap: () {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return Consumer<
-                                                            SimpleUiProvider>(
-                                                        builder: (context,
-                                                            simpleUiProvider,
-                                                            child) {
-                                                      return AlertDialog(
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            8)),
-                                                        contentPadding:
-                                                            EdgeInsets.only(
-                                                          top: 20,
-                                                          bottom: 10,
-                                                          left: 20,
-                                                          right: 20,
-                                                        ),
-                                                        backgroundColor:
-                                                            Colors.white,
-                                                        content: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Text(
-                                                              "Search filter by date",
-                                                              style: TextStyle(
-                                                                  color: CommonColor
-                                                                      .darkGreyColor,
-                                                                  fontSize: 18,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 5,
-                                                            ),
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              spacing: 10,
-                                                              children: [
-                                                                Text(
-                                                                  "Date:",
-                                                                  style: TextStyle(
-                                                                      color: CommonColor
-                                                                          .darkGreyColor,
-                                                                      fontSize:
-                                                                          16,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600),
-                                                                ),
-                                                                DropdownButton(
-                                                                    value: simpleUiProvider
-                                                                        .selectedDate,
-                                                                    items: [
-                                                                      DropdownMenuItem(
-                                                                          value:
-                                                                              "all",
-                                                                          child:
-                                                                              Text("All")),
-                                                                      DropdownMenuItem(
-                                                                          value:
-                                                                              "last_second",
-                                                                          child:
-                                                                              Text("Last 15 seconds")),
-                                                                      DropdownMenuItem(
-                                                                          value:
-                                                                              "last_minute",
-                                                                          child:
-                                                                              Text("Last minute")),
-                                                                      DropdownMenuItem(
-                                                                          value:
-                                                                              "last_week",
-                                                                          child:
-                                                                              Text("Last week")),
-                                                                      DropdownMenuItem(
-                                                                          value:
-                                                                              "last_month",
-                                                                          child:
-                                                                              Text("Last month")),
-                                                                      DropdownMenuItem(
-                                                                          value:
-                                                                              "last_year",
-                                                                          child:
-                                                                              Text("Last year")),
-                                                                    ],
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      simpleUiProvider
-                                                                          .switchSelectedDate(
-                                                                              value!);
-                                                                      filterValue =
-                                                                          value;
-                                                                      debugPrint(
-                                                                          value);
-                                                                      debugPrint(
-                                                                          simpleUiProvider
-                                                                              .selectedDate);
-                                                                    })
-                                                              ],
-                                                            ),
-                                                            Row(
-                                                              spacing: 15,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                TextButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    child: Text(
-                                                                        "Cancel")),
-                                                                TextButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      Provider.of<OrderHistoryProvider>(
-                                                                              context,
-                                                                              listen:
-                                                                                  false)
-                                                                          .setFilter(
-                                                                              filterValue);
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return Consumer<SimpleUiProvider>(
+                                              builder: (context,
+                                                  simpleUiProvider, child) {
+                                                return AlertDialog(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8)),
+                                                  contentPadding:
+                                                      const EdgeInsets.only(
+                                                    top: 20,
+                                                    bottom: 10,
+                                                    left: 20,
+                                                    right: 20,
+                                                  ),
+                                                  backgroundColor: Colors.white,
+                                                  content: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        "Search filter by date",
+                                                        style: TextStyle(
+                                                            color: CommonColor
+                                                                .darkGreyColor,
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        spacing: 10,
+                                                        children: [
+                                                          Text(
+                                                            "Date:",
+                                                            style: TextStyle(
+                                                                color: CommonColor
+                                                                    .darkGreyColor,
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                          DropdownButton(
+                                                            value:
+                                                                simpleUiProvider
+                                                                    .selectedDate,
+                                                            items: const [
+                                                              DropdownMenuItem(
+                                                                value: "all",
+                                                                child:
+                                                                    Text("All"),
+                                                              ),
+                                                              DropdownMenuItem(
+                                                                value:
+                                                                    "last_second",
+                                                                child: Text(
+                                                                    "Last 15 seconds"),
+                                                              ),
+                                                              DropdownMenuItem(
+                                                                value:
+                                                                    "last_minute",
+                                                                child: Text(
+                                                                    "Last minute"),
+                                                              ),
+                                                              DropdownMenuItem(
+                                                                value:
+                                                                    "last_week",
+                                                                child: Text(
+                                                                    "Last week"),
+                                                              ),
+                                                              DropdownMenuItem(
+                                                                value:
+                                                                    "last_month",
+                                                                child: Text(
+                                                                    "Last month"),
+                                                              ),
+                                                              DropdownMenuItem(
+                                                                value:
+                                                                    "last_year",
+                                                                child: Text(
+                                                                    "Last year"),
+                                                              ),
+                                                            ],
+                                                            onChanged: (value) {
+                                                              simpleUiProvider
+                                                                  .switchSelectedDate(
+                                                                      value!);
+                                                              filterValue =
+                                                                  value;
+                                                              debugPrint(value);
+                                                              debugPrint(
+                                                                  simpleUiProvider
+                                                                      .selectedDate);
+                                                            },
+                                                          )
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        spacing: 15,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: const Text(
+                                                                "Cancel"),
+                                                          ),
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Provider.of<OrderHistoryProvider>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .setFilter(
+                                                                      filterValue);
 
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    child: Text(
-                                                                        "Apply")),
-                                                              ],
-                                                            )
-                                                          ],
-                                                        ),
-                                                      );
-                                                    });
-                                                  });
-                                            },
-                                            child: Center(
-                                                child: Text("Search filters"))),
-                                      ];
-                                    }),
-                              ),
-                              suffixIconConstraints: BoxConstraints(
-                                  maxHeight: 30,
-                                  maxWidth: 30,
-                                  minHeight: 30,
-                                  minWidth: 30),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                    color: Colors
-                                        .grey[100]!), // Transparent border
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                    color: CommonColor.primaryColor,
-                                    width: 2), // Focused border color
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 2), // Error border color
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 2), // Focused error border color
-                              ),
-                              disabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                    color: Colors
-                                        .grey[100]!), // Disabled border color
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: const Text(
+                                                                "Apply"),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: const Center(
+                                          child: Text("Search filters")),
+                                    ),
+                                  ];
+                                },
                               ),
                             ),
-                          )),
-                      Divider(),
+                            suffixIconConstraints: const BoxConstraints(
+                                maxHeight: 30,
+                                maxWidth: 30,
+                                minHeight: 30,
+                                minWidth: 30),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                  color:
+                                      Colors.grey[100]!), // Transparent border
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                  color: CommonColor.primaryColor,
+                                  width: 2), // Focused border color
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                  color: Colors.red,
+                                  width: 2), // Error border color
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                  color: Colors.red,
+                                  width: 2), // Focused error border color
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(
+                                  color: Colors
+                                      .grey[100]!), // Disabled border color
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Divider(),
                       Expanded(
-                          child: orderHistoryProvider.filteredOrders.isEmpty
-                              ? Center(
-                                  child: Text(
-                                      "No invoices found in the selected filter date!"),
-                                )
-                              : // Inside your widget
-                              ListView.builder(
-                                  itemCount: orderHistoryProvider
-                                      .filteredOrders.length,
-                                  itemBuilder: (context, filteredOrderIndex) {
-                                    // Sort orders in descending order (latest first)
-                                    final sortedOrders = List.from(
-                                        orderHistoryProvider.filteredOrders)
-                                      ..sort((a, b) => (b["date"] as DateTime)
-                                          .compareTo(a["date"] as DateTime));
-                                    final order =
-                                        sortedOrders[filteredOrderIndex];
+                        child: Consumer<SearchProvider>(
+                          builder: (context, searchProvider, child) {
+                            // Listen to the search provider for the updated search keyword
+                            String searchKeyword =
+                                searchProvider.searchKeyword.toLowerCase();
 
-                                    // Listen to the search provider for the updated search keyword
-                                    String searchKeyword = Provider.of<
-                                            SearchProvider>(context)
-                                        .searchKeyword
-                                        .toLowerCase(); // Get the search keyword
+                            final SimpleUiProvider simpleUiProvider =
+                                Provider.of<SimpleUiProvider>(context,
+                                    listen: false);
+                            String selectedDateCategory =
+                                simpleUiProvider.selectedDate;
 
-                                    final SimpleUiProvider simpleUiProvider =
-                                        Provider.of<SimpleUiProvider>(context,
-                                            listen: false);
-                                    String selectedDateCategory =
-                                        simpleUiProvider.selectedDate;
+                            // Filtering the orders based on the selected date and search keyword
+                            List filteredList = orderHistoryProvider
+                                .filteredOrders
+                                .where((invoice) {
+                              final orderNumber = orderNoList[
+                                      orderHistoryProvider.filteredOrders
+                                          .indexOf(invoice)]
+                                  .toLowerCase();
+                              final matchesSearchKeyword =
+                                  orderNumber.contains(searchKeyword);
 
-                                    // Filtering the orders based on the selected date and search keyword
-                                    List filteredList = selectedDateCategory ==
-                                            "All"
-                                        ? orderHistoryProvider.filteredOrders
-                                            .where((invoice) {
-                                            return orderNoList[
-                                                    filteredOrderIndex]
-                                                .toLowerCase()
-                                                .contains(
-                                                    searchKeyword); // Compare order number with search keyword
-                                          }).toList()
-                                        : orderHistoryProvider.filteredOrders
-                                            .where((invoice) {
-                                            return orderNoList[
-                                                    filteredOrderIndex]
-                                                .toLowerCase()
-                                                .contains(
-                                                    searchKeyword); // Filter based on order number and selected date
-                                          }).toList();
+                              if (selectedDateCategory == "All") {
+                                return matchesSearchKeyword;
+                              } else {
+                                // Apply date filter logic here if needed
+                                return matchesSearchKeyword;
+                              }
+                            }).toList();
 
-                                    // Only show filtered orders
-                                    if (filteredList.isEmpty) {
-                                      return Container(); // If no orders match, return an empty container
-                                    }
+                            if (filteredList.isEmpty) {
+                              return Center(
+                                child: Text(
+                                  "No invoices found!",
+                                  style: TextStyle(
+                                      color: CommonColor.darkGreyColor,
+                                      fontSize: 20),
+                                ),
+                              );
+                            }
 
-                                    return Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Provider.of<InvoiceScreenProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .switchInvoiceDetailPage();
-                                          Provider.of<InvoiceScreenProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .selectInvoiceIndex(
-                                                  filteredOrderIndex);
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 15, vertical: 15),
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[100],
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            spacing: 3,
+                            return ListView.builder(
+                              itemCount: filteredList.length,
+                              itemBuilder: (context, filteredOrderIndex) {
+                                final sortedOrders = List.from(
+                                    orderHistoryProvider.filteredOrders)
+                                  ..sort((a, b) => (b["date"] as DateTime)
+                                      .compareTo(a["date"] as DateTime));
+                                final order = sortedOrders[filteredOrderIndex];
+                                // final order = filteredList[filteredOrderIndex];
+
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Provider.of<InvoiceScreenProvider>(
+                                              context,
+                                              listen: false)
+                                          .switchInvoiceDetailPage();
+                                      Provider.of<InvoiceScreenProvider>(
+                                              context,
+                                              listen: false)
+                                          .selectInvoiceIndex(
+                                              filteredOrderIndex);
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15, vertical: 15),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[100],
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        spacing: 3,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "Order No: ${orderNoList[filteredOrderIndex]}",
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: CommonColor
-                                                            .darkGreyColor),
-                                                  ),
-                                                  Text(
-                                                    "Rs.${order["items"]?.fold(0.0, (sum, item) => sum + (item.price * item.quantity)) ?? 0.0}",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 15,
-                                                        color: CommonColor
-                                                            .primaryColor),
-                                                  ),
-                                                ],
+                                              Text(
+                                                "Order No: ${orderNoList[filteredOrderIndex]}",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: CommonColor
+                                                        .darkGreyColor),
                                               ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    DateFormat(
-                                                            'yyyy-MM-dd, hh:mm a')
-                                                        .format(order["date"]
-                                                            as DateTime),
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 11,
-                                                      color: CommonColor
-                                                          .mediumGreyColor,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "Qty: ${order["items"]?.fold(0, (sum, item) => sum + item.quantity) ?? 0}",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 11,
-                                                        color: CommonColor
-                                                            .mediumGreyColor),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    "Status: ",
-                                                    style: TextStyle(
-                                                        color: CommonColor
-                                                            .darkGreyColor,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  Text(
-                                                    "Pending",
-                                                    style: TextStyle(
-                                                        color: CommonColor
-                                                            .primaryColor,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ],
+                                              Text(
+                                                "Rs.${order["items"]?.fold(0.0, (sum, item) => sum + (item.price * item.quantity)) ?? 0.0}",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15,
+                                                    color: CommonColor
+                                                        .primaryColor),
                                               ),
                                             ],
                                           ),
-                                        ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                DateFormat(
+                                                        'yyyy-MM-dd, hh:mm a')
+                                                    .format(order["date"]
+                                                        as DateTime),
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 11,
+                                                  color: CommonColor
+                                                      .mediumGreyColor,
+                                                ),
+                                              ),
+                                              Text(
+                                                "Qty: ${order["items"]?.fold(0, (sum, item) => sum + item.quantity) ?? 0}",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 11,
+                                                    color: CommonColor
+                                                        .mediumGreyColor),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Status: ",
+                                                style: TextStyle(
+                                                    color: CommonColor
+                                                        .darkGreyColor,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(
+                                                "Pending",
+                                                style: TextStyle(
+                                                    color: CommonColor
+                                                        .primaryColor,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
-                                    );
-                                  },
-                                )),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   );
                 },
               ),
-            )),
-      );
-    });
+            ),
+          ),
+        );
+      },
+    );
   }
 }
