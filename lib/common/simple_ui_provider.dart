@@ -19,4 +19,27 @@ class SimpleUiProvider extends ChangeNotifier {
     logger.i("selected status: $selectedStatus");
     notifyListeners();
   }
+
+//provider to filter invoice based on date
+   DateTime? _selectedStartDate;
+  DateTime? _selectedEndDate;
+
+  DateTime? get selectedStartDate => _selectedStartDate;
+  DateTime? get selectedEndDate => _selectedEndDate;
+
+  void setSelectedStartDate(DateTime? date) {
+    _selectedStartDate = date;
+    notifyListeners();
+  }
+
+  void setSelectedEndDate(DateTime? date) {
+    _selectedEndDate = date;
+    notifyListeners();
+  }
+
+  void clearDateRange() {
+    _selectedStartDate = null;
+    _selectedEndDate = null;
+    notifyListeners();
+  }
 }

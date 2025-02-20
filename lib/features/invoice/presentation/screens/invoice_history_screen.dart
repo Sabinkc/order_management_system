@@ -194,7 +194,7 @@
 //                             final SimpleUiProvider simpleUiProvider =
 //                                 Provider.of<SimpleUiProvider>(context,
 //                                     listen: false);
-//                                     //selected date category
+//                             //selected date category
 //                             String selectedDateCategory =
 //                                 simpleUiProvider.selectedDate;
 
@@ -217,6 +217,9 @@
 //                               }
 //                             }).toList();
 
+//                             final Logger logger = Logger();
+//                             logger.i("filtered List: $filteredList");
+
 //                             if (filteredList.isEmpty) {
 //                               return Center(
 //                                 child: Text(
@@ -232,12 +235,11 @@
 //                             return ListView.builder(
 //                               itemCount: filteredList.length,
 //                               itemBuilder: (context, filteredOrderIndex) {
-//                                 final sortedOrders = List.from(
-//                                     filteredList)
+//                                 final sortedOrders = List.from(filteredList)
 //                                   ..sort((a, b) => (b["date"] as DateTime)
 //                                       .compareTo(a["date"] as DateTime));
 
-//                                       //assigns items individually from filtered list to orders that comes from filtering with date and matching with searchkeyword based on checkedout date(reverse filteredlist)
+//                                 //assigns items individually from filtered list to orders that comes from filtering with date and matching with searchkeyword based on checkedout date(reverse filteredlist)
 //                                 final order = sortedOrders[filteredOrderIndex];
 
 // //individual items from filtered list as order(in reverse), filtered list displayed in list view
@@ -327,7 +329,7 @@
 //                                                         FontWeight.bold),
 //                                               ),
 //                                               Text(
-//                                                 "${randomStatusList[filteredOrderIndex]}",
+//                                                 "${order["status"]}",
 //                                                 style: TextStyle(
 //                                                     color: CommonColor
 //                                                         .primaryColor,
@@ -361,7 +363,7 @@
 //   //function to show filter dialog
 
 //   void showFilterDialog(BuildContext context) {
-//     String filterValue = "All";
+//     String filterValue = "all";
 //     showDialog(
 //       context: context,
 //       builder: (context) {
@@ -453,7 +455,7 @@
 //                       DropdownButton(
 //                           value: simpleUiProvider.selectedStatus,
 //                           items: [
-//                             DropdownMenuItem(value: "all", child: Text("All")),
+//                             DropdownMenuItem(value: "all_status", child: Text("All")),
 //                             DropdownMenuItem(
 //                                 value: "paid", child: Text("Paid")),
 //                             DropdownMenuItem(
@@ -464,8 +466,8 @@
 //                                 value: "refunded", child: Text("Refunded")),
 //                           ],
 //                           onChanged: (value) {
-
 //                             simpleUiProvider.switchSelectedStatus(value!);
+//                             filterValue = value;
 //                           })
 //                     ],
 //                   ),
@@ -864,144 +866,129 @@ class InvoiceHistoryScreen extends StatelessWidget {
 
   //logical part
   //function to show filter dialog
-
-  void showFilterDialog(BuildContext context) {
-    String filterValue = "all";
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Consumer<SimpleUiProvider>(
-          builder: (context, simpleUiProvider, child) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              contentPadding: const EdgeInsets.only(
-                top: 20,
-                bottom: 10,
-                left: 20,
-                right: 20,
-              ),
-              backgroundColor: Colors.white,
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Search filter by:",
-                    style: TextStyle(
-                        color: CommonColor.darkGreyColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600),
+void showFilterDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return Consumer<SimpleUiProvider>(
+        builder: (context, simpleUiProvider, child) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            contentPadding: const EdgeInsets.all(20),
+            backgroundColor: Colors.white,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Search filter by:",
+                  style: TextStyle(
+                    color: CommonColor.darkGreyColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    spacing: 10,
-                    children: [
-                      Text(
-                        "Date:",
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Text("Date:", style: TextStyle(color: CommonColor.darkGreyColor)),
+                    const SizedBox(width: 10),
+                    TextButton(
+                      onPressed: () async {
+                        DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime.now(),
+                        );
+                        if (picked != null) {
+                          simpleUiProvider.setSelectedStartDate(picked);
+                        }
+                      },
+                      child: Text(
+                        simpleUiProvider.selectedStartDate != null
+                            ? "${simpleUiProvider.selectedStartDate!.toLocal()}".split(' ')[0]
+                            : "Start Date",
                         style: TextStyle(
-                            color: CommonColor.darkGreyColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600),
+                          color: simpleUiProvider.selectedStartDate != null
+                              ? Colors.black
+                              : Colors.grey,
+                        ),
                       ),
-                      DropdownButton(
-                        value: simpleUiProvider.selectedDate,
-                        items: const [
-                          DropdownMenuItem(
-                            value: "all",
-                            child: Text("All"),
-                          ),
-                          DropdownMenuItem(
-                            value: "last_second",
-                            child: Text("Last 15 seconds"),
-                          ),
-                          DropdownMenuItem(
-                            value: "last_minute",
-                            child: Text("Last minute"),
-                          ),
-                          DropdownMenuItem(
-                            value: "last_week",
-                            child: Text("Last week"),
-                          ),
-                          DropdownMenuItem(
-                            value: "last_month",
-                            child: Text("Last month"),
-                          ),
-                          DropdownMenuItem(
-                            value: "last_year",
-                            child: Text("Last year"),
-                          ),
-                        ],
-                        onChanged: (value) {
-                          simpleUiProvider.switchSelectedDate(value!);
-                          filterValue = value;
-                          debugPrint(value);
-                          debugPrint(simpleUiProvider.selectedDate);
-                        },
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    spacing: 15,
-                    children: [
-                      Text(
-                        "Status:",
+                    ),
+                    Text("to", style: TextStyle(color: CommonColor.darkGreyColor)),
+                    TextButton(
+                      onPressed: () async {
+                        DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime.now(),
+                        );
+                        if (picked != null) {
+                          simpleUiProvider.setSelectedEndDate(picked);
+                        }
+                      },
+                      child: Text(
+                        simpleUiProvider.selectedEndDate != null
+                            ? "${simpleUiProvider.selectedEndDate!.toLocal()}".split(' ')[0]
+                            : "End Date",
                         style: TextStyle(
-                            color: CommonColor.darkGreyColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600),
+                          color: simpleUiProvider.selectedEndDate != null
+                              ? Colors.black
+                              : Colors.grey,
+                        ),
                       ),
-                      DropdownButton(
-                          value: simpleUiProvider.selectedStatus,
-                          items: [
-                            DropdownMenuItem(value: "all_status", child: Text("All")),
-                            DropdownMenuItem(
-                                value: "paid", child: Text("Paid")),
-                            DropdownMenuItem(
-                                value: "pending", child: Text("Pending")),
-                            DropdownMenuItem(
-                                value: "cancelled", child: Text("Cancelled")),
-                            DropdownMenuItem(
-                                value: "refunded", child: Text("Refunded")),
-                          ],
-                          onChanged: (value) {
-                            simpleUiProvider.switchSelectedStatus(value!);
-                            filterValue = value;
-                          })
-                    ],
-                  ),
-                  Row(
-                    spacing: 15,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text("Cancel"),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Provider.of<OrderHistoryProvider>(context,
-                                  listen: false)
-                              .setFilter(filterValue);
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("Status:", style: TextStyle(color: CommonColor.darkGreyColor)),
+                    const SizedBox(width: 10),
+                    DropdownButton(
+                      value: simpleUiProvider.selectedStatus,
+                      items: [
+                        DropdownMenuItem(value: "all_status", child: Text("All")),
+                        DropdownMenuItem(value: "paid", child: Text("Paid")),
+                        DropdownMenuItem(value: "pending", child: Text("Pending")),
+                        DropdownMenuItem(value: "cancelled", child: Text("Cancelled")),
+                        DropdownMenuItem(value: "refunded", child: Text("Refunded")),
+                      ],
+                      onChanged: (value) {
+                        simpleUiProvider.switchSelectedStatus(value!);
+                      },
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
+                    TextButton(
+                      onPressed: () {
+                        // Apply both filters
+                        Provider.of<OrderHistoryProvider>(context, listen: false).setFilter(
+                          simpleUiProvider.selectedStatus,
+                          startDate: simpleUiProvider.selectedStartDate,
+                          endDate: simpleUiProvider.selectedEndDate,
+                        );
+                        Navigator.pop(context);
+                      },
+                      child: const Text("Apply"),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+  );
+}
 
-                          Navigator.pop(context);
-                        },
-                        child: const Text("Apply"),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
+
 }
