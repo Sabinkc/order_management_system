@@ -104,13 +104,45 @@ class Product {
   final int id;
   final String name;
   final String description;
+  final double price;
+  final String imageUrl;
+  final bool isAvailable;
+
+  Product({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.price,
+    required this.imageUrl,
+    required this.isAvailable,
+  });
+
+  // Factory constructor to parse JSON response
+  // factory Product.fromJson(Map<String, dynamic> json) {
+  //   return Product(
+  //     id: json['id'],
+  //     name: json['name'],
+  //     description: json['description'],
+  //     price: double.parse(json['price'].toString()),
+  //     imageUrl: json['imageUrl'],
+  //     isAvailable: json['isAvailable'],
+  //   );
+  // }
+}
+
+
+class ProductDetails {
+  final int id;
+  final String name;
+  final String description;
   final String categoryName;
   final String imageUrl;
   final int stockQuantity;
   final double price;
   final bool isAvailable;
+  final List<String> images;
 
-  Product({
+  ProductDetails({
     required this.id,
     required this.name,
     required this.description,
@@ -119,18 +151,48 @@ class Product {
     required this.stockQuantity,
     required this.price,
     required this.isAvailable,
+    required this.images,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      categoryName: json['category']['name'],
-      imageUrl: json['unitTypes'][0]['images'][0] ?? '',
-      stockQuantity: json['unitTypes'][0]['stockQuantity'],
-      price: double.parse(json['unitTypes'][0]['price']),
-      isAvailable: json['isAvailable'],
+  // factory ProductDetails.fromJson(Map<String, dynamic> json) {
+  //   return ProductDetails(
+  //     id: json['id'],
+  //     name: json['name'],
+  //     description: json['description'],
+  //     categoryName: json['category']['name'],
+  //     imageUrl: json['unitTypes'][0]['images'][0] ?? '',
+  //     stockQuantity: json['unitTypes'][0]['stockQuantity'],
+  //     price: double.parse(json['unitTypes'][0]['price']),
+  //     isAvailable: json['isAvailable'],
+  //     images: List<String>.from(json['unitTypes'][0]['images']),
+  //   );
+  // }
+}
+
+class ProductCategory {
+  final int id;
+  final String name;
+  final int productsCount;
+
+  ProductCategory({
+    required this.id,
+    required this.name,
+    required this.productsCount,
+  });
+}
+
+
+
+class ProductImage {
+  final String imageData; // base64 string or URL
+
+  ProductImage({
+    required this.imageData,
+  });
+
+  factory ProductImage.fromJson(Map<String, dynamic> json) {
+    return ProductImage(
+      imageData: json['data'], // Or however the image data is returned
     );
   }
 }
