@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 import 'package:order_management_system/common/common_color.dart';
-
+import 'package:order_management_system/features/login/data/google_signin_api_service.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/presentation/screens/login_screen.dart';
 import 'package:order_management_system/features/profile/domain/profile_data_provider.dart';
 import 'package:order_management_system/localization/localization_provider.dart';
-
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -361,6 +360,8 @@ class SettingsScreen extends StatelessWidget {
                             ),
                             onPressed: () {
                               logout(context);
+                              final GoogleSignInApiService googleSignInApiService = GoogleSignInApiService();
+                              googleSignInApiService.logOut(context);
                             },
                             child: Text(
                               "Logout",

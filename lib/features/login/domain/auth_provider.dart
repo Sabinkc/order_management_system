@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:order_management_system/features/login/data/auth_api_service.dart';
+import 'package:order_management_system/features/login/data/google_signin_api_service.dart';
 import 'package:order_management_system/features/login/domain/device_info_helper.dart';
 
 class AuthProvider extends ChangeNotifier {
   final AuthApiService apiService = AuthApiService();
+  final GoogleSignInApiService googleSignInApiService = GoogleSignInApiService();
   bool isLoading = false;
   bool isLogoutLoading = false;
   bool isSignupLoading = false;
+  bool isLoginWithGoogleLoading = false;
   final logger = Logger();
 
   Future<Map<String, dynamic>> login(String email, String password) async {
@@ -35,6 +38,20 @@ class AuthProvider extends ChangeNotifier {
     final response = await apiService.signup(name, email, password, device);
 
     isSignupLoading = false;
+    notifyListeners();
+
+    return response; // Returning full response to handle errors in UI
+  }
+
+
+  Future<Map<String, dynamic>> loginWithGoogle(BuildContext context) async {
+    isLoginWithGoogleLoading= true;
+    notifyListeners();
+
+
+    final response = await googleSignInApiService.signIn(context);
+
+    isLoginWithGoogleLoading = false;
     notifyListeners();
 
     return response; // Returning full response to handle errors in UI
