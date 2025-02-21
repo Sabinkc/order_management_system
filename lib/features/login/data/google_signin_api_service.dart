@@ -50,7 +50,7 @@ class GoogleSignInApiService {
       if (result["success"]) {
         logger.log("API Login successful. Navigating to DashboardScreen...");
         if (context.mounted) {
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => LandingScreen()),
           );
@@ -71,9 +71,7 @@ class GoogleSignInApiService {
     logger.log("Logging out...");
     await GoogleSignInApiService.logout();
     logger.log("Logout successful. Navigating back.");
-   if(context.mounted){
-     Navigator.pop(context);
-   }
+
   }
 
   Future<Map<String, dynamic>> loginWithGoogle(

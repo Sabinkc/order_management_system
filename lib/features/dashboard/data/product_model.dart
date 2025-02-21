@@ -99,3 +99,38 @@ final List<Map<String,dynamic>> products = [
     "category": "Cold Drink"
   },
 ];
+
+class Product {
+  final int id;
+  final String name;
+  final String description;
+  final String categoryName;
+  final String imageUrl;
+  final int stockQuantity;
+  final double price;
+  final bool isAvailable;
+
+  Product({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.categoryName,
+    required this.imageUrl,
+    required this.stockQuantity,
+    required this.price,
+    required this.isAvailable,
+  });
+
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json['id'],
+      name: json['name'],
+      description: json['description'],
+      categoryName: json['category']['name'],
+      imageUrl: json['unitTypes'][0]['images'][0] ?? '',
+      stockQuantity: json['unitTypes'][0]['stockQuantity'],
+      price: double.parse(json['unitTypes'][0]['price']),
+      isAvailable: json['isAvailable'],
+    );
+  }
+}

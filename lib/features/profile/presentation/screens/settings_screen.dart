@@ -8,6 +8,7 @@ import 'package:order_management_system/features/login/domain/auth_provider.dart
 import 'package:order_management_system/features/login/presentation/screens/login_screen.dart';
 import 'package:order_management_system/features/profile/domain/profile_data_provider.dart';
 import 'package:order_management_system/localization/localization_provider.dart';
+import 'package:order_management_system/test_screen.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -97,6 +98,12 @@ class SettingsScreen extends StatelessWidget {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(8)),
                             child: ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TestScreen()));
+                              },
                               contentPadding:
                                   EdgeInsets.only(left: 12, right: 8),
                               leading: SvgPicture.asset(
@@ -227,7 +234,8 @@ class SettingsScreen extends StatelessWidget {
                                   contentPadding:
                                       EdgeInsets.only(left: 12, right: 8),
                                   onTap: () {
-                                    showLanguageDialogue(context, localizationProvider);
+                                    showLanguageDialogue(
+                                        context, localizationProvider);
                                   },
                                   leading: Icon(
                                     Icons.language,
@@ -359,9 +367,11 @@ class SettingsScreen extends StatelessWidget {
                               backgroundColor: CommonColor.primaryColor,
                             ),
                             onPressed: () {
-                              logout(context);
-                              final GoogleSignInApiService googleSignInApiService = GoogleSignInApiService();
+                              final GoogleSignInApiService
+                                  googleSignInApiService =
+                                  GoogleSignInApiService();
                               googleSignInApiService.logOut(context);
+                              logout(context);
                             },
                             child: Text(
                               "Logout",
@@ -376,87 +386,68 @@ class SettingsScreen extends StatelessWidget {
   }
 
 //function to show language dialog
-  showLanguageDialogue(BuildContext context, LocalizationProvider localizationProvider){
+  showLanguageDialogue(
+      BuildContext context, LocalizationProvider localizationProvider) {
     showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          backgroundColor: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8)),
-                                          content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Choose a language:",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                              SizedBox(height: 10),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Choose a language:",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              SizedBox(height: 10),
 
-                                              // English Radio Button
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Radio(
-                                                        value: "en",
-                                                        groupValue:
-                                                            localizationProvider
-                                                                .locale
-                                                                .languageCode,
-                                                        onChanged: (value) {
-                                                          localizationProvider
-                                                              .setLocale(Locale(
-                                                                  value!));
-                                                          Navigator.pop(
-                                                              context); // Close dialog
-                                                        },
-                                                      ),
-                                                      Text("English"),
-                                                    ],
-                                                  ),
+              // English Radio Button
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Radio(
+                        value: "en",
+                        groupValue: localizationProvider.locale.languageCode,
+                        onChanged: (value) {
+                          localizationProvider.setLocale(Locale(value!));
+                          Navigator.pop(context); // Close dialog
+                        },
+                      ),
+                      Text("English"),
+                    ],
+                  ),
 
-                                                  // Japanese Radio Button
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Radio(
-                                                        value: "ja",
-                                                        groupValue:
-                                                            localizationProvider
-                                                                .locale
-                                                                .languageCode,
-                                                        onChanged: (value) {
-                                                          localizationProvider
-                                                              .setLocale(Locale(
-                                                                  value!));
-                                                          Navigator.pop(
-                                                              context); // Close dialog
-                                                        },
-                                                      ),
-                                                      Text("Japanese"),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    );
+                  // Japanese Radio Button
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Radio(
+                        value: "ja",
+                        groupValue: localizationProvider.locale.languageCode,
+                        onChanged: (value) {
+                          localizationProvider.setLocale(Locale(value!));
+                          Navigator.pop(context); // Close dialog
+                        },
+                      ),
+                      Text("Japanese"),
+                    ],
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 
 //logout function
