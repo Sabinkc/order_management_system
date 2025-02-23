@@ -118,16 +118,13 @@ class ProductApiSevice {
   }
 
 //get products by category
-  Future<Map<String, dynamic>> getProductsByCategory(int c) async {
+  Future<List<ProductDetails>> getProductsByCategory(int c) async {
     // Get the saved token from SharedPreferences
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
     // If no token is found, return an error
     if (token == null) {
-      return {
-        "success": false,
-        "message": "User not authenticated. Please log in first."
-      };
+      throw Exception("User not authenticated. Please log in first.");
     }
 
     // Headers with Authorization token
@@ -148,26 +145,37 @@ class ProductApiSevice {
       String responseBody = await response.stream.bytesToString();
 
       logger.log("Response Status Code: ${response.statusCode}");
-      logger.log("Response Body: $responseBody");
 
       Map<String, dynamic> jsonResponse = json.decode(responseBody);
-      logger.log("jsonResponse: $jsonResponse");
 
-      if (response.statusCode == 200) {
-        return {"success": true, "data": jsonResponse};
+      if (response.statusCode == 200 && jsonResponse['success']) {
+        List<dynamic> productJson = jsonResponse["data"];
+        List<ProductDetails> products = [];
+
+        for (var product in productJson) {
+          // Accessing the first element in the unitTypes list
+          var unitType = product["unitTypes"][0];
+
+          products.add(ProductDetails(
+            id: product["id"],
+            name: product["name"],
+            description: product["description"],
+            categoryName: product["category"]["name"],
+            stockQuantity: unitType[
+                "stockQuantity"], // Accessing stockQuantity from unitTypes[0]
+            price: double.parse(unitType["price"]), // Parsing price as a double
+            isAvailable: unitType[
+                "isAvailable"], // Accessing isAvailable from unitTypes[0]
+          ));
+        }
+        logger.log("products: $products");
+        return products;
       } else {
-        return {
-          "success": false,
-          "message":
-              jsonResponse["message"] ?? "Failed to fetch products by category"
-        };
+        throw Exception(jsonResponse['message'] ?? 'Failed to fetch products');
       }
     } catch (e) {
       logger.log("Get Products by Category Error: $e");
-      return {
-        "success": false,
-        "message": "Something went wrong. Please try again."
-      };
+      throw Exception('Failed to fetch products');
     }
   }
 
@@ -280,7 +288,7 @@ class ProductApiSevice {
   }
 
 //get product categories
-  static Future<List<ProductCategory>> getProductCategories() async {
+  Future<List<ProductCategory>> getProductCategories() async {
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
     if (token == null) {
@@ -313,6 +321,7 @@ class ProductApiSevice {
           productsCount: categoryJson['productsCount'],
         ));
       }
+      logger.log("categories: $categories");
       return categories;
     } else {
       throw Exception(jsonResponse['message'] ?? 'Failed to fetch categories');

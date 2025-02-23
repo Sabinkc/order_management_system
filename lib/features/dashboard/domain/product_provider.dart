@@ -1,31 +1,30 @@
-// import 'package:flutter/material.dart';
-// import 'package:order_management_system/features/dashboard/data/product_model.dart';
+import 'package:flutter/material.dart';
+import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 
-// class ProductProvider extends ChangeNotifier{
 
-//   List<ProductCategory> _categories = [];
-//   bool _isLoading = false;
-//   String _errorMessage = '';
+class ProductProvider extends ChangeNotifier {
+  final _service = ProductApiSevice();
+  bool isCategoryLoading = false;
+  List productCategory = [];
 
-//   List<ProductCategory> get categories => _categories;
-//   bool get isLoading => _isLoading;
-//   String get errorMessage => _errorMessage;
 
-//   Future<void> fetchProductCategories() async {
-//     _isLoading = true;
-//     _errorMessage = '';
-//     notifyListeners();
+  Future<void> getAllProductCategories() async {
+    isCategoryLoading = true;
+    notifyListeners();
+    final response = await _service.getProductCategories();
+    productCategory = response;
+    isCategoryLoading = false;
+    notifyListeners();
+  }
 
-//     try {
-//       _categories = await ProductApiService.fetchProductCategories();
-//     } catch (e) {
-//       _errorMessage = e.toString().replaceFirst('Exception: ', '');
-//     }
+  bool isCategoryProductLoading = false;
+  List categoryProducts = [];
 
-//     _isLoading = false;
-//     notifyListeners();
-//   }
-// }
-
-// class ProductApiService {
-// }
+  Future<void> getCategoryProducts(int c) async{
+    isCategoryProductLoading = true;
+    notifyListeners();
+    final response = await _service.getProductsByCategory(c);
+    categoryProducts = response;
+    notifyListeners();
+  }
+}

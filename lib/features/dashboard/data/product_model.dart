@@ -1,4 +1,4 @@
-final List<Map<String,dynamic>> products = [
+final List<Map<String, dynamic>> products = [
   {
     "product_id": "1",
     "name": "Amul Cheese - 100 Slices, 200g",
@@ -130,43 +130,33 @@ class Product {
   // }
 }
 
-
 class ProductDetails {
   final int id;
   final String name;
   final String description;
   final String categoryName;
-  final String imageUrl;
+  // final String imageUrl;
   final int stockQuantity;
   final double price;
   final bool isAvailable;
-  final List<String> images;
+  // final List<String> images;
 
   ProductDetails({
     required this.id,
     required this.name,
     required this.description,
     required this.categoryName,
-    required this.imageUrl,
+    // required this.imageUrl,
     required this.stockQuantity,
     required this.price,
     required this.isAvailable,
-    required this.images,
+    // required this.images,
   });
 
-  // factory ProductDetails.fromJson(Map<String, dynamic> json) {
-  //   return ProductDetails(
-  //     id: json['id'],
-  //     name: json['name'],
-  //     description: json['description'],
-  //     categoryName: json['category']['name'],
-  //     imageUrl: json['unitTypes'][0]['images'][0] ?? '',
-  //     stockQuantity: json['unitTypes'][0]['stockQuantity'],
-  //     price: double.parse(json['unitTypes'][0]['price']),
-  //     isAvailable: json['isAvailable'],
-  //     images: List<String>.from(json['unitTypes'][0]['images']),
-  //   );
-  // }
+  @override
+  String toString() {
+    return 'ProductDetails{id: $id, name: $name, description: $description, categoryName: $categoryName, stockQuantity: $stockQuantity, price: $price, isAvailable: $isAvailable}';
+  }
 }
 
 class ProductCategory {
@@ -179,9 +169,12 @@ class ProductCategory {
     required this.name,
     required this.productsCount,
   });
+
+  @override
+  String toString() {
+    return 'ProductCategory(id: $id, name: $name, productsCount: $productsCount)';
+  }
 }
-
-
 
 class ProductImage {
   final String imageData; // base64 string or URL

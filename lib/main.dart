@@ -7,6 +7,7 @@ import 'package:order_management_system/features/connectivity/connectivty_provid
 import 'package:order_management_system/features/connectivity/dependency_injection.dart';
 import 'package:order_management_system/features/dashboard/domain/bottom_navigationbar_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
+import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
 import 'package:order_management_system/features/invoice/domain/invoice_screen_provider.dart';
@@ -57,6 +58,7 @@ void main(List<String> args) async {
             create: (_) => InvoiceScreenProvider()),
             ChangeNotifierProvider<SimpleUiProvider>(create: (_)=>SimpleUiProvider()),
              ChangeNotifierProvider<SearchProvider>(create: (_)=>SearchProvider()),
+              ChangeNotifierProvider<ProductProvider>(create: (_)=>ProductProvider()),
       ],
       child: MyApplication(
         isLoggedin: isLoggedin,
