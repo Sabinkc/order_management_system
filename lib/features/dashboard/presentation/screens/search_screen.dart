@@ -358,8 +358,6 @@
 //   }
 // }
 
-
-
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
@@ -393,9 +391,14 @@ class _SearchScreenState extends State<SearchScreen> {
       // Fetch product categories after the screen is built
       Future.delayed(Duration.zero, () {
         if (!mounted) return;
-        final productProvider = Provider.of<ProductProvider>(context, listen: false);
+        final TabBarProvider tabBarProvider =
+            Provider.of(context, listen: false);
+        tabBarProvider.clearSelectedIndex();
+        final productProvider =
+            Provider.of<ProductProvider>(context, listen: false);
         productProvider.getAllProductCategories();
-        productProvider.getCategoryProducts(1);  // Fetch products for category ID 1 initially
+        productProvider.getCategoryProducts(
+            1); // Fetch products for category ID 1 initially
       });
     });
   }
@@ -416,7 +419,7 @@ class _SearchScreenState extends State<SearchScreen> {
         return KeyboardDismisser(
           child: DefaultTabController(
             length: productProvider.productCategory.length,
-            initialIndex: tabBarProvider.selectedIndex,
+            initialIndex: 0,
             child: Container(
               decoration: BoxDecoration(
                 color: CommonColor.commonGreyColor,
@@ -509,8 +512,10 @@ class _SearchScreenState extends State<SearchScreen> {
                           onTap: (index) {
                             tabBarProvider.selectTab(index);
                             // When a category is selected, fetch the products
-                            final selectedCategory = productProvider.productCategory[index];
-                            productProvider.getCategoryProducts(selectedCategory.id);
+                            final selectedCategory =
+                                productProvider.productCategory[index];
+                            productProvider
+                                .getCategoryProducts(selectedCategory.id);
                           },
                           tabs: productProvider.productCategory
                               .map(
@@ -545,7 +550,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                 ),
                               )
                             : Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
                                 child: GridView.builder(
                                   itemCount:
                                       productProvider.categoryProducts.length,
@@ -565,7 +571,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                               context: context,
                                               builder: (context) {
                                                 Future.delayed(
-                                                    const Duration(seconds: 1), () {
+                                                    const Duration(seconds: 1),
+                                                    () {
                                                   if (context.mounted) {
                                                     Navigator.pop(context);
                                                   }
@@ -574,7 +581,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                                   backgroundColor: Colors.white,
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
-                                                        BorderRadius.circular(15),
+                                                        BorderRadius.circular(
+                                                            15),
                                                   ),
                                                   title: Center(
                                                     child: Text(
@@ -601,9 +609,11 @@ class _SearchScreenState extends State<SearchScreen> {
                                               children: [
                                                 Container(
                                                   decoration: BoxDecoration(
-                                                    color: const Color(0XFFFAFAFA),
+                                                    color:
+                                                        const Color(0XFFFAFAFA),
                                                     borderRadius:
-                                                        const BorderRadius.vertical(
+                                                        const BorderRadius
+                                                            .vertical(
                                                       top: Radius.circular(8),
                                                     ),
                                                   ),
@@ -611,30 +621,36 @@ class _SearchScreenState extends State<SearchScreen> {
                                                   width: double.infinity,
                                                   child: Image.network(
                                                     "${Constants.imageStorageBaseUrl}/${productProvider.categoryProducts[index].imageUrl}",
+                                                    // 'https://oms.sysqube.com.np/api/v1/product-image/UBVdzdGqlN2gIEHkqP8xPv932wKHUdOajeJwN9ES.jpg',
                                                     fit: BoxFit.contain,
+                                                    errorBuilder: (context,
+                                                            error,
+                                                            stackTrace) =>
+                                                        Icon(
+                                                            Icons.broken_image),
                                                   ),
                                                 ),
                                                 const SizedBox(height: 15),
                                                 Padding(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                          horizontal: 8),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(horizontal: 8),
                                                   child: Text(
-                                                    overflow: TextOverflow.ellipsis,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     maxLines: 2,
                                                     "${productProvider.categoryProducts[index].name}",
                                                     textAlign: TextAlign.start,
                                                     style: TextStyle(
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                       fontSize: 14,
                                                     ),
                                                   ),
                                                 ),
                                                 const SizedBox(height: 7),
                                                 Padding(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                          horizontal: 8),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(horizontal: 8),
                                                   child: Row(
                                                     children: [
                                                       Text(

@@ -21,6 +21,7 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'dart:developer' as logger;
 
 class TabBarProvider with ChangeNotifier {
   int _selectedIndex = 0;
@@ -30,6 +31,12 @@ class TabBarProvider with ChangeNotifier {
   void selectTab(int index) {
     _selectedIndex = index;
     notifyListeners();
+  }
+
+  void clearSelectedIndex() {
+    _selectedIndex = 0;
+    notifyListeners();
+    logger.log("selected index: $_selectedIndex");
   }
 
   String _searchKeyword = "";
