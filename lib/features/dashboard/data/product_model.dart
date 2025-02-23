@@ -135,7 +135,7 @@ class ProductDetails {
   final String name;
   final String description;
   final String categoryName;
-  // final String imageUrl;
+  final String imageUrl;
   final int stockQuantity;
   final double price;
   final bool isAvailable;
@@ -146,7 +146,7 @@ class ProductDetails {
     required this.name,
     required this.description,
     required this.categoryName,
-    // required this.imageUrl,
+    required this.imageUrl,
     required this.stockQuantity,
     required this.price,
     required this.isAvailable,
@@ -155,7 +155,7 @@ class ProductDetails {
 
   @override
   String toString() {
-    return 'ProductDetails{id: $id, name: $name, description: $description, categoryName: $categoryName, stockQuantity: $stockQuantity, price: $price, isAvailable: $isAvailable}';
+    return 'ProductDetails{id: $id, name: $name, description: $description, categoryName: $categoryName, stockQuantity: $stockQuantity, price: $price, isAvailable: $isAvailable, imageUr: $imageUrl}';
   }
 }
 

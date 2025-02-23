@@ -25,6 +25,7 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
     final response = await _service.getProductsByCategory(c);
     categoryProducts = response;
+    isCategoryProductLoading = false;
     notifyListeners();
   }
 }

@@ -5,4 +5,5 @@ class Constants {
    static final String signupUrl = "https://oms.sysqube.com.np/api/v1/mobile-register";
    static final String googleLoginUrl = "https://oms.sysqube.com.np/api/v1/google-login";
    static final String getAllProductUrl = "https://oms.sysqube.com.np/api/v1/products";
+   static final String imageStorageBaseUrl = "https://oms.sysqube.com.np/api/v1/product-image";
 }

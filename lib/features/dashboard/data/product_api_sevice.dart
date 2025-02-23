@@ -165,7 +165,8 @@ class ProductApiSevice {
                 "stockQuantity"], // Accessing stockQuantity from unitTypes[0]
             price: double.parse(unitType["price"]), // Parsing price as a double
             isAvailable: unitType[
-                "isAvailable"], // Accessing isAvailable from unitTypes[0]
+                "isAvailable"], 
+                imageUrl: unitType["images"][0],// Accessing isAvailable from unitTypes[0]
           ));
         }
         logger.log("products: $products");
