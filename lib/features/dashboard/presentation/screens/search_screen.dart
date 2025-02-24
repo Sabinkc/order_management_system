@@ -366,6 +366,7 @@ import 'package:order_management_system/features/dashboard/domain/cart_quantity_
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -394,6 +395,7 @@ class _SearchScreenState extends State<SearchScreen> {
         final TabBarProvider tabBarProvider =
             Provider.of(context, listen: false);
         tabBarProvider.clearSelectedIndex();
+        tabBarProvider.clearSearchKeyword();
         final productProvider =
             Provider.of<ProductProvider>(context, listen: false);
         productProvider.getAllProductCategories();
@@ -416,6 +418,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
     return Consumer<TabBarProvider>(
       builder: (context, tabBarProvider, _) {
+        //  String searchKeyword =
+        //     tabBarProvider.searchController.text.toLowerCase();
         return KeyboardDismisser(
           child: DefaultTabController(
             length: productProvider.productCategory.length,
@@ -465,8 +469,19 @@ class _SearchScreenState extends State<SearchScreen> {
                       controller: tabBarProvider.searchController,
                       focusNode: _searchFocusNode,
                       autofocus: true,
-                      onChanged: (value) {
-                        tabBarProvider.updateSearchKeyword(value);
+                      // onChanged: (value) {
+                      //   tabBarProvider.updateSearchKeyword(value);
+                      //   productProvider.searchProducts(value);
+                      // },
+                onChanged: (value) {
+  Provider.of<TabBarProvider>(context, listen: false)
+      .updateSearchKeyword(value);
+  Provider.of<ProductProvider>(context, listen: false)
+      .searchProducts(context);
+},
+                      onFieldSubmitted: (value) {
+                        Provider.of<TabBarProvider>(context, listen: false)
+                            .updateSearchKeyword(value);
                       },
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
@@ -497,8 +512,17 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                   productProvider.isCategoryLoading
-                      ? CircularProgressIndicator(
-                          color: CommonColor.primaryColor,
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.grey[200]!,
+                            highlightColor: Colors.white,
+                            child: Container(
+                              color: Colors.white,
+                              height: 40,
+                              width: double.infinity,
+                            ),
+                          ),
                         )
                       : TabBar(
                           indicatorSize: TabBarIndicatorSize.tab,
@@ -514,8 +538,15 @@ class _SearchScreenState extends State<SearchScreen> {
                             // When a category is selected, fetch the products
                             final selectedCategory =
                                 productProvider.productCategory[index];
+                                if(!context.mounted){
+                                  return;
+                                }
                             productProvider
-                                .getCategoryProducts(selectedCategory.id);
+                                .getCategoryProducts(selectedCategory.id).then((_){
+                                if(context.mounted){
+                                    productProvider.searchProducts(context);
+                                }
+                                });
                           },
                           tabs: productProvider.productCategory
                               .map(
@@ -538,7 +569,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               color: CommonColor.primaryColor,
                             ),
                           )
-                        : productProvider.categoryProducts.isEmpty
+                        : productProvider.filteredCategoryProducts.isEmpty
                             ? Center(
                                 child: Text(
                                   "No products found",
@@ -553,137 +584,114 @@ class _SearchScreenState extends State<SearchScreen> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 20),
                                 child: GridView.builder(
-                                  itemCount:
-                                      productProvider.categoryProducts.length,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    childAspectRatio: 0.75,
-                                    crossAxisCount: 2,
-                                    mainAxisSpacing: 10,
-                                    crossAxisSpacing: 10,
-                                  ),
-                                  itemBuilder: (context, index) {
-                                    return Consumer<CartQuantityProvider>(
-                                      builder: (context, provider, child) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                Future.delayed(
-                                                    const Duration(seconds: 1),
-                                                    () {
-                                                  if (context.mounted) {
-                                                    Navigator.pop(context);
-                                                  }
-                                                });
-                                                return AlertDialog(
-                                                  backgroundColor: Colors.white,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                  ),
-                                                  title: Center(
-                                                    child: Text(
-                                                      "Item added to cart successfully!",
-                                                      style: TextStyle(
-                                                          color: CommonColor
-                                                              .darkGreyColor,
-                                                          fontSize: 14),
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                            );
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              color: Colors.white,
-                                            ),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                    color:
-                                                        const Color(0XFFFAFAFA),
-                                                    borderRadius:
-                                                        const BorderRadius
-                                                            .vertical(
-                                                      top: Radius.circular(8),
-                                                    ),
-                                                  ),
-                                                  height: 130,
-                                                  width: double.infinity,
-                                                  child: Image.network(
-                                                    "${Constants.imageStorageBaseUrl}/${productProvider.categoryProducts[index].imageUrl}",
-                                                    // 'https://oms.sysqube.com.np/api/v1/product-image/UBVdzdGqlN2gIEHkqP8xPv932wKHUdOajeJwN9ES.jpg',
-                                                    fit: BoxFit.contain,
-                                                    errorBuilder: (context,
-                                                            error,
-                                                            stackTrace) =>
-                                                        Icon(
-                                                            Icons.broken_image),
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 15),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(horizontal: 8),
-                                                  child: Text(
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    maxLines: 2,
-                                                    "${productProvider.categoryProducts[index].name}",
-                                                    textAlign: TextAlign.start,
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 7),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(horizontal: 8),
-                                                  child: Row(
-                                                    children: [
-                                                      Text(
-                                                        "Rs. ${productProvider.categoryProducts[index].price}",
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: CommonColor
-                                                              .primaryColor,
-                                                        ),
-                                                      ),
-                                                      const SizedBox(width: 8),
-                                                      Text(
-                                                        "${productProvider.categoryProducts[index].categoryName}",
-                                                        style: TextStyle(
-                                                          fontSize: 11,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: CommonColor
-                                                              .mediumGreyColor,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
+  itemCount: productProvider.filteredCategoryProducts.length,
+  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    childAspectRatio: 0.75,
+    crossAxisCount: 2,
+    mainAxisSpacing: 10,
+    crossAxisSpacing: 10,
+  ),
+  itemBuilder: (context, index) {
+    final product = productProvider.filteredCategoryProducts[index];
+    return Consumer<CartQuantityProvider>(
+      builder: (context, provider, child) {
+        return GestureDetector(
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                Future.delayed(const Duration(seconds: 1), () {
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                  }
+                });
+                return AlertDialog(
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  title: Center(
+                    child: Text(
+                      "Item added to cart successfully!",
+                      style: TextStyle(
+                          color: CommonColor.darkGreyColor,
+                          fontSize: 14),
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0XFFFAFAFA),
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(8),
+                    ),
+                  ),
+                  height: 130,
+                  width: double.infinity,
+                  child: Image.network(
+                    "${Constants.imageStorageBaseUrl}/${product.imageUrl}",
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) =>
+                        Icon(Icons.broken_image),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    product.name,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 7),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Rs. ${product.price}",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: CommonColor.primaryColor,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        product.categoryName,
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: CommonColor.mediumGreyColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  },
+),
                               ),
                   ),
                 ],

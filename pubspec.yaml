@@ -59,6 +59,7 @@ dependencies:
   equatable: ^2.0.7
   flutter_bloc: ^9.0.0
   google_sign_in: ^6.2.2
+  shimmer: ^3.0.0
 
 flutter_native_splash:
   color: "#589A73" # Replace with your desired color in hex format
