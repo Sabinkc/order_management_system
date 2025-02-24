@@ -1,4 +1,3 @@
-
 class CartModel {
   final String id;
   final String productName;

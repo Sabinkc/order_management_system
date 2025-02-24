@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/common/constants.dart';
 import 'package:order_management_system/features/invoice/domain/invoice_screen_provider.dart';
 import 'package:order_management_system/features/order%20history/domain/order_history_provider.dart';
 import 'package:provider/provider.dart';
+import 'dart:developer' as logger;
 
 class InvoiceDetailScreen extends StatelessWidget {
   final int index;
@@ -71,14 +73,16 @@ class InvoiceDetailScreen extends StatelessWidget {
                     itemCount: 1,
                     itemBuilder: (context, index) {
                       final order = orderHistoryProvider.orders[orderIndex];
-                      final Logger logger = Logger();
-                      logger.i("Order Index: $orderIndex");
+
+                      logger.log("Order Index: $orderIndex");
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: order["items"].map<Widget>((item) {
+                              logger.log(
+                                  "${Constants.imageStorageBaseUrl}/${item.imagePath}");
                               return Padding(
                                 padding: EdgeInsets.symmetric(vertical: 10),
                                 child: Row(
@@ -93,9 +97,12 @@ class InvoiceDetailScreen extends StatelessWidget {
                                             color: Colors.grey[100],
                                             borderRadius:
                                                 BorderRadius.circular(8)),
-                                        child: Image.asset(
-                                          item.imagePath,
+                                        child: Image.network(
+                                          "${Constants.imageStorageBaseUrl}/${item.imagePath}",
                                           fit: BoxFit.contain,
+                                          errorBuilder:
+                                              (context, error, stackTrace) =>
+                                                  Icon(Icons.broken_image),
                                         ),
                                       ),
                                     ),

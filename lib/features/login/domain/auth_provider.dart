@@ -44,17 +44,14 @@ class AuthProvider extends ChangeNotifier {
   }
 
 
-  Future<Map<String, dynamic>> loginWithGoogle(BuildContext context) async {
-    isLoginWithGoogleLoading= true;
+  Future loginWithGoogle(BuildContext context) async {
+    isLoginWithGoogleLoading = true;
+    notifyListeners();
+    await googleSignInApiService.signIn(context);
+    isLoginWithGoogleLoading= false;
     notifyListeners();
 
-
-    final response = await googleSignInApiService.signIn(context);
-
-    isLoginWithGoogleLoading = false;
-    notifyListeners();
-
-    return response; // Returning full response to handle errors in UI
+    // Returning full response to handle errors in UI
   }
 
   Future logout() async {

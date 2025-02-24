@@ -15,8 +15,10 @@ class GoogleButtonLogin extends StatelessWidget {
       return GestureDetector(
       onTap: () async {
         logger.log("Google Sign-In button tapped");
-   final GoogleSignInApiService googleSignInApiService = GoogleSignInApiService();
-         await googleSignInApiService.signIn(context);
+  //  final GoogleSignInApiService googleSignInApiService = GoogleSignInApiService();
+  //        await googleSignInApiService.signIn(context);
+         final authProvider = Provider.of<AuthProvider>(context,listen: false);
+         await authProvider.loginWithGoogle(context);
         
       },
       child: Container(

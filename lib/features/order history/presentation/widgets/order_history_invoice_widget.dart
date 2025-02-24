@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/common/constants.dart';
 import 'package:order_management_system/features/order%20history/domain/order_history_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -46,9 +47,11 @@ class OrderHistoryInvoiceWidget extends StatelessWidget {
                                           color: Colors.grey[100],
                                           borderRadius:
                                               BorderRadius.circular(8)),
-                                      child: Image.asset(
-                                        item.imagePath,
+                                      child: Image.network(
+                                        "${Constants.imageStorageBaseUrl}/${item.imagePath}",
                                         fit: BoxFit.contain,
+                                        errorBuilder: (context, error, stackTrace) =>
+                                      Icon(Icons.broken_image),
                                       ),
                                     ),
                                   ),

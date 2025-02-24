@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/presentation/widgets/bottom_text_login.dart';
 import 'package:order_management_system/features/login/presentation/widgets/divider_text_login.dart';
 import 'package:order_management_system/features/login/presentation/widgets/google_button_login.dart';
-
 import 'package:order_management_system/features/login/presentation/widgets/textfieldandloginbutton_widget_login.dart';
 import 'package:order_management_system/features/login/presentation/widgets/top_text_login.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -14,7 +15,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-
+    final authProvider = Provider.of<AuthProvider>(context);
     return KeyboardDismisser(
       child: Scaffold(
         backgroundColor: CommonColor.primaryColor,
@@ -74,6 +75,16 @@ class LoginScreen extends StatelessWidget {
                           ],
                         ),
                       ),
+                      if (authProvider.isLoginWithGoogleLoading)
+                        Positioned.fill(
+                          top: screenHeight * 0.3,
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            child: CircularProgressIndicator(
+                              color: Colors.grey[400],
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 ),
