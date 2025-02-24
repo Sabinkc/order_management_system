@@ -399,6 +399,7 @@ class _SearchScreenState extends State<SearchScreen> {
         final productProvider =
             Provider.of<ProductProvider>(context, listen: false);
         productProvider.getAllProductCategories();
+        productProvider.getAllProduct();
         productProvider.getCategoryProducts(
             1); // Fetch products for category ID 1 initially
       });
@@ -621,6 +622,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 );
               },
             );
+            Provider.of<CartQuantityProvider>(context,listen: false).addToCart(product.id.toString(), context);
           },
           child: Container(
             decoration: BoxDecoration(
