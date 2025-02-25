@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/constants.dart';
 import 'package:order_management_system/features/invoice/domain/invoice_screen_provider.dart';

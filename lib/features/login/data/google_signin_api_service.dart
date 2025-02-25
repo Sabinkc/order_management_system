@@ -7,9 +7,8 @@ import 'dart:developer' as logger;
 import 'package:order_management_system/common/constants.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
 import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
-import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/domain/device_info_helper.dart';
-import 'package:provider/provider.dart';
+
 
 class GoogleSignInApiService {
   static final _googleSignIn = GoogleSignIn();

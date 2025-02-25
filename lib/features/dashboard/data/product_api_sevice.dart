@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:order_management_system/common/constants.dart';
 import 'package:order_management_system/features/dashboard/data/product_model.dart';
 import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
@@ -126,6 +127,48 @@ throw Exception("User not authenticated. Please log in first.");
       throw Exception('Failed to fetch products');
     }
   }
+
+// Function to get image as response
+Future<Uint8List> getImageByFilename(String filename) async {
+  // Get the saved token from SharedPreferences
+  String? token = await SharedPrefLoggedinState.getAccessToken();
+
+  // If no token is found, return an error
+  if (token == null) {
+    throw Exception("User not authenticated. Please log in first.");
+  }
+
+  // Headers with Authorization token
+  var headers = {
+    'Accept': 'application/json',
+    'Authorization': 'Bearer $token', // Adding token in the header
+  };
+
+  // Constructing the URL to fetch image by filename
+  var url = Uri.parse("${Constants.baseUrl}/v1/product-image/$filename");
+
+  var request = http.Request('GET', url);
+  request.headers.addAll(headers);
+
+  try {
+    http.StreamedResponse response = await request.send();
+
+    logger.log("Response Status Code: ${response.statusCode}");
+
+    if (response.statusCode == 200) {
+      // Getting image data as bytes
+      Uint8List imageData = await response.stream.toBytes();
+      return imageData;
+    } else {
+      throw Exception('Failed to fetch image');
+    }
+  } catch (e) {
+    logger.log("Get Image Error: $e");
+    throw Exception('Failed to fetch image');
+  }
+}
+
+
 
 //get products by category
   Future<List<ProductDetails>> getProductsByCategory(int c) async {

@@ -1,12 +1,18 @@
+import 'dart:typed_data';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/constants.dart';
+import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
+import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'dart:developer' as logger;
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -114,12 +120,12 @@ class _SearchScreenState extends State<SearchScreen> {
                       //   tabBarProvider.updateSearchKeyword(value);
                       //   productProvider.searchProducts(value);
                       // },
-                onChanged: (value) {
-  Provider.of<TabBarProvider>(context, listen: false)
-      .updateSearchKeyword(value);
-  Provider.of<ProductProvider>(context, listen: false)
-      .searchProducts(context);
-},
+                      onChanged: (value) {
+                        Provider.of<TabBarProvider>(context, listen: false)
+                            .updateSearchKeyword(value);
+                        Provider.of<ProductProvider>(context, listen: false)
+                            .searchProducts(context);
+                      },
                       onFieldSubmitted: (value) {
                         Provider.of<TabBarProvider>(context, listen: false)
                             .updateSearchKeyword(value);
@@ -179,15 +185,16 @@ class _SearchScreenState extends State<SearchScreen> {
                             // When a category is selected, fetch the products
                             final selectedCategory =
                                 productProvider.productCategory[index];
-                                if(!context.mounted){
-                                  return;
-                                }
+                            if (!context.mounted) {
+                              return;
+                            }
                             productProvider
-                                .getCategoryProducts(selectedCategory.id).then((_){
-                                if(context.mounted){
-                                    productProvider.searchProducts(context);
-                                }
-                                });
+                                .getCategoryProducts(selectedCategory.id)
+                                .then((_) {
+                              if (context.mounted) {
+                                productProvider.searchProducts(context);
+                              }
+                            });
                           },
                           tabs: productProvider.productCategory
                               .map(
@@ -204,7 +211,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                   const SizedBox(height: 20),
                   Expanded(
-                    child: productProvider.isCategoryProductLoading || productProvider.isProductLoading
+                    child: productProvider.isCategoryProductLoading ||
+                            productProvider.isProductLoading
                         ? Center(
                             child: CircularProgressIndicator(
                               color: CommonColor.primaryColor,
@@ -225,115 +233,189 @@ class _SearchScreenState extends State<SearchScreen> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 20),
                                 child: GridView.builder(
-  itemCount: productProvider.filteredCategoryProducts.length,
-  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-    childAspectRatio: 0.75,
-    crossAxisCount: 2,
-    mainAxisSpacing: 10,
-    crossAxisSpacing: 10,
-  ),
-  itemBuilder: (context, index) {
-    final product = productProvider.filteredCategoryProducts[index];
-    return Consumer<CartQuantityProvider>(
-      builder: (context, provider, child) {
-        return GestureDetector(
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                Future.delayed(const Duration(seconds: 1), () {
-                  if (context.mounted) {
-                    Navigator.pop(context);
-                  }
-                });
-                return AlertDialog(
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  title: Center(
-                    child: Text(
-                      "Item added to cart successfully!",
-                      style: TextStyle(
-                          color: CommonColor.darkGreyColor,
-                          fontSize: 14),
-                    ),
-                  ),
-                );
-              },
-            );
-            Provider.of<CartQuantityProvider>(context,listen: false).addToCart(product.id.toString(), context);
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.white,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0XFFFAFAFA),
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(8),
-                    ),
-                  ),
-                  height: 130,
-                  width: double.infinity,
-                  child: Image.network(
-                    "${Constants.imageStorageBaseUrl}/${product.imageUrl}",
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) =>
-                        Icon(Icons.broken_image),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    product.name,
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 7),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(
-                    children: [
-                      Text(
-                        "Rs. ${product.price}",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: CommonColor.primaryColor,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        product.categoryName,
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                          color: CommonColor.mediumGreyColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  },
-),
+                                  itemCount: productProvider
+                                      .filteredCategoryProducts.length,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    childAspectRatio: 0.75,
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 10,
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    final product = productProvider
+                                        .filteredCategoryProducts[index];
+                                    final productApiService =
+                                        ProductApiSevice();
+
+                                    logger.log(
+                                        "built image url: ${product.imageUrl}");
+                                    return Consumer<CartQuantityProvider>(
+                                      builder: (context, provider, child) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                Future.delayed(
+                                                    const Duration(seconds: 1),
+                                                    () {
+                                                  if (context.mounted) {
+                                                    Navigator.pop(context);
+                                                  }
+                                                });
+                                                return AlertDialog(
+                                                  backgroundColor: Colors.white,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                  ),
+                                                  title: Center(
+                                                    child: Text(
+                                                      "Item added to cart successfully!",
+                                                      style: TextStyle(
+                                                          color: CommonColor
+                                                              .darkGreyColor,
+                                                          fontSize: 14),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                            Provider.of<CartQuantityProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .addToCart(
+                                                    product.id.toString(),
+                                                    context);
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              color: Colors.white,
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                    decoration: BoxDecoration(
+                                                      color: const Color(
+                                                          0XFFFAFAFA),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .vertical(
+                                                        top: Radius.circular(8),
+                                                      ),
+                                                    ),
+                                                    height: 130,
+                                                    width: double.infinity,
+                                                    // child: Image.network(
+                                                    //   // productProvider.image,
+                                                    //   "${Constants.imageStorageBaseUrl}/${product.imageUrl}",
+                                                    //   // "https://oms.sysqube.com.np/private-file/products/0FHnWf6xKycZBm3USWBECy0FIpbNaQdxhftUo4ou.jpg",
+
+                                                    //   fit: BoxFit.contain,
+                                                    //   errorBuilder: (context,
+                                                    //           error,
+                                                    //           stackTrace) =>
+                                                    //       Icon(
+                                                    //           Icons.broken_image),
+                                                    // ),
+                                                    child: FutureBuilder<
+                                                        Uint8List>(
+                                                      future: productApiService
+                                                          .getImageByFilename(
+                                                              product.imageUrl),
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (snapshot
+                                                                .connectionState ==
+                                                            ConnectionState
+                                                                .waiting) {
+                                                          return Center(
+                                                              child:
+                                                                  CircularProgressIndicator(
+                                                            color: CommonColor
+                                                                .mediumGreyColor,
+                                                          ));
+                                                        } else if (snapshot
+                                                            .hasError) {
+                                                          return Icon(Icons
+                                                              .broken_image);
+                                                        } else if (snapshot
+                                                            .hasData) {
+                                                          return Image.memory(
+                                                            snapshot.data!,
+                                                            fit: BoxFit.contain,
+                                                            errorBuilder: (context,
+                                                                    error,
+                                                                    stackTrace) =>
+                                                                Icon(Icons
+                                                                    .broken_image),
+                                                          );
+                                                        } else {
+                                                          return Icon(Icons
+                                                              .broken_image);
+                                                        }
+                                                      },
+                                                    )),
+                                                const SizedBox(height: 15),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(horizontal: 8),
+                                                  child: Text(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                    product.name,
+                                                    textAlign: TextAlign.start,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 7),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(horizontal: 8),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        "Rs. ${product.price}",
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: CommonColor
+                                                              .primaryColor,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(width: 8),
+                                                      Text(
+                                                        product.categoryName,
+                                                        style: TextStyle(
+                                                          fontSize: 11,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: CommonColor
+                                                              .mediumGreyColor,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
                               ),
                   ),
                 ],
