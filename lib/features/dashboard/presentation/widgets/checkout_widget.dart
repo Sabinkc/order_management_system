@@ -209,15 +209,15 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
+// import 'package:logger/logger.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/data/cart_model.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/order%20history/domain/order_history_provider.dart';
 import 'package:provider/provider.dart';
+import 'dart:developer' as logger;
 
 class CheckoutWidget extends StatelessWidget {
   const CheckoutWidget({super.key});
@@ -368,67 +368,91 @@ class CheckoutWidget extends StatelessWidget {
 
   //function to checkout
 
-  Future checkout(BuildContext context) async{
+  void checkout(BuildContext context) async {
     final cartQuantityProvider =
         Provider.of<CartQuantityProvider>(context, listen: false);
     final orderHistoryProvider =
         Provider.of<OrderHistoryProvider>(context, listen: false);
-    final Logger logger = Logger();
-    // Add the cart items to the order history
-    logger.i(
-        "Cart Items before adding to order history: ${cartQuantityProvider.cartItems}");
+    final productProvider =
+        Provider.of<ProductProvider>(context, listen: false);
+
     // Create a deep copy of the cart items
     final List<CartModel> cartItemsCopy =
         List.from(cartQuantityProvider.cartItems);
 
     orderHistoryProvider.addOrder(cartItemsCopy);
-    logger.i(
-        "Order Items after adding to order history: ${orderHistoryProvider.orders}");
 
-    // Log the cart items
+    List cartItems = cartQuantityProvider.cartItems;
+    List<Map<String, dynamic>> orders = [];
+    for (CartModel item in cartItems) {
+      orders.add({
+        "sku": item.sku,
+        "quantity": item.quantity,
+      });
+    }
 
-    logger.i("Cart Items before checkout: ${cartQuantityProvider.cartItems}");
-    logger.i("Order Items before checkout: ${orderHistoryProvider.orders}");
+    logger.log("Orders to be passed: $orders");
 
-
-final productProvider = Provider.of<ProductProvider>(context,listen: false);
-final response = await productProvider.createOrder();
-if(response["success"]==true){
-cartQuantityProvider.clearCart();
-if(!context.mounted) return;
-    showDialog(
-      context: context,
-      builder: (context) {
-        Future.delayed(Duration(seconds: 1), () {
-          if (context.mounted) {
-            Navigator.pop(context);
-            Navigator.pop(context);
-          }
-        });
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          title: SizedBox(
-            height: 90,
-            child: Center(
-              child: Text(
-                "Checkout completed!",
-                style:
-                    TextStyle(color: CommonColor.darkGreyColor, fontSize: 14),
+    try {
+      // Wait for the order creation to complete
+      await productProvider.createOrder(orders);
+      // Clear the cart only after order creation is successful
+      cartQuantityProvider.clearCart();
+      if (!context.mounted) return;
+      showDialog(
+        context: context,
+        builder: (context) {
+          Future.delayed(Duration(seconds: 1), () {
+            if (context.mounted) {
+              Navigator.pop(context); // Close the dialog
+              Navigator.pop(context); // Go back to the previous screen
+            }
+          });
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            title: SizedBox(
+              height: 90,
+              child: Center(
+                child: Text(
+                  "Checkout completed!",
+                  style:
+                      TextStyle(color: CommonColor.darkGreyColor, fontSize: 14),
+                ),
               ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    } catch (e) {
+      logger.log("Error during order creation: $e");
+      // Show an error dialog to the user
+      showDialog(
+        context: context,
+        builder: (context) {
+          Future.delayed(Duration(seconds: 1), () {
+            if (context.mounted) {
+              Navigator.pop(context); // Close the dialog
+            }
+          });
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            title: SizedBox(
+              height: 90,
+              child: Center(
+                child: Text(
+                  "$e",
+                  style:
+                      TextStyle(color: CommonColor.darkGreyColor, fontSize: 14),
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    }
   }
-  else{
-    if(!context.mounted) return;
-ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Not able to create orders')));
-  }
-}
-
-    // Clear the cart
-    
 }

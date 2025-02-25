@@ -4,6 +4,7 @@ class CartModel {
   final double price;
   final String category;
   final String imagePath;
+  final String sku;
   int quantity;
 
   CartModel({
@@ -12,10 +13,11 @@ class CartModel {
     required this.price,
     required this.category,
     required this.imagePath,
+    required this.sku,
     this.quantity = 1,
   });
-   @override
+  @override
   String toString() {
-    return 'CartModel(id: $id, productName: $productName, imagePath: $imagePath, price: $price, quantity: $quantity, category: $category)';
+    return 'CartModel(id: $id, productName: $productName, imagePath: $imagePath, price: $price, quantity: $quantity, category: $category,sku: $sku)';
   }
 }

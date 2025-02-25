@@ -32,6 +32,7 @@ class CartQuantityProvider extends ChangeNotifier {
             price: product.price,
             category: product.categoryName,
             imagePath: product.imageUrl,
+            sku: product.sku,
             quantity: 1, // Default quantity
           ),
           //      cartItems.add(CartModel(

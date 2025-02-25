@@ -48,11 +48,15 @@ class OrdersWidgetDashboard extends StatelessWidget {
                                 ),
                                 height: 150,
                                 width: 100,
-                                child: Image.network(
-                                  "${Constants.imageStorageBaseUrl}/${item.imagePath}",
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      Icon(Icons.broken_image),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.network(
+                                    "${Constants.imageStorageBaseUrl}/${item.imagePath}",
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            Icon(Icons.broken_image),
+                                  ),
                                 ),
                               ),
                               Padding(

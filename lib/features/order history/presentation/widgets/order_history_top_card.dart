@@ -69,12 +69,14 @@ class OrderHistoryTopCard extends StatelessWidget {
                               color: Colors.grey[100],
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Image.network(
-                              "${Constants.imageStorageBaseUrl}/${order[lastOrderIndex]["items"][0]
-                                  .imagePath}", // First item image
-                              fit: BoxFit.contain,
-                              errorBuilder: (context, error, stackTrace) =>
-                                      Icon(Icons.broken_image),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.network(
+                                "${Constants.imageStorageBaseUrl}/${order[lastOrderIndex]["items"][0].imagePath}", // First item image
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Icon(Icons.broken_image),
+                              ),
                             ),
                           ),
                         ),
