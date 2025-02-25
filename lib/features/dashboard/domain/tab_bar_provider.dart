@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'dart:developer' as logger;
+// import 'dart:developer' as logger;
 
 class TabBarProvider with ChangeNotifier {
   int _selectedIndex = 0;
@@ -15,7 +15,7 @@ class TabBarProvider with ChangeNotifier {
   void clearSelectedIndex() {
     _selectedIndex = 0;
     notifyListeners();
-    logger.log("selected index: $_selectedIndex");
+    // logger.log("selected index: $_selectedIndex");
   }
 
   String _searchKeyword = "";
@@ -30,7 +30,7 @@ class TabBarProvider with ChangeNotifier {
   void clearSearchKeyword(){
     _searchKeyword="";
      notifyListeners();
-    logger.log("search keyword after clearing: $_searchKeyword");
+    // logger.log("search keyword after clearing: $_searchKeyword");
     searchController.clear();
     notifyListeners();
   }

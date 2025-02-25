@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
@@ -56,7 +55,7 @@ class ProductProvider extends ChangeNotifier {
   void searchProducts(BuildContext context) {
     final tabBarProvider = Provider.of<TabBarProvider>(context, listen: false);
     final query = tabBarProvider.searchKeyword;
-    logger.log("search keyword: $query");
+    // logger.log("search keyword: $query");
 
     if (query.isEmpty) {
       // If the search query is empty, show all products
@@ -70,4 +69,16 @@ class ProductProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  //provider to create orders
+  bool isCreateOrderLoading = false;
+   Future createOrder() async{
+isCreateOrderLoading = true;
+notifyListeners();
+final response = await _service.createOrders();
+isCreateOrderLoading = false;
+notifyListeners();
+
+   }
+
 }

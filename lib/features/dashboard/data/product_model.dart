@@ -1,20 +1,3 @@
-class Product {
-  final int id;
-  final String name;
-  final String description;
-  final double price;
-  final String imageUrl;
-  final bool isAvailable;
-
-  Product({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.price,
-    required this.imageUrl,
-    required this.isAvailable,
-  });
-}
 
 class ProductDetails {
   final int id;
@@ -26,6 +9,7 @@ class ProductDetails {
   final double price;
   final bool isAvailable;
   // final List<String> images;
+    final String sku;
 
   ProductDetails({
     required this.id,
@@ -37,11 +21,12 @@ class ProductDetails {
     required this.price,
     required this.isAvailable,
     // required this.images,
+    required this.sku,
   });
 
   @override
   String toString() {
-    return 'ProductDetails{id: $id, name: $name, description: $description, categoryName: $categoryName, stockQuantity: $stockQuantity, price: $price, isAvailable: $isAvailable, imageUrl: $imageUrl}';
+    return 'ProductDetails{id: $id, name: $name, description: $description, categoryName: $categoryName, stockQuantity: $stockQuantity, price: $price, isAvailable: $isAvailable, imageUrl: $imageUrl, sku: $sku}';
   }
 }
 

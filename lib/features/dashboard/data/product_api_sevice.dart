@@ -69,7 +69,7 @@ class ProductApiSevice {
 
     // If no token is found, return an error
     if (token == null) {
-throw Exception("User not authenticated. Please log in first.");
+      throw Exception("User not authenticated. Please log in first.");
     }
 
     // Headers with Authorization token
@@ -89,15 +89,14 @@ throw Exception("User not authenticated. Please log in first.");
       http.StreamedResponse response = await request.send();
       String responseBody = await response.stream.bytesToString();
 
-      logger.log("Response Status Code: ${response.statusCode}");
+      // logger.log("Response Status Code: ${response.statusCode}");
       // logger.log("Response Body: $responseBody");
 
       Map<String, dynamic> jsonResponse = json.decode(responseBody);
       // logger.log("jsonResponse: $jsonResponse");
 
       if (response.statusCode == 200 && jsonResponse["success"]) {
-
-         List<dynamic> productJson = jsonResponse["data"];
+        List<dynamic> productJson = jsonResponse["data"];
         List<ProductDetails> products = [];
 
         for (var product in productJson) {
@@ -112,9 +111,9 @@ throw Exception("User not authenticated. Please log in first.");
             stockQuantity: unitType[
                 "stockQuantity"], // Accessing stockQuantity from unitTypes[0]
             price: double.parse(unitType["price"]), // Parsing price as a double
-            isAvailable: unitType[
-                "isAvailable"], 
-                imageUrl: unitType["images"][0],// Accessing isAvailable from unitTypes[0]
+            isAvailable: unitType["isAvailable"],
+            imageUrl: unitType["images"][0],
+            sku: unitType["sku"],
           ));
         }
         // logger.log("products: $products");
@@ -129,46 +128,44 @@ throw Exception("User not authenticated. Please log in first.");
   }
 
 // Function to get image as response
-Future<Uint8List> getImageByFilename(String filename) async {
-  // Get the saved token from SharedPreferences
-  String? token = await SharedPrefLoggedinState.getAccessToken();
+  Future<Uint8List> getImageByFilename(String filename) async {
+    // Get the saved token from SharedPreferences
+    String? token = await SharedPrefLoggedinState.getAccessToken();
 
-  // If no token is found, return an error
-  if (token == null) {
-    throw Exception("User not authenticated. Please log in first.");
-  }
+    // If no token is found, return an error
+    if (token == null) {
+      throw Exception("User not authenticated. Please log in first.");
+    }
 
-  // Headers with Authorization token
-  var headers = {
-    'Accept': 'application/json',
-    'Authorization': 'Bearer $token', // Adding token in the header
-  };
+    // Headers with Authorization token
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token', // Adding token in the header
+    };
 
-  // Constructing the URL to fetch image by filename
-  var url = Uri.parse("${Constants.baseUrl}/v1/product-image/$filename");
+    // Constructing the URL to fetch image by filename
+    var url = Uri.parse("${Constants.baseUrl}/v1/product-image/$filename");
 
-  var request = http.Request('GET', url);
-  request.headers.addAll(headers);
+    var request = http.Request('GET', url);
+    request.headers.addAll(headers);
 
-  try {
-    http.StreamedResponse response = await request.send();
+    try {
+      http.StreamedResponse response = await request.send();
 
-    logger.log("Response Status Code: ${response.statusCode}");
+      // logger.log("Response Status Code: ${response.statusCode}");
 
-    if (response.statusCode == 200) {
-      // Getting image data as bytes
-      Uint8List imageData = await response.stream.toBytes();
-      return imageData;
-    } else {
+      if (response.statusCode == 200) {
+        // Getting image data as bytes
+        Uint8List imageData = await response.stream.toBytes();
+        return imageData;
+      } else {
+        throw Exception('Failed to fetch image');
+      }
+    } catch (e) {
+      logger.log("Get Image Error: $e");
       throw Exception('Failed to fetch image');
     }
-  } catch (e) {
-    logger.log("Get Image Error: $e");
-    throw Exception('Failed to fetch image');
   }
-}
-
-
 
 //get products by category
   Future<List<ProductDetails>> getProductsByCategory(int c) async {
@@ -197,7 +194,7 @@ Future<Uint8List> getImageByFilename(String filename) async {
       http.StreamedResponse response = await request.send();
       String responseBody = await response.stream.bytesToString();
 
-      logger.log("Response Status Code: ${response.statusCode}");
+      // logger.log("Response Status Code: ${response.statusCode}");
 
       Map<String, dynamic> jsonResponse = json.decode(responseBody);
 
@@ -217,9 +214,10 @@ Future<Uint8List> getImageByFilename(String filename) async {
             stockQuantity: unitType[
                 "stockQuantity"], // Accessing stockQuantity from unitTypes[0]
             price: double.parse(unitType["price"]), // Parsing price as a double
-            isAvailable: unitType[
-                "isAvailable"], 
-                imageUrl: unitType["images"][0],// Accessing isAvailable from unitTypes[0]
+            isAvailable: unitType["isAvailable"],
+            imageUrl: unitType["images"]
+                [0], // Accessing isAvailable from unitTypes[0]
+            sku: unitType["sku"],
           ));
         }
         logger.log("products: $products");
@@ -432,6 +430,49 @@ Future<Uint8List> getImageByFilename(String filename) async {
         "success": false,
         "message": "Something went wrong. Please try again."
       };
+    }
+  }
+
+  Future<Map<String, dynamic>> createOrders() async {
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+
+    if (token == null) {
+      throw Exception("User not authenticated. Please login first.");
+    }
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    var url = Uri.parse(Constants.createOrderUrl);
+
+    var request = http.Request('POST', url);
+    request.body = json.encode({
+      "orders": [
+        {"sku": "1-1-39-0", "quantity": 1}
+      ]
+    });
+    request.headers.addAll(headers);
+
+    try {
+      http.StreamedResponse response = await request.send();
+      logger.log(response.toString());
+      logger.log(response.statusCode.toString());
+      String responseBody = await response.stream.bytesToString();
+
+      Map<String, dynamic> jsonResponse = json.decode(responseBody);
+
+      if (response.statusCode == 201) {
+        logger.log(jsonResponse.toString());
+        return jsonResponse;
+      } else {
+        logger.log(jsonResponse["message"]["product"][0]);
+        throw Exception(jsonResponse["message"]["product"][0]);
+      }
+    } catch (e) {
+      throw Exception("Failed to add orders");
     }
   }
 }

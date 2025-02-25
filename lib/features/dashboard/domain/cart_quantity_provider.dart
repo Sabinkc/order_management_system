@@ -9,7 +9,7 @@ class CartQuantityProvider extends ChangeNotifier {
 
   void addToCart(String productId, BuildContext context) {
     final products =
-        Provider.of<ProductProvider>(context, listen: false).product;
+        Provider.of<ProductProvider>(context, listen: false).categoryProducts;
     // Check if the product is already in the cart
     final existingIndex = cartItems.indexWhere((item) => item.id == productId);
 
@@ -20,7 +20,7 @@ class CartQuantityProvider extends ChangeNotifier {
       // Find the product from the `products` list using its `product_id`
       final productIndex =
           products.indexWhere((product) => product.id.toString() == productId);
-          logger.log(productIndex.toString());
+      // logger.log(productIndex.toString());
 
       if (productIndex != -1) {
         // Add the product to the cart

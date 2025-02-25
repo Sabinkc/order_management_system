@@ -1,15 +1,11 @@
 import 'dart:typed_data';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
-import 'package:order_management_system/common/constants.dart';
 import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
-import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:developer' as logger;
@@ -247,9 +243,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                         .filteredCategoryProducts[index];
                                     final productApiService =
                                         ProductApiSevice();
-
-                                    logger.log(
-                                        "built image url: ${product.imageUrl}");
+                                    // logger.log(
+                                    //     "built image url: ${product.imageUrl}");
                                     return Consumer<CartQuantityProvider>(
                                       builder: (context, provider, child) {
                                         return GestureDetector(
@@ -289,6 +284,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                                 .addToCart(
                                                     product.id.toString(),
                                                     context);
+                                            logger.log(
+                                                "tapped product id: ${product.id}");
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -312,18 +309,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                                     ),
                                                     height: 130,
                                                     width: double.infinity,
-                                                    // child: Image.network(
-                                                    //   // productProvider.image,
-                                                    //   "${Constants.imageStorageBaseUrl}/${product.imageUrl}",
-                                                    //   // "https://oms.sysqube.com.np/private-file/products/0FHnWf6xKycZBm3USWBECy0FIpbNaQdxhftUo4ou.jpg",
-
-                                                    //   fit: BoxFit.contain,
-                                                    //   errorBuilder: (context,
-                                                    //           error,
-                                                    //           stackTrace) =>
-                                                    //       Icon(
-                                                    //           Icons.broken_image),
-                                                    // ),
                                                     child: FutureBuilder<
                                                         Uint8List>(
                                                       future: productApiService
@@ -339,7 +324,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                                               child:
                                                                   CircularProgressIndicator(
                                                             color: CommonColor
-                                                                .mediumGreyColor,
+                                                                .commonGreyColor,
                                                           ));
                                                         } else if (snapshot
                                                             .hasError) {
