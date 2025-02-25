@@ -72,12 +72,13 @@ class ProductProvider extends ChangeNotifier {
 
   //provider to create orders
   bool isCreateOrderLoading = false;
-   Future createOrder() async{
+   Future<Map<String,dynamic>> createOrder() async{
 isCreateOrderLoading = true;
 notifyListeners();
 final response = await _service.createOrders();
 isCreateOrderLoading = false;
 notifyListeners();
+return response;
 
    }
 
