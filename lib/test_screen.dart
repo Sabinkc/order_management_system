@@ -19,7 +19,7 @@ class TestScreen extends StatelessWidget {
                 // final productProvider =
                 //     Provider.of<ProductProvider>(context, listen: false);
 
-                productApiSevice.getAllMyOrders();
+                productApiSevice.getOrderByKey("25cb1-19");
               },
               child: Text("Press")),
           Center(child: Text("Test Screen")),

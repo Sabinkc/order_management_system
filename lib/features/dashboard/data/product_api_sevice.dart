@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:order_management_system/common/constants.dart';
+import 'package:order_management_system/features/dashboard/data/cart_model.dart';
 import 'package:order_management_system/features/dashboard/data/product_model.dart';
 import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
 import "package:http/http.dart" as http;
@@ -506,10 +507,23 @@ class ProductApiSevice {
       for (var order in ordersJson) {
         int totalQuantity = 0;
         double totalAmount = 0.0;
+        List<InvoiceProductDetailModel> products =
+            []; // List to hold CartModel objects
 
         for (var product in order["products"]) {
           totalQuantity += product["quantity"] as int;
           totalAmount += double.parse(product["amount"].toString());
+
+          // Create CartModel object directly
+          products.add(InvoiceProductDetailModel(
+            // Use a default value if "id" is missing
+            name: product["name"],
+            price: double.parse(product["unitPrice"].toString()),
+            category: product["category"],
+            imagePath: product["imagePath"] ??
+                "N/A", // Use a default value if "imagePath" is missing
+            quantity: product["quantity"],
+          ));
         }
 
         orders.add(InvoiceModel(
@@ -519,13 +533,84 @@ class ProductApiSevice {
           date: order["products"][0]["createdAt"],
           totalQuantity: totalQuantity,
           status: order["status"],
+          products: products, // Include the list of CartModel
         ));
       }
-
-      // logger.log(orders.toString());
+      logger.log(orders.toString());
       return orders;
     } else {
       String errorMessage = "Failed to get orders";
+      logger.log(errorMessage);
+      throw errorMessage;
+    }
+  }
+
+  Future<InvoiceModel> getOrderByKey(String orderKey) async {
+    // Retrieve the access token
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+
+    if (token == null) {
+      String tokenErrorMessage = "User not authenticated. Please login first.";
+      throw tokenErrorMessage;
+    }
+
+    // Set up headers
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    // Construct the URL with the orderKey
+    var url = Uri.parse('${Constants.baseUrl}/v1/my-orders/$orderKey');
+
+    // Make the GET request
+    var request = http.Request('GET', url);
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    String responseBody = await response.stream.bytesToString();
+    logger.log(response.toString());
+
+    // Decode the JSON response
+    Map<String, dynamic> jsonResponse = json.decode(responseBody);
+
+    // Check if the request was successful
+    if (response.statusCode == 200 && jsonResponse["success"]) {
+      Map<String, dynamic> orderJson = jsonResponse["order"];
+      List<InvoiceProductDetailModel> products = [];
+
+      // Calculate total quantity and total amount
+      int totalQuantity = 0;
+      double totalAmount = 0.0;
+
+      // Parse products
+      for (var product in orderJson["products"]) {
+        totalQuantity += product["quantity"] as int;
+        totalAmount += double.parse(product["amount"].toString());
+
+        products.add(InvoiceProductDetailModel(
+          name: product["name"],
+          category: product["category"],
+          quantity: product["quantity"],
+          price: double.parse(product["unitPrice"].toString()),
+          imagePath: product["imagePath"] ?? "N/A", // Default value if missing
+        ));
+      }
+
+      // Create and return the InvoiceModel
+      InvoiceModel invoice = InvoiceModel(
+        orderNo: orderKey,
+        totalAmount:
+            totalAmount.toStringAsFixed(2), // Format to 2 decimal places
+        date: orderJson["createdAt"],
+        totalQuantity: totalQuantity,
+        status: orderJson["status"],
+        products: products,
+      );
+      logger.log(invoice.toString());
+      return invoice;
+    } else {
+      String errorMessage = "Failed to fetch order details";
       logger.log(errorMessage);
       throw errorMessage;
     }

@@ -514,20 +514,16 @@
 //   }
 // }
 
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:logger/logger.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/simple_ui_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/invoice/domain/invoice_screen_provider.dart';
 import 'package:order_management_system/features/invoice/domain/search_provider.dart';
-import 'package:order_management_system/features/order%20history/domain/order_history_provider.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:developer' as logger;
 class InvoiceHistoryScreen extends StatefulWidget {
   const InvoiceHistoryScreen({super.key});
 
@@ -538,9 +534,12 @@ class InvoiceHistoryScreen extends StatefulWidget {
 class _InvoiceHistoryScreenState extends State<InvoiceHistoryScreen> {
   @override
   void initState() {
-    final proudctProvider =
-        Provider.of<ProductProvider>(context, listen: false);
-    proudctProvider.getAllOrder();
+    Future.delayed(Duration.zero, () {
+      if (!mounted) return;
+      final proudctProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      proudctProvider.getAllOrder();
+    });
     super.initState();
   }
 
@@ -548,8 +547,6 @@ class _InvoiceHistoryScreenState extends State<InvoiceHistoryScreen> {
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();
     // final Logger logger = Logger();
-
-    final proudctProvider = Provider.of<ProductProvider>(context);
 
     return Consumer<InvoiceScreenProvider>(
       builder: (context, invoiceScreenProvider, child) {
@@ -692,76 +689,40 @@ class _InvoiceHistoryScreenState extends State<InvoiceHistoryScreen> {
                       Expanded(
                         child: Consumer<SearchProvider>(
                           builder: (context, searchProvider, child) {
-                            // // searchKeyword
-                            // String searchKeyword =
-                            //     searchProvider.searchKeyword.toLowerCase();
-
-                            // final SimpleUiProvider simpleUiProvider =
-                            //     Provider.of<SimpleUiProvider>(context,
-                            //         listen: false);
-                            // //selected date category
-                            // String selectedDateCategory =
-                            //     simpleUiProvider.selectedDate;
-
-                            // // returns the list that is gained from filtered orders based on datecategory matching with searched keyword as filtered list
-                            // List filteredList = orderHistoryProvider
-                            //     .filteredOrders
-                            //     .where((invoice) {
-                            //   final orderNumber = orderNoList[
-                            //           orderHistoryProvider.filteredOrders
-                            //               .indexOf(invoice)]
-                            //       .toLowerCase();
-                            //   final matchesSearchKeyword =
-                            //       orderNumber.contains(searchKeyword);
-
-                            //   if (selectedDateCategory == "All") {
-                            //     return matchesSearchKeyword;
-                            //   } else {
-                            //     // Apply date filter logic here if needed
-                            //     return matchesSearchKeyword;
-                            //   }
-                            // }).toList();
-
-                            // final Logger logger = Logger();
-                            // logger.i("filtered List: $filteredList");
-
-                            // if (filteredList.isEmpty) {
-                            //   return Center(
-                            //     child: Text(
-                            //       "No invoices found!",
-                            //       style: TextStyle(
-                            //           color: CommonColor.darkGreyColor,
-                            //           fontSize: 20),
-                            //     ),
-                            //   );
-                            // }
-
 //filtered list displayed in listview
                             return ListView.builder(
-                              itemCount: productProvider.allOrders.length,
-                              itemBuilder: (context, filteredOrderIndex) {
-                                // final sortedOrders = List.from(filteredList)
-                                //   ..sort((a, b) => (b["date"] as DateTime)
-                                //       .compareTo(a["date"] as DateTime));
+                              itemCount: productProvider.filteredOrders.length,
+                              itemBuilder: (context, index) {
+                                final order =
+                                    productProvider.filteredOrders[index];
 
-                                // //assigns items individually from filtered list to orders that comes from filtering with date and matching with searchkeyword based on checkedout date(reverse filteredlist)
-                                // final order = sortedOrders[filteredOrderIndex];
-
-//individual items from filtered list as order(in reverse), filtered list displayed in list view
+                                if (productProvider.filteredOrders.isEmpty) {
+                                  return Center(
+                                    child: Text(
+                                      "No invoices found!",
+                                      style: TextStyle(
+                                        color: CommonColor.darkGreyColor,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  );
+                                }
                                 return Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 10),
                                   child: GestureDetector(
-                                    onTap: () {
-                                      // Provider.of<InvoiceScreenProvider>(
-                                      //         context,
-                                      //         listen: false)
-                                      //     .switchInvoiceDetailPage();
-                                      // Provider.of<InvoiceScreenProvider>(
-                                      //         context,
-                                      //         listen: false)
-                                      //     .selectInvoiceIndex(
-                                      //         filteredOrderIndex);
+                                    onTap: () 
+                                    {
+                                       Provider.of<InvoiceScreenProvider>(
+                                              context,
+                                              listen: false)
+                                          .switchInvoiceDetailPage();
+                                      Provider.of<InvoiceScreenProvider>(
+                                              context,
+                                              listen: false)
+                                          .selectInvoiceKey(
+                                            order.orderNo);
+                                            
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(
@@ -780,7 +741,7 @@ class _InvoiceHistoryScreenState extends State<InvoiceHistoryScreen> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                "Order No: ${proudctProvider.allOrders[filteredOrderIndex].orderNo}",
+                                                "Order No: ${order.orderNo}",
                                                 style: TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.bold,
@@ -788,7 +749,7 @@ class _InvoiceHistoryScreenState extends State<InvoiceHistoryScreen> {
                                                         .darkGreyColor),
                                               ),
                                               Text(
-                                                "Rs.${proudctProvider.allOrders[filteredOrderIndex].totalAmount}",
+                                                "Rs.${order.totalAmount}",
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 15,
@@ -802,10 +763,7 @@ class _InvoiceHistoryScreenState extends State<InvoiceHistoryScreen> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                proudctProvider
-                                                    .allOrders[
-                                                        filteredOrderIndex]
-                                                    .date,
+                                                order.date,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 11,
@@ -814,7 +772,7 @@ class _InvoiceHistoryScreenState extends State<InvoiceHistoryScreen> {
                                                 ),
                                               ),
                                               Text(
-                                                "Qty: ${proudctProvider.allOrders[filteredOrderIndex].totalQuantity}",
+                                                "Qty: ${order.totalQuantity}",
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 11,
@@ -834,7 +792,7 @@ class _InvoiceHistoryScreenState extends State<InvoiceHistoryScreen> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                "${proudctProvider.allOrders[filteredOrderIndex].status}",
+                                                order.status,
                                                 style: TextStyle(
                                                     color: CommonColor
                                                         .primaryColor,
@@ -972,7 +930,8 @@ class _InvoiceHistoryScreenState extends State<InvoiceHistoryScreen> {
                         items: [
                           DropdownMenuItem(
                               value: "all_status", child: Text("All")),
-                          DropdownMenuItem(value: "paid", child: Text("Paid")),
+                          DropdownMenuItem(
+                              value: "confirmed", child: Text("Confirmed")),
                           DropdownMenuItem(
                               value: "pending", child: Text("Pending")),
                           DropdownMenuItem(
@@ -995,8 +954,7 @@ class _InvoiceHistoryScreenState extends State<InvoiceHistoryScreen> {
                       TextButton(
                         onPressed: () {
                           // Apply both filters
-                          Provider.of<OrderHistoryProvider>(context,
-                                  listen: false)
+                          Provider.of<ProductProvider>(context, listen: false)
                               .setFilter(
                             simpleUiProvider.selectedStatus,
                             startDate: simpleUiProvider.selectedStartDate,

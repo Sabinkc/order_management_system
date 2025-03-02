@@ -1,3 +1,5 @@
+import 'package:order_management_system/features/dashboard/data/cart_model.dart';
+
 class ProductDetails {
   final int id;
   final String name;
@@ -29,42 +31,6 @@ class ProductDetails {
   }
 }
 
-// class OrderHistoryModel{
-//   final String id;
-//   final String status;
-//   final List<Map<String,dynamic>> products;
-
-//    OrderHistoryModel({required this.id, required this.status, required this.products});
-
-//    @override
-//    String toString(){
-//     return 'OrderHistoryModel{id: $id, status: $status, products: $products}';
-//    }
-// }
-
-// class OrderHistoryDetailModel {
-//   final String name;
-//   final String description;
-//   final String category;
-//   final int quantity;
-//   final double unitPrice;
-//   final double amount;
-
-//   OrderHistoryDetailModel({
-//     required this.name,
-//     required this.description,
-//     required this.category,
-//     required this.quantity,
-//     required this.unitPrice,
-//     required this.amount,
-//   });
-
-//   @override
-//   String toString() {
-//     return 'OrderHistoryDetailModel(name: $name, description: $description, category: $category, quantity: $quantity, unitPrice: $unitPrice, amount: $amount)';
-//   }
-// }
-
 class ProductCategory {
   final int id;
   final String name;
@@ -88,6 +54,7 @@ class InvoiceModel {
   final String date;
   final int totalQuantity;
   final String status;
+  final List<InvoiceProductDetailModel> products;
 
   InvoiceModel({
     required this.orderNo,
@@ -95,10 +62,35 @@ class InvoiceModel {
     required this.date,
     required this.totalQuantity,
     required this.status,
+    required this.products,
   });
 
   @override
   String toString() {
-    return 'InvoiceModel(orderNo: $orderNo, totalAmount: $totalAmount, date: $date, totalQuantity: $totalQuantity, status: $status)';
+    return 'InvoiceModel(orderNo: $orderNo, totalAmount: $totalAmount, date: $date, totalQuantity: $totalQuantity, status: $status, products: $products)';
+  }
+
+
+}
+class InvoiceProductDetailModel {
+  final String name;
+  final String category;
+  final int quantity;
+  final double price;
+  final String imagePath;
+
+  InvoiceProductDetailModel({
+    required this.name,
+    required this.category,
+    required this.quantity,
+    required this.price,
+    required this.imagePath,
+  });
+
+
+  @override
+  String toString() {
+    return 'InvoiceProductDetailModel(name: $name, category: $category, quantity: $quantity, price: $price, imagePath: $imagePath)';
   }
 }
+
