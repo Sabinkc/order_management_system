@@ -30,6 +30,44 @@ class ProductDetails {
   }
 }
 
+class OrderHistoryModel{
+  final String id;
+  final String status;
+  final List<Map<String,dynamic>> products;
+   
+   OrderHistoryModel({required this.id, required this.status, required this.products});
+
+   @override
+   String toString(){
+    return 'OrderHistoryModel{id: $id, status: $status, products: $products}';
+   }
+}
+
+class OrderHistoryDetailModel {
+  final String name;
+  final String description;
+  final String category;
+  final int quantity;
+  final double unitPrice;
+  final double amount;
+
+  OrderHistoryDetailModel({
+    required this.name,
+    required this.description,
+    required this.category,
+    required this.quantity,
+    required this.unitPrice,
+    required this.amount,
+  });
+
+
+  @override
+  String toString() {
+    return 'OrderHistoryDetailModel(name: $name, description: $description, category: $category, quantity: $quantity, unitPrice: $unitPrice, amount: $amount)';
+  }
+}
+
+
 class ProductCategory {
   final int id;
   final String name;

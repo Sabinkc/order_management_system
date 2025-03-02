@@ -433,49 +433,6 @@ class ProductApiSevice {
     }
   }
 
-  // Future<Map<String, dynamic>> createOrders(String sku, int quantity) async {
-  //   String? token = await SharedPrefLoggedinState.getAccessToken();
-
-  //   if (token == null) {
-  //     throw Exception("User not authenticated. Please login first.");
-  //   }
-
-  //   var headers = {
-  //     'Accept': 'application/json',
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'Bearer $token'
-  //   };
-
-  //   var url = Uri.parse(Constants.createOrderUrl);
-
-  //   var request = http.Request('POST', url);
-  //   request.body = json.encode({
-  //     "orders": [
-  //       {"sku": sku, "quantity": quantity}
-  //     ]
-  //   });
-  //   request.headers.addAll(headers);
-
-  //   try {
-  //     http.StreamedResponse response = await request.send();
-  //     logger.log(response.toString());
-  //     logger.log(response.statusCode.toString());
-  //     String responseBody = await response.stream.bytesToString();
-
-  //     Map<String, dynamic> jsonResponse = json.decode(responseBody);
-
-  //     if (response.statusCode == 201) {
-  //       logger.log(jsonResponse.toString());
-  //       return jsonResponse;
-  //     } else {
-  //       logger.log(jsonResponse["message"]["product"][0]);
-  //       throw Exception(jsonResponse["message"]["product"][0]);
-  //     }
-  //   } catch (e) {
-  //     throw Exception("Failed to add orders");
-  //   }
-  // }
-
   Future<Map<String, dynamic>> createOrders(
       List<Map<String, dynamic>> orders) async {
     String? token = await SharedPrefLoggedinState.getAccessToken();
@@ -516,6 +473,15 @@ class ProductApiSevice {
       String errorMessage = jsonResponse["message"]["product"][0];
       logger.log(errorMessage);
       throw errorMessage;
+    }
+  }
+
+  Future getAllMyOrders() async{
+      String? token = await SharedPrefLoggedinState.getAccessToken();
+
+    if (token == null) {
+     String tokenErorMessage = "User not authenticated. Please login first.";
+      throw tokenErorMessage;
     }
   }
 }

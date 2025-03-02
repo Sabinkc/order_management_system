@@ -7,4 +7,5 @@ class Constants {
    static final String getAllProductUrl = "https://oms.sysqube.com.np/api/v1/products";
    static final String imageStorageBaseUrl = "https://oms.sysqube.com.np/api/v1/product-image";
     static final String createOrderUrl = "https://oms.sysqube.com.np/api/v1/orders";
+    static final String getMyAlloderdUrl = "https://oms.sysqube.com.np/api/v1/orders";
 }
