@@ -1,4 +1,3 @@
-
 class ProductDetails {
   final int id;
   final String name;
@@ -9,7 +8,7 @@ class ProductDetails {
   final double price;
   final bool isAvailable;
   // final List<String> images;
-    final String sku;
+  final String sku;
 
   ProductDetails({
     required this.id,
@@ -30,43 +29,41 @@ class ProductDetails {
   }
 }
 
-class OrderHistoryModel{
-  final String id;
-  final String status;
-  final List<Map<String,dynamic>> products;
-   
-   OrderHistoryModel({required this.id, required this.status, required this.products});
+// class OrderHistoryModel{
+//   final String id;
+//   final String status;
+//   final List<Map<String,dynamic>> products;
 
-   @override
-   String toString(){
-    return 'OrderHistoryModel{id: $id, status: $status, products: $products}';
-   }
-}
+//    OrderHistoryModel({required this.id, required this.status, required this.products});
 
-class OrderHistoryDetailModel {
-  final String name;
-  final String description;
-  final String category;
-  final int quantity;
-  final double unitPrice;
-  final double amount;
+//    @override
+//    String toString(){
+//     return 'OrderHistoryModel{id: $id, status: $status, products: $products}';
+//    }
+// }
 
-  OrderHistoryDetailModel({
-    required this.name,
-    required this.description,
-    required this.category,
-    required this.quantity,
-    required this.unitPrice,
-    required this.amount,
-  });
+// class OrderHistoryDetailModel {
+//   final String name;
+//   final String description;
+//   final String category;
+//   final int quantity;
+//   final double unitPrice;
+//   final double amount;
 
+//   OrderHistoryDetailModel({
+//     required this.name,
+//     required this.description,
+//     required this.category,
+//     required this.quantity,
+//     required this.unitPrice,
+//     required this.amount,
+//   });
 
-  @override
-  String toString() {
-    return 'OrderHistoryDetailModel(name: $name, description: $description, category: $category, quantity: $quantity, unitPrice: $unitPrice, amount: $amount)';
-  }
-}
-
+//   @override
+//   String toString() {
+//     return 'OrderHistoryDetailModel(name: $name, description: $description, category: $category, quantity: $quantity, unitPrice: $unitPrice, amount: $amount)';
+//   }
+// }
 
 class ProductCategory {
   final int id;
@@ -85,16 +82,23 @@ class ProductCategory {
   }
 }
 
-class ProductImage {
-  final String imageData; // base64 string or URL
+class InvoiceModel {
+  final String orderNo;
+  final String totalAmount;
+  final String date;
+  final int totalQuantity;
+  final String status;
 
-  ProductImage({
-    required this.imageData,
+  InvoiceModel({
+    required this.orderNo,
+    required this.totalAmount,
+    required this.date,
+    required this.totalQuantity,
+    required this.status,
   });
 
-  factory ProductImage.fromJson(Map<String, dynamic> json) {
-    return ProductImage(
-      imageData: json['data'], // Or however the image data is returned
-    );
+  @override
+  String toString() {
+    return 'InvoiceModel(orderNo: $orderNo, totalAmount: $totalAmount, date: $date, totalQuantity: $totalQuantity, status: $status)';
   }
 }

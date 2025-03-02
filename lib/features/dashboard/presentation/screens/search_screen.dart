@@ -409,24 +409,35 @@ class _SearchScreenState extends State<SearchScreen> {
                                                       .symmetric(horizontal: 8),
                                                   child: Row(
                                                     children: [
-                                                      Text(
-                                                        "Rs. ${product.price}",
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: CommonColor
-                                                              .primaryColor,
+                                                      SizedBox(
+                                                        width: 100,
+                                                        child: Text(
+                                                          "Rs. ${product.price}",
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: CommonColor
+                                                                .primaryColor,
+                                                          ),
                                                         ),
                                                       ),
                                                       const SizedBox(width: 8),
-                                                      Text(
-                                                        product.categoryName,
-                                                        style: TextStyle(
-                                                          fontSize: 11,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: CommonColor
-                                                              .mediumGreyColor,
+                                                      Expanded(
+                                                        child: Text(
+                                                          product.categoryName,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 1,
+                                                          style: TextStyle(
+                                                            fontSize: 11,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: CommonColor
+                                                                .mediumGreyColor,
+                                                          ),
                                                         ),
                                                       ),
                                                     ],

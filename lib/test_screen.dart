@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 // import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
-import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
-import 'package:provider/provider.dart';
 // import 'dart:developer' as logger;
 
 class TestScreen extends StatelessWidget {
@@ -16,16 +15,11 @@ class TestScreen extends StatelessWidget {
         children: [
           ElevatedButton(
               onPressed: () async {
-                // final ProductApiSevice productApiSevice = ProductApiSevice();
-                final productProvider =
-                    Provider.of<ProductProvider>(context, listen: false);
-                List<Map<String, dynamic>> orders = [
-                  {"sku": "3-1-35-0", "quantity": 1},
-                  {"sku": "3-1-36-0", "quantity": 1}
-                ];
+                final ProductApiSevice productApiSevice = ProductApiSevice();
+                // final productProvider =
+                //     Provider.of<ProductProvider>(context, listen: false);
 
-                productProvider.createOrder(orders);
-                // productApiSevice.createOrders();
+                productApiSevice.getAllMyOrders();
               },
               child: Text("Press")),
           Center(child: Text("Test Screen")),

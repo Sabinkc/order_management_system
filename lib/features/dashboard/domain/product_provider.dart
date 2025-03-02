@@ -72,14 +72,26 @@ class ProductProvider extends ChangeNotifier {
 
   //provider to create orders
   bool isCreateOrderLoading = false;
-   Future<Map<String,dynamic>> createOrder(List<Map<String,dynamic>> orders) async{
-isCreateOrderLoading = true;
-notifyListeners();
-final response = await _service.createOrders(orders);
-isCreateOrderLoading = false;
-notifyListeners();
-return response;
+  Future<Map<String, dynamic>> createOrder(
+      List<Map<String, dynamic>> orders) async {
+    isCreateOrderLoading = true;
+    notifyListeners();
+    final response = await _service.createOrders(orders);
+    isCreateOrderLoading = false;
+    notifyListeners();
+    return response;
+  }
 
-   }
-
+  //provider to get all orders
+  bool isGetAllOrderLoading = false;
+  List allOrders = [];
+  Future getAllOrder() async{
+    isGetAllOrderLoading = true;
+    notifyListeners();
+   final response = await _service.getAllMyOrders();
+   allOrders = response;
+   logger.log("allorders: $allOrders");
+    isGetAllOrderLoading = false;
+    notifyListeners();
+  }
 }

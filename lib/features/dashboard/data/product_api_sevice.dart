@@ -438,7 +438,7 @@ class ProductApiSevice {
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
     if (token == null) {
-     String tokenErorMessage = "User not authenticated. Please login first.";
+      String tokenErorMessage = "User not authenticated. Please login first.";
       throw tokenErorMessage;
     }
 
@@ -476,12 +476,58 @@ class ProductApiSevice {
     }
   }
 
-  Future getAllMyOrders() async{
-      String? token = await SharedPrefLoggedinState.getAccessToken();
+  Future<List<InvoiceModel>> getAllMyOrders() async {
+    String? token = await SharedPrefLoggedinState.getAccessToken();
 
     if (token == null) {
-     String tokenErorMessage = "User not authenticated. Please login first.";
-      throw tokenErorMessage;
+      String tokenErrorMessage = "User not authenticated. Please login first.";
+      throw tokenErrorMessage;
+    }
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    var url = Uri.parse(Constants.getMyAlloderdUrl);
+
+    var request = http.Request('GET', url);
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    String responseBody = await response.stream.bytesToString();
+    logger.log(response.toString());
+    Map<String, dynamic> jsonResponse = json.decode(responseBody);
+
+    if (response.statusCode == 200 && jsonResponse["success"]) {
+      List<dynamic> ordersJson = jsonResponse["data"];
+      List<InvoiceModel> orders = [];
+
+      for (var order in ordersJson) {
+        int totalQuantity = 0;
+        double totalAmount = 0.0;
+
+        for (var product in order["products"]) {
+          totalQuantity += product["quantity"] as int;
+          totalAmount += double.parse(product["amount"].toString());
+        }
+
+        orders.add(InvoiceModel(
+          orderNo: order["key"],
+          totalAmount:
+              totalAmount.toStringAsFixed(2), // Ensures 2 decimal places
+          date: order["products"][0]["createdAt"],
+          totalQuantity: totalQuantity,
+          status: order["status"],
+        ));
+      }
+
+      // logger.log(orders.toString());
+      return orders;
+    } else {
+      String errorMessage = "Failed to get orders";
+      logger.log(errorMessage);
+      throw errorMessage;
     }
   }
 }
