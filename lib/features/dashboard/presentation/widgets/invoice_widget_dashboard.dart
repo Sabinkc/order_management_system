@@ -84,4 +84,3 @@ class InvoiceWidgetDashboard extends StatelessWidget {
     );
   }
 }
-
