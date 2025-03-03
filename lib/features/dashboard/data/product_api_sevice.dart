@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:order_management_system/common/constants.dart';
-import 'package:order_management_system/features/dashboard/data/cart_model.dart';
 import 'package:order_management_system/features/dashboard/data/product_model.dart';
 import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
 import "package:http/http.dart" as http;

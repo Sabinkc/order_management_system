@@ -260,12 +260,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
-import 'package:order_management_system/common/constants.dart';
-import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/invoice/domain/invoice_screen_provider.dart';
-import 'package:order_management_system/features/order%20history/domain/order_history_provider.dart';
 import 'package:provider/provider.dart';
-import 'dart:developer' as logger;
+// import 'dart:developer' as logger;
 
 class InvoiceDetailScreen extends StatefulWidget {
   final String orderKey;

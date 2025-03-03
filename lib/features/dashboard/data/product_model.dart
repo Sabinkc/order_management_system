@@ -1,5 +1,3 @@
-import 'package:order_management_system/features/dashboard/data/cart_model.dart';
-
 class ProductDetails {
   final int id;
   final String name;
