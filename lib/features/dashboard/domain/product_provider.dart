@@ -181,18 +181,6 @@ class ProductProvider extends ChangeNotifier {
     return response;
   }
 
-  //provider to get all orders
-  // bool isGetAllOrderLoading = false;
-  // List allOrders = [];
-  // Future getAllOrder() async{
-  //   isGetAllOrderLoading = true;
-  //   notifyListeners();
-  //  final response = await _service.getAllMyOrders();
-  //  allOrders = response;
-  //  logger.log("allorders: $allOrders");
-  //   isGetAllOrderLoading = false;
-  //   notifyListeners();
-  // }
 
   bool isGetAllOrderLoading = false; // Loading state
   List<InvoiceModel> allOrders = []; // Stores all orders from the API

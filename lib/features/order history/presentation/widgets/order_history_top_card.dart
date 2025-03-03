@@ -206,7 +206,6 @@ import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/constants.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
-import 'package:order_management_system/features/order%20history/domain/order_history_provider.dart';
 import 'package:order_management_system/features/order%20history/domain/switch_order_screen_provider.dart';
 import 'package:provider/provider.dart';
 

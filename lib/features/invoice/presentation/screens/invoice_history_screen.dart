@@ -523,6 +523,7 @@ import 'package:order_management_system/features/dashboard/domain/product_provid
 import 'package:order_management_system/features/invoice/domain/invoice_screen_provider.dart';
 import 'package:order_management_system/features/invoice/domain/search_provider.dart';
 import 'package:provider/provider.dart';
+
 // import 'dart:developer' as logger;
 class InvoiceHistoryScreen extends StatefulWidget {
   const InvoiceHistoryScreen({super.key});
@@ -538,7 +539,11 @@ class _InvoiceHistoryScreenState extends State<InvoiceHistoryScreen> {
       if (!mounted) return;
       final proudctProvider =
           Provider.of<ProductProvider>(context, listen: false);
+          final simpleUiProvider = Provider.of<SimpleUiProvider>(context,listen: false);
       proudctProvider.getAllOrder();
+      proudctProvider.clearFilters();
+      simpleUiProvider.clearDateRange();
+      simpleUiProvider.clearFilter();
     });
     super.initState();
   }
@@ -689,6 +694,17 @@ class _InvoiceHistoryScreenState extends State<InvoiceHistoryScreen> {
                       Expanded(
                         child: Consumer<SearchProvider>(
                           builder: (context, searchProvider, child) {
+                            if (productProvider.filteredOrders.isEmpty) {
+                              return Center(
+                                child: Text(
+                                  "No invoices found!",
+                                  style: TextStyle(
+                                    color: CommonColor.darkGreyColor,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              );
+                            }
 //filtered list displayed in listview
                             return ListView.builder(
                               itemCount: productProvider.filteredOrders.length,
@@ -696,33 +712,19 @@ class _InvoiceHistoryScreenState extends State<InvoiceHistoryScreen> {
                                 final order =
                                     productProvider.filteredOrders[index];
 
-                                if (productProvider.filteredOrders.isEmpty) {
-                                  return Center(
-                                    child: Text(
-                                      "No invoices found!",
-                                      style: TextStyle(
-                                        color: CommonColor.darkGreyColor,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  );
-                                }
                                 return Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 10),
                                   child: GestureDetector(
-                                    onTap: () 
-                                    {
-                                       Provider.of<InvoiceScreenProvider>(
+                                    onTap: () {
+                                      Provider.of<InvoiceScreenProvider>(
                                               context,
                                               listen: false)
                                           .switchInvoiceDetailPage();
                                       Provider.of<InvoiceScreenProvider>(
                                               context,
                                               listen: false)
-                                          .selectInvoiceKey(
-                                            order.orderNo);
-                                            
+                                          .selectInvoiceKey(order.orderNo);
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(
