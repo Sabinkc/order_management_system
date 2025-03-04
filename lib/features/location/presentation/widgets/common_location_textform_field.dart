@@ -13,7 +13,7 @@ class CommonLocationTextformField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-        fillColor: Colors.white,
+        fillColor: Colors.grey[100],
         filled: true,
         hintText: hintText,
         hintStyle: TextStyle(
@@ -21,8 +21,8 @@ class CommonLocationTextformField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
-              color: CommonColor.darkGreyColor), // Transparent border
+          borderSide:
+              BorderSide(color: Colors.grey[100]!), // Transparent border
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
