@@ -4,14 +4,17 @@ import 'package:order_management_system/common/common_color.dart';
 class CommonLocationTextformField extends StatelessWidget {
   final TextEditingController? controller;
   final String hintText;
+  final TextInputType? keyboardType;
   const CommonLocationTextformField(
-      {super.key, this.controller, required this.hintText});
+      {super.key, this.controller, required this.hintText, this.keyboardType});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: keyboardType,
       controller: controller,
       decoration: InputDecoration(
+        
         contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
         fillColor: Colors.grey[100],
         filled: true,

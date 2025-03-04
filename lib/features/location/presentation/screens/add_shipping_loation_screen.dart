@@ -1,130 +1,153 @@
 import 'package:flutter/material.dart';
+import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/location/domain/location_provider.dart';
 import 'package:order_management_system/features/location/presentation/widgets/common_location_textform_field.dart';
 import 'package:provider/provider.dart';
 
 class AddShippingLoationScreen extends StatelessWidget {
-  const AddShippingLoationScreen({super.key});
+  AddShippingLoationScreen({super.key});
 
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController stateController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
+  final TextEditingController streetController = TextEditingController();
+  final TextEditingController landmarkController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+
+    return KeyboardDismisser(
+      child: Scaffold(
         backgroundColor: Colors.white,
-        title: RichText(
-            text: TextSpan(children: [
-          TextSpan(
-            text: "Add Shippi",
-            style: TextStyle(
-                fontSize: 20,
-                color: CommonColor.darkGreyColor,
-                fontWeight: FontWeight.bold),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: RichText(
+              text: TextSpan(children: [
+            TextSpan(
+              text: "Add Shippi",
+              style: TextStyle(
+                  fontSize: 20,
+                  color: CommonColor.darkGreyColor,
+                  fontWeight: FontWeight.bold),
+            ),
+            TextSpan(
+              text: "ng Address",
+              style: TextStyle(
+                  fontSize: 20,
+                  color: CommonColor.darkGreyColor,
+                  fontWeight: FontWeight.bold),
+            ),
+          ])),
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: CommonColor.primaryColor,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          TextSpan(
-            text: "ng Address",
-            style: TextStyle(
-                fontSize: 20,
-                color: CommonColor.darkGreyColor,
-                fontWeight: FontWeight.bold),
-          ),
-        ])),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: CommonColor.primaryColor,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          actions: [
+            const SizedBox(
+              width: 10,
+            ),
+          ],
         ),
-        actions: [
-          const SizedBox(
-            width: 10,
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: screenHeight * 0.01,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 8),
-                child: Text(
-                  "Your Personal Details:",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: screenHeight * 0.01,
                 ),
-              ),
-              SizedBox(
-                height: screenHeight * 0.02,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                      width: screenWidth * 0.42,
-                      child:
-                          CommonLocationTextformField(hintText: "First Name")),
-                  SizedBox(
-                      width: screenWidth * 0.42,
-                      child:
-                          CommonLocationTextformField(hintText: "Last Name")),
-                ],
-              ),
-              SizedBox(height: screenHeight * 0.02),
-              CommonLocationTextformField(hintText: "Your Phone Number"),
-              SizedBox(height: screenHeight * 0.02),
-              CommonLocationTextformField(hintText: "Your Email Address"),
-              SizedBox(height: screenHeight * 0.03),
-              Padding(
-                padding: EdgeInsets.only(left: 8),
-                child: Text(
-                  "Your Delivery Address:",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                Padding(
+                  padding: EdgeInsets.only(left: 8),
+                  child: Text(
+                    "Your Personal Details:",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: screenHeight * 0.02,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                      width: screenWidth * 0.42,
-                      child: CommonLocationTextformField(hintText: "State")),
-                  SizedBox(
-                      width: screenWidth * 0.42,
-                      child: CommonLocationTextformField(hintText: "City")),
-                ],
-              ),
-              SizedBox(height: screenHeight * 0.02),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                      width: screenWidth * 0.42,
-                      child:
-                          CommonLocationTextformField(hintText: "Street/Area")),
-                  SizedBox(
-                      width: screenWidth * 0.42,
-                      child: CommonLocationTextformField(hintText: "Landmark")),
-                ],
-              ),
-              SizedBox(
-                height: screenHeight * 0.04,
-              ),
-              Consumer<LocationProvider>(
-                  builder: (context, locationProvider, child) {
-                return Padding(
+                SizedBox(
+                  height: screenHeight * 0.02,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                        width: screenWidth * 0.42,
+                        child: CommonLocationTextformField(
+                            controller: firstNameController,
+                            hintText: "First Name")),
+                    SizedBox(
+                        width: screenWidth * 0.42,
+                        child: CommonLocationTextformField(
+                            controller: lastNameController,
+                            hintText: "Last Name")),
+                  ],
+                ),
+                SizedBox(height: screenHeight * 0.02),
+                CommonLocationTextformField(
+                    keyboardType: TextInputType.number,
+                    controller: phoneController,
+                    hintText: "Your Phone Number"),
+                SizedBox(height: screenHeight * 0.02),
+                CommonLocationTextformField(
+                    controller: emailController,
+                    hintText: "Your Email Address"),
+                SizedBox(height: screenHeight * 0.03),
+                Padding(
+                  padding: EdgeInsets.only(left: 8),
+                  child: Text(
+                    "Your Delivery Address:",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(
+                  height: screenHeight * 0.02,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                        width: screenWidth * 0.42,
+                        child: CommonLocationTextformField(
+                            controller: stateController, hintText: "State")),
+                    SizedBox(
+                        width: screenWidth * 0.42,
+                        child: CommonLocationTextformField(
+                            controller: cityController, hintText: "City")),
+                  ],
+                ),
+                SizedBox(height: screenHeight * 0.02),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                        width: screenWidth * 0.42,
+                        child: CommonLocationTextformField(
+                            controller: streetController,
+                            hintText: "Street/Area")),
+                    SizedBox(
+                        width: screenWidth * 0.42,
+                        child: CommonLocationTextformField(
+                            controller: landmarkController,
+                            hintText: "Landmark")),
+                  ],
+                ),
+                SizedBox(
+                  height: screenHeight * 0.04,
+                ),
+                Consumer<LocationProvider>(
+                    builder: (context, locationProvider, child) {
+                  return Padding(
                     padding: EdgeInsets.only(left: 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -212,16 +235,65 @@ class AddShippingLoationScreen extends StatelessWidget {
                           ],
                         )
                       ],
-                    ));
-              }),
-              SizedBox(
-                height: screenHeight * 0.04,
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: screenHeight * 0.06,
-                child: ElevatedButton(
-                    onPressed: () {},
+                    ),
+                  );
+                }),
+                SizedBox(
+                  height: screenHeight * 0.04,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  height: screenHeight * 0.06,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (firstNameController.text.isEmpty ||
+                          lastNameController.text.isEmpty ||
+                          phoneController.text.isEmpty ||
+                          emailController.text.isEmpty ||
+                          stateController.text.isEmpty ||
+                          cityController.text.isEmpty ||
+                          streetController.text.isEmpty ||
+                          landmarkController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          duration: Duration(milliseconds: 500),
+                          content:
+                              Center(child: Text("All fields are required!")),
+                        ));
+                      } else {
+                        final locationProvider = Provider.of<LocationProvider>(
+                            context,
+                            listen: false);
+                        locationProvider.addAddress(
+                          firstName: firstNameController.text,
+                          lastName: lastNameController.text,
+                          phone: phoneController.text,
+                          email: emailController.text,
+                          state: stateController.text,
+                          city: cityController.text,
+                          street: streetController.text,
+                          landmark: landmarkController.text,
+                          category: locationProvider.addressCategory,
+                        );
+                        firstNameController.clear();
+                        lastNameController.clear();
+                        phoneController.clear();
+                        emailController.clear();
+                        stateController.clear();
+                        cityController.clear();
+                        streetController.clear();
+                        landmarkController.clear();
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          duration: Duration(seconds: 1),
+                          content:
+                              Center(child: Text("Address added successfully")),
+                        ));
+                        Future.delayed(Duration(seconds: 1), () {
+                          if (context.mounted) {
+                            Navigator.pop(context);
+                          }
+                        });
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)),
@@ -232,9 +304,11 @@ class AddShippingLoationScreen extends StatelessWidget {
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
-                    )),
-              ),
-            ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

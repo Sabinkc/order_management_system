@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/features/location/domain/location_provider.dart';
 import 'package:order_management_system/features/location/presentation/screens/add_shipping_loation_screen.dart';
+import 'package:provider/provider.dart';
 
 class ShippingLocationScreen extends StatelessWidget {
   const ShippingLocationScreen({super.key});
@@ -10,26 +12,31 @@ class ShippingLocationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: RichText(
             text: TextSpan(children: [
           TextSpan(
-            text: "Shipping",
+            text: "Select Shipping ",
             style: TextStyle(
-                fontSize: 22,
-                color: CommonColor.primaryColor,
+                fontSize: 20,
+                color: CommonColor.darkGreyColor,
                 fontWeight: FontWeight.bold),
           ),
           TextSpan(
-            text: "Location",
+            text: "Address",
             style: TextStyle(
-                fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
+                fontSize: 20,
+                color: CommonColor.darkGreyColor,
+                fontWeight: FontWeight.bold),
           ),
         ])),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
+            color: CommonColor.primaryColor,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -75,98 +82,140 @@ class ShippingLocationScreen extends StatelessWidget {
             SizedBox(
               height: screenHeight * 0.03,
             ),
-            Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  border: Border.all(color: CommonColor.primaryColor),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          spacing: 100,
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.all(4),
-                                  child: Icon(
-                                    Icons.location_on,
-                                    color: CommonColor.primaryColor,
-                                  ),
+            Consumer<LocationProvider>(
+                builder: (context, locationProvider, child) {
+              if (locationProvider.addresses.isEmpty) {
+                return Center(child: Text("No address added"));
+              } else {
+                return Expanded(
+                  child: ListView.builder(
+                      itemCount: locationProvider.addresses.length,
+                      itemBuilder: (context, index) {
+                        // int latestAddressIndex = locationProvider.addresses.length -1;
+                        final isSelected = index == locationProvider.selectedIndex;
+                        return GestureDetector(
+                          onTap: (){
+                            locationProvider.selectAddress(index);
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 10),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[100],
+                                  border:
+                                    isSelected
+                                          ? Border.all(
+                                              color: CommonColor.primaryColor)
+                                          : Border.all(color: Colors.grey[100]!),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                                Text(
-                                  "Kathmandu",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            Text(
-                              "(977 987654321)",
-                              style: TextStyle(
-                                  color: CommonColor.darkGreyColor,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                        Padding(
-                            padding: EdgeInsets.only(left: 32),
-                            child: Text(
-                              "P7PW-664, Kathmandu 44600",
-                              style: TextStyle(
-                                  color: CommonColor.darkGreyColor,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                        Padding(
-                            padding: EdgeInsets.only(left: 32, top: 5),
-                            child: Row(
-                              spacing: 100,
-                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: Border.all(color: Colors.red)),
-                                  child: Center(
-                                      child: Padding(
-                                    padding: const EdgeInsets.all(3),
-                                    child: Text(
-                                      "Default shipping address",
-                                      style: TextStyle(
-                                          fontSize: 10, color: Colors.red),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              locationProvider
+                                                  .addresses[index].firstName,
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              locationProvider
+                                                  .addresses[index].lastName,
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            SizedBox(
+                                              width: 15,
+                                            ),
+                                            Text(
+                                              locationProvider
+                                                  .addresses[index].phone,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  color:
+                                                      CommonColor.darkGreyColor,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            )
+                                          ],
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            // Navigator.push(
+                                            //     context,
+                                            //     MaterialPageRoute(
+                                            //         builder: (context) =>
+                                            //             AddShippingLoationScreen()));
+                                          },
+                                          child: Text(
+                                            "Edit",
+                                            style: TextStyle(
+                                                color: CommonColor.primaryColor,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                  )),
-                                ),
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AddShippingLoationScreen()));
-                                    },
-                                    child: Text(
-                                      "Edit",
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    Text(
+                                      "${locationProvider.addresses[index].state} - ${locationProvider.addresses[index].city}",
                                       style: TextStyle(
-                                          color: Colors.orangeAccent,
+                                          color: CommonColor.darkGreyColor,
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold),
-                                    )),
-                              ],
-                            )),
-                      ],
-                    ),
-                  ],
-                )),
+                                    ),
+                                    SizedBox(
+                                      height: 3,
+                                    ),
+                                    Text(
+                                      "${locationProvider.addresses[index].street},${locationProvider.addresses[index].city} (${locationProvider.addresses[index].landmark})",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: CommonColor.darkGreyColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(5),
+                                          border: Border.all(
+                                              color: CommonColor.primaryColor)),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 5, vertical: 3),
+                                        child: Text(
+                                          locationProvider
+                                              .addresses[index].category,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                          ),
+                        );
+                      }),
+                );
+              }
+            })
           ],
         ),
       ),
