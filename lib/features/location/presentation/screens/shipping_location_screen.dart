@@ -5,6 +5,7 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/utils.dart';
 import 'package:order_management_system/features/location/domain/location_provider.dart';
 import 'package:order_management_system/features/location/presentation/screens/add_shipping_loation_screen.dart';
+import 'package:order_management_system/features/location/presentation/screens/edit_shipping_location_screen.dart';
 import 'package:provider/provider.dart';
 
 class ShippingLocationScreen extends StatelessWidget {
@@ -164,11 +165,11 @@ class ShippingLocationScreen extends StatelessWidget {
                                         ),
                                         InkWell(
                                           onTap: () {
-                                            // Navigator.push(
-                                            //     context,
-                                            //     MaterialPageRoute(
-                                            //         builder: (context) =>
-                                            //             AddShippingLoationScreen()));
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditShippingLocationScreen(index: index,)));
                                           },
                                           child: Text(
                                             "Edit",

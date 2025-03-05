@@ -7,7 +7,7 @@ class AddressModel {
   final String city;
   final String street;
   final String landmark;
-  final String category;
+  String category;
 
   AddressModel({
     required this.firstName,

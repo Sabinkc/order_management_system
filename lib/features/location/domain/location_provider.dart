@@ -40,11 +40,40 @@ class LocationProvider extends ChangeNotifier {
     logger.log("addresses: $addresses");
   }
 
+  void editAddress(int index,
+      {String firstName = "John",
+      String lastName = "Doe",
+      String phone = "xxxxxxxxxx",
+      String email = "email@email.com",
+      String state = "unknown",
+      String city = "unknown",
+      String street = "unknown",
+      String landmark = "unknown",
+      String category = "unknown"}) {
+    addresses[index] = AddressModel(
+        firstName: firstName,
+        lastName: lastName,
+        phone: phone,
+        email: email,
+        state: state,
+        city: city,
+        street: street,
+        landmark: landmark,
+        category: category);
+    notifyListeners();
+    logger.log("address after edit: ${addresses[index]}");
+  }
+
+  void editCategory(int index, String category) {
+    addresses[index].category = category;
+    notifyListeners();
+  }
+
   void selectAddress(int index) {
     selectedIndex = index;
     notifyListeners();
   }
-  
+
   void deleteAddress(int index) {
     addresses.removeAt(index);
     if (selectedIndex == index) {
