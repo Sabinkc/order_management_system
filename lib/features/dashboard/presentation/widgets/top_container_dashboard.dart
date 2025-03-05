@@ -48,7 +48,7 @@ class TopContainerDashboard extends StatelessWidget {
                                 ),
                                 Text(
                                   locationProvider.addresses.isEmpty
-                                      ? "Location not set!"
+                                      ? "Address not set!"
                                       : locationProvider
                                           .addresses[selectedIndex].city,
                                   style: TextStyle(

@@ -44,4 +44,15 @@ class LocationProvider extends ChangeNotifier {
     selectedIndex = index;
     notifyListeners();
   }
+  
+  void deleteAddress(int index) {
+    addresses.removeAt(index);
+    if (selectedIndex == index) {
+      selectedIndex = 0;
+    }
+    if (selectedIndex > index) {
+      selectedIndex = selectedIndex - 1;
+    }
+    notifyListeners();
+  }
 }

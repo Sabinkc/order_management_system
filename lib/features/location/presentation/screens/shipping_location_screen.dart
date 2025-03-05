@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/common/utils.dart';
 import 'package:order_management_system/features/location/domain/location_provider.dart';
 import 'package:order_management_system/features/location/presentation/screens/add_shipping_loation_screen.dart';
 import 'package:provider/provider.dart';
@@ -54,10 +56,15 @@ class ShippingLocationScreen extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                        builder: (context) => AddShippingLoationScreen()));
+                final locationProvider =
+                    Provider.of<LocationProvider>(context, listen: false);
+                locationProvider.addresses.length < 3
+                    ? Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) => AddShippingLoationScreen()))
+                    : Utilities.showCommonSnackBar(context,
+                        "Address limit exceeded. Please delete a address first to proceed!");
               },
               child: Container(
                 height: screenHeight * 0.1,
@@ -85,16 +92,23 @@ class ShippingLocationScreen extends StatelessWidget {
             Consumer<LocationProvider>(
                 builder: (context, locationProvider, child) {
               if (locationProvider.addresses.isEmpty) {
-                return Center(child: Text("No address added"));
+                return Center(
+                    child: Text(
+                  "No addresses added!",
+                  style: TextStyle(
+                    color: CommonColor.mediumGreyColor,
+                    fontSize: 20,
+                  ),
+                ));
               } else {
                 return Expanded(
                   child: ListView.builder(
                       itemCount: locationProvider.addresses.length,
                       itemBuilder: (context, index) {
-                        // int latestAddressIndex = locationProvider.addresses.length -1;
-                        final isSelected = index == locationProvider.selectedIndex;
+                        final isSelected =
+                            index == locationProvider.selectedIndex;
                         return GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             locationProvider.selectAddress(index);
                           },
                           child: Padding(
@@ -104,11 +118,10 @@ class ShippingLocationScreen extends StatelessWidget {
                                     horizontal: 15, vertical: 10),
                                 decoration: BoxDecoration(
                                   color: Colors.grey[100],
-                                  border:
-                                    isSelected
-                                          ? Border.all(
-                                              color: CommonColor.primaryColor)
-                                          : Border.all(color: Colors.grey[100]!),
+                                  border: isSelected
+                                      ? Border.all(
+                                          color: CommonColor.primaryColor)
+                                      : Border.all(color: Colors.grey[100]!),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Column(
@@ -191,22 +204,86 @@ class ShippingLocationScreen extends StatelessWidget {
                                     SizedBox(
                                       height: 5,
                                     ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5),
-                                          border: Border.all(
-                                              color: CommonColor.primaryColor)),
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 5, vertical: 3),
-                                        child: Text(
-                                          locationProvider
-                                              .addresses[index].category,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              border: Border.all(
+                                                  color: CommonColor
+                                                      .primaryColor)),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 5, vertical: 3),
+                                            child: Text(
+                                              locationProvider
+                                                  .addresses[index].category,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                        InkWell(
+                                          onTap: () {
+                                            Utilities.showCommonConfirmationBox(
+                                                context,
+                                                headerMessage:
+                                                    "Confirm to delete?",
+                                                bodyMessage:
+                                                    "Are you sure you want to delte this address from your profile?",
+                                                leftConfirmationMessage:
+                                                    "Cancel",
+                                                rightConfirmationMessage:
+                                                    "Delete",
+                                                onLeftButtonPressed: () {
+                                              Navigator.pop(context);
+                                            }, onRightButtonPressed: () {
+                                              locationProvider
+                                                  .deleteAddress(index);
+                                              Navigator.pop(context);
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    Future.delayed(
+                                                        Duration(seconds: 1),
+                                                        () {
+                                                      if (context.mounted) {
+                                                        Navigator.pop(context);
+                                                      }
+                                                    });
+                                                    return AlertDialog(
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15)),
+                                                      title: Center(
+                                                        child: Text(
+                                                          "Address deleted successfully!",
+                                                          style: TextStyle(
+                                                              color: CommonColor
+                                                                  .darkGreyColor,
+                                                              fontSize: 14),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  });
+                                            });
+                                          },
+                                          child: Icon(
+                                            MingCute.delete_2_fill,
+                                            color: CommonColor.primaryColor,
+                                            size: 20,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 )),

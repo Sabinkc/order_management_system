@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
@@ -59,7 +57,6 @@ class SignupScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const TextfieldWidgetSignup(),
-                                
                                 ],
                               ),
                             ),

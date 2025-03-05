@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/common/utils.dart';
 import 'package:order_management_system/features/location/domain/location_provider.dart';
 import 'package:order_management_system/features/location/presentation/widgets/common_location_textform_field.dart';
 import 'package:provider/provider.dart';
@@ -246,32 +247,30 @@ class AddShippingLoationScreen extends StatelessWidget {
                   height: screenHeight * 0.06,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (firstNameController.text.isEmpty ||
-                          lastNameController.text.isEmpty ||
-                          phoneController.text.isEmpty ||
-                          emailController.text.isEmpty ||
-                          stateController.text.isEmpty ||
-                          cityController.text.isEmpty ||
-                          streetController.text.isEmpty ||
-                          landmarkController.text.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          duration: Duration(milliseconds: 500),
-                          content:
-                              Center(child: Text("All fields are required!")),
-                        ));
+                      if (firstNameController.text.trim().isEmpty ||
+                          lastNameController.text.trim().isEmpty ||
+                          phoneController.text.trim().isEmpty ||
+                          emailController.text.trim().isEmpty ||
+                          stateController.text.trim().isEmpty ||
+                          cityController.text.trim().isEmpty ||
+                          streetController.text.trim().isEmpty ||
+                          landmarkController.text.trim().isEmpty) {
+                        Utilities.showCommonSnackBar(
+                            context, "All fields are required!",
+                            color: Colors.red, durationMilliseconds: 500);
                       } else {
                         final locationProvider = Provider.of<LocationProvider>(
                             context,
                             listen: false);
                         locationProvider.addAddress(
-                          firstName: firstNameController.text,
-                          lastName: lastNameController.text,
-                          phone: phoneController.text,
-                          email: emailController.text,
-                          state: stateController.text,
-                          city: cityController.text,
-                          street: streetController.text,
-                          landmark: landmarkController.text,
+                          firstName: firstNameController.text.trim(),
+                          lastName: lastNameController.text.trim(),
+                          phone: phoneController.text.trim(),
+                          email: emailController.text.trim(),
+                          state: stateController.text.trim(),
+                          city: cityController.text.trim(),
+                          street: streetController.text.trim(),
+                          landmark: landmarkController.text.trim(),
                           category: locationProvider.addressCategory,
                         );
                         firstNameController.clear();
@@ -282,11 +281,9 @@ class AddShippingLoationScreen extends StatelessWidget {
                         cityController.clear();
                         streetController.clear();
                         landmarkController.clear();
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          duration: Duration(seconds: 1),
-                          content:
-                              Center(child: Text("Address added successfully")),
-                        ));
+                        Utilities.showCommonSnackBar(
+                            context, "Address added successfully",
+                            icon: Icons.done);
                         Future.delayed(Duration(seconds: 1), () {
                           if (context.mounted) {
                             Navigator.pop(context);
