@@ -41,12 +41,25 @@ class DashboardScreen extends StatelessWidget {
                   return provider.cartItems.isEmpty
                       ? SizedBox(
                           height: screenHeight * 0.65,
-                          child: Center(
-                            child: Text(
-                              "No products in the cart!",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: CommonColor.darkGreyColor),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 50, right: 50, bottom: 0, top: 20),
+                            child: Center(
+                              child: SizedBox(
+                                  height: screenHeight * 0.5,
+                                  // color: Colors.red,
+                                  child: Column(spacing: 15, children: [
+                                    Image.asset(
+                                      "assets/images/empty_cart.png",
+                                      fit: BoxFit.contain,
+                                    ),
+                                    Text(
+                                      "No products in the cart!",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: CommonColor.darkGreyColor),
+                                    ),
+                                  ])),
                             ),
                           ))
                       : Column(

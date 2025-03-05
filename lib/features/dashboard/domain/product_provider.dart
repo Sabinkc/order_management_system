@@ -70,17 +70,35 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //provider to create orders
+  // //provider to create orders
+  // bool isCreateOrderLoading = false;
+  // Future<Map<String, dynamic>> createOrder(
+  //     List<Map<String, dynamic>> orders) async {
+  //   isCreateOrderLoading = true;
+  //   notifyListeners();
+  //   final response = await _service.createOrders(orders);
+  //   isCreateOrderLoading = false;
+  //   notifyListeners();
+  //   return response;
+  // }
   bool isCreateOrderLoading = false;
+
   Future<Map<String, dynamic>> createOrder(
       List<Map<String, dynamic>> orders) async {
     isCreateOrderLoading = true;
     notifyListeners();
-    final response = await _service.createOrders(orders);
-    isCreateOrderLoading = false;
-    notifyListeners();
-    return response;
+
+    try {
+      final response = await _service.createOrders(orders);
+      return response;
+    } catch (e) {
+      // Log the error and re-throw it to handle it in the calling function
+      logger.log("Error creating order: $e");
+      throw "$e";
+    } finally {
+      // Reset the loading state, regardless of success or failure
+      isCreateOrderLoading = false;
+      notifyListeners();
+    }
   }
-
-
 }

@@ -94,12 +94,19 @@ class ShippingLocationScreen extends StatelessWidget {
                 builder: (context, locationProvider, child) {
               if (locationProvider.addresses.isEmpty) {
                 return Center(
-                    child: Text(
-                  "No addresses added!",
-                  style: TextStyle(
-                    color: CommonColor.mediumGreyColor,
-                    fontSize: 20,
-                  ),
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset("assets/images/address.png"),
+                    Text(
+                      "Address not added yet!",
+                      style: TextStyle(
+                        color: CommonColor.darkGreyColor,
+                        // fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                      ),
+                    )
+                  ],
                 ));
               } else {
                 return Expanded(
@@ -169,7 +176,9 @@ class ShippingLocationScreen extends StatelessWidget {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        EditShippingLocationScreen(index: index,)));
+                                                        EditShippingLocationScreen(
+                                                          index: index,
+                                                        )));
                                           },
                                           child: Text(
                                             "Edit",

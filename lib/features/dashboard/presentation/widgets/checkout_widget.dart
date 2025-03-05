@@ -181,69 +181,72 @@ class CheckoutWidget extends StatelessWidget {
     }
 
     logger.log("Orders to be passed: $orders");
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        // Future.delayed(Duration(seconds: 1), () {
-        //   if (context.mounted) {
-        //     Navigator.pop(context); // Close the dialog
-        //     Navigator.pop(context); // Go back to the previous screen
-        //   }
-        // });
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          content: SizedBox(
-            height: 90,
-            child: Center(
-              child: Consumer<ProductProvider>(
-                builder: (context, productProvider, child) {
-                  return productProvider.isCreateOrderLoading
-                      ? Center(
-                          child: CircularProgressIndicator(
-                          color: CommonColor.primaryColor,
-                        ))
-                      : Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          spacing: 20,
-                          children: [
-                            Text(
-                              "Checkout completed!",
-                              style: TextStyle(
-                                  color: CommonColor.darkGreyColor,
-                                  fontSize: 14),
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                },
-                                child: Text(
-                                  "OK",
-                                  style: TextStyle(
-                                      color: CommonColor.darkGreyColor,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                          ],
-                        );
-                },
-              ),
-            ),
-          ),
-        );
-      },
-    );
 
     try {
       // Wait for the order creation to complete
       await productProvider.createOrder(orders);
       // Clear the cart only after order creation is successful
       cartQuantityProvider.clearCart();
+
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          // Future.delayed(Duration(seconds: 1), () {
+          //   if (context.mounted) {
+          //     Navigator.pop(context); // Close the dialog
+          //     Navigator.pop(context); // Go back to the previous screen
+          //   }
+          // });
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            content: SizedBox(
+              height: 90,
+              child: Center(
+                child: Consumer<ProductProvider>(
+                  builder: (context, productProvider, child) {
+                    return productProvider.isCreateOrderLoading
+                        ? Center(
+                            child: CircularProgressIndicator(
+                            color: CommonColor.primaryColor,
+                          ))
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            spacing: 20,
+                            children: [
+                              Text(
+                                "Checkout completed!",
+                                style: TextStyle(
+                                    color: CommonColor.darkGreyColor,
+                                    fontSize: 14),
+                              ),
+                              InkWell(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    "OK",
+                                    style: TextStyle(
+                                        color: CommonColor.darkGreyColor,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                            ],
+                          );
+                  },
+                ),
+              ),
+            ),
+          );
+        },
+      );
       if (!context.mounted) return;
     } catch (e) {
       logger.log("Error during order creation: $e");
+
+      // productProvider.isCategoryLoading = false;
       // Show an error dialog to the user
       showDialog(
         context: context,
