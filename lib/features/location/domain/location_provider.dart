@@ -84,4 +84,13 @@ class LocationProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  String longitude = "";
+  String latitude = "";
+
+  void addLatitudeLongitue(String lat, String long){
+longitude = long;
+latitude = lat;
+notifyListeners();
+  }
 }
