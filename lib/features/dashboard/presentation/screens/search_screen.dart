@@ -1,3 +1,469 @@
+// import 'dart:async';
+// import 'dart:typed_data';
+// import 'package:flutter/material.dart';
+// import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+// import 'package:order_management_system/common/common_color.dart';
+// import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
+// import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
+// import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
+// import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
+// import 'package:provider/provider.dart';
+// import 'package:shimmer/shimmer.dart';
+// import 'dart:developer' as logger;
+
+// class SearchScreen extends StatefulWidget {
+//   const SearchScreen({super.key});
+
+//   @override
+//   State<SearchScreen> createState() => _SearchScreenState();
+// }
+
+// class _SearchScreenState extends State<SearchScreen> {
+//   late FocusNode _searchFocusNode;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _searchFocusNode = FocusNode();
+
+//     // Focus on the search field when screen loads
+//     WidgetsBinding.instance.addPostFrameCallback((_) {
+//       if (_searchFocusNode.canRequestFocus) {
+//         _searchFocusNode.requestFocus();
+//       }
+
+//       // Fetch product categories after the screen is built
+//       Future.delayed(Duration.zero, () {
+//         if (!mounted) return;
+//         final TabBarProvider tabBarProvider =
+//             Provider.of(context, listen: false);
+//         tabBarProvider.clearSelectedIndex();
+//         tabBarProvider.clearSearchKeyword();
+//         final productProvider =
+//             Provider.of<ProductProvider>(context, listen: false);
+//         productProvider.getAllProductCategories();
+//         productProvider.getAllProduct();
+//         productProvider.getCategoryProducts(
+//             1); // Fetch products for category ID 1 initially
+//       });
+//     });
+//   }
+
+//   @override
+//   void dispose() {
+//     _searchFocusNode.dispose();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final productProvider = Provider.of<ProductProvider>(context);
+//     final screenHeight = MediaQuery.of(context).size.height;
+//     Timer? debounce;
+
+//     return Consumer<TabBarProvider>(
+//       builder: (context, tabBarProvider, _) {
+//         //  String searchKeyword =
+//         //     tabBarProvider.searchController.text.toLowerCase();
+//         return KeyboardDismisser(
+//           child: DefaultTabController(
+//             length: productProvider.productCategory.length,
+//             initialIndex: 0,
+//             child: Container(
+//               decoration: BoxDecoration(
+//                 color: CommonColor.commonGreyColor,
+//                 borderRadius: const BorderRadius.only(
+//                   topLeft: Radius.circular(25),
+//                   topRight: Radius.circular(25),
+//                 ),
+//               ),
+//               height: screenHeight * 0.7,
+//               child: Column(
+//                 children: [
+//                   SizedBox(height: screenHeight * 0.01),
+//                   Padding(
+//                     padding: const EdgeInsets.symmetric(horizontal: 10),
+//                     child: Row(
+//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                       children: [
+//                         const Icon(Icons.cancel, color: Colors.transparent),
+//                         const Center(
+//                           child: Text(
+//                             "Product Catalog",
+//                             style: TextStyle(
+//                                 fontWeight: FontWeight.w800, fontSize: 20),
+//                           ),
+//                         ),
+//                         IconButton(
+//                           onPressed: () {
+//                             Navigator.pop(context);
+//                           },
+//                           icon: Icon(
+//                             Icons.close,
+//                             color: CommonColor.primaryColor,
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                   const Divider(),
+//                   Padding(
+//                     padding: const EdgeInsets.symmetric(
+//                         horizontal: 20, vertical: 10),
+//                     child: TextFormField(
+//                       controller: tabBarProvider.searchController,
+//                       focusNode: _searchFocusNode,
+//                       autofocus: true,
+
+//                       onChanged: (value) {
+//                         final trimmedValue = value.trim();
+//                         if (debounce?.isActive ?? false) debounce?.cancel();
+//                         debounce = Timer(const Duration(milliseconds: 500), () {
+//                           if (trimmedValue.isNotEmpty) {
+//                             Provider.of<TabBarProvider>(context, listen: false)
+//                                 .updateSearchKeyword(trimmedValue);
+//                             Provider.of<ProductProvider>(context, listen: false)
+//                                 .searchProducts(context);
+//                           } else {
+//                             Provider.of<TabBarProvider>(context, listen: false)
+//                                 .updateSearchKeyword('');
+//                           }
+//                         });
+//                       },
+//                       onFieldSubmitted: (value) {
+//                         final trimmedValue = value.trim();
+//                         if (trimmedValue.isNotEmpty) {
+//                           Provider.of<TabBarProvider>(context, listen: false)
+//                               .updateSearchKeyword(trimmedValue);
+//                         } else {
+//                           Provider.of<TabBarProvider>(context, listen: false)
+//                               .updateSearchKeyword('');
+//                         }
+//                       },
+//                       // onChanged: (value) {
+//                       //   Provider.of<TabBarProvider>(context, listen: false)
+//                       //       .updateSearchKeyword(value);
+//                       //   Provider.of<ProductProvider>(context, listen: false)
+//                       //       .searchProducts(context);
+//                       // },
+//                       // onFieldSubmitted: (value) {
+//                       //   Provider.of<TabBarProvider>(context, listen: false)
+//                       //       .updateSearchKeyword(value);
+//                       // },
+//                       decoration: InputDecoration(
+//                         contentPadding: const EdgeInsets.symmetric(
+//                             horizontal: 10, vertical: 15),
+//                         fillColor: Colors.white,
+//                         filled: true,
+//                         hintText: "What are you looking for?",
+//                         hintStyle: TextStyle(
+//                           color: CommonColor.darkGreyColor,
+//                           fontWeight: FontWeight.bold,
+//                           fontSize: 14,
+//                         ),
+//                         prefixIcon: Icon(
+//                           Icons.search,
+//                           size: 23,
+//                           color: CommonColor.primaryColor,
+//                         ),
+//                         enabledBorder: OutlineInputBorder(
+//                           borderRadius: BorderRadius.circular(8),
+//                           borderSide: BorderSide(color: Colors.transparent),
+//                         ),
+//                         focusedBorder: OutlineInputBorder(
+//                           borderRadius: BorderRadius.circular(8),
+//                           borderSide: BorderSide(
+//                               color: CommonColor.primaryColor, width: 2),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                   productProvider.isCategoryLoading
+//                       ? Padding(
+//                           padding: EdgeInsets.symmetric(horizontal: 20),
+//                           child: Shimmer.fromColors(
+//                             baseColor: Colors.grey[200]!,
+//                             highlightColor: Colors.white,
+//                             child: Container(
+//                               color: Colors.white,
+//                               height: 40,
+//                               width: double.infinity,
+//                             ),
+//                           ),
+//                         )
+//                       : TabBar(
+//                           indicatorSize: TabBarIndicatorSize.tab,
+//                           unselectedLabelColor: CommonColor.darkGreyColor,
+//                           indicatorColor: CommonColor.primaryColor,
+//                           labelColor: CommonColor.primaryColor,
+//                           labelPadding:
+//                               const EdgeInsets.symmetric(horizontal: 25),
+//                           isScrollable: true,
+//                           tabAlignment: TabAlignment.start,
+//                           onTap: (index) {
+//                             tabBarProvider.selectTab(index);
+//                             // When a category is selected, fetch the products
+//                             final selectedCategory =
+//                                 productProvider.productCategory[index];
+//                             if (!context.mounted) {
+//                               return;
+//                             }
+//                             productProvider
+//                                 .getCategoryProducts(selectedCategory.id)
+//                                 .then((_) {
+//                               if (context.mounted) {
+//                                 productProvider.searchProducts(context);
+//                               }
+//                             });
+//                           },
+//                           tabs: productProvider.productCategory
+//                               .map(
+//                                 (tab) => Tab(
+//                                   child: Text(
+//                                     tab.name,
+//                                     style: TextStyle(
+//                                         fontWeight: FontWeight.bold,
+//                                         fontSize: 17),
+//                                   ),
+//                                 ),
+//                               )
+//                               .toList(),
+//                         ),
+//                   const SizedBox(height: 20),
+//                   Expanded(
+//                     child: productProvider.isCategoryProductLoading ||
+//                             productProvider.isProductLoading
+//                         ? Center(
+//                             child: CircularProgressIndicator(
+//                               color: CommonColor.primaryColor,
+//                             ),
+//                           )
+//                         : productProvider.filteredCategoryProducts.isEmpty
+//                             ? Center(
+//                                 child: Text(
+//                                   "No products found",
+//                                   style: TextStyle(
+//                                     fontSize: 16,
+//                                     fontWeight: FontWeight.bold,
+//                                     color: Colors.grey[600],
+//                                   ),
+//                                 ),
+//                               )
+//                             : Padding(
+//                                 padding:
+//                                     const EdgeInsets.symmetric(horizontal: 20),
+//                                 child: GridView.builder(
+//                                   itemCount: productProvider
+//                                       .filteredCategoryProducts.length,
+//                                   gridDelegate:
+//                                       const SliverGridDelegateWithFixedCrossAxisCount(
+//                                     childAspectRatio: 0.75,
+//                                     crossAxisCount: 2,
+//                                     mainAxisSpacing: 10,
+//                                     crossAxisSpacing: 10,
+//                                   ),
+//                                   itemBuilder: (context, index) {
+//                                     final product = productProvider
+//                                         .filteredCategoryProducts[index];
+//                                     final productApiService =
+//                                         ProductApiSevice();
+//                                     // logger.log(
+//                                     //     "built image url: ${product.imageUrl}");
+//                                     return Consumer<CartQuantityProvider>(
+//                                       builder: (context, provider, child) {
+//                                         return GestureDetector(
+//                                           onTap: () {
+//                                             showDialog(
+//                                               context: context,
+//                                               builder: (context) {
+//                                                 Future.delayed(
+//                                                     const Duration(seconds: 1),
+//                                                     () {
+//                                                   if (context.mounted) {
+//                                                     Navigator.pop(context);
+//                                                   }
+//                                                 });
+//                                                 return AlertDialog(
+//                                                   backgroundColor: Colors.white,
+//                                                   shape: RoundedRectangleBorder(
+//                                                     borderRadius:
+//                                                         BorderRadius.circular(
+//                                                             15),
+//                                                   ),
+//                                                   title: Center(
+//                                                     child: Text(
+//                                                       "Item added to cart successfully!",
+//                                                       style: TextStyle(
+//                                                           color: CommonColor
+//                                                               .darkGreyColor,
+//                                                           fontSize: 14),
+//                                                     ),
+//                                                   ),
+//                                                 );
+//                                               },
+//                                             );
+//                                             Provider.of<CartQuantityProvider>(
+//                                                     context,
+//                                                     listen: false)
+//                                                 .addToCart(
+//                                                     product.id.toString(),
+//                                                     context);
+//                                             logger.log(
+//                                                 "tapped product id: ${product.id}");
+//                                           },
+//                                           child: Container(
+//                                             decoration: BoxDecoration(
+//                                               borderRadius:
+//                                                   BorderRadius.circular(8),
+//                                               color: Colors.white,
+//                                             ),
+//                                             child: Column(
+//                                               crossAxisAlignment:
+//                                                   CrossAxisAlignment.start,
+//                                               children: [
+//                                                 Container(
+//                                                     decoration: BoxDecoration(
+//                                                       color: const Color(
+//                                                           0XFFFAFAFA),
+//                                                       borderRadius:
+//                                                           const BorderRadius
+//                                                               .vertical(
+//                                                         top: Radius.circular(8),
+//                                                       ),
+//                                                     ),
+//                                                     height: 130,
+//                                                     width: double.infinity,
+//                                                     child: FutureBuilder<
+//                                                         Uint8List>(
+//                                                       future: productApiService
+//                                                           .getImageByFilename(
+//                                                               product.imageUrl),
+//                                                       builder:
+//                                                           (context, snapshot) {
+//                                                         if (snapshot
+//                                                                 .connectionState ==
+//                                                             ConnectionState
+//                                                                 .waiting) {
+//                                                           return Center(
+//                                                               child: Shimmer
+//                                                                   .fromColors(
+//                                                             baseColor: Colors
+//                                                                 .grey[300]!,
+//                                                             highlightColor:
+//                                                                 Colors
+//                                                                     .grey[100]!,
+//                                                             child: Container(
+//                                                               color: Colors.red,
+//                                                             ),
+//                                                           ));
+//                                                         } else if (snapshot
+//                                                             .hasError) {
+//                                                           return Icon(Icons
+//                                                               .broken_image);
+//                                                         } else if (snapshot
+//                                                             .hasData) {
+//                                                           return ClipRRect(
+//                                                             borderRadius: BorderRadius.only(
+//                                                                 topLeft: Radius
+//                                                                     .circular(
+//                                                                         8),
+//                                                                 topRight: Radius
+//                                                                     .circular(
+//                                                                         8)),
+//                                                             child: Image.memory(
+//                                                               snapshot.data!,
+//                                                               fit: BoxFit.cover,
+//                                                               errorBuilder: (context,
+//                                                                       error,
+//                                                                       stackTrace) =>
+//                                                                   Icon(Icons
+//                                                                       .broken_image),
+//                                                             ),
+//                                                           );
+//                                                         } else {
+//                                                           return Icon(Icons
+//                                                               .broken_image);
+//                                                         }
+//                                                       },
+//                                                     )),
+//                                                 const SizedBox(height: 15),
+//                                                 Padding(
+//                                                   padding: const EdgeInsets
+//                                                       .symmetric(horizontal: 8),
+//                                                   child: Text(
+//                                                     overflow:
+//                                                         TextOverflow.ellipsis,
+//                                                     maxLines: 2,
+//                                                     product.name,
+//                                                     textAlign: TextAlign.start,
+//                                                     style: TextStyle(
+//                                                       fontWeight:
+//                                                           FontWeight.bold,
+//                                                       fontSize: 14,
+//                                                     ),
+//                                                   ),
+//                                                 ),
+//                                                 const SizedBox(height: 7),
+//                                                 Padding(
+//                                                   padding: const EdgeInsets
+//                                                       .symmetric(horizontal: 8),
+//                                                   child: Row(
+//                                                     children: [
+//                                                       SizedBox(
+//                                                         width: 100,
+//                                                         child: Text(
+//                                                           "Rs. ${product.price}",
+//                                                           maxLines: 2,
+//                                                           overflow: TextOverflow
+//                                                               .ellipsis,
+//                                                           style: TextStyle(
+//                                                             fontWeight:
+//                                                                 FontWeight.bold,
+//                                                             color: CommonColor
+//                                                                 .primaryColor,
+//                                                           ),
+//                                                         ),
+//                                                       ),
+//                                                       const SizedBox(width: 8),
+//                                                       Expanded(
+//                                                         child: Text(
+//                                                           product.categoryName,
+//                                                           overflow: TextOverflow
+//                                                               .ellipsis,
+//                                                           maxLines: 1,
+//                                                           style: TextStyle(
+//                                                             fontSize: 11,
+//                                                             fontWeight:
+//                                                                 FontWeight.bold,
+//                                                             color: CommonColor
+//                                                                 .mediumGreyColor,
+//                                                           ),
+//                                                         ),
+//                                                       ),
+//                                                     ],
+//                                                   ),
+//                                                 ),
+//                                               ],
+//                                             ),
+//                                           ),
+//                                         );
+//                                       },
+//                                     );
+//                                   },
+//                                 ),
+//                               ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
+
+
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -33,7 +499,7 @@ class _SearchScreenState extends State<SearchScreen> {
       }
 
       // Fetch product categories after the screen is built
-      Future.delayed(Duration.zero, () {
+      Future.delayed(Duration.zero, () async{
         if (!mounted) return;
         final TabBarProvider tabBarProvider =
             Provider.of(context, listen: false);
@@ -41,10 +507,10 @@ class _SearchScreenState extends State<SearchScreen> {
         tabBarProvider.clearSearchKeyword();
         final productProvider =
             Provider.of<ProductProvider>(context, listen: false);
-        productProvider.getAllProductCategories();
-        productProvider.getAllProduct();
-        productProvider.getCategoryProducts(
-            1); // Fetch products for category ID 1 initially
+       await productProvider.getAllProductCategories();
+        await productProvider.getAllProduct();
+        await productProvider.getCategoryProducts(
+            0); // Fetch products for category ID 1 initially
       });
     });
   }
@@ -200,22 +666,29 @@ class _SearchScreenState extends State<SearchScreen> {
                               const EdgeInsets.symmetric(horizontal: 25),
                           isScrollable: true,
                           tabAlignment: TabAlignment.start,
-                          onTap: (index) {
-                            tabBarProvider.selectTab(index);
-                            // When a category is selected, fetch the products
-                            final selectedCategory =
-                                productProvider.productCategory[index];
-                            if (!context.mounted) {
-                              return;
-                            }
-                            productProvider
-                                .getCategoryProducts(selectedCategory.id)
-                                .then((_) {
-                              if (context.mounted) {
-                                productProvider.searchProducts(context);
-                              }
-                            });
-                          },
+                         onTap: (index) {
+  tabBarProvider.selectTab(index);
+  final selectedCategory = productProvider.productCategory[index];
+  if (!context.mounted) {
+    return;
+  }
+
+  if (selectedCategory.id == 0) {
+    // If "All" category is selected, fetch all products
+    productProvider.getCategoryProducts(0).then((_) {
+      if (context.mounted) {
+        productProvider.searchProducts(context);
+      }
+    });
+  } else {
+    // Otherwise, fetch products for the selected category
+    productProvider.getCategoryProducts(selectedCategory.id).then((_) {
+      if (context.mounted) {
+        productProvider.searchProducts(context);
+      }
+    });
+  }
+},
                           tabs: productProvider.productCategory
                               .map(
                                 (tab) => Tab(
@@ -232,7 +705,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   const SizedBox(height: 20),
                   Expanded(
                     child: productProvider.isCategoryProductLoading ||
-                            productProvider.isProductLoading
+                            productProvider.isProductLoading || productProvider.isCategoryLoading
                         ? Center(
                             child: CircularProgressIndicator(
                               color: CommonColor.primaryColor,
