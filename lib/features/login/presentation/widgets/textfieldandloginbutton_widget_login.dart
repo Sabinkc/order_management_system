@@ -6,7 +6,7 @@ import 'package:order_management_system/common/common_textfield.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/domain/login_textfield_provider.dart';
-import 'package:order_management_system/features/profile/domain/profile_data_provider.dart';
+import 'package:order_management_system/features/settings/domain/profile_data_provider.dart';
 import 'package:provider/provider.dart';
 
 class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {

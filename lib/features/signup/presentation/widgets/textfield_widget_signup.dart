@@ -5,7 +5,7 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/common_textfield.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
-import 'package:order_management_system/features/profile/domain/profile_data_provider.dart';
+import 'package:order_management_system/features/settings/domain/profile_data_provider.dart';
 import 'package:order_management_system/features/signup/domain/checkbox_provider.dart';
 import 'package:order_management_system/features/signup/domain/signup_textfield_provider.dart';
 import 'package:order_management_system/features/signup/presentation/widgets/checkbox_widget_signup.dart';

@@ -1,12 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:logger/logger.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/login/data/google_signin_api_service.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/presentation/screens/login_screen.dart';
-import 'package:order_management_system/features/profile/domain/profile_data_provider.dart';
+import 'package:order_management_system/features/settings/domain/profile_data_provider.dart';
+import 'package:order_management_system/features/settings/presentation/screens/screens/help_and_support_screen.dart';
+import 'package:order_management_system/features/settings/presentation/screens/screens/my_profile_screen.dart';
+import 'package:order_management_system/features/settings/presentation/screens/screens/notification_screen.dart';
+import 'package:order_management_system/features/settings/presentation/screens/screens/reset_password_screen.dart';
 import 'package:order_management_system/localization/localization_provider.dart';
 import 'package:order_management_system/test_screen.dart';
 import 'package:provider/provider.dart';
@@ -102,7 +107,8 @@ class SettingsScreen extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => TestScreen()));
+                                        builder: (context) =>
+                                            MyProfileScreen()));
                               },
                               contentPadding:
                                   EdgeInsets.only(left: 12, right: 8),
@@ -121,6 +127,31 @@ class SettingsScreen extends StatelessWidget {
                               ),
                             ),
                           ),
+                          // SizedBox(
+                          //   height: screenHeight * 0.01,
+                          // ),
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //       color: Colors.white,
+                          //       borderRadius: BorderRadius.circular(8)),
+                          //   child: ListTile(
+                          //     contentPadding:
+                          //         EdgeInsets.only(left: 12, right: 8),
+                          //     leading: SvgPicture.asset(
+                          //         "assets/icons/payment_method.svg"),
+                          //     title: Text(
+                          //       "Payment Method",
+                          //       style: TextStyle(
+                          //           color: CommonColor.darkGreyColor,
+                          //           fontWeight: FontWeight.w600),
+                          //     ),
+                          //     trailing: Icon(
+                          //       Icons.keyboard_arrow_right,
+                          //       color: CommonColor.primaryColor,
+                          //       size: 30,
+                          //     ),
+                          //   ),
+                          // ),
                           SizedBox(
                             height: screenHeight * 0.01,
                           ),
@@ -129,12 +160,22 @@ class SettingsScreen extends StatelessWidget {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(8)),
                             child: ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ResetPasswordScreen()));
+                              },
                               contentPadding:
                                   EdgeInsets.only(left: 12, right: 8),
-                              leading: SvgPicture.asset(
-                                  "assets/icons/payment_method.svg"),
+                              leading: Icon(
+                                MingCute.restore_line,
+                                color: CommonColor.primaryColor,
+                                size: 28,
+                              ),
                               title: Text(
-                                "Payment Method",
+                                "Reset password",
                                 style: TextStyle(
                                     color: CommonColor.darkGreyColor,
                                     fontWeight: FontWeight.w600),
@@ -154,12 +195,22 @@ class SettingsScreen extends StatelessWidget {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(8)),
                             child: ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            NotificationScreen()));
+                              },
                               contentPadding:
                                   EdgeInsets.only(left: 12, right: 8),
-                              leading: SvgPicture.asset(
-                                  "assets/icons/order_history.svg"),
+                              leading: Icon(
+                                MingCute.notification_line,
+                                color: CommonColor.primaryColor,
+                                size: 28,
+                              ),
                               title: Text(
-                                "Order History",
+                                "Notifications",
                                 style: TextStyle(
                                     color: CommonColor.darkGreyColor,
                                     fontWeight: FontWeight.w600),
@@ -179,31 +230,13 @@ class SettingsScreen extends StatelessWidget {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(8)),
                             child: ListTile(
-                              contentPadding:
-                                  EdgeInsets.only(left: 12, right: 8),
-                              leading:
-                                  SvgPicture.asset("assets/icons/vouchers.svg"),
-                              title: Text(
-                                "Vouchers",
-                                style: TextStyle(
-                                    color: CommonColor.darkGreyColor,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              trailing: Icon(
-                                Icons.keyboard_arrow_right,
-                                color: CommonColor.primaryColor,
-                                size: 30,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: screenHeight * 0.01,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            HelpAndSupportScreen()));
+                              },
                               contentPadding:
                                   EdgeInsets.only(left: 12, right: 8),
                               leading: SvgPicture.asset(
