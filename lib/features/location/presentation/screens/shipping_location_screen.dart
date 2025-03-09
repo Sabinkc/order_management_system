@@ -143,14 +143,7 @@ class ShippingLocationScreen extends StatelessWidget {
                                           children: [
                                             Text(
                                               locationProvider
-                                                  .addresses[index].firstName,
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              locationProvider
-                                                  .addresses[index].lastName,
+                                                  .addresses[index].fullName,
                                               style: TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold),
@@ -203,39 +196,17 @@ class ShippingLocationScreen extends StatelessWidget {
                                     SizedBox(
                                       height: 3,
                                     ),
-                                    Text(
-                                      "${locationProvider.addresses[index].street},${locationProvider.addresses[index].city} (${locationProvider.addresses[index].landmark})",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          color: CommonColor.darkGreyColor,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              border: Border.all(
-                                                  color: CommonColor
-                                                      .primaryColor)),
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 5, vertical: 3),
-                                            child: Text(
-                                              locationProvider
-                                                  .addresses[index].category,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
+                                        Text(
+                                          "${locationProvider.addresses[index].street},${locationProvider.addresses[index].city} (${locationProvider.addresses[index].landmark})",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: CommonColor.darkGreyColor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         InkWell(
                                           onTap: () {
@@ -294,6 +265,9 @@ class ShippingLocationScreen extends StatelessWidget {
                                           ),
                                         ),
                                       ],
+                                    ),
+                                    SizedBox(
+                                      height: 5,
                                     ),
                                   ],
                                 )),

@@ -9,8 +9,7 @@ import 'package:provider/provider.dart';
 class AddShippingLoationScreen extends StatelessWidget {
   AddShippingLoationScreen({super.key});
 
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController fullNameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController stateController = TextEditingController();
@@ -72,28 +71,16 @@ class AddShippingLoationScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(left: 8),
                   child: Text(
-                    "Your Personal Details:",
+                    "Your Contact Details:",
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(
                   height: screenHeight * 0.02,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                        width: screenWidth * 0.42,
-                        child: CommonLocationTextformField(
-                            controller: firstNameController,
-                            hintText: "First Name")),
-                    SizedBox(
-                        width: screenWidth * 0.42,
-                        child: CommonLocationTextformField(
-                            controller: lastNameController,
-                            hintText: "Last Name")),
-                  ],
-                ),
+                SizedBox(
+                    child: CommonLocationTextformField(
+                        controller: fullNameController, hintText: "Full Name")),
                 SizedBox(height: screenHeight * 0.02),
                 CommonLocationTextformField(
                     keyboardType: TextInputType.number,
@@ -146,109 +133,108 @@ class AddShippingLoationScreen extends StatelessWidget {
                 SizedBox(
                   height: screenHeight * 0.04,
                 ),
-                Consumer<LocationProvider>(
-                    builder: (context, locationProvider, child) {
-                  return Padding(
-                    padding: EdgeInsets.only(left: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Address Category",
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                        Row(
-                          spacing: 10,
-                          children: [
-                            Row(
-                              spacing: 3,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    locationProvider
-                                        .switchAdressCategory("home");
-                                  },
-                                  child:
-                                      locationProvider.addressCategory == "home"
-                                          ? Icon(
-                                              Icons.check_circle,
-                                              color: CommonColor.primaryColor,
-                                              size: 28,
-                                            )
-                                          : Icon(
-                                              Icons.circle_outlined,
-                                              color: CommonColor.primaryColor,
-                                              size: 28,
-                                            ),
-                                ),
-                                locationProvider.addressCategory == "home"
-                                    ? Text(
-                                        "Home",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: CommonColor.primaryColor),
-                                      )
-                                    : Text(
-                                        "Home",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: CommonColor.darkGreyColor),
-                                      )
-                              ],
-                            ),
-                            Row(
-                              spacing: 3,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    locationProvider
-                                        .switchAdressCategory("office");
-                                  },
-                                  child: locationProvider.addressCategory ==
-                                          "office"
-                                      ? Icon(
-                                          Icons.check_circle,
-                                          color: CommonColor.primaryColor,
-                                          size: 28,
-                                        )
-                                      : Icon(
-                                          Icons.circle_outlined,
-                                          color: CommonColor.primaryColor,
-                                          size: 28,
-                                        ),
-                                ),
-                                locationProvider.addressCategory == "office"
-                                    ? Text(
-                                        "Office",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: CommonColor.primaryColor),
-                                      )
-                                    : Text(
-                                        "Office",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: CommonColor.darkGreyColor),
-                                      ),
-                              ],
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  );
-                }),
-                SizedBox(
-                  height: screenHeight * 0.04,
-                ),
+                // Consumer<LocationProvider>(
+                //     builder: (context, locationProvider, child) {
+                //   return Padding(
+                //     padding: EdgeInsets.only(left: 8),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: [
+                //         Text(
+                //           "Address Category",
+                //           style: TextStyle(
+                //               fontSize: 15, fontWeight: FontWeight.bold),
+                //         ),
+                //         Row(
+                //           spacing: 10,
+                //           children: [
+                //             Row(
+                //               spacing: 3,
+                //               children: [
+                //                 InkWell(
+                //                   onTap: () {
+                //                     locationProvider
+                //                         .switchAdressCategory("home");
+                //                   },
+                //                   child:
+                //                       locationProvider.addressCategory == "home"
+                //                           ? Icon(
+                //                               Icons.check_circle,
+                //                               color: CommonColor.primaryColor,
+                //                               size: 28,
+                //                             )
+                //                           : Icon(
+                //                               Icons.circle_outlined,
+                //                               color: CommonColor.primaryColor,
+                //                               size: 28,
+                //                             ),
+                //                 ),
+                //                 locationProvider.addressCategory == "home"
+                //                     ? Text(
+                //                         "Home",
+                //                         style: TextStyle(
+                //                             fontSize: 18,
+                //                             color: CommonColor.primaryColor),
+                //                       )
+                //                     : Text(
+                //                         "Home",
+                //                         style: TextStyle(
+                //                             fontSize: 18,
+                //                             color: CommonColor.darkGreyColor),
+                //                       )
+                //               ],
+                //             ),
+                //             Row(
+                //               spacing: 3,
+                //               children: [
+                //                 InkWell(
+                //                   onTap: () {
+                //                     locationProvider
+                //                         .switchAdressCategory("office");
+                //                   },
+                //                   child: locationProvider.addressCategory ==
+                //                           "office"
+                //                       ? Icon(
+                //                           Icons.check_circle,
+                //                           color: CommonColor.primaryColor,
+                //                           size: 28,
+                //                         )
+                //                       : Icon(
+                //                           Icons.circle_outlined,
+                //                           color: CommonColor.primaryColor,
+                //                           size: 28,
+                //                         ),
+                //                 ),
+                //                 locationProvider.addressCategory == "office"
+                //                     ? Text(
+                //                         "Office",
+                //                         style: TextStyle(
+                //                             fontSize: 18,
+                //                             color: CommonColor.primaryColor),
+                //                       )
+                //                     : Text(
+                //                         "Office",
+                //                         style: TextStyle(
+                //                             fontSize: 18,
+                //                             color: CommonColor.darkGreyColor),
+                //                       ),
+                //               ],
+                //             )
+                //           ],
+                //         )
+                //       ],
+                //     ),
+                //   );
+                // }),
+                // SizedBox(
+                //   height: screenHeight * 0.04,
+                // ),
                 SizedBox(
                   width: double.infinity,
                   height: screenHeight * 0.06,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (firstNameController.text.trim().isEmpty ||
-                          lastNameController.text.trim().isEmpty ||
+                      if (fullNameController.text.trim().isEmpty ||
                           phoneController.text.trim().isEmpty ||
                           emailController.text.trim().isEmpty ||
                           stateController.text.trim().isEmpty ||
@@ -263,15 +249,14 @@ class AddShippingLoationScreen extends StatelessWidget {
                             context,
                             listen: false);
                         locationProvider.addAddress(
-                          firstName: firstNameController.text.trim(),
-                          lastName: lastNameController.text.trim(),
+                          fullName: fullNameController.text.trim(),
                           phone: phoneController.text.trim(),
                           email: emailController.text.trim(),
                           state: stateController.text.trim(),
                           city: cityController.text.trim(),
                           street: streetController.text.trim(),
                           landmark: landmarkController.text.trim(),
-                          category: locationProvider.addressCategory,
+                          
                         );
                         // firstNameController.clear();
                         // lastNameController.clear();

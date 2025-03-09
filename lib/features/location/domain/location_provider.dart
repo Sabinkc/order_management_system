@@ -17,25 +17,23 @@ class LocationProvider extends ChangeNotifier {
   int selectedIndex = 0;
 
   void addAddress(
-      {String firstName = "John",
-      String lastName = "Doe",
+      {String fullName = "John",
       String phone = "xxxxxxxxxx",
       String email = "email@email.com",
       String state = "unknown",
       String city = "unknown",
       String street = "unknown",
       String landmark = "unknown",
-      String category = "unknown"}) {
+      }) {
     addresses.add(AddressModel(
-        firstName: firstName,
-        lastName: lastName,
+        fullName: fullName,
         phone: phone,
         email: email,
         state: state,
         city: city,
         street: street,
         landmark: landmark,
-        category: category));
+        ));
     notifyListeners();
     logger.log("addresses: $addresses");
   }
@@ -49,25 +47,21 @@ class LocationProvider extends ChangeNotifier {
       String city = "unknown",
       String street = "unknown",
       String landmark = "unknown",
-      String category = "unknown"}) {
+      }) {
     addresses[index] = AddressModel(
-        firstName: firstName,
-        lastName: lastName,
+        fullName: firstName,
         phone: phone,
         email: email,
         state: state,
         city: city,
         street: street,
         landmark: landmark,
-        category: category);
+        );
     notifyListeners();
     logger.log("address after edit: ${addresses[index]}");
   }
 
-  void editCategory(int index, String category) {
-    addresses[index].category = category;
-    notifyListeners();
-  }
+
 
   void selectAddress(int index) {
     selectedIndex = index;
@@ -88,9 +82,9 @@ class LocationProvider extends ChangeNotifier {
   String longitude = "";
   String latitude = "";
 
-  void addLatitudeLongitue(String lat, String long){
-longitude = long;
-latitude = lat;
-notifyListeners();
+  void addLatitudeLongitue(String lat, String long) {
+    longitude = long;
+    latitude = lat;
+    notifyListeners();
   }
 }
