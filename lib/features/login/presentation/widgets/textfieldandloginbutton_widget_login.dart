@@ -6,7 +6,7 @@ import 'package:order_management_system/common/common_textfield.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/domain/login_textfield_provider.dart';
-import 'package:order_management_system/features/settings/domain/profile_data_provider.dart';
+import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
 
 class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {
@@ -150,8 +150,8 @@ class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {
 
     if (response["success"] == true) {
       if (context.mounted) {
-        final ProfileDataProvider profileProvider =
-            Provider.of<ProfileDataProvider>(context, listen: false);
+        final SettingsProvider profileProvider =
+            Provider.of<SettingsProvider>(context, listen: false);
         final name = response["data"]["data"]["profile"]["name"];
         final email = response["data"]["data"]["profile"]["email"];
 

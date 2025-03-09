@@ -154,6 +154,8 @@ class ProductProvider extends ChangeNotifier {
     isCategoryProductLoading = true;
     notifyListeners();
     if (categoryId == 0) {
+      final response = await _service.getAllProducts();
+      product = response;
       // If "All" category is selected, use the full product list
       categoryProducts = List.from(product);
       notifyListeners();

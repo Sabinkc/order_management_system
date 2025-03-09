@@ -463,7 +463,6 @@
 //   }
 // }
 
-
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -499,7 +498,7 @@ class _SearchScreenState extends State<SearchScreen> {
       }
 
       // Fetch product categories after the screen is built
-      Future.delayed(Duration.zero, () async{
+      Future.delayed(Duration.zero, () async {
         if (!mounted) return;
         final TabBarProvider tabBarProvider =
             Provider.of(context, listen: false);
@@ -507,8 +506,8 @@ class _SearchScreenState extends State<SearchScreen> {
         tabBarProvider.clearSearchKeyword();
         final productProvider =
             Provider.of<ProductProvider>(context, listen: false);
-       await productProvider.getAllProductCategories();
-        await productProvider.getAllProduct();
+        await productProvider.getAllProductCategories();
+        // await productProvider.getAllProduct();
         await productProvider.getCategoryProducts(
             0); // Fetch products for category ID 1 initially
       });
@@ -666,29 +665,32 @@ class _SearchScreenState extends State<SearchScreen> {
                               const EdgeInsets.symmetric(horizontal: 25),
                           isScrollable: true,
                           tabAlignment: TabAlignment.start,
-                         onTap: (index) {
-  tabBarProvider.selectTab(index);
-  final selectedCategory = productProvider.productCategory[index];
-  if (!context.mounted) {
-    return;
-  }
+                          onTap: (index) {
+                            tabBarProvider.selectTab(index);
+                            final selectedCategory =
+                                productProvider.productCategory[index];
+                            if (!context.mounted) {
+                              return;
+                            }
 
-  if (selectedCategory.id == 0) {
-    // If "All" category is selected, fetch all products
-    productProvider.getCategoryProducts(0).then((_) {
-      if (context.mounted) {
-        productProvider.searchProducts(context);
-      }
-    });
-  } else {
-    // Otherwise, fetch products for the selected category
-    productProvider.getCategoryProducts(selectedCategory.id).then((_) {
-      if (context.mounted) {
-        productProvider.searchProducts(context);
-      }
-    });
-  }
-},
+                            if (selectedCategory.id == 0) {
+                              // If "All" category is selected, fetch all products
+                              productProvider.getCategoryProducts(0).then((_) {
+                                if (context.mounted) {
+                                  productProvider.searchProducts(context);
+                                }
+                              });
+                            } else {
+                              // Otherwise, fetch products for the selected category
+                              productProvider
+                                  .getCategoryProducts(selectedCategory.id)
+                                  .then((_) {
+                                if (context.mounted) {
+                                  productProvider.searchProducts(context);
+                                }
+                              });
+                            }
+                          },
                           tabs: productProvider.productCategory
                               .map(
                                 (tab) => Tab(
@@ -705,7 +707,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   const SizedBox(height: 20),
                   Expanded(
                     child: productProvider.isCategoryProductLoading ||
-                            productProvider.isProductLoading || productProvider.isCategoryLoading
+                            productProvider.isProductLoading ||
+                            productProvider.isCategoryLoading
                         ? Center(
                             child: CircularProgressIndicator(
                               color: CommonColor.primaryColor,

@@ -62,6 +62,15 @@ class S {
     );
   }
 
+    String get cart {
+    return Intl.message(
+      'Cart',
+      name: 'cart',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Hello World`
   String get orders {
     return Intl.message(

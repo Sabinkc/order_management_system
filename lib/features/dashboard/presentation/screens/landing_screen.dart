@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/domain/bottom_navigationbar_provider.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/cart_screen.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:order_management_system/features/invoice/presentation/screens/invoice_screen.dart';
 import 'package:order_management_system/features/settings/presentation/screens/screens/settings_screen.dart';
@@ -16,13 +17,14 @@ class LandingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> screens = [
       DashboardScreen(),
+      CartScreen(),
       OrderHistoryScreen(),
       InvoiceScreen(),
       SettingsScreen(),
     ];
 
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         body: Consumer<BottomNavigationbarProvider>(
           builder: (context, provider, child) {
@@ -72,10 +74,20 @@ class LandingScreen extends StatelessWidget {
                     ),
                   ),
                   BottomNavigationBarItem(
+                    label: S.current.cart,
+                    icon: Icon(
+                      Icons.shopping_cart_outlined,
+                      size: 29,
+                      color: provider.selectedIndex == 1
+                          ? CommonColor.primaryColor
+                          : CommonColor.darkGreyColor,
+                    ),
+                  ),
+                  BottomNavigationBarItem(
                     icon: SvgPicture.asset(
                       "assets/icons/order.svg",
                       colorFilter: ColorFilter.mode(
-                          provider.selectedIndex == 1
+                          provider.selectedIndex == 2
                               ? CommonColor.primaryColor
                               : CommonColor.darkGreyColor,
                           BlendMode.srcIn),
@@ -86,7 +98,7 @@ class LandingScreen extends StatelessWidget {
                     icon: SvgPicture.asset(
                       "assets/icons/invoice.svg",
                       colorFilter: ColorFilter.mode(
-                          provider.selectedIndex == 2
+                          provider.selectedIndex == 3
                               ? CommonColor.primaryColor
                               : CommonColor.darkGreyColor,
                           BlendMode.srcIn),
@@ -97,7 +109,7 @@ class LandingScreen extends StatelessWidget {
                     icon: SvgPicture.asset(
                       "assets/icons/setting.svg",
                       colorFilter: ColorFilter.mode(
-                          provider.selectedIndex == 3
+                          provider.selectedIndex == 4
                               ? CommonColor.primaryColor
                               : CommonColor.darkGreyColor,
                           BlendMode.srcIn),

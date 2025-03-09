@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/common/utils.dart';
 import 'package:order_management_system/features/location/presentation/widgets/common_location_textform_field.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
-  const ResetPasswordScreen({super.key});
+  ResetPasswordScreen({super.key});
 
+  final TextEditingController newPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -47,7 +51,9 @@ class ResetPasswordScreen extends StatelessWidget {
             SizedBox(
               height: screenHeight * 0.008,
             ),
-            CommonLocationTextformField(hintText: "Enter your new password"),
+            CommonLocationTextformField(
+                controller: newPasswordController,
+                hintText: "Enter your new password"),
             SizedBox(height: screenHeight * 0.03),
             Padding(
               padding: EdgeInsets.only(left: 8),
@@ -59,13 +65,38 @@ class ResetPasswordScreen extends StatelessWidget {
             SizedBox(
               height: screenHeight * 0.008,
             ),
-            CommonLocationTextformField(hintText: "Confirm your new password"),
+            CommonLocationTextformField(
+                controller: confirmPasswordController,
+                hintText: "Confirm your new password"),
             SizedBox(height: screenHeight * 0.03),
             SizedBox(
               width: double.infinity,
               height: screenHeight * 0.06,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  final newPassword = newPasswordController.text.trim();
+                  final confirmPassword = confirmPasswordController.text.trim();
+                  if (newPassword.isEmpty || confirmPassword.isEmpty) {
+                    Utilities.showCommonSnackBar(
+                        color: Colors.red, context, "All fields are required!");
+                  } else if (!(newPassword == confirmPassword)) {
+                    Utilities.showCommonSnackBar(
+                        color: Colors.red, context, "Password doesnot match!");
+                  } else if (newPassword.length < 8) {
+                    Utilities.showCommonSnackBar(
+                        color: Colors.red,
+                        context,
+                        "Password must be 8 characters long");
+                  } else {
+                    Utilities.showCommonSnackBar(
+                        context, "Password reset successful!");
+                    Future.delayed(Duration(seconds: 1), () {
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                      }
+                    });
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8)),

@@ -18,7 +18,7 @@ import 'package:order_management_system/features/login/domain/login_textfield_pr
 import 'package:order_management_system/features/login/presentation/screens/login_screen.dart';
 import 'package:order_management_system/features/order%20history/domain/order_history_provider.dart';
 import 'package:order_management_system/features/order%20history/domain/switch_order_screen_provider.dart';
-import 'package:order_management_system/features/settings/domain/profile_data_provider.dart';
+import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:order_management_system/features/signup/domain/checkbox_provider.dart';
 import 'package:order_management_system/features/signup/domain/signup_textfield_provider.dart';
 import 'package:order_management_system/localization/l10n.dart';
@@ -46,8 +46,8 @@ void main(List<String> args) async {
         ChangeNotifierProvider<BottomNavigationbarProvider>(
             create: (_) => BottomNavigationbarProvider()),
         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
-        ChangeNotifierProvider<ProfileDataProvider>(
-            create: (_) => ProfileDataProvider()),
+        ChangeNotifierProvider<SettingsProvider>(
+            create: (_) => SettingsProvider()),
         ChangeNotifierProvider<OrderHistoryProvider>(
             create: (_) => OrderHistoryProvider()),
         ChangeNotifierProvider<ConnectivityProvider>(

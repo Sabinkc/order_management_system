@@ -238,11 +238,12 @@ class _EditShippingLocationScreenState
                               children: [
                                 InkWell(
                                   onTap: () {
-                               
                                     locationProvider.editCategory(
                                         widget.index, "office");
                                   },
-                                  child: locationProvider.addresses[widget.index].category ==
+                                  child: locationProvider
+                                              .addresses[widget.index]
+                                              .category ==
                                           "office"
                                       ? Icon(
                                           Icons.check_circle,
@@ -255,7 +256,9 @@ class _EditShippingLocationScreenState
                                           size: 28,
                                         ),
                                 ),
-                                locationProvider.addresses[widget.index].category == "office"
+                                locationProvider
+                                            .addresses[widget.index].category ==
+                                        "office"
                                     ? Text(
                                         "Office",
                                         style: TextStyle(
@@ -299,7 +302,8 @@ class _EditShippingLocationScreenState
                         final locationProvider = Provider.of<LocationProvider>(
                             context,
                             listen: false);
-                        locationProvider.editAddress(widget.index,
+                        locationProvider.editAddress(
+                          widget.index,
                           firstName: firstNameController.text.trim(),
                           lastName: lastNameController.text.trim(),
                           phone: phoneController.text.trim(),
@@ -308,16 +312,17 @@ class _EditShippingLocationScreenState
                           city: cityController.text.trim(),
                           street: streetController.text.trim(),
                           landmark: landmarkController.text.trim(),
-                          category: locationProvider.addresses[widget.index].category,
+                          category:
+                              locationProvider.addresses[widget.index].category,
                         );
-                        firstNameController.clear();
-                        lastNameController.clear();
-                        phoneController.clear();
-                        emailController.clear();
-                        stateController.clear();
-                        cityController.clear();
-                        streetController.clear();
-                        landmarkController.clear();
+                        // firstNameController.clear();
+                        // lastNameController.clear();
+                        // phoneController.clear();
+                        // emailController.clear();
+                        // stateController.clear();
+                        // cityController.clear();
+                        // streetController.clear();
+                        // landmarkController.clear();
                         Utilities.showCommonSnackBar(
                             context, "Address edited successfully",
                             icon: Icons.done);

@@ -1,9 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/common/utils.dart';
 import 'package:order_management_system/features/location/presentation/widgets/common_location_textform_field.dart';
 
-class MyProfileScreen extends StatelessWidget {
+class MyProfileScreen extends StatefulWidget {
   const MyProfileScreen({super.key});
+
+  @override
+  State<MyProfileScreen> createState() => _MyProfileScreenState();
+}
+
+class _MyProfileScreenState extends State<MyProfileScreen> {
+  final TextEditingController fullnameController = TextEditingController();
+
+  final TextEditingController contactNoController = TextEditingController();
+
+  final TextEditingController emailController = TextEditingController();
+
+  @override
+  void initState() {
+    fullnameController.text = "John Doe";
+    contactNoController.text = "9876543210";
+    emailController.text = "johndoe@gmail.com";
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +67,8 @@ class MyProfileScreen extends StatelessWidget {
             SizedBox(
               height: screenHeight * 0.008,
             ),
-            CommonLocationTextformField(hintText: "Full Name"),
+            CommonLocationTextformField(
+                controller: fullnameController, hintText: "Full Name"),
             SizedBox(height: screenHeight * 0.03),
             Padding(
               padding: EdgeInsets.only(left: 8),
@@ -59,7 +80,9 @@ class MyProfileScreen extends StatelessWidget {
             SizedBox(
               height: screenHeight * 0.008,
             ),
-            CommonLocationTextformField(hintText: "Contact No"),
+            CommonLocationTextformField(
+              keyboardType: TextInputType.number,
+                controller: contactNoController, hintText: "Contact No"),
             SizedBox(height: screenHeight * 0.03),
             Padding(
               padding: EdgeInsets.only(left: 8),
@@ -71,7 +94,8 @@ class MyProfileScreen extends StatelessWidget {
             SizedBox(
               height: screenHeight * 0.008,
             ),
-            CommonLocationTextformField(hintText: "Email"),
+            CommonLocationTextformField(
+                controller: emailController, hintText: "Email"),
             SizedBox(
               height: screenHeight * 0.03,
             ),
@@ -79,7 +103,22 @@ class MyProfileScreen extends StatelessWidget {
               width: double.infinity,
               height: screenHeight * 0.06,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (emailController.text.trim().isEmpty ||
+                      fullnameController.text.isEmpty ||
+                      contactNoController.text.isEmpty) {
+                    Utilities.showCommonSnackBar(
+                        color: Colors.red, context, "Fields cannot be empty!");
+                  } else {
+                    Utilities.showCommonSnackBar(
+                        context, "Profile updated successfully!");
+                    Future.delayed(Duration(seconds: 1), () {
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                      }
+                    });
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8)),

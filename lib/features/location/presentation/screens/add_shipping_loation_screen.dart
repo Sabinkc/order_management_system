@@ -273,14 +273,14 @@ class AddShippingLoationScreen extends StatelessWidget {
                           landmark: landmarkController.text.trim(),
                           category: locationProvider.addressCategory,
                         );
-                        firstNameController.clear();
-                        lastNameController.clear();
-                        phoneController.clear();
-                        emailController.clear();
-                        stateController.clear();
-                        cityController.clear();
-                        streetController.clear();
-                        landmarkController.clear();
+                        // firstNameController.clear();
+                        // lastNameController.clear();
+                        // phoneController.clear();
+                        // emailController.clear();
+                        // stateController.clear();
+                        // cityController.clear();
+                        // streetController.clear();
+                        // landmarkController.clear();
                         Utilities.showCommonSnackBar(
                             context, "Address added successfully",
                             icon: Icons.done);

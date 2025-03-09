@@ -5,7 +5,7 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/common_textfield.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
-import 'package:order_management_system/features/settings/domain/profile_data_provider.dart';
+import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:order_management_system/features/signup/domain/checkbox_provider.dart';
 import 'package:order_management_system/features/signup/domain/signup_textfield_provider.dart';
 import 'package:order_management_system/features/signup/presentation/widgets/checkbox_widget_signup.dart';
@@ -275,8 +275,8 @@ class TextfieldWidgetSignup extends StatelessWidget {
 
     if (response["success"] == true) {
       if (context.mounted) {
-        final ProfileDataProvider profileProvider =
-            Provider.of<ProfileDataProvider>(context, listen: false);
+        final SettingsProvider profileProvider =
+            Provider.of<SettingsProvider>(context, listen: false);
         final name = response["data"]["data"]["profile"]["name"];
         final email = response["data"]["data"]["profile"]["email"];
 
