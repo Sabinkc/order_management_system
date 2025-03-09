@@ -187,7 +187,7 @@ class CheckoutWidget extends StatelessWidget {
       await productProvider.createOrder(orders);
       // Clear the cart only after order creation is successful
       cartQuantityProvider.clearCart();
-
+      if (!context.mounted) return;
       showDialog(
         context: context,
         barrierDismissible: false,
