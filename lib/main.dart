@@ -10,7 +10,7 @@ import 'package:order_management_system/features/dashboard/domain/cart_quantity_
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
-import 'package:order_management_system/features/order/domain/invoice_screen_provider.dart';
+import 'package:order_management_system/features/order/domain/order_screen_provider.dart';
 import 'package:order_management_system/features/location/domain/location_provider.dart';
 import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
@@ -54,8 +54,8 @@ void main(List<String> args) async {
             create: (_) => ConnectivityProvider()),
         ChangeNotifierProvider<SwitchOrderScreenProvider>(
             create: (_) => SwitchOrderScreenProvider()),
-               ChangeNotifierProvider<InvoiceScreenProvider>(
-            create: (_) => InvoiceScreenProvider()),
+               ChangeNotifierProvider<OrderScreenProvider>(
+            create: (_) => OrderScreenProvider()),
             ChangeNotifierProvider<SimpleUiProvider>(create: (_)=>SimpleUiProvider()),
               ChangeNotifierProvider<ProductProvider>(create: (_)=>ProductProvider()),
                ChangeNotifierProvider<LocationProvider>(create: (_)=>LocationProvider()),

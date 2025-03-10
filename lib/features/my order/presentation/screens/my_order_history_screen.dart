@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
-import 'package:order_management_system/features/order/domain/invoice_screen_provider.dart';
+import 'package:order_management_system/features/order/domain/order_screen_provider.dart';
 import 'package:order_management_system/features/my%20order/domain/switch_order_screen_provider.dart';
 import 'package:order_management_system/features/my%20order/presentation/widgets/order_history_invoice_widget.dart';
 import 'package:order_management_system/features/my%20order/presentation/widgets/order_history_top_card.dart';
@@ -19,9 +19,9 @@ class _OrderHistoryScreenState extends State<MyOrderHistoryScreen> {
   void initState() {
     Future.delayed(Duration.zero, () {
       if (!mounted) return;
-      final invoiceProvider =
-          Provider.of<InvoiceScreenProvider>(context, listen: false);
-      invoiceProvider.getAllOrder();
+      final orderProvider =
+          Provider.of<OrderScreenProvider>(context, listen: false);
+      orderProvider.getAllOrder();
     });
     super.initState();
   }
@@ -33,16 +33,16 @@ class _OrderHistoryScreenState extends State<MyOrderHistoryScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Consumer<InvoiceScreenProvider>(
-          builder: (context, invoiceProvider, child) {
-            if (invoiceProvider.isGetAllOrderLoading) {
+        child: Consumer<OrderScreenProvider>(
+          builder: (context, orderProvider, child) {
+            if (orderProvider.isGetAllOrderLoading) {
               return Center(
                 child: CircularProgressIndicator(
                   color: CommonColor.primaryColor,
                 ),
               );
             }
-            if (invoiceProvider.allOrders.isEmpty) {
+            if (orderProvider.allOrders.isEmpty) {
               return Center(
                 child: Text(
                   "No orders till now!",

@@ -288,7 +288,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
-import 'package:order_management_system/features/order/domain/invoice_screen_provider.dart';
+import 'package:order_management_system/features/order/domain/order_screen_provider.dart';
 import 'package:provider/provider.dart';
 // import 'dart:developer' as logger;
 
@@ -305,9 +305,9 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
   void initState() {
     Future.delayed(Duration.zero, () {
       if (!mounted) return;
-      final invoiceScreenProvider =
-          Provider.of<InvoiceScreenProvider>(context, listen: false);
-      invoiceScreenProvider.fetchOrderByorderKey(widget.orderKey);
+      final orderScreenProvider =
+          Provider.of<OrderScreenProvider>(context, listen: false);
+      orderScreenProvider.fetchOrderByorderKey(widget.orderKey);
     });
     super.initState();
   }
@@ -315,15 +315,15 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    return Consumer<InvoiceScreenProvider>(
-        builder: (context, invoiceScreenProvider, child) {
+    return Consumer<OrderScreenProvider>(
+        builder: (context, orderScreenProvider, child) {
       return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
             backgroundColor: Colors.white,
             leading: IconButton(
                 onPressed: () {
-                  Provider.of<InvoiceScreenProvider>(context, listen: false)
+                  Provider.of<OrderScreenProvider>(context, listen: false)
                       .switchInvoiceDetailPage();
                 },
                 icon: Icon(
@@ -344,8 +344,8 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
             centerTitle: true,
             automaticallyImplyLeading: false,
           ),
-          body: Consumer<InvoiceScreenProvider>(
-              builder: (context, invoiceScreenProvider, child) {
+          body: Consumer<OrderScreenProvider>(
+              builder: (context, orderScreenProvider, child) {
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -374,21 +374,21 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                         shrinkWrap: true,
                         itemCount: 1,
                         itemBuilder: (context, index) {
-                          if (invoiceScreenProvider.isFetchOrderByLoading) {
+                          if (orderScreenProvider.isFetchOrderByLoading) {
                             return Center(
                                 child: CircularProgressIndicator(
                               color: CommonColor.primaryColor,
                             )); // Show loader while fetching
                           }
 
-                          if (invoiceScreenProvider
+                          if (orderScreenProvider
                               .invoiceDetail.products.isEmpty) {
                             return Center(
                                 child: Text(
                                     "No products available")); // Handle empty state
                           }
 
-                          final order = invoiceScreenProvider.invoiceDetail;
+                          final order = orderScreenProvider.invoiceDetail;
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -521,7 +521,7 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                                   ),
                                 ),
                                 Text(
-                                  invoiceScreenProvider
+                                  orderScreenProvider
                                       .invoiceDetail.totalAmount,
                                   style: TextStyle(
                                     color: CommonColor.primaryColor,
@@ -547,7 +547,7 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                             Row(
                               children: [
                                 Text(
-                                  invoiceScreenProvider
+                                  orderScreenProvider
                                       .invoiceDetail.totalQuantity
                                       .toString(),
                                   style: TextStyle(

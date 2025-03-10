@@ -4,9 +4,8 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/domain/bottom_navigationbar_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/cart_screen.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/dashboard_screen.dart';
-import 'package:order_management_system/features/order/presentation/screens/order_screen.dart';
 import 'package:order_management_system/features/settings/presentation/screens/screens/settings_screen.dart';
-import 'package:order_management_system/features/my%20order/presentation/screens/my_order_history.dart';
+import 'package:order_management_system/features/my%20order/presentation/screens/my_order_history_screen.dart';
 import 'package:order_management_system/localization/l10n.dart';
 import 'package:order_management_system/test_screen.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +18,6 @@ class LandingScreen extends StatelessWidget {
     List<Widget> screens = [
       DashboardScreen(),
       CartScreen(),
-      // InvoiceScreen(),
       MyOrderHistoryScreen(),
       TestScreen(),
       SettingsScreen(),

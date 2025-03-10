@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/simple_ui_provider.dart';
-import 'package:order_management_system/features/order/domain/invoice_screen_provider.dart';
+import 'package:order_management_system/features/order/domain/order_screen_provider.dart';
 import 'package:provider/provider.dart';
 
 // import 'dart:developer' as logger;
@@ -22,13 +22,13 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
   void initState() {
     Future.delayed(Duration.zero, () {
       if (!mounted) return;
-      final invoiceProvider =
-          Provider.of<InvoiceScreenProvider>(context, listen: false);
+      final orderProvider =
+          Provider.of<OrderScreenProvider>(context, listen: false);
       final simpleUiProvider =
           Provider.of<SimpleUiProvider>(context, listen: false);
-      invoiceProvider.getAllOrder();
-      invoiceProvider.clearFilters();
-      invoiceProvider.clearSearchKeyword();
+      orderProvider.getAllOrder();
+      orderProvider.clearFilters();
+      orderProvider.clearSearchKeyword();
       simpleUiProvider.clearDateRange();
       simpleUiProvider.clearFilter();
     });
@@ -40,8 +40,8 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
     // final Logger logger = Logger();
     Timer? debounce;
 
-    return Consumer<InvoiceScreenProvider>(
-      builder: (context, invoiceScreenProvider, child) {
+    return Consumer<OrderScreenProvider>(
+      builder: (context, orderScreenProvider, child) {
         return KeyboardDismisser(
           child: Scaffold(
             backgroundColor: Colors.white,
@@ -75,15 +75,15 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
             ),
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Consumer<InvoiceScreenProvider>(
-                builder: (context, invoiceProvider, child) {
-                  if (invoiceProvider.isGetAllOrderLoading) {
+              child: Consumer<OrderScreenProvider>(
+                builder: (context, orderProvider, child) {
+                  if (orderProvider.isGetAllOrderLoading) {
                     return Center(
                         child: CircularProgressIndicator(
                       color: CommonColor.primaryColor,
                     ));
                   }
-                  if (invoiceProvider.allOrders.isEmpty) {
+                  if (orderProvider.allOrders.isEmpty) {
                     return Center(
                       child: Text("No orders till now"),
                     );
@@ -94,7 +94,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                       Padding(
                         padding: const EdgeInsets.only(top: 10, bottom: 10),
                         child: TextFormField(
-                          controller: invoiceProvider.searchController,
+                          controller: orderProvider.searchController,
                           onChanged: (value) {
                             final trimmedValue = value.trim();
                             if (debounce?.isActive ?? false) debounce?.cancel();
@@ -102,12 +102,12 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                                 Timer(const Duration(milliseconds: 500), () {
                               if (trimmedValue.isNotEmpty) {
                                 // Update the search keyword in the SearchProvider
-                                Provider.of<InvoiceScreenProvider>(context,
+                                Provider.of<OrderScreenProvider>(context,
                                         listen: false)
                                     .updateSearchKeyword(trimmedValue);
                               } else {
                                 // Update the search keyword in the SearchProvider
-                                Provider.of<InvoiceScreenProvider>(context,
+                                Provider.of<OrderScreenProvider>(context,
                                         listen: false)
                                     .updateSearchKeyword("");
                               }
@@ -116,11 +116,11 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                           onFieldSubmitted: (value) {
                             final trimmedValue = value.trim();
                             if (trimmedValue.isNotEmpty) {
-                              Provider.of<InvoiceScreenProvider>(context,
+                              Provider.of<OrderScreenProvider>(context,
                                       listen: false)
                                   .updateSearchKeyword(trimmedValue);
                             } else {
-                              Provider.of<InvoiceScreenProvider>(context,
+                              Provider.of<OrderScreenProvider>(context,
                                       listen: false)
                                   .updateSearchKeyword("");
                             }
@@ -213,9 +213,9 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                       ),
                       const Divider(),
                       Expanded(
-                        child: Consumer<InvoiceScreenProvider>(
+                        child: Consumer<OrderScreenProvider>(
                           builder: (context, searchProvider, child) {
-                            if (invoiceProvider.filteredOrders.isEmpty) {
+                            if (orderProvider.filteredOrders.isEmpty) {
                               return Center(
                                 child: Text(
                                   "No invoices found!",
@@ -228,21 +228,21 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                             }
 //filtered list displayed in listview
                             return ListView.builder(
-                              itemCount: invoiceProvider.filteredOrders.length,
+                              itemCount: orderProvider.filteredOrders.length,
                               itemBuilder: (context, index) {
                                 final order =
-                                    invoiceProvider.filteredOrders[index];
+                                    orderProvider.filteredOrders[index];
 
                                 return Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 10),
                                   child: GestureDetector(
                                     onTap: () {
-                                      Provider.of<InvoiceScreenProvider>(
+                                      Provider.of<OrderScreenProvider>(
                                               context,
                                               listen: false)
                                           .switchInvoiceDetailPage();
-                                      Provider.of<InvoiceScreenProvider>(
+                                      Provider.of<OrderScreenProvider>(
                                               context,
                                               listen: false)
                                           .selectInvoiceKey(order.orderNo);
@@ -477,7 +477,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                       TextButton(
                         onPressed: () {
                           // Apply both filters
-                          Provider.of<InvoiceScreenProvider>(context,
+                          Provider.of<OrderScreenProvider>(context,
                                   listen: false)
                               .setFilter(
                             simpleUiProvider.selectedStatus,

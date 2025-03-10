@@ -3,7 +3,7 @@ import 'dart:developer' as logger;
 import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/dashboard/data/product_model.dart';
 
-class InvoiceScreenProvider extends ChangeNotifier {
+class OrderScreenProvider extends ChangeNotifier {
   final ProductApiSevice productApiSevice = ProductApiSevice();
   bool isInvoiceDetailPage = false;
 

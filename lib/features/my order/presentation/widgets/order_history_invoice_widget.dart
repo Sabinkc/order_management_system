@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/constants.dart';
-import 'package:order_management_system/features/order/domain/invoice_screen_provider.dart';
+import 'package:order_management_system/features/order/domain/order_screen_provider.dart';
 import 'package:provider/provider.dart';
 
 class OrderHistoryInvoiceWidget extends StatelessWidget {
@@ -10,9 +10,9 @@ class OrderHistoryInvoiceWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    return Consumer<InvoiceScreenProvider>(
-      builder: (context, invoiceProvider, child) {
-        final order = invoiceProvider.allOrders;
+    return Consumer<OrderScreenProvider>(
+      builder: (context, orderProvider, child) {
+        final order = orderProvider.allOrders;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,7 +27,7 @@ class OrderHistoryInvoiceWidget extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: 1,
                   itemBuilder: (context, orderIndex) {
-                    final order = invoiceProvider.allOrders[0];
+                    final order = orderProvider.allOrders[0];
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

@@ -21,7 +21,7 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:order_management_system/features/order/domain/invoice_screen_provider.dart';
+import 'package:order_management_system/features/order/domain/order_screen_provider.dart';
 import 'package:order_management_system/features/order/presentation/screens/order_detail_screen.dart';
 import 'package:order_management_system/features/order/presentation/screens/order_history_screen.dart';
 import 'package:provider/provider.dart';
@@ -31,11 +31,11 @@ class OrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<InvoiceScreenProvider>(
-        builder: (context, invoicescreenProvider, child) {
-      return invoicescreenProvider.isInvoiceDetailPage == true
+    return Consumer<OrderScreenProvider>(
+        builder: (context, orderscreenProvider, child) {
+      return orderscreenProvider.isInvoiceDetailPage == true
           ? OrderDetailScreen(
-              orderKey: invoicescreenProvider.orderKey,
+              orderKey: orderscreenProvider.orderKey,
             )
           : OrderHistoryScreen();
     });
