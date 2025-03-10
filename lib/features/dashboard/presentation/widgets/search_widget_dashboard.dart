@@ -53,7 +53,6 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/search_screen.dart';
@@ -65,7 +64,7 @@ class SearchWidgetDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     // final double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(),
       child: GestureDetector(
         onTap: () {
           showModalBottomSheet(
@@ -86,7 +85,7 @@ class SearchWidgetDashboard extends StatelessWidget {
           width: double.infinity,
           height: 50,
           decoration: BoxDecoration(
-              color: Colors.grey[100], borderRadius: BorderRadius.circular(8)),
+              color: Colors.white, borderRadius: BorderRadius.circular(8)),
           child: Row(
             spacing: 10,
             children: [

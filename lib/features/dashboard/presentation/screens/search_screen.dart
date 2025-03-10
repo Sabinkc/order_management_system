@@ -542,7 +542,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   topRight: Radius.circular(25),
                 ),
               ),
-              height: screenHeight * 0.7,
+              height: screenHeight * 0.8,
               child: Column(
                 children: [
                   SizedBox(height: screenHeight * 0.01),
