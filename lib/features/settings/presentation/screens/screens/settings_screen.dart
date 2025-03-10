@@ -4,7 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:logger/logger.dart';
 import 'package:order_management_system/common/common_color.dart';
-import 'package:order_management_system/features/order/presentation/screens/order_screen.dart';
+import 'package:order_management_system/features/location/presentation/screens/shipping_location_screen.dart';
+import 'package:order_management_system/features/orders/presentation/screens/order_screen.dart';
 import 'package:order_management_system/features/location/presentation/screens/add_shipping_loation_screen.dart';
 import 'package:order_management_system/features/login/data/google_signin_api_service.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
@@ -149,7 +150,7 @@ class SettingsScreen extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                AddShippingLoationScreen()));
+                                                ShippingLocationScreen()));
                                   },
                                   leading: Icon(
                                     Icons.location_history_outlined,

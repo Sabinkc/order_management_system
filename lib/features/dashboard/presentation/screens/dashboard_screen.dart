@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/new_arrival_widget.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/popular_product_widget.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/search_widget_dashboard.dart';

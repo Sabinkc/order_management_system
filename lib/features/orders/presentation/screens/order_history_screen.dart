@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/simple_ui_provider.dart';
-import 'package:order_management_system/features/order/domain/order_screen_provider.dart';
+import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:provider/provider.dart';
 
 // import 'dart:developer' as logger;

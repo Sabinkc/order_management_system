@@ -288,7 +288,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
-import 'package:order_management_system/features/order/domain/order_screen_provider.dart';
+import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:provider/provider.dart';
 // import 'dart:developer' as logger;
 

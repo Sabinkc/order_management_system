@@ -21,9 +21,9 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:order_management_system/features/order/domain/order_screen_provider.dart';
-import 'package:order_management_system/features/order/presentation/screens/order_detail_screen.dart';
-import 'package:order_management_system/features/order/presentation/screens/order_history_screen.dart';
+import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
+import 'package:order_management_system/features/orders/presentation/screens/order_detail_screen.dart';
+import 'package:order_management_system/features/orders/presentation/screens/order_history_screen.dart';
 import 'package:provider/provider.dart';
 
 class OrderScreen extends StatelessWidget {

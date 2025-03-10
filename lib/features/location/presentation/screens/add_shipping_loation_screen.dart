@@ -107,7 +107,8 @@ class AddShippingLoationScreen extends StatelessWidget {
                     SizedBox(
                         width: screenWidth * 0.42,
                         child: CommonLocationTextformField(
-                            controller: stateController, hintText: "State")),
+                            controller: stateController,
+                            hintText: "Prefecture")),
                     SizedBox(
                         width: screenWidth * 0.42,
                         child: CommonLocationTextformField(
@@ -256,7 +257,6 @@ class AddShippingLoationScreen extends StatelessWidget {
                           city: cityController.text.trim(),
                           street: streetController.text.trim(),
                           landmark: landmarkController.text.trim(),
-                          
                         );
                         // firstNameController.clear();
                         // lastNameController.clear();

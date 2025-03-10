@@ -50,12 +50,13 @@ class CartScreen extends StatelessWidget {
                           child: Column(spacing: 15, children: [
                             Image.asset(
                               "assets/images/empty_cart.png",
+                              height: screenHeight * 0.3,
                               fit: BoxFit.contain,
                             ),
                             Text(
                               "No products in the cart!",
                               style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   color: CommonColor.darkGreyColor),
                             ),
                           ])),
@@ -85,7 +86,7 @@ class CartScreen extends StatelessWidget {
                       ),
                       Divider(),
                       SizedBox(
-                        height: screenHeight * 0.01,
+                        height: screenHeight * 0.005,
                       ),
                       Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -105,11 +106,13 @@ class CartScreen extends StatelessWidget {
                       SizedBox(
                         height: screenHeight * 0.01,
                       ),
+                      Spacer(),
                       CheckoutWidget(),
+                      Spacer(),
                       SizedBox(
                         height: screenHeight * 0.01,
                       ),
-                      Divider(),
+                      // Divider(),
                     ],
                   ),
                 );

@@ -141,7 +141,8 @@ class _EditShippingLocationScreenState
                     SizedBox(
                         width: screenWidth * 0.42,
                         child: CommonLocationTextformField(
-                            controller: stateController, hintText: "State")),
+                            controller: stateController,
+                            hintText: "Prefecture")),
                     SizedBox(
                         width: screenWidth * 0.42,
                         child: CommonLocationTextformField(
@@ -299,7 +300,6 @@ class _EditShippingLocationScreenState
                           city: cityController.text.trim(),
                           street: streetController.text.trim(),
                           landmark: landmarkController.text.trim(),
-                          
                         );
                         // firstNameController.clear();
                         // lastNameController.clear();

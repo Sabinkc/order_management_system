@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
-import 'package:order_management_system/features/order/domain/order_screen_provider.dart';
+import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:order_management_system/features/my%20order/domain/switch_order_screen_provider.dart';
 import 'package:order_management_system/features/my%20order/presentation/widgets/order_history_invoice_widget.dart';
 import 'package:order_management_system/features/my%20order/presentation/widgets/order_history_top_card.dart';
@@ -32,6 +32,25 @@ class _OrderHistoryScreenState extends State<MyOrderHistoryScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: RichText(
+          text: const TextSpan(
+            children: [
+              TextSpan(
+                text: "My Order",
+                style: TextStyle(
+                  fontSize: 22,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+      ),
       body: SafeArea(
         child: Consumer<OrderScreenProvider>(
           builder: (context, orderProvider, child) {
@@ -57,19 +76,19 @@ class _OrderHistoryScreenState extends State<MyOrderHistoryScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  // SizedBox(
+                  //   height: screenHeight * 0.01,
+                  // ),
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: 20),
+                  //   child: Text(
+                  //     "My Orders",
+                  //     style:
+                  //         TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: screenHeight * 0.01,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      "My Orders",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  SizedBox(
-                    height: screenHeight * 0.02,
                   ),
                   OrderHistoryTopCard(),
                   Consumer<SwitchOrderScreenProvider>(

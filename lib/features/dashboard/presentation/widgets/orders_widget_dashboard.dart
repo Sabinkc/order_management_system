@@ -16,7 +16,7 @@ class OrdersWidgetDashboard extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: SizedBox(
-        height: screenHeight * 0.45,
+        height: screenHeight * 0.48,
         child:
             Consumer<CartQuantityProvider>(builder: (context, provider, child) {
           return ListView.builder(

@@ -10,7 +10,7 @@ import 'package:order_management_system/features/dashboard/domain/cart_quantity_
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
-import 'package:order_management_system/features/order/domain/order_screen_provider.dart';
+import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:order_management_system/features/location/domain/location_provider.dart';
 import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
