@@ -1,12 +1,120 @@
 import 'package:flutter/material.dart';
+import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
+import 'package:order_management_system/features/dashboard/presentation/widgets/checkout_widget.dart';
+import 'package:order_management_system/features/dashboard/presentation/widgets/invoice_widget_dashboard.dart';
+import 'package:order_management_system/features/dashboard/presentation/widgets/orders_widget_dashboard.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Center(child: Text("Cart Screen")),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: RichText(
+          text: const TextSpan(
+            children: [
+              TextSpan(
+                text: "My Cart",
+                style: TextStyle(
+                  fontSize: 22,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+      ),
+      body: Center(
+        child:
+            Consumer<CartQuantityProvider>(builder: (context, provider, child) {
+          return provider.cartItems.isEmpty
+              ? SizedBox(
+                  height: screenHeight * 0.65,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        left: 50, right: 50, bottom: 0, top: 20),
+                    child: Center(
+                      child: SizedBox(
+                          height: screenHeight * 0.5,
+                          // color: Colors.red,
+                          child: Column(spacing: 15, children: [
+                            Image.asset(
+                              "assets/images/empty_cart.png",
+                              fit: BoxFit.contain,
+                            ),
+                            Text(
+                              "No products in the cart!",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: CommonColor.darkGreyColor),
+                            ),
+                          ])),
+                    ),
+                  ))
+              : Padding(
+                  padding: EdgeInsets.only(
+                      // top: 50,
+                      ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                            "Orders",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          )),
+                      SizedBox(
+                        height: screenWidth * 0.002,
+                      ),
+                      Divider(),
+                      OrdersWidgetDashboard(),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Divider(),
+                      SizedBox(
+                        height: screenHeight * 0.01,
+                      ),
+                      Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                            "Invoice Details:",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          )),
+                      SizedBox(
+                        height: screenHeight * 0.01,
+                      ),
+                      InvoiceWidgetDashboard(),
+                      SizedBox(
+                        height: screenHeight * 0.005,
+                      ),
+                      Divider(),
+                      SizedBox(
+                        height: screenHeight * 0.01,
+                      ),
+                      CheckoutWidget(),
+                      SizedBox(
+                        height: screenHeight * 0.01,
+                      ),
+                      Divider(),
+                    ],
+                  ),
+                );
+        }),
+      ),
     );
   }
 }

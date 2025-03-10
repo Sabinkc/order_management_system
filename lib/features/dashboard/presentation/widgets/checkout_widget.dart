@@ -4,7 +4,7 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/data/cart_model.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
-import 'package:order_management_system/features/order%20history/domain/order_history_provider.dart';
+import 'package:order_management_system/features/my%20order/domain/order_history_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
 

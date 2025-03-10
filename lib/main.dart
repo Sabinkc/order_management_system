@@ -10,14 +10,14 @@ import 'package:order_management_system/features/dashboard/domain/cart_quantity_
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
-import 'package:order_management_system/features/invoice/domain/invoice_screen_provider.dart';
+import 'package:order_management_system/features/order/domain/invoice_screen_provider.dart';
 import 'package:order_management_system/features/location/domain/location_provider.dart';
 import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/domain/login_textfield_provider.dart';
 import 'package:order_management_system/features/login/presentation/screens/login_screen.dart';
-import 'package:order_management_system/features/order%20history/domain/order_history_provider.dart';
-import 'package:order_management_system/features/order%20history/domain/switch_order_screen_provider.dart';
+import 'package:order_management_system/features/my%20order/domain/order_history_provider.dart';
+import 'package:order_management_system/features/my%20order/domain/switch_order_screen_provider.dart';
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:order_management_system/features/signup/domain/checkbox_provider.dart';
 import 'package:order_management_system/features/signup/domain/signup_textfield_provider.dart';

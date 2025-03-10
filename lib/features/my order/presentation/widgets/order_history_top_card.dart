@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/constants.dart';
-import 'package:order_management_system/features/invoice/domain/invoice_screen_provider.dart';
-import 'package:order_management_system/features/order%20history/domain/switch_order_screen_provider.dart';
+import 'package:order_management_system/features/order/domain/invoice_screen_provider.dart';
+import 'package:order_management_system/features/my%20order/domain/switch_order_screen_provider.dart';
 import 'package:provider/provider.dart';
 
 class OrderHistoryTopCard extends StatelessWidget {

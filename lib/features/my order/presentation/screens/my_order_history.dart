@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
-import 'package:order_management_system/features/invoice/domain/invoice_screen_provider.dart';
-import 'package:order_management_system/features/order%20history/domain/switch_order_screen_provider.dart';
-import 'package:order_management_system/features/order%20history/presentation/widgets/order_history_invoice_widget.dart';
-import 'package:order_management_system/features/order%20history/presentation/widgets/order_history_top_card.dart';
-import 'package:order_management_system/features/order%20history/presentation/widgets/order_history_trackorder_widget.dart';
+import 'package:order_management_system/features/order/domain/invoice_screen_provider.dart';
+import 'package:order_management_system/features/my%20order/domain/switch_order_screen_provider.dart';
+import 'package:order_management_system/features/my%20order/presentation/widgets/order_history_invoice_widget.dart';
+import 'package:order_management_system/features/my%20order/presentation/widgets/order_history_top_card.dart';
+import 'package:order_management_system/features/my%20order/presentation/widgets/order_history_trackorder_widget.dart';
 import 'package:provider/provider.dart';
 
-class OrderHistoryScreen extends StatefulWidget {
-  const OrderHistoryScreen({super.key});
+class MyOrderHistoryScreen extends StatefulWidget {
+  const MyOrderHistoryScreen({super.key});
 
   @override
-  State<OrderHistoryScreen> createState() => _OrderHistoryScreenState();
+  State<MyOrderHistoryScreen> createState() => _OrderHistoryScreenState();
 }
 
-class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
+class _OrderHistoryScreenState extends State<MyOrderHistoryScreen> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () {

@@ -1,9 +1,7 @@
-
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:order_management_system/localization/messages_all.dart';
-
 
 // **************************************************************************
 // Generator: Flutter Intl IDE plugin
@@ -62,7 +60,7 @@ class S {
     );
   }
 
-    String get cart {
+  String get cart {
     return Intl.message(
       'Cart',
       name: 'cart',
@@ -74,7 +72,7 @@ class S {
   /// `Hello World`
   String get orders {
     return Intl.message(
-      'Orders',
+      'My Order',
       name: 'orders',
       desc: '',
       args: [],
@@ -119,7 +117,6 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
       Locale.fromSubtags(languageCode: 'ja'),
-  
     ];
   }
 

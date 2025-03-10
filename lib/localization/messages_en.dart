@@ -26,7 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Home"),
             "cart": MessageLookupByLibrary.simpleMessage(
             "Cart"),
-        "orders": MessageLookupByLibrary.simpleMessage("Orders"),
+        "orders": MessageLookupByLibrary.simpleMessage("My Order"),
         "invoices": MessageLookupByLibrary.simpleMessage("Invoices"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "language":

@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:logger/logger.dart';
 import 'package:order_management_system/common/common_color.dart';
-import 'package:order_management_system/features/invoice/presentation/screens/invoice_screen.dart';
+import 'package:order_management_system/features/order/presentation/screens/order_screen.dart';
 import 'package:order_management_system/features/location/presentation/screens/add_shipping_loation_screen.dart';
 import 'package:order_management_system/features/login/data/google_signin_api_service.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
@@ -214,13 +214,7 @@ class SettingsScreen extends StatelessWidget {
                               ),
                               children: [
                                 ListTile(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                InvoiceScreen()));
-                                  },
+                                  onTap: () {},
                                   leading: Icon(
                                     MingCute.inventory_line,
                                     color: CommonColor.primaryColor,
@@ -232,6 +226,13 @@ class SettingsScreen extends StatelessWidget {
                                   ),
                                 ),
                                 ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                OrderScreen()));
+                                  },
                                   leading: Icon(
                                     Icons.history,
                                     color: CommonColor.primaryColor,
