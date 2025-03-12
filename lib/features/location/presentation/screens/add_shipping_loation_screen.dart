@@ -138,7 +138,7 @@ class AddShippingLoationScreen extends StatelessWidget {
                   width: double.infinity,
                   height: screenHeight * 0.06,
                   child: ElevatedButton(
-                    onPressed: () async{
+                    onPressed: () async {
                       if (fullNameController.text.trim().isEmpty ||
                           phoneController.text.trim().isEmpty ||
                           emailController.text.trim().isEmpty ||
@@ -153,7 +153,7 @@ class AddShippingLoationScreen extends StatelessWidget {
                           final locationProvider =
                               Provider.of<LocationProvider>(context,
                                   listen: false);
-                         await locationProvider.createShippingLocation(
+                          await locationProvider.createShippingLocation(
                               fullNameController.text.trim(),
                               phoneController.text.trim(),
                               emailController.text.trim(),
@@ -164,21 +164,23 @@ class AddShippingLoationScreen extends StatelessWidget {
                               areaController.text.trim(),
                               landmarkController.text.trim());
 
-                          if(context.mounted){
+                          if (context.mounted) {
                             Utilities.showCommonSnackBar(
-                              context, "Address added successfully",
-                              icon: Icons.done);
+                                context, "Address added successfully",
+                                icon: Icons.done);
                           }
+
                           Future.delayed(Duration(seconds: 1), () {
                             if (context.mounted) {
+                              Navigator.pop(context);
                               Navigator.pop(context);
                             }
                           });
                         } catch (e) {
                           debugPrint(e.toString());
-                          if(context.mounted){
+                          if (context.mounted) {
                             Utilities.showCommonSnackBar(context, e.toString(),
-                              color: Colors.red, durationMilliseconds: 500);
+                                color: Colors.red, durationMilliseconds: 500);
                           }
                         }
                       }

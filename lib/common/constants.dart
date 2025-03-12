@@ -8,4 +8,7 @@ class Constants {
    static final String imageStorageBaseUrl = "https://oms.sysqube.com.np/api/v1/product-image";
     static final String createOrderUrl = "https://oms.sysqube.com.np/api/v1/my-orders";
     static final String getMyAlloderdUrl = "https://oms.sysqube.com.np/api/v1/my-orders";
+    static final String getAllLocationUrl = "https://oms.sysqube.com.np/api/v1/locations";
+    static final String createShippingLocationUrl = "https://oms.sysqube.com.np/api/v1/locations";
+    static final String deleteLocationBaseUrl = "https://oms.sysqube.com.np/api/v1/locations";
 }

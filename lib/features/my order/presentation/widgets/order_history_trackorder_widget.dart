@@ -18,24 +18,24 @@ class OrderHistoryTrackorderWidget extends StatelessWidget {
       "isActive": true,
       "image": "assets/icons/order_confirmed.svg"
     },
-    {
-      "title": "Order Processed",
-      "subtitle": "We are preparing your order",
-      "isActive": true,
-      "image": "assets/icons/order_processed.svg"
-    },
+    // {
+    //   "title": "Order Processed",
+    //   "subtitle": "We are preparing your order",
+    //   "isActive": true,
+    //   "image": "assets/icons/order_processed.svg"
+    // },
     {
       "title": "Ready to Ship",
       "subtitle": "Your order is ready for shipping",
       "isActive": false,
       "image": "assets/icons/ready_to_ship.svg"
     },
-    {
-      "title": "Out for Delivery",
-      "subtitle": "Your order is Out for Delivery",
-      "isActive": false,
-      "image": "assets/icons/out_for_delivery.svg"
-    },
+    // {
+    //   "title": "Out for Delivery",
+    //   "subtitle": "Your order is Out for Delivery",
+    //   "isActive": false,
+    //   "image": "assets/icons/out_for_delivery.svg"
+    // },
     {
       "title": "Delivered",
       "subtitle": "Your order is Delivered",

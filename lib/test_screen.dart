@@ -27,9 +27,10 @@ class TestScreen extends StatelessWidget {
                 // productApiSevice.getOrderByKey("25cb1-19");
                 // getCurrentLocation();
                 // final LocationApiService locationApiService = LocationApiService();
-                // locationApiService.createShippingLocation();
-                final locationProvider = Provider.of<LocationProvider>(context,listen: false);
-                locationProvider.createShippingLocation("Sabin","9812060688","sabinkc1206@gmail.com",12.5,14.6,"Kato","Tokyo","Shibuwa","behind school");
+                // locationApiService.deleteLocation(15);
+                final locationProvider =
+                    Provider.of<LocationProvider>(context, listen: false);
+                locationProvider.deleteLocation(16);
               },
               child: Text("Press")),
           Center(child: Text("Test Screen")),
