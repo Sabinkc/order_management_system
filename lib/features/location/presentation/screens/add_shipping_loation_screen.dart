@@ -12,7 +12,7 @@ class AddShippingLoationScreen extends StatelessWidget {
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController stateController = TextEditingController();
+  final TextEditingController areaController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController prefectureController = TextEditingController();
   final TextEditingController landmarkController = TextEditingController();
@@ -107,7 +107,7 @@ class AddShippingLoationScreen extends StatelessWidget {
                     SizedBox(
                         width: screenWidth * 0.42,
                         child: CommonLocationTextformField(
-                            controller: stateController,
+                            controller: prefectureController,
                             hintText: "Prefecture")),
                     SizedBox(
                         width: screenWidth * 0.42,
@@ -122,7 +122,7 @@ class AddShippingLoationScreen extends StatelessWidget {
                     SizedBox(
                         width: screenWidth * 0.42,
                         child: CommonLocationTextformField(
-                            controller: prefectureController,
+                            controller: areaController,
                             hintText: "Street/Area")),
                     SizedBox(
                         width: screenWidth * 0.42,
@@ -134,146 +134,53 @@ class AddShippingLoationScreen extends StatelessWidget {
                 SizedBox(
                   height: screenHeight * 0.04,
                 ),
-                // Consumer<LocationProvider>(
-                //     builder: (context, locationProvider, child) {
-                //   return Padding(
-                //     padding: EdgeInsets.only(left: 8),
-                //     child: Row(
-                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //       children: [
-                //         Text(
-                //           "Address Category",
-                //           style: TextStyle(
-                //               fontSize: 15, fontWeight: FontWeight.bold),
-                //         ),
-                //         Row(
-                //           spacing: 10,
-                //           children: [
-                //             Row(
-                //               spacing: 3,
-                //               children: [
-                //                 InkWell(
-                //                   onTap: () {
-                //                     locationProvider
-                //                         .switchAdressCategory("home");
-                //                   },
-                //                   child:
-                //                       locationProvider.addressCategory == "home"
-                //                           ? Icon(
-                //                               Icons.check_circle,
-                //                               color: CommonColor.primaryColor,
-                //                               size: 28,
-                //                             )
-                //                           : Icon(
-                //                               Icons.circle_outlined,
-                //                               color: CommonColor.primaryColor,
-                //                               size: 28,
-                //                             ),
-                //                 ),
-                //                 locationProvider.addressCategory == "home"
-                //                     ? Text(
-                //                         "Home",
-                //                         style: TextStyle(
-                //                             fontSize: 18,
-                //                             color: CommonColor.primaryColor),
-                //                       )
-                //                     : Text(
-                //                         "Home",
-                //                         style: TextStyle(
-                //                             fontSize: 18,
-                //                             color: CommonColor.darkGreyColor),
-                //                       )
-                //               ],
-                //             ),
-                //             Row(
-                //               spacing: 3,
-                //               children: [
-                //                 InkWell(
-                //                   onTap: () {
-                //                     locationProvider
-                //                         .switchAdressCategory("office");
-                //                   },
-                //                   child: locationProvider.addressCategory ==
-                //                           "office"
-                //                       ? Icon(
-                //                           Icons.check_circle,
-                //                           color: CommonColor.primaryColor,
-                //                           size: 28,
-                //                         )
-                //                       : Icon(
-                //                           Icons.circle_outlined,
-                //                           color: CommonColor.primaryColor,
-                //                           size: 28,
-                //                         ),
-                //                 ),
-                //                 locationProvider.addressCategory == "office"
-                //                     ? Text(
-                //                         "Office",
-                //                         style: TextStyle(
-                //                             fontSize: 18,
-                //                             color: CommonColor.primaryColor),
-                //                       )
-                //                     : Text(
-                //                         "Office",
-                //                         style: TextStyle(
-                //                             fontSize: 18,
-                //                             color: CommonColor.darkGreyColor),
-                //                       ),
-                //               ],
-                //             )
-                //           ],
-                //         )
-                //       ],
-                //     ),
-                //   );
-                // }),
-                // SizedBox(
-                //   height: screenHeight * 0.04,
-                // ),
                 SizedBox(
                   width: double.infinity,
                   height: screenHeight * 0.06,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async{
                       if (fullNameController.text.trim().isEmpty ||
                           phoneController.text.trim().isEmpty ||
                           emailController.text.trim().isEmpty ||
-                          stateController.text.trim().isEmpty ||
+                          areaController.text.trim().isEmpty ||
                           cityController.text.trim().isEmpty ||
-                          prefectureController.text.trim().isEmpty ||
-                          landmarkController.text.trim().isEmpty) {
+                          prefectureController.text.trim().isEmpty) {
                         Utilities.showCommonSnackBar(
                             context, "All fields are required!",
                             color: Colors.red, durationMilliseconds: 500);
                       } else {
-                        final locationProvider = Provider.of<LocationProvider>(
-                            context,
-                            listen: false);
-                        locationProvider.addAddress(
-                          fullName: fullNameController.text.trim(),
-                          phone: phoneController.text.trim(),
-                          email: emailController.text.trim(),
-                          state: stateController.text.trim(),
-                          city: cityController.text.trim(),
-                          street: prefectureController.text.trim(),
-                          landmark: landmarkController.text.trim(),
-                        );
-                        // firstNameController.clear();
-                        // lastNameController.clear();
-                        // phoneController.clear();
-                        // emailController.clear();
-                        // stateController.clear();
-                        // cityController.clear();
-                        // streetController.clear();
-                        // landmarkController.clear();
-                        Utilities.showCommonSnackBar(
-                            context, "Address added successfully",
-                            icon: Icons.done);
-                        Future.delayed(Duration(seconds: 1), () {
-                          if (context.mounted) {
-                            Navigator.pop(context);
+                        try {
+                          final locationProvider =
+                              Provider.of<LocationProvider>(context,
+                                  listen: false);
+                         await locationProvider.createShippingLocation(
+                              fullNameController.text.trim(),
+                              phoneController.text.trim(),
+                              emailController.text.trim(),
+                              12.00,
+                              13.00,
+                              prefectureController.text.trim(),
+                              cityController.text.trim(),
+                              areaController.text.trim(),
+                              landmarkController.text.trim());
+
+                          if(context.mounted){
+                            Utilities.showCommonSnackBar(
+                              context, "Address added successfully",
+                              icon: Icons.done);
                           }
-                        });
+                          Future.delayed(Duration(seconds: 1), () {
+                            if (context.mounted) {
+                              Navigator.pop(context);
+                            }
+                          });
+                        } catch (e) {
+                          debugPrint(e.toString());
+                          if(context.mounted){
+                            Utilities.showCommonSnackBar(context, e.toString(),
+                              color: Colors.red, durationMilliseconds: 500);
+                          }
+                        }
                       }
                     },
                     style: ElevatedButton.styleFrom(

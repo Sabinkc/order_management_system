@@ -1,12 +1,20 @@
 import 'dart:convert';
-
 import 'package:order_management_system/common/constants.dart';
 import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer' as logger;
 
 class LocationApiService {
-  Future createShippingLocation(String receiverName, String receiverPhone, String receiverEmail, double lat, double long, String prefecture, String city, String area, String? landmark) async {
+  Future createShippingLocation(
+      String receiverName,
+      String receiverPhone,
+      String receiverEmail,
+      double lat,
+      double long,
+      String prefecture,
+      String city,
+      String area,
+      String? landmark) async {
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
     if (token == null) {
@@ -39,25 +47,22 @@ class LocationApiService {
     });
     request.headers.addAll(headers);
 
-    
-      http.StreamedResponse response = await request.send();
-      String responseBody = await response.stream.bytesToString();
-      logger.log("status code: ${response.statusCode}");
-      logger.log("Response Body: $responseBody");
+    http.StreamedResponse response = await request.send();
+    String responseBody = await response.stream.bytesToString();
+    logger.log("status code: ${response.statusCode}");
+    logger.log("Response Body: $responseBody");
 
-      Map<String, dynamic> jsonResponse = json.decode(responseBody);
-      logger.log("jsonResponse: $jsonResponse");
+    Map<String, dynamic> jsonResponse = json.decode(responseBody);
+    logger.log("jsonResponse: $jsonResponse");
 
-      if (response.statusCode == 201 && jsonResponse["success"] == true) {
-        logger.log(jsonResponse.toString());
-        return jsonResponse;
-      } else {
-        String errorMessage = "Failed to add shipping location";
-        logger.log(errorMessage);
-        throw errorMessage;
-      }
-    
-
+    if (response.statusCode == 201 && jsonResponse["success"] == true) {
+      logger.log(jsonResponse.toString());
+      return jsonResponse;
+    } else {
+      String errorMessage =
+          jsonResponse["message"].values.first[0] ?? "Failed to add location!";
+      logger.log(errorMessage);
+      throw errorMessage;
     }
   }
-
+}
