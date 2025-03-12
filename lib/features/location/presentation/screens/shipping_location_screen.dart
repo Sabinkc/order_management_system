@@ -539,44 +539,56 @@ class _ShippingLocationScreenState extends State<ShippingLocationScreen> {
                                                     "Delete",
                                                 onLeftButtonPressed: () {
                                               Navigator.pop(context);
-                                            }, onRightButtonPressed: () {
-                                              final location = locationProvider
-                                                  .locations[index];
-                                              locationProvider
-                                                  .deleteLocation(location.id);
-                                              // locationProvider
-                                              //     .deleteAddress(index);
-                                              Navigator.pop(context);
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    Future.delayed(
-                                                        Duration(seconds: 1),
-                                                        () {
-                                                      if (context.mounted) {
-                                                        Navigator.pop(context);
-                                                      }
-                                                    });
-                                                    return AlertDialog(
-                                                      backgroundColor:
-                                                          Colors.white,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          15)),
-                                                      title: Center(
-                                                        child: Text(
-                                                          "Address deleted successfully!",
-                                                          style: TextStyle(
-                                                              color: CommonColor
-                                                                  .darkGreyColor,
-                                                              fontSize: 14),
+                                            }, onRightButtonPressed: () async {
+                                              try {
+                                                final location =
+                                                    locationProvider
+                                                        .locations[index];
+                                                await locationProvider
+                                                    .deleteLocation(
+                                                        location.id);
+
+                                                // locationProvider
+                                                //     .deleteAddress(index);
+                                                if(!context.mounted) return;
+                                                Navigator.pop(context);
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      Future.delayed(
+                                                          Duration(seconds: 1),
+                                                          () {
+                                                        if (context.mounted) {
+                                                          Navigator.pop(
+                                                              context);
+                                                        }
+                                                      });
+                                                      return AlertDialog(
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15)),
+                                                        title: Center(
+                                                          child: Text(
+                                                            "Address deleted successfully!",
+                                                            style: TextStyle(
+                                                                color: CommonColor
+                                                                    .darkGreyColor,
+                                                                fontSize: 14),
+                                                          ),
                                                         ),
-                                                      ),
-                                                    );
-                                                  });
+                                                      );
+                                                    });
+                                              } catch (e) {
+                                               if(context.mounted){
+                                                 Navigator.pop(context);
+                                                Utilities.showCommonSnackBar(
+                                                    context, "$e");
+                                               }
+                                              }
                                             });
                                           },
                                           child: Icon(

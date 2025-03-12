@@ -153,6 +153,7 @@ class LocationProvider extends ChangeNotifier {
     notifyListeners();
     try {
       await locationApiService.deleteLocation(locationId);
+      locations.removeWhere((location) => location.id == locationId);
       notifyListeners();
       logger.log("locations: $locations");
     } catch (e) {

@@ -169,10 +169,9 @@ class AddShippingLoationScreen extends StatelessWidget {
                                 context, "Address added successfully",
                                 icon: Icons.done);
                           }
-
+                          await locationProvider.getAllLocation();
                           Future.delayed(Duration(seconds: 1), () {
                             if (context.mounted) {
-                              Navigator.pop(context);
                               Navigator.pop(context);
                             }
                           });

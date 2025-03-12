@@ -97,7 +97,7 @@ class LocationApiService {
 
       for (var location in locationJson) {
         locations.add(AddressModel(
-          id: location["id"],
+            id: location["id"],
             fullName: location["receiver"]["name"],
             phone: location["receiver"]["phone"],
             email: location["receiver"]["email"],
@@ -108,14 +108,12 @@ class LocationApiService {
       }
       // logger.log(locations.toString());
       return locations;
-    }
-    else{
+    } else {
       String errorMessage = "Failed to load locations";
       throw errorMessage;
     }
   }
 
-  
   Future deleteLocation(int locationId) async {
     String? token = await SharedPrefLoggedinState.getAccessToken();
     if (token == null) {
@@ -136,15 +134,15 @@ class LocationApiService {
     String responseBody = await response.stream.bytesToString();
     logger.log("status code: ${response.statusCode}");
     // logger.log("Response Body: $responseBody");
-    Map<String, dynamic> jsonResponse = json.decode(responseBody);
     // logger.log("jsonResponse: $jsonResponse");
 
     if (response.statusCode == 204) {
       // logger.log(jsonResponse.toString());
-      return true;
-    }
-    else{
+      return;
+    } else {
+       Map<String, dynamic> jsonResponse = json.decode(responseBody);
       String errorMessage = jsonResponse["message"];
+      logger.log(errorMessage);
       throw errorMessage;
     }
   }
