@@ -3,8 +3,6 @@ import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/presentation/widgets/bottom_text_login.dart';
-import 'package:order_management_system/features/login/presentation/widgets/divider_text_login.dart';
-import 'package:order_management_system/features/login/presentation/widgets/google_button_login.dart';
 import 'package:order_management_system/features/login/presentation/widgets/textfieldandloginbutton_widget_login.dart';
 import 'package:order_management_system/features/login/presentation/widgets/top_text_login.dart';
 import 'package:provider/provider.dart';
@@ -64,9 +62,12 @@ class LoginScreen extends StatelessWidget {
                                 children: [
                                   const TextfieldandloginbuttonWidgetLogin(),
                                   SizedBox(height: screenHeight * 0.05),
-                                  const DividerTextLogin(),
-                                  SizedBox(height: screenHeight * 0.05),
-                                  const GoogleButtonLogin(),
+                                  // const DividerTextLogin(),
+                                  // SizedBox(height: screenHeight * 0.05),
+                                  // const GoogleButtonLogin(),
+                                  SizedBox(
+                                    height: screenHeight * 0.13,
+                                  ),
                                   SizedBox(height: screenHeight * 0.045),
                                   const BottomTextLogin(),
                                 ],

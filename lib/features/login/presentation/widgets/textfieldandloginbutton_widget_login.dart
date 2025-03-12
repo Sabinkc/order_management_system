@@ -152,8 +152,8 @@ class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {
       if (context.mounted) {
         final SettingsProvider profileProvider =
             Provider.of<SettingsProvider>(context, listen: false);
-        final name = response["data"]["data"]["profile"]["name"];
-        final email = response["data"]["data"]["profile"]["email"];
+        final name = response["data"]["profile"]["name"];
+        final email = response["data"]["profile"]["email"];
 
         profileProvider.addProfileData(name, email);
         Navigator.pushReplacement(

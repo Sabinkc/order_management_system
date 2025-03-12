@@ -14,7 +14,7 @@ class AddShippingLoationScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController stateController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
-  final TextEditingController streetController = TextEditingController();
+  final TextEditingController prefectureController = TextEditingController();
   final TextEditingController landmarkController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -122,7 +122,7 @@ class AddShippingLoationScreen extends StatelessWidget {
                     SizedBox(
                         width: screenWidth * 0.42,
                         child: CommonLocationTextformField(
-                            controller: streetController,
+                            controller: prefectureController,
                             hintText: "Street/Area")),
                     SizedBox(
                         width: screenWidth * 0.42,
@@ -240,7 +240,7 @@ class AddShippingLoationScreen extends StatelessWidget {
                           emailController.text.trim().isEmpty ||
                           stateController.text.trim().isEmpty ||
                           cityController.text.trim().isEmpty ||
-                          streetController.text.trim().isEmpty ||
+                          prefectureController.text.trim().isEmpty ||
                           landmarkController.text.trim().isEmpty) {
                         Utilities.showCommonSnackBar(
                             context, "All fields are required!",
@@ -255,7 +255,7 @@ class AddShippingLoationScreen extends StatelessWidget {
                           email: emailController.text.trim(),
                           state: stateController.text.trim(),
                           city: cityController.text.trim(),
-                          street: streetController.text.trim(),
+                          street: prefectureController.text.trim(),
                           landmark: landmarkController.text.trim(),
                         );
                         // firstNameController.clear();

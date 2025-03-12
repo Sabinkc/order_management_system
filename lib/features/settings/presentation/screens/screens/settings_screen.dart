@@ -6,7 +6,6 @@ import 'package:logger/logger.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/location/presentation/screens/shipping_location_screen.dart';
 import 'package:order_management_system/features/orders/presentation/screens/order_screen.dart';
-import 'package:order_management_system/features/location/presentation/screens/add_shipping_loation_screen.dart';
 import 'package:order_management_system/features/login/data/google_signin_api_service.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/presentation/screens/login_screen.dart';
@@ -14,6 +13,7 @@ import 'package:order_management_system/features/settings/domain/settings_provid
 import 'package:order_management_system/features/settings/presentation/screens/screens/my_profile_screen.dart';
 import 'package:order_management_system/features/settings/presentation/screens/screens/reset_password_screen.dart';
 import 'package:order_management_system/localization/localization_provider.dart';
+import 'package:order_management_system/test_screen.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -415,6 +415,13 @@ class SettingsScreen extends StatelessWidget {
                                   ),
                                 ),
                                 ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                TestScreen()));
+                                  },
                                   leading: Icon(
                                     Icons.report_problem_outlined,
                                     color: CommonColor.primaryColor,

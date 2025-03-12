@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:order_management_system/features/location/data/address_model.dart';
 import 'dart:developer' as logger;
 
+import 'package:order_management_system/features/location/data/location_api_service.dart';
+
 class LocationProvider extends ChangeNotifier {
 //provider to switch address category
   String addressCategory = "home";
@@ -87,4 +89,26 @@ class LocationProvider extends ChangeNotifier {
     latitude = lat;
     notifyListeners();
   }
+
+
+  //provider create shipping location with api
+  final LocationApiService locationApiService = LocationApiService();
+  bool isCreateShippingLocationLoading = false;
+Future createShippingLocation(String receiverName, String receiverPhone, String receiverEmail, double lat, double long, String prefecture, String city, String area, String? landmark) async{
+isCreateShippingLocationLoading = true;
+notifyListeners();
+try{
+final response = await locationApiService.createShippingLocation(receiverName,receiverPhone,receiverEmail,lat,long,prefecture,city,area,landmark);
+return response;
+}catch(e){
+logger.log("$e");
+throw "$e";
+}
+finally{
+isCreateShippingLocationLoading = false;
+notifyListeners();
+}
+
+
+}
 }
