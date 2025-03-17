@@ -164,4 +164,42 @@ class LocationProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  // provider to updateLocation
+  bool isUpdateLocationLoading = false;
+  Future updateLocation(
+      int locationId,
+      String name,
+      String phone,
+      String email,
+      double lat,
+      double long,
+      String prefecture,
+      String city,
+      String area,
+      String landmark) async {
+    isUpdateLocationLoading = true;
+    notifyListeners();
+    try {
+      await locationApiService.updateShippingLocation(
+          locationId: locationId,
+          receiverEmail: email,
+          receiverName: name,
+          receiverPhone: phone,
+          lat: lat,
+          long: long,
+          prefecture: prefecture,
+          city: city,
+          area: area,
+          landmark: landmark);
+      notifyListeners();
+      logger.log("locations: $locations");
+    } catch (e) {
+      logger.log(e.toString());
+      throw "$e";
+    } finally {
+      isUpdateLocationLoading = false;
+      notifyListeners();
+    }
+  }
 }

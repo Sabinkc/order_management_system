@@ -140,8 +140,70 @@ class LocationApiService {
       // logger.log(jsonResponse.toString());
       return;
     } else {
-       Map<String, dynamic> jsonResponse = json.decode(responseBody);
+      Map<String, dynamic> jsonResponse = json.decode(responseBody);
       String errorMessage = jsonResponse["message"];
+      logger.log(errorMessage);
+      throw errorMessage;
+    }
+  }
+
+  Future updateShippingLocation(
+      {required int locationId,
+      String? receiverName,
+      String? receiverPhone,
+      String? receiverEmail,
+      double? lat,
+      double? long,
+      String? prefecture,
+      String? city,
+      String? area,
+      String? landmark}) async {
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+
+    if (token == null) {
+      String tokenErorMessage = "User not authenticated. Please login first.";
+      throw tokenErorMessage;
+    }
+
+    var headers = {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var url = Uri.parse("${Constants.updateLocationBaseUrl}/$locationId");
+
+    var request = http.Request("PATCH", url);
+
+    request.body = json.encode({
+      "receiver": {
+        "name": receiverName,
+        "phone": receiverPhone,
+        "email": receiverEmail,
+      },
+      "lat": lat,
+      "lng": long,
+      "prefecture": prefecture,
+      "city": city,
+      "area": area,
+      "landmark": landmark ?? "_",
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    String responseBody = await response.stream.bytesToString();
+    logger.log("status code: ${response.statusCode}");
+    logger.log("Response Body: $responseBody");
+
+    Map<String, dynamic> jsonResponse = json.decode(responseBody);
+    logger.log("jsonResponse: $jsonResponse");
+
+    if (response.statusCode == 200 && jsonResponse["success"] == true) {
+      logger.log(jsonResponse.toString());
+      return;
+    } else {
+      String errorMessage =
+          jsonResponse["message"].toString();
       logger.log(errorMessage);
       throw errorMessage;
     }

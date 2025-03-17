@@ -138,64 +138,79 @@ class AddShippingLoationScreen extends StatelessWidget {
                   width: double.infinity,
                   height: screenHeight * 0.06,
                   child: ElevatedButton(
-                    onPressed: () async {
-                      if (fullNameController.text.trim().isEmpty ||
-                          phoneController.text.trim().isEmpty ||
-                          emailController.text.trim().isEmpty ||
-                          areaController.text.trim().isEmpty ||
-                          cityController.text.trim().isEmpty ||
-                          prefectureController.text.trim().isEmpty) {
-                        Utilities.showCommonSnackBar(
-                            context, "All fields are required!",
-                            color: Colors.red, durationMilliseconds: 500);
-                      } else {
-                        try {
-                          final locationProvider =
-                              Provider.of<LocationProvider>(context,
-                                  listen: false);
-                          await locationProvider.createShippingLocation(
-                              fullNameController.text.trim(),
-                              phoneController.text.trim(),
-                              emailController.text.trim(),
-                              12.00,
-                              13.00,
-                              prefectureController.text.trim(),
-                              cityController.text.trim(),
-                              areaController.text.trim(),
-                              landmarkController.text.trim());
+                      onPressed: () async {
+                        if (fullNameController.text.trim().isEmpty ||
+                            phoneController.text.trim().isEmpty ||
+                            emailController.text.trim().isEmpty ||
+                            areaController.text.trim().isEmpty ||
+                            cityController.text.trim().isEmpty ||
+                            prefectureController.text.trim().isEmpty) {
+                          Utilities.showCommonSnackBar(
+                              context, "All fields are required!",
+                              color: Colors.red, durationMilliseconds: 500);
+                        } else {
+                          try {
+                            final locationProvider =
+                                Provider.of<LocationProvider>(context,
+                                    listen: false);
+                            await locationProvider.createShippingLocation(
+                                fullNameController.text.trim(),
+                                phoneController.text.trim(),
+                                emailController.text.trim(),
+                                12.00,
+                                13.00,
+                                prefectureController.text.trim(),
+                                cityController.text.trim(),
+                                areaController.text.trim(),
+                                landmarkController.text.trim());
 
-                          if (context.mounted) {
-                            Utilities.showCommonSnackBar(
-                                context, "Address added successfully",
-                                icon: Icons.done);
-                          }
-                          await locationProvider.getAllLocation();
-                          Future.delayed(Duration(seconds: 1), () {
                             if (context.mounted) {
                               Navigator.pop(context);
+                              Utilities.showCommonSnackBar(
+                                  context, "Address added successfully",
+                                  icon: Icons.done);
                             }
-                          });
-                        } catch (e) {
-                          debugPrint(e.toString());
-                          if (context.mounted) {
-                            Utilities.showCommonSnackBar(context, e.toString(),
-                                color: Colors.red, durationMilliseconds: 500);
+                            await locationProvider.getAllLocation();
+
+                            // if (context.mounted) {
+                            //   Utilities.showCommonSnackBar(
+                            //       context, "Address added successfully",
+                            //       icon: Icons.done);
+                            // }
+                            // await locationProvider.getAllLocation();
+                            // Future.delayed(Duration(seconds: 1), () {
+                            //   if (context.mounted) {
+                            //     Navigator.pop(context);
+                            //   }
+                            // });
+                          } catch (e) {
+                            debugPrint(e.toString());
+                            if (context.mounted) {
+                              Utilities.showCommonSnackBar(
+                                  context, e.toString(),
+                                  color: Colors.red, durationMilliseconds: 500);
+                            }
                           }
                         }
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        backgroundColor: CommonColor.primaryColor),
-                    child: Text(
-                      "Save",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                      },
+                      style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          backgroundColor: CommonColor.primaryColor),
+                      child: Consumer<LocationProvider>(
+                          builder: (context, locationProvider, child) {
+                        return locationProvider.isCreateShippingLocationLoading
+                            ? CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : Text(
+                                "Save",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                      })),
                 ),
               ],
             ),
