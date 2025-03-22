@@ -8,6 +8,7 @@ import 'package:order_management_system/features/dashboard/presentation/widgets/
 import 'package:order_management_system/features/dashboard/presentation/widgets/search_row_dashboard.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/top_profile_dashboard.dart';
 import 'package:order_management_system/features/location/domain/location_provider.dart';
+import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
 
@@ -65,6 +66,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       await productProvider.getProductCategoriesWithoutAll();
       // await productProvider.getAllProduct();
       await productProvider.getCategoryProducts(0);
+      if (!mounted) return;
+      final settingProvider =
+          Provider.of<SettingsProvider>(context, listen: false);
+      await settingProvider.getProfile();
       getCurrentLocation();
     });
 

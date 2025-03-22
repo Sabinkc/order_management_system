@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/features/location/data/location_api_service.dart';
 import 'package:order_management_system/features/location/domain/location_provider.dart';
+import 'package:order_management_system/features/settings/data/profile_api_service.dart';
+import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
 // import 'package:geolocator/geolocator.dart';
 // import 'dart:developer' as logger;
@@ -20,38 +22,22 @@ class TestScreen extends StatelessWidget {
         children: [
           ElevatedButton(
               onPressed: () async {
-                // final ProductApiSevice productApiSevice = ProductApiSevice();
-                // final productProvider =
-                //     Provider.of<ProductProvider>(context, listen: false);
-
-                // productApiSevice.getOrderByKey("25cb1-19");
-                // getCurrentLocation();
-                final LocationApiService locationApiService =
-                    LocationApiService();
-                // locationApiService.updateShippingLocation(
-                //     locationId: 1,
-                //     receiverName: "gg",
-                //     receiverEmail: 'sabinkc1206@gmail.com',
-                //     receiverPhone: "9898",
-                //     lat: 23,
-                //     long: 34,
-                //     area: "dd",
-                //     city: "ff",
-                //     landmark: "near",
-                //     prefecture: "gg");
-                final locationProvider =
-                    Provider.of<LocationProvider>(context, listen: false);
-                locationProvider.updateLocation(
-                    28,
-                    "dd",
-                    "9812",
-                    "sabinkc1206@gmail.com",
-                    12,
-                    13,
-                    "prefecture 1",
-                    "city",
-                    "area",
-                    "gg");
+                // final locationProvider =
+                //     Provider.of<LocationProvider>(context, listen: false);
+                // locationProvider.updateLocation(
+                //     28,
+                //     "dd",
+                //     "9812",
+                //     "sabinkc1206@gmail.com",
+                //     12,
+                //     13,
+                //     "prefecture 1",
+                //     "city",
+                //     "area",
+                //     "gg");
+                final settingProvider =
+                    Provider.of<SettingsProvider>(context, listen: false);
+                settingProvider.getProfile();
               },
               child: Text("Press")),
           Center(child: Text("Test Screen")),

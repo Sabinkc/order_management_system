@@ -54,12 +54,14 @@ void main(List<String> args) async {
             create: (_) => ConnectivityProvider()),
         ChangeNotifierProvider<SwitchOrderScreenProvider>(
             create: (_) => SwitchOrderScreenProvider()),
-               ChangeNotifierProvider<OrderScreenProvider>(
+        ChangeNotifierProvider<OrderScreenProvider>(
             create: (_) => OrderScreenProvider()),
-            ChangeNotifierProvider<SimpleUiProvider>(create: (_)=>SimpleUiProvider()),
-              ChangeNotifierProvider<ProductProvider>(create: (_)=>ProductProvider()),
-               ChangeNotifierProvider<LocationProvider>(create: (_)=>LocationProvider()),
-              
+        ChangeNotifierProvider<SimpleUiProvider>(
+            create: (_) => SimpleUiProvider()),
+        ChangeNotifierProvider<ProductProvider>(
+            create: (_) => ProductProvider()),
+        ChangeNotifierProvider<LocationProvider>(
+            create: (_) => LocationProvider()),
       ],
       child: MyApplication(
         isLoggedin: isLoggedin,

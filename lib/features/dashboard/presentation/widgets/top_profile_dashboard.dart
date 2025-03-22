@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/features/settings/domain/settings_provider.dart';
+import 'package:provider/provider.dart';
 
 class TopProfileDashboard extends StatelessWidget {
   const TopProfileDashboard({super.key});
@@ -12,11 +14,13 @@ class TopProfileDashboard extends StatelessWidget {
         Expanded(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text("Hello,John",
+            Consumer<SettingsProvider>(builder: (context, profileProvider, child){
+              return Text("Hello,${profileProvider.profile.name}",
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   color: CommonColor.darkGreyColor,
-                )),
+                ));
+            }),
             Text(
               "What would you like to buy today?",
               overflow: TextOverflow.ellipsis,
