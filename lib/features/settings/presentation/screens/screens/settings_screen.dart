@@ -728,6 +728,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Future.delayed(Duration.zero, () async {
       if (!mounted) return;
       _loadInitialAvatar();
+      if (!mounted) return;
+      final settingProvider =
+          Provider.of<SettingsProvider>(context, listen: false);
+      await settingProvider.getProfile();
     });
     super.initState();
   }
@@ -799,87 +803,104 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           SizedBox(
                             height: screenHeight * 0.03,
                           ),
-                         Center(
-      child: Consumer<SettingsProvider>(
-        builder: (context, profileProvider, child) {
-          return GestureDetector(
-            onTap: () async {
-              final picker = ImagePicker();
-              try {
-                final pickedFile = await picker.pickImage(
-                  source: ImageSource.gallery,
-                );
-                if (pickedFile != null) {
-                  await profileProvider.updateProfileAvatar(
-                    File(pickedFile.path),
-                  );
-                  // Optionally reload avatar after update
-                  await profileProvider.loadProfileAvatar();
-                }
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Failed to update avatar: $e')),
-                );
-              }
-            },
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  height: 100,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: _buildAvatarImage(profileProvider),
-                  ),
-                ),
-                if (profileProvider.isUpdateAvatarLoading || 
-                    profileProvider.isAvatarLoading)
-                  Positioned.fill(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black54,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: CommonColor.primaryColor,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.camera_alt,
-                      size: 20,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),),
-                          SizedBox(height: screenHeight * 0.01),
-                          Text(provider.userName,
-                              style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold)),
-                          Text(provider.userEmail,
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: CommonColor.darkGreyColor)),
+                          Center(
+                            child: Consumer<SettingsProvider>(
+                              builder: (context, profileProvider, child) {
+                                return GestureDetector(
+                                    onTap: () async {
+                                      final picker = ImagePicker();
+                                      try {
+                                        final pickedFile =
+                                            await picker.pickImage(
+                                          source: ImageSource.gallery,
+                                        );
+                                        if (pickedFile != null) {
+                                          await profileProvider
+                                              .updateProfileAvatar(
+                                            File(pickedFile.path),
+                                          );
+                                          // Optionally reload avatar after update
+                                          await profileProvider
+                                              .loadProfileAvatar();
+                                        }
+                                      } catch (e) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                              content: Text(
+                                                  'Failed to update avatar: $e')),
+                                        );
+                                      }
+                                    },
+                                    child: Column(children: [
+                                      Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          Container(
+                                            height: 100,
+                                            width: 100,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              child: _buildAvatarImage(
+                                                  profileProvider),
+                                            ),
+                                          ),
+                                          if (profileProvider
+                                                  .isUpdateAvatarLoading ||
+                                              profileProvider.isAvatarLoading)
+                                            Positioned.fill(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.black54,
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
+                                                ),
+                                                child: Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: CommonColor
+                                                        .primaryColor,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          Positioned(
+                                            bottom: 0,
+                                            right: 0,
+                                            child: Container(
+                                              padding: EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                color: CommonColor.primaryColor,
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: Icon(
+                                                Icons.camera_alt,
+                                                size: 20,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: screenHeight * 0.01),
+                                      Text(provider.profile.name,
+                                          style: TextStyle(
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.bold)),
+                                      Text(provider.profile.email,
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color:
+                                                  CommonColor.darkGreyColor)),
+                                    ]));
+                              },
+                            ),
+                          ),
                           SizedBox(height: screenHeight * 0.02),
                           Container(
                             decoration: BoxDecoration(
@@ -1245,8 +1266,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       );
     }
     // Fall back to network image from profile
-    else if (profileProvider.profile.avatar != null && 
-             profileProvider.profile.avatar!.isNotEmpty) {
+    else if (profileProvider.profile.avatar != null &&
+        profileProvider.profile.avatar!.isNotEmpty) {
       return Image.network(
         profileProvider.profile.avatar!,
         fit: BoxFit.cover,

@@ -61,29 +61,28 @@ class TopProfileDashboard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Consumer<SettingsProvider>(
-                    builder: (context, profileProvider, child) {
-                  return Text("Hello,${profileProvider.profile.name}",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: CommonColor.darkGreyColor,
-                      ));
-                }),
-                Text(
-                  "What would you like to buy today?",
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
-                )
-              ]),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Consumer<SettingsProvider>(
+                  builder: (context, profileProvider, child) {
+                return Text("Hello,${profileProvider.profile.name}",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: CommonColor.darkGreyColor,
+                    ));
+              }),
+              Text(
+                "What would you like to buy today?",
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
+              )
+            ]),
           ),
           Consumer<SettingsProvider>(
             builder: (context, profileProvider, child) {
               // Load avatar when widget builds if not already loaded
-              if (profileProvider.avatarBytes == null && 
+              if (profileProvider.avatarBytes == null &&
                   !profileProvider.isAvatarLoading) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   profileProvider.loadProfileAvatar();
@@ -96,14 +95,13 @@ class TopProfileDashboard extends StatelessWidget {
                 child: Stack(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: _buildAvatarImage(profileProvider),
-                    ),
+                        borderRadius: BorderRadius.circular(50),
+                        child: _buildAvatarImage(profileProvider)),
                     if (profileProvider.isAvatarLoading)
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.black54,
-                          borderRadius: BorderRadius.circular(50),
+                          shape: BoxShape.circle,
                         ),
                         child: Center(
                           child: CircularProgressIndicator(
@@ -131,8 +129,8 @@ class TopProfileDashboard extends StatelessWidget {
       );
     }
     // Fall back to network image from profile if available
-    else if (profileProvider.profile.avatar != null && 
-             profileProvider.profile.avatar!.isNotEmpty) {
+    else if (profileProvider.profile.avatar != null &&
+        profileProvider.profile.avatar!.isNotEmpty) {
       return Image.network(
         profileProvider.profile.avatar!,
         fit: BoxFit.cover,
