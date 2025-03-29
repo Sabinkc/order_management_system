@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:order_management_system/features/settings/data/profile_api_service.dart';
 import 'package:order_management_system/features/settings/data/profile_model.dart';
@@ -53,6 +56,73 @@ class SettingsProvider extends ChangeNotifier {
       isGetProfileLoading = false;
       notifyListeners();
       logger.log("locations: $profile");
+    }
+  }
+
+//provider to update profile
+  bool isUpdateProfileLoading = false;
+
+  Future updatProfile(String name, String email, String phone, String gender,
+      String address) async {
+    isUpdateProfileLoading = true;
+    notifyListeners();
+    try {
+      await profileApiService.updateProfile(
+          name: name,
+          email: email,
+          phone: phone,
+          gender: gender,
+          address: address);
+      notifyListeners();
+    } catch (e) {
+      throw "$e";
+    } finally {
+      isUpdateProfileLoading = false;
+      notifyListeners();
+      logger.log("profile: $profile");
+    }
+  }
+
+//provider to create avatar
+  bool isUpdateAvatarLoading = false;
+  File? selectedAvatar;
+
+  Future<void> updateProfileAvatar(File imageFile) async {
+    isUpdateAvatarLoading = true;
+    selectedAvatar = imageFile;
+    notifyListeners();
+
+    try {
+      await profileApiService.updateProfileAvatar(imageFile: imageFile);
+      // Optionally update the profile data in your provider if needed
+      notifyListeners();
+    } catch (e) {
+      selectedAvatar = null; // Reset on failure
+      notifyListeners();
+      rethrow; // Preserve the original error stack
+    } finally {
+      isUpdateAvatarLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Uint8List? avatarBytes;
+
+// Uint8List? get avatarBytes => _avatarBytes;
+  bool isAvatarLoading = false;
+  Future<void> loadProfileAvatar() async {
+    isAvatarLoading = true;
+    notifyListeners();
+    try {
+      avatarBytes = await profileApiService.getProfileAvatar();
+      notifyListeners();
+    } catch (e) {
+      avatarBytes = null;
+      notifyListeners();
+      rethrow; // Re-throw to handle in UI
+    } finally {
+      isAvatarLoading = false;
+      notifyListeners();
     }
   }
 }

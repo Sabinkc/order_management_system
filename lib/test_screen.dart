@@ -37,7 +37,8 @@ class TestScreen extends StatelessWidget {
                 //     "gg");
                 final settingProvider =
                     Provider.of<SettingsProvider>(context, listen: false);
-                settingProvider.getProfile();
+                settingProvider.updatProfile("sabin", "sabinkc1206@gmail.com",
+                    "9812060688", "male", "Ilam");
               },
               child: Text("Press")),
           Center(child: Text("Test Screen")),

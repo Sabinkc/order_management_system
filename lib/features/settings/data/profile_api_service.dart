@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:order_management_system/common/constants.dart';
 import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
 import 'package:order_management_system/features/settings/data/profile_model.dart';
@@ -62,4 +64,138 @@ class ProfileApiService {
       throw "An error occurred while fetching the profile.";
     }
   }
+
+  Future<void> updateProfile({
+    required String name,
+    required String email,
+    required String phone,
+    required String gender,
+    required String address,
+  }) async {
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+
+    if (token == null) {
+      String tokenErrorMessage = "User not authenticated. Please login first.";
+      throw tokenErrorMessage;
+    }
+
+    var headers = {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var url = Uri.parse(Constants.updateMyProfileUrl);
+
+    var request = http.Request("PATCH", url);
+
+    request.body = json.encode({
+      "name": name,
+      "email": email,
+      "phone": phone,
+      "gender": gender,
+      "address": address,
+    });
+
+    request.headers.addAll(headers);
+
+    try {
+      http.StreamedResponse response = await request.send();
+      String responseBody = await response.stream.bytesToString();
+      logger.log("Status code: ${response.statusCode}");
+      logger.log("Response Body: $responseBody");
+
+      Map<String, dynamic> jsonResponse = json.decode(responseBody);
+      logger.log("jsonResponse: $jsonResponse");
+
+      if (response.statusCode == 200 && jsonResponse["success"] == true) {
+        logger.log(jsonResponse.toString());
+        return;
+      } else {
+        String errorMessage = jsonResponse["message"]?.toString() ??
+            "Failed to update profile. Status code: ${response.statusCode}";
+        logger.log(errorMessage);
+        throw errorMessage;
+      }
+    } catch (e) {
+      logger.log("Error updating profile: $e");
+      throw "An error occurred while updating the profile: $e";
+    }
+  }
+
+  Future<void> updateProfileAvatar({required File imageFile}) async {
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+
+    if (token == null) {
+      throw "User not authenticated. Please login first.";
+    }
+
+    // Create multipart request
+    var url = Uri.parse("${Constants.baseUrl}/v1/my-profile");
+    var request = http.MultipartRequest('POST', url);
+
+    // Add headers
+    request.headers.addAll({
+      "Accept": "application/json",
+      "Authorization": "Bearer $token",
+    });
+
+    // Add image file
+    request.files.add(await http.MultipartFile.fromPath(
+      'avatar', // key for the form data
+      imageFile.path,
+    ));
+
+    try {
+      // Send the request
+      var response = await request.send();
+      String responseBody = await response.stream.bytesToString();
+      logger.log("Status code: ${response.statusCode}");
+      logger.log("Response Body: $responseBody");
+
+      Map<String, dynamic> jsonResponse = json.decode(responseBody);
+      logger.log("jsonResponse: $jsonResponse");
+
+      if (response.statusCode == 201 && jsonResponse["success"] == true) {
+        logger.log("Avatar updated successfully");
+        return;
+      } else {
+        String errorMessage = jsonResponse["message"]?.toString() ??
+            "Failed to update avatar. Status code: ${response.statusCode}";
+        logger.log(errorMessage);
+        throw errorMessage;
+      }
+    } catch (e) {
+      logger.log("Error updating avatar: $e");
+      throw "An error occurred while updating the avatar: $e";
+    }
+  }
+
+  Future<Uint8List> getProfileAvatar() async {
+  String? token = await SharedPrefLoggedinState.getAccessToken();
+  
+  if (token == null) {
+    throw "User not authenticated. Please login first.";
+  }
+
+  var headers = {
+    "Authorization": "Bearer $token",
+    "Accept": "image/*",  // Important for image responses
+  };
+
+  var url = Uri.parse("${Constants.baseUrl}/v1/my-profile/avatar");
+
+  try {
+    var response = await http.get(url, headers: headers);
+    
+    if (response.statusCode == 200) {
+      return response.bodyBytes; // Return the raw image bytes
+    } else {
+      throw "Failed to load avatar. Status code: ${response.statusCode}";
+    }
+  } catch (e) {
+    logger.log("Error fetching avatar: $e");
+    throw "An error occurred while fetching the avatar.";
+  }
+}
 }

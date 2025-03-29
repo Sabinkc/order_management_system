@@ -208,4 +208,5 @@ class LocationApiService {
       throw errorMessage;
     }
   }
+
 }
