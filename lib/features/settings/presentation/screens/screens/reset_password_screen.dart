@@ -76,25 +76,6 @@ class ResetPasswordScreen extends StatelessWidget {
               height: screenHeight * 0.06,
               child: ElevatedButton(
                   onPressed: () async {
-                    // final newPassword = newPasswordController.text.trim();
-                    // final oldPassword = oldPasswordController.text.trim();
-                    // if (newPassword.isEmpty || oldPassword.isEmpty) {
-                    //   Utilities.showCommonSnackBar(
-                    //       color: Colors.red, context, "All fields are required!");
-                    // } else if (newPassword.length < 8) {
-                    //   Utilities.showCommonSnackBar(
-                    //       color: Colors.red,
-                    //       context,
-                    //       "Password must be 8 characters long");
-                    // } else {
-                    //   Utilities.showCommonSnackBar(
-                    //       context, "Password reset successful!");
-                    //   Future.delayed(Duration(seconds: 1), () {
-                    //     if (context.mounted) {
-                    //       Navigator.pop(context);
-                    //     }
-                    //   });
-                    // }
                     final newPassword = newPasswordController.text.trim();
                     final oldPassword = oldPasswordController.text.trim();
                     if (oldPassword.isEmpty || newPassword.isEmpty) {

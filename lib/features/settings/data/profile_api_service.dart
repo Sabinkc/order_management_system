@@ -167,35 +167,62 @@ class ProfileApiService {
       }
     } catch (e) {
       logger.log("Error updating avatar: $e");
-      throw "An error occurred while updating the avatar: $e";
+      throw "$e";
     }
   }
 
   Future<Uint8List> getProfileAvatar() async {
-  String? token = await SharedPrefLoggedinState.getAccessToken();
-  
-  if (token == null) {
-    throw "User not authenticated. Please login first.";
-  }
+    String? token = await SharedPrefLoggedinState.getAccessToken();
 
-  var headers = {
-    "Authorization": "Bearer $token",
-    "Accept": "image/*",  // Important for image responses
-  };
-
-  var url = Uri.parse("${Constants.baseUrl}/v1/my-profile/avatar");
-
-  try {
-    var response = await http.get(url, headers: headers);
-    
-    if (response.statusCode == 200) {
-      return response.bodyBytes; // Return the raw image bytes
-    } else {
-      throw "Failed to load avatar. Status code: ${response.statusCode}";
+    if (token == null) {
+      throw "User not authenticated. Please login first.";
     }
-  } catch (e) {
-    logger.log("Error fetching avatar: $e");
-    throw "An error occurred while fetching the avatar.";
+
+    var headers = {
+      "Authorization": "Bearer $token",
+      "Accept": "image/*", // Important for image responses
+    };
+
+    var url = Uri.parse("${Constants.baseUrl}/v1/my-profile/avatar");
+
+    try {
+      var response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        return response.bodyBytes; // Return the raw image bytes
+      } else {
+        throw "Failed to load avatar. Status code: ${response.statusCode}";
+      }
+    } catch (e) {
+      logger.log("Error fetching avatar: $e");
+      throw "$e";
+    }
   }
-}
+
+  Future removeMyAvatar() async {
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+
+    if (token == null) {
+      throw "User not authenticated. Please login first.";
+    }
+
+    var headers = {
+      "Authorization": "Bearer $token",
+    };
+
+    var url = Uri.parse("${Constants.baseUrl}/v1/my-profile/avatar");
+
+    try {
+      var response = await http.delete(url, headers: headers);
+
+      if (response.statusCode == 204) {
+        return true; // Return the raw image bytes
+      } else {
+        throw "Failed to delete avatar. Status code: ${response.statusCode}";
+      }
+    } catch (e) {
+      logger.log("Error deleting avatar: $e");
+      throw "$e";
+    }
+  }
 }

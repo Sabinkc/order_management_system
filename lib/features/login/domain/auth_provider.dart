@@ -6,7 +6,8 @@ import 'package:order_management_system/features/login/domain/device_info_helper
 
 class AuthProvider extends ChangeNotifier {
   final AuthApiService apiService = AuthApiService();
-  final GoogleSignInApiService googleSignInApiService = GoogleSignInApiService();
+  final GoogleSignInApiService googleSignInApiService =
+      GoogleSignInApiService();
   bool isLoading = false;
   bool isLogoutLoading = false;
   bool isSignupLoading = false;
@@ -16,39 +17,32 @@ class AuthProvider extends ChangeNotifier {
   Future<Map<String, dynamic>> login(String email, String password) async {
     isLoading = true;
     notifyListeners();
-
     String device = await DeviceInfoHelper.getDeviceName();
     logger.i("Device: $device");
-
     final response = await apiService.login(email, password, device);
-
     isLoading = false;
     notifyListeners();
-
     return response; // Returning full response to handle errors in UI
   }
 
-  Future<Map<String, dynamic>> signup(String name, String email, String password) async {
+  Future<Map<String, dynamic>> signup(
+      String name, String email, String password) async {
     isSignupLoading = true;
     notifyListeners();
-
     String device = await DeviceInfoHelper.getDeviceName();
     logger.i("Device: $device");
-
     final response = await apiService.signup(name, email, password, device);
-
     isSignupLoading = false;
     notifyListeners();
-
     return response; // Returning full response to handle errors in UI
   }
-
+  
 
   Future loginWithGoogle(BuildContext context) async {
     isLoginWithGoogleLoading = true;
     notifyListeners();
     await googleSignInApiService.signIn(context);
-    isLoginWithGoogleLoading= false;
+    isLoginWithGoogleLoading = false;
     notifyListeners();
 
     // Returning full response to handle errors in UI

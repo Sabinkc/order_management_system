@@ -2,7 +2,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:logger/logger.dart';
 import 'package:order_management_system/common/constants.dart';
-
 import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
 
 class AuthApiService {

@@ -61,6 +61,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     Future.delayed(Duration.zero, () async {
       if (!mounted) return;
+      loadAvatar();
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       await productProvider.getProductCategoriesWithoutAll();
@@ -74,6 +75,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
 
     super.initState();
+  }
+
+  Future loadAvatar() async {
+    try {
+      final profileProvider =
+          Provider.of<SettingsProvider>(context, listen: false);
+      await profileProvider.loadProfileAvatar();
+    } catch (e) {
+      if (!mounted) return;
+      logger.log("$e");
+      // Utilities.showCommonSnackBar(context, "$e");
+    }
   }
 
   @override

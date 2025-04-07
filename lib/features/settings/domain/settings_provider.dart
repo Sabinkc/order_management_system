@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:order_management_system/features/settings/data/password_api_service.dart';
 import 'package:order_management_system/features/settings/data/profile_api_service.dart';
@@ -116,13 +115,25 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
     try {
       avatarBytes = await profileApiService.getProfileAvatar();
-      notifyListeners();
     } catch (e) {
       avatarBytes = null;
-      notifyListeners();
       rethrow; // Re-throw to handle in UI
     } finally {
       isAvatarLoading = false;
+      notifyListeners();
+    }
+  }
+
+  bool isDeleteAvatarLoading = false;
+  Future removeAvatar() async {
+    isDeleteAvatarLoading = true;
+    notifyListeners();
+    try {
+      await profileApiService.removeMyAvatar();
+    } catch (e) {
+      rethrow;
+    } finally {
+      isDeleteAvatarLoading = false;
       notifyListeners();
     }
   }
@@ -135,7 +146,6 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
     try {
       await passswordApiService.changePassword(oldPassword, newPassword);
-
       notifyListeners();
     } catch (e) {
       rethrow;
