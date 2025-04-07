@@ -574,15 +574,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildAvatarImage(SettingsProvider profileProvider) {
-    // Show selected image immediately if available
-    // if (profileProvider.selectedAvatar != null) {
-    //   return Image.file(
-    //     profileProvider.selectedAvatar!,
-    //     fit: BoxFit.cover,
-    //   );
-    // }
-    // Show avatar bytes if loaded
-     if (profileProvider.avatarBytes != null) {
+
+    if (profileProvider.avatarBytes != null) {
       return Image.memory(
         profileProvider.avatarBytes!,
         fit: BoxFit.cover,
@@ -593,10 +586,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildDefaultAvatar() {
-    // return Image.asset(
-    //   "assets/images/profile.jpeg",
-    //   fit: BoxFit.cover,
-    // );
     return Container(
       color: Colors.white,
       height: 100,

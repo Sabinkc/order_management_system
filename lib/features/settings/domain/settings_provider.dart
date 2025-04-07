@@ -130,6 +130,8 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
     try {
       await profileApiService.removeMyAvatar();
+      avatarBytes = null;
+      notifyListeners();
     } catch (e) {
       rethrow;
     } finally {

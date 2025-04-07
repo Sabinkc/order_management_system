@@ -66,7 +66,6 @@ class ViewAvatarScreen extends StatelessWidget {
                     final settingProvider =
                         Provider.of<SettingsProvider>(context, listen: false);
                     await settingProvider.removeAvatar();
-                    // await settingProvider.loadProfileAvatar();
                     if (!context.mounted) return;
                     Navigator.pop(context);
                     Utilities.showCommonSnackBar(
