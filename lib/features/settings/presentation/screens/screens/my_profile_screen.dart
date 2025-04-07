@@ -14,12 +14,11 @@ class MyProfileScreen extends StatefulWidget {
 
 class _MyProfileScreenState extends State<MyProfileScreen> {
   final TextEditingController fullnameController = TextEditingController();
-
   final TextEditingController contactNoController = TextEditingController();
-
   final TextEditingController emailController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
+  // String gender = "";
 
   @override
   void initState() {
@@ -33,6 +32,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       emailController.text = settingProvider.profile.email;
       genderController.text = settingProvider.profile.gender;
       addressController.text = settingProvider.profile.address;
+      // gender = settingProvider.profile.gender;
     });
 
     super.initState();
@@ -138,7 +138,53 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         ),
                         CommonLocationTextformField(
                             controller: genderController, hintText: "Gender"),
+                        // SizedBox(
+                        //   height: screenHeight * 0.008,
+                        // ),
                         SizedBox(height: screenHeight * 0.03),
+                        // Padding(
+                        //   padding: EdgeInsets.only(left: 8),
+                        //   child: Text(
+                        //     "Gender",
+                        //     style: TextStyle(
+                        //         fontSize: 15, fontWeight: FontWeight.bold),
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: screenHeight * 0.008,
+                        // ),
+                        // Consumer<SettingsProvider>(
+                        //     builder: (context, settingsProvider, child) {
+                        //   return Container(
+                        //     padding: EdgeInsets.symmetric(
+                        //         horizontal: 20, vertical: 3),
+                        //     decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.circular(8),
+                        //         color: Colors.grey[200]),
+                        //     width: double.infinity,
+                        //     child: DropdownButtonHideUnderline(
+                        //       child: DropdownButton(
+                        //           elevation: 0,
+                        //           value: settingsProvider.selectedGender,
+                        //           items: [
+                        //             DropdownMenuItem(
+                        //                 value: "select",
+                        //                 child: Text("Select your gender")),
+                        //             DropdownMenuItem(
+                        //                 value: "male", child: Text("Male")),
+                        //             DropdownMenuItem(
+                        //                 value: "female", child: Text("Female")),
+                        //             DropdownMenuItem(
+                        //                 value: "others", child: Text("Others")),
+                        //           ],
+                        //           onChanged: (value) {
+                        //             settingsProvider
+                        //                 .switchSelectedGender(value);
+                        //           }),
+                        //     ),
+                        //   );
+                        // }),
+                        // SizedBox(height: screenHeight * 0.03),
                         Padding(
                           padding: EdgeInsets.only(left: 8),
                           child: Text(

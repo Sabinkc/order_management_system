@@ -1,6 +1,5 @@
 // import 'dart:async';
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
@@ -85,7 +84,10 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                   }
                   if (orderProvider.allOrders.isEmpty) {
                     return Center(
-                      child: Text("No orders till now"),
+                      child: Text(
+                        "No orders till now",
+                        style: TextStyle(color: Colors.grey, fontSize: 25),
+                      ),
                     );
                   }
 
@@ -238,12 +240,10 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                                       const EdgeInsets.symmetric(vertical: 10),
                                   child: GestureDetector(
                                     onTap: () {
-                                      Provider.of<OrderScreenProvider>(
-                                              context,
+                                      Provider.of<OrderScreenProvider>(context,
                                               listen: false)
                                           .switchInvoiceDetailPage();
-                                      Provider.of<OrderScreenProvider>(
-                                              context,
+                                      Provider.of<OrderScreenProvider>(context,
                                               listen: false)
                                           .selectInvoiceKey(order.orderNo);
                                     },

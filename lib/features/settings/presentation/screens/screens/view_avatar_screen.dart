@@ -48,45 +48,66 @@ class ViewAvatarScreen extends StatelessWidget {
               width: double.infinity,
               child: Consumer<SettingsProvider>(
                   builder: (context, avatarProvider, child) {
-                return Image.memory(
-                  avatarProvider.avatarBytes!,
-                  fit: BoxFit.cover,
-                );
+                return avatarProvider.avatarBytes != null
+                    ? Image.memory(
+                        avatarProvider.avatarBytes!,
+                        fit: BoxFit.cover,
+                      )
+                    : Icon(
+                        Icons.person,
+                        size: 100,
+                      );
               }),
             ),
             SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: CommonColor.primaryColor,
-                ),
-                onPressed: () async {
-                  try {
-                    final settingProvider =
-                        Provider.of<SettingsProvider>(context, listen: false);
-                    await settingProvider.removeAvatar();
-                    if (!context.mounted) return;
-                    Navigator.pop(context);
-                    Utilities.showCommonSnackBar(
-                        context, "Avatar removed successfully");
-                  } catch (e) {
-                    if (!context.mounted) return;
-                    Utilities.showCommonSnackBar(
-                        context, "Failed to delete avatar");
-                  }
-                },
-                child: Consumer<SettingsProvider>(
-                    builder: (context, avatarProvider, child) {
-                  return avatarProvider.isDeleteAvatarLoading == true
-                      ? CircularProgressIndicator(
-                          color: Colors.white,
-                        )
-                      : Text(
-                          "Remove Avatar",
-                          style: TextStyle(color: Colors.white),
-                        );
-                }))
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: SizedBox(
+                height: screenHeight * 0.06,
+                width: double.infinity,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      backgroundColor: CommonColor.primaryColor,
+                    ),
+                    onPressed: () async {
+                      try {
+                        final settingProvider = Provider.of<SettingsProvider>(
+                            context,
+                            listen: false);
+                        await settingProvider.removeAvatar();
+                        if (!context.mounted) return;
+                        Navigator.pop(context);
+                        Utilities.showCommonSnackBar(
+                            context, "Avatar removed successfully");
+                      } catch (e) {
+                        if (!context.mounted) return;
+                        Utilities.showCommonSnackBar(
+                            context, "Failed to delete avatar");
+                      }
+                    },
+                    child: Consumer<SettingsProvider>(
+                        builder: (context, avatarProvider, child) {
+                      return avatarProvider.isDeleteAvatarLoading == true
+                          ? Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 3),
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(
+                              "Remove Avatar",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            );
+                    })),
+              ),
+            )
           ],
         ));
   }

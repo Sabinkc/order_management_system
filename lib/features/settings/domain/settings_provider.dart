@@ -32,6 +32,15 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  //provider to hande gender dropdon
+
+String? selectedGender = "select";
+
+void switchSelectedGender(String? gender){
+  selectedGender = gender;
+  notifyListeners();
+}
+
 //profile Provider
   bool isGetProfileLoading = false;
   ProfileModel profile = ProfileModel(

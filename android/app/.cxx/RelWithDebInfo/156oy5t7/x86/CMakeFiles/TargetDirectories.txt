@@ -1,0 +1,2 @@
+C:/Users/Dell/Desktop/Office/Ordermanagement System/order_management_system/android/app/.cxx/RelWithDebInfo/156oy5t7/x86/CMakeFiles/edit_cache.dir
+C:/Users/Dell/Desktop/Office/Ordermanagement System/order_management_system/android/app/.cxx/RelWithDebInfo/156oy5t7/x86/CMakeFiles/rebuild_cache.dir

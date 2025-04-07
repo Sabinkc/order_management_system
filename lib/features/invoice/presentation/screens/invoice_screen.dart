@@ -13,7 +13,7 @@ class InvoiceScreen extends StatelessWidget {
           text: const TextSpan(
             children: [
               TextSpan(
-                text: "Invoices",
+                text: "My Invoices",
                 style: TextStyle(
                   fontSize: 22,
                   color: Colors.black,
@@ -26,7 +26,11 @@ class InvoiceScreen extends StatelessWidget {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: Center(child: Text("Invoice Screen")),
+      body: Center(
+          child: Text(
+        "Invoice Screen",
+        style: TextStyle(color: Colors.grey, fontSize: 25),
+      )),
     );
   }
 }

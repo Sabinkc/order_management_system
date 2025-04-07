@@ -13,11 +13,14 @@ import 'package:order_management_system/features/login/data/google_signin_api_se
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/presentation/screens/login_screen.dart';
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
+import 'package:order_management_system/features/settings/presentation/screens/screens/contact_screen.dart';
+import 'package:order_management_system/features/settings/presentation/screens/screens/faqs_screen.dart';
 import 'package:order_management_system/features/settings/presentation/screens/screens/my_profile_screen.dart';
+import 'package:order_management_system/features/settings/presentation/screens/screens/report_issue_screen.dart';
 import 'package:order_management_system/features/settings/presentation/screens/screens/reset_password_screen.dart';
+import 'package:order_management_system/features/settings/presentation/screens/screens/settings_invoice_screen.dart';
 import 'package:order_management_system/features/settings/presentation/screens/screens/view_avatar_screen.dart';
 import 'package:order_management_system/localization/localization_provider.dart';
-import 'package:order_management_system/test_screen.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
 
@@ -342,7 +345,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               children: [
                                 ListTile(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                SettingsInvoiceScreen()));
+                                  },
                                   leading: Icon(
                                     MingCute.inventory_line,
                                     color: CommonColor.primaryColor,
@@ -520,6 +529,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               children: [
                                 ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ContactScreen()));
+                                  },
                                   leading: Icon(
                                     Icons.contact_page_outlined,
                                     color: CommonColor.primaryColor,
@@ -531,6 +547,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   ),
                                 ),
                                 ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => FaqScreen()));
+                                  },
                                   leading: Icon(
                                     Icons.question_answer_outlined,
                                     color: CommonColor.primaryColor,
@@ -547,7 +569,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                TestScreen()));
+                                                ReportIssueScreen()));
                                   },
                                   leading: Icon(
                                     Icons.report_problem_outlined,
@@ -574,7 +596,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildAvatarImage(SettingsProvider profileProvider) {
-
     if (profileProvider.avatarBytes != null) {
       return Image.memory(
         profileProvider.avatarBytes!,
