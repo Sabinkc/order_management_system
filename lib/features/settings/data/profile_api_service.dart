@@ -110,66 +110,6 @@ Future<void> updateProfile({
   }
 }
 
-
-
-  // Future<void> updateProfile({
-  //   required String name,
-  //   required String email,
-  //   required String phone,
-  //   required String gender,
-  //   required String address,
-  // }) async {
-  //   String? token = await SharedPrefLoggedinState.getAccessToken();
-
-  //   if (token == null) {
-  //     String tokenErrorMessage = "User not authenticated. Please login first.";
-  //     throw tokenErrorMessage;
-  //   }
-
-  //   var headers = {
-  //     "Accept": "application/json",
-  //     "Content-Type": "application/json",
-  //     "Authorization": "Bearer $token",
-  //   };
-
-  //   var url = Uri.parse(Constants.updateMyProfileUrl);
-
-  //   var request = http.Request("PATCH", url);
-
-  //   request.body = json.encode({
-  //     "name": name,
-  //     "email": email,
-  //     "phone": phone,
-  //     "gender": gender,
-  //     "address": address,
-  //   });
-
-  //   request.headers.addAll(headers);
-
-  //   try {
-  //     http.StreamedResponse response = await request.send();
-  //     String responseBody = await response.stream.bytesToString();
-  //     logger.log("Status code: ${response.statusCode}");
-  //     logger.log("Response Body: $responseBody");
-
-  //     Map<String, dynamic> jsonResponse = json.decode(responseBody);
-  //     logger.log("jsonResponse: $jsonResponse");
-
-  //     if (response.statusCode == 200 && jsonResponse["success"] == true) {
-  //       logger.log(jsonResponse.toString());
-  //       return;
-  //     } else {
-  //       String errorMessage = jsonResponse["message"]?.toString() ??
-  //           "Failed to update profile. Status code: ${response.statusCode}";
-  //       logger.log(errorMessage);
-  //       throw errorMessage;
-  //     }
-  //   } catch (e) {
-  //     logger.log("Error updating profile: $e");
-  //     throw "An error occurred while updating the profile: $e";
-  //   }
-  // }
-
   Future<void> updateProfileAvatar({required File imageFile}) async {
     String? token = await SharedPrefLoggedinState.getAccessToken();
 

@@ -21,15 +21,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   final TextEditingController genderController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
 
-  // @override
-  // void initState() {
-  //   fullnameController.text = "John Doe";
-  //   contactNoController.text = "9876543210";
-  //   emailController.text = "johndoe@gmail.com";
-
-  //   super.initState();
-  // }
-
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
@@ -76,16 +67,16 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
-        body: SingleChildScrollView(
-          child: Consumer<SettingsProvider>(
-              builder: (context, profileProvider, child) {
-            return profileProvider.isGetProfileLoading == true
-                ? Center(
-                    child: CircularProgressIndicator(
-                    color: CommonColor.primaryColor,
-                  ))
-                : Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+        body: Consumer<SettingsProvider>(
+            builder: (context, profileProvider, child) {
+          return profileProvider.isGetProfileLoading == true
+              ? Center(
+                  child: CircularProgressIndicator(
+                  color: CommonColor.primaryColor,
+                ))
+              : Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -192,8 +183,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                       contactNo,
                                       gender,
                                       address);
-                                  // Refresh data after update
-                                  await profileProvider.getProfile();
                                   if (context.mounted) {
                                     Navigator.pop(context);
                                     Utilities.showCommonSnackBar(context,
@@ -227,8 +216,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         ),
                       ],
                     ),
-                  );
-          }),
-        ));
+                  ),
+                );
+        }));
   }
 }
