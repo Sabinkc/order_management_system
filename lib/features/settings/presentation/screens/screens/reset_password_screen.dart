@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/utils.dart';
 import 'package:order_management_system/features/location/presentation/widgets/common_location_textform_field.dart';
+import 'package:order_management_system/features/login/domain/auth_provider.dart';
+import 'package:order_management_system/features/settings/domain/settings_provider.dart';
+import 'package:provider/provider.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   ResetPasswordScreen({super.key});
 
+  final TextEditingController oldPasswordController = TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -44,6 +46,20 @@ class ResetPasswordScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 8),
               child: Text(
+                "Old Password",
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(
+              height: screenHeight * 0.008,
+            ),
+            CommonLocationTextformField(
+                controller: oldPasswordController,
+                hintText: "Enter your old password"),
+            SizedBox(height: screenHeight * 0.03),
+            Padding(
+              padding: EdgeInsets.only(left: 8),
+              child: Text(
                 "New Password",
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               ),
@@ -55,60 +71,82 @@ class ResetPasswordScreen extends StatelessWidget {
                 controller: newPasswordController,
                 hintText: "Enter your new password"),
             SizedBox(height: screenHeight * 0.03),
-            Padding(
-              padding: EdgeInsets.only(left: 8),
-              child: Text(
-                "Confirm Password",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(
-              height: screenHeight * 0.008,
-            ),
-            CommonLocationTextformField(
-                controller: confirmPasswordController,
-                hintText: "Confirm your new password"),
-            SizedBox(height: screenHeight * 0.03),
             SizedBox(
               width: double.infinity,
               height: screenHeight * 0.06,
               child: ElevatedButton(
-                onPressed: () {
-                  final newPassword = newPasswordController.text.trim();
-                  final confirmPassword = confirmPasswordController.text.trim();
-                  if (newPassword.isEmpty || confirmPassword.isEmpty) {
-                    Utilities.showCommonSnackBar(
-                        color: Colors.red, context, "All fields are required!");
-                  } else if (!(newPassword == confirmPassword)) {
-                    Utilities.showCommonSnackBar(
-                        color: Colors.red, context, "Password doesnot match!");
-                  } else if (newPassword.length < 8) {
-                    Utilities.showCommonSnackBar(
-                        color: Colors.red,
-                        context,
-                        "Password must be 8 characters long");
-                  } else {
-                    Utilities.showCommonSnackBar(
-                        context, "Password reset successful!");
-                    Future.delayed(Duration(seconds: 1), () {
-                      if (context.mounted) {
-                        Navigator.pop(context);
+                  onPressed: () async {
+                    // final newPassword = newPasswordController.text.trim();
+                    // final oldPassword = oldPasswordController.text.trim();
+                    // if (newPassword.isEmpty || oldPassword.isEmpty) {
+                    //   Utilities.showCommonSnackBar(
+                    //       color: Colors.red, context, "All fields are required!");
+                    // } else if (newPassword.length < 8) {
+                    //   Utilities.showCommonSnackBar(
+                    //       color: Colors.red,
+                    //       context,
+                    //       "Password must be 8 characters long");
+                    // } else {
+                    //   Utilities.showCommonSnackBar(
+                    //       context, "Password reset successful!");
+                    //   Future.delayed(Duration(seconds: 1), () {
+                    //     if (context.mounted) {
+                    //       Navigator.pop(context);
+                    //     }
+                    //   });
+                    // }
+                    final newPassword = newPasswordController.text.trim();
+                    final oldPassword = oldPasswordController.text.trim();
+                    if (oldPassword.isEmpty || newPassword.isEmpty) {
+                      Utilities.showCommonSnackBar(
+                          context, "All fields are required!",
+                          color: Colors.red, durationMilliseconds: 500);
+                    } else {
+                      try {
+                        final settingsProvider = Provider.of<SettingsProvider>(
+                            context,
+                            listen: false);
+                        await settingsProvider.changePassword(
+                            oldPassword, newPassword);
+                        if (!context.mounted) return;
+                        final authProvider =
+                            Provider.of<AuthProvider>(context, listen: false);
+                        final email = settingsProvider.profile.email;
+                        await authProvider.login(email, newPassword);
+
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                          Utilities.showCommonSnackBar(
+                              context, "Password changed successfully",
+                              icon: Icons.done);
+                        }
+                      } catch (e) {
+                        debugPrint(e.toString());
+                        if (context.mounted) {
+                          Utilities.showCommonSnackBar(context, e.toString(),
+                              color: Colors.red, durationMilliseconds: 1000);
+                        }
                       }
-                    });
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    backgroundColor: CommonColor.primaryColor),
-                child: Text(
-                  "Reset",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      backgroundColor: CommonColor.primaryColor),
+                  child: Consumer<SettingsProvider>(
+                      builder: (context, settingsProvider, child) {
+                    return settingsProvider.isPasswordResetting == true
+                        ? CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : Text(
+                            "Reset",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                  })),
             ),
           ],
         ),

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:order_management_system/features/settings/data/password_api_service.dart';
 import 'package:order_management_system/features/settings/data/profile_api_service.dart';
 import 'package:order_management_system/features/settings/data/profile_model.dart';
 import 'dart:developer' as logger;
@@ -122,6 +123,24 @@ class SettingsProvider extends ChangeNotifier {
       rethrow; // Re-throw to handle in UI
     } finally {
       isAvatarLoading = false;
+      notifyListeners();
+    }
+  }
+
+  PasswordApiService passswordApiService = PasswordApiService();
+  //provider to change password
+  bool isPasswordResetting = false;
+  Future changePassword(String oldPassword, String newPassword) async {
+    isPasswordResetting = true;
+    notifyListeners();
+    try {
+      await passswordApiService.changePassword(oldPassword, newPassword);
+
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    } finally {
+      isPasswordResetting = false;
       notifyListeners();
     }
   }

@@ -14,4 +14,5 @@ class Constants {
     static final String updateLocationBaseUrl = "https://oms.sysqube.com.np/api/v1/locations";
     static final String getMyProfileUrl = "https://oms.sysqube.com.np/api/v1/my-profile";
      static final String updateMyProfileUrl = "https://oms.sysqube.com.np/api/v1/my-profile";
+     static final String changePasswordUrl = "https://oms.sysqube.com.np/api/v1/password";
 }

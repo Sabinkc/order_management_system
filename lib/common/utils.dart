@@ -22,7 +22,7 @@ class Utilities {
             ),
             Expanded(
               child: Text(
-                maxLines: 2,
+                maxLines: 4,
                 overflow: TextOverflow.ellipsis,
                 text,
                 style: TextStyle(fontSize: 18),

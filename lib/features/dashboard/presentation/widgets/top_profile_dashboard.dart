@@ -50,8 +50,40 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
 
-class TopProfileDashboard extends StatelessWidget {
+class TopProfileDashboard extends StatefulWidget {
   const TopProfileDashboard({super.key});
+
+  @override
+  State<TopProfileDashboard> createState() => _TopProfileDashboardState();
+}
+
+class _TopProfileDashboardState extends State<TopProfileDashboard> {
+  bool _hasLoadError = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration.zero, () async {
+      if (!mounted) return;
+      _loadAvatar();
+    });
+  }
+
+  Future<void> _loadAvatar() async {
+    final profileProvider = context.read<SettingsProvider>();
+    try {
+      await profileProvider.loadProfileAvatar();
+      if (mounted) setState(() => _hasLoadError = false);
+    } catch (e) {
+      if (mounted) {
+        setState(() => _hasLoadError = true);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to load avatar: ${e.toString()}')),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,57 +93,46 @@ class TopProfileDashboard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Consumer<SettingsProvider>(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Consumer<SettingsProvider>(
                   builder: (context, profileProvider, child) {
-                return Text("Hello,${profileProvider.profile.name}",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: CommonColor.darkGreyColor,
-                    ));
-              }),
-              Text(
-                "What would you like to buy today?",
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
-              )
-            ]),
+                    final name = profileProvider.profile.name;
+                    return Text(
+                      "Hello, $name",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: CommonColor.darkGreyColor,
+                      ),
+                    );
+                  },
+                ),
+                const Text(
+                  "What would you like to buy today?",
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
           Consumer<SettingsProvider>(
             builder: (context, profileProvider, child) {
-              // Load avatar when widget builds if not already loaded
-              if (profileProvider.avatarBytes == null &&
-                  !profileProvider.isAvatarLoading) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  profileProvider.loadProfileAvatar();
-                });
-              }
-
               return SizedBox(
                 height: 50,
                 width: 50,
-                child: Stack(
-                  children: [
-                    ClipRRect(
+                child: profileProvider.isAvatarLoading && !_hasLoadError
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: CommonColor.primaryColor,
+                        ),
+                      )
+                    : ClipRRect(
                         borderRadius: BorderRadius.circular(50),
-                        child: _buildAvatarImage(profileProvider)),
-                    if (profileProvider.isAvatarLoading)
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black54,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        ),
+                        child: _buildAvatarImage(profileProvider),
                       ),
-                  ],
-                ),
               );
             },
           ),
@@ -121,32 +142,28 @@ class TopProfileDashboard extends StatelessWidget {
   }
 
   Widget _buildAvatarImage(SettingsProvider profileProvider) {
-    // First try to show the avatar bytes if available
     if (profileProvider.avatarBytes != null) {
       return Image.memory(
         profileProvider.avatarBytes!,
         fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _buildBrokenAvatar(),
       );
     }
-    // Fall back to network image from profile if available
-    else if (profileProvider.profile.avatar != null &&
-        profileProvider.profile.avatar!.isNotEmpty) {
-      return Image.network(
-        profileProvider.profile.avatar!,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) => _buildDefaultAvatar(),
-      );
-    }
-    // Default avatar
-    else {
-      return _buildDefaultAvatar();
-    }
+    return _buildBrokenAvatar();
   }
 
-  Widget _buildDefaultAvatar() {
-    return Image.asset(
-      "assets/images/profile.jpeg",
-      fit: BoxFit.cover,
+  Widget _buildBrokenAvatar() {
+    return GestureDetector(
+      onTap: _loadAvatar, // Allow retry on tap
+      child: Container(
+        height: 50,
+        width: 50,
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+          shape: BoxShape.circle,
+        ),
+        child: const Icon(Icons.broken_image, color: Colors.grey),
+      ),
     );
   }
 }
