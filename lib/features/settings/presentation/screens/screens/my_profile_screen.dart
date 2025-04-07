@@ -18,6 +18,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   final TextEditingController contactNoController = TextEditingController();
 
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
 
   // @override
   // void initState() {
@@ -38,6 +40,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       fullnameController.text = settingProvider.profile.name;
       contactNoController.text = settingProvider.profile.phone;
       emailController.text = settingProvider.profile.email;
+      genderController.text = settingProvider.profile.gender;
+      addressController.text = settingProvider.profile.address;
     });
 
     super.initState();
@@ -72,103 +76,159 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
-        body: Consumer<SettingsProvider>(
-            builder: (context, profileProvider, child) {
-          return profileProvider.isGetProfileLoading == true
-              ? Center(
-                  child: CircularProgressIndicator(
-                  color: CommonColor.primaryColor,
-                ))
-              : Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 8),
-                        child: Text(
-                          "Full Name",
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(
-                        height: screenHeight * 0.008,
-                      ),
-                      CommonLocationTextformField(
-                          controller: fullnameController,
-                          hintText: "Full Name"),
-                      SizedBox(height: screenHeight * 0.03),
-                      Padding(
-                        padding: EdgeInsets.only(left: 8),
-                        child: Text(
-                          "Contact No",
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(
-                        height: screenHeight * 0.008,
-                      ),
-                      CommonLocationTextformField(
-                          keyboardType: TextInputType.number,
-                          controller: contactNoController,
-                          hintText: "Contact No"),
-                      SizedBox(height: screenHeight * 0.03),
-                      Padding(
-                        padding: EdgeInsets.only(left: 8),
-                        child: Text(
-                          "Email",
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(
-                        height: screenHeight * 0.008,
-                      ),
-                      CommonLocationTextformField(
-                          controller: emailController, hintText: "Email"),
-                      SizedBox(
-                        height: screenHeight * 0.03,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        height: screenHeight * 0.06,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (emailController.text.trim().isEmpty ||
-                                fullnameController.text.isEmpty ||
-                                contactNoController.text.isEmpty) {
-                              Utilities.showCommonSnackBar(
-                                  color: Colors.red,
-                                  context,
-                                  "Fields cannot be empty!");
-                            } else {
-                              Utilities.showCommonSnackBar(
-                                  context, "Profile updated successfully!");
-                              Future.delayed(Duration(seconds: 1), () {
-                                if (context.mounted) {
-                                  Navigator.pop(context);
-                                }
-                              });
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)),
-                              backgroundColor: CommonColor.primaryColor),
+        body: SingleChildScrollView(
+          child: Consumer<SettingsProvider>(
+              builder: (context, profileProvider, child) {
+            return profileProvider.isGetProfileLoading == true
+                ? Center(
+                    child: CircularProgressIndicator(
+                    color: CommonColor.primaryColor,
+                  ))
+                : Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 8),
                           child: Text(
-                            "Update",
+                            "Full Name",
                             style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+                                fontSize: 15, fontWeight: FontWeight.bold),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-        }));
+                        SizedBox(
+                          height: screenHeight * 0.008,
+                        ),
+                        CommonLocationTextformField(
+                            controller: fullnameController,
+                            hintText: "Full Name"),
+                        SizedBox(height: screenHeight * 0.03),
+                        Padding(
+                          padding: EdgeInsets.only(left: 8),
+                          child: Text(
+                            "Contact No",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        SizedBox(
+                          height: screenHeight * 0.008,
+                        ),
+                        CommonLocationTextformField(
+                            keyboardType: TextInputType.number,
+                            controller: contactNoController,
+                            hintText: "Contact No"),
+                        SizedBox(height: screenHeight * 0.03),
+                        Padding(
+                          padding: EdgeInsets.only(left: 8),
+                          child: Text(
+                            "Email",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        SizedBox(
+                          height: screenHeight * 0.008,
+                        ),
+                        CommonLocationTextformField(
+                            controller: emailController, hintText: "Email"),
+                        SizedBox(height: screenHeight * 0.03),
+                        Padding(
+                          padding: EdgeInsets.only(left: 8),
+                          child: Text(
+                            "Gender",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        SizedBox(
+                          height: screenHeight * 0.008,
+                        ),
+                        CommonLocationTextformField(
+                            controller: genderController, hintText: "Gender"),
+                        SizedBox(height: screenHeight * 0.03),
+                        Padding(
+                          padding: EdgeInsets.only(left: 8),
+                          child: Text(
+                            "Address",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        SizedBox(
+                          height: screenHeight * 0.008,
+                        ),
+                        CommonLocationTextformField(
+                            controller: addressController, hintText: "Address"),
+                        SizedBox(height: screenHeight * 0.03),
+                        SizedBox(
+                          width: double.infinity,
+                          height: screenHeight * 0.06,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              try {
+                                final email = emailController.text.trim();
+                                final fullName = fullnameController.text.trim();
+                                final contactNo =
+                                    contactNoController.text.trim();
+                                final gender = genderController.text.trim();
+                                final address = addressController.text.trim();
+
+                                if (email.isEmpty ||
+                                    fullName.isEmpty ||
+                                    contactNo.isEmpty ||
+                                    gender.isEmpty ||
+                                    address.isEmpty) {
+                                  Utilities.showCommonSnackBar(
+                                      color: Colors.red,
+                                      context,
+                                      "Fields cannot be empty!");
+                                } else {
+                                  await profileProvider.updateProfile(
+                                      context,
+                                      fullName,
+                                      email,
+                                      contactNo,
+                                      gender,
+                                      address);
+                                  // Refresh data after update
+                                  await profileProvider.getProfile();
+                                  if (context.mounted) {
+                                    Navigator.pop(context);
+                                    Utilities.showCommonSnackBar(context,
+                                        "Profile Updated Successully!");
+                                  }
+                                }
+                              } catch (e) {
+                                if (!context.mounted) {
+                                  return;
+                                }
+                                Utilities.showCommonSnackBar(context, "$e");
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                                backgroundColor: CommonColor.primaryColor),
+                            child:
+                                profileProvider.isUpdateProfileLoading == true
+                                    ? CircularProgressIndicator(
+                                        color: Colors.white,
+                                      )
+                                    : Text(
+                                        "Update",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+          }),
+        ));
   }
 }

@@ -59,29 +59,31 @@ class SettingsProvider extends ChangeNotifier {
     }
   }
 
-//provider to update profile
-  bool isUpdateProfileLoading = false;
 
-  Future updatProfile(String name, String email, String phone, String gender,
-      String address) async {
-    isUpdateProfileLoading = true;
+bool isUpdateProfileLoading = false;
+Future updateProfile(BuildContext context, String name, String email, String phone, String gender, String address) async {
+  isUpdateProfileLoading = true;
+  notifyListeners();
+  try {
+    await profileApiService.updateProfile(
+      context: context,
+      currentProfile: profile,
+      name: name,
+      email: email,
+      phone: phone,
+      gender: gender,
+      address: address,
+    );
+
+  } catch (e) {
+    throw "$e";
+  } finally {
+    isUpdateProfileLoading = false;
     notifyListeners();
-    try {
-      await profileApiService.updateProfile(
-          name: name,
-          email: email,
-          phone: phone,
-          gender: gender,
-          address: address);
-      notifyListeners();
-    } catch (e) {
-      throw "$e";
-    } finally {
-      isUpdateProfileLoading = false;
-      notifyListeners();
-      logger.log("profile: $profile");
-    }
+    logger.log("profile: $profile");
   }
+}
+
 
 //provider to create avatar
   bool isUpdateAvatarLoading = false;
