@@ -66,7 +66,7 @@ class CategoryRowDashboard extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return Padding(
-                              padding: const EdgeInsets.only(right: 20),
+                              padding: const EdgeInsets.only(right: 5),
                               child: Column(
                                 children: [
                                   GestureDetector(
@@ -87,12 +87,12 @@ class CategoryRowDashboard extends StatelessWidget {
                                         child: Container(
                                           // height: 90,
                                           height: 70,
-                                          width: 70,
+                                          width: 80,
                                           decoration: BoxDecoration(
                                             boxShadow: [
                                               BoxShadow(
                                                   offset: Offset(0, 0),
-                                                  blurRadius: 4,
+                                                  blurRadius: 3,
                                                   color: Colors.grey),
                                               // BoxShadow(
                                               //     offset: Offset(-2, -2),
@@ -102,7 +102,7 @@ class CategoryRowDashboard extends StatelessWidget {
                                             border:
                                                 Border.all(color: Colors.white),
                                             borderRadius:
-                                                BorderRadius.circular(50),
+                                                BorderRadius.circular(8),
                                             color: Colors.white,
                                           ),
                                           // child: Center(
@@ -117,7 +117,7 @@ class CategoryRowDashboard extends StatelessWidget {
                                           // )),
                                           child: ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(50),
+                                                  BorderRadius.circular(8),
                                               child: Image.asset(
                                                 "assets/images/food.png",
                                                 fit: BoxFit.cover,

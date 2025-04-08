@@ -136,37 +136,46 @@ class OfferWidget extends StatelessWidget {
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(children: [
-                                      Text(
-                                        "Rs.500",
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: CommonColor.primaryColor,
-                                        ),
-                                      ),
+                                child: Flexible(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
                                       SizedBox(
-                                        width: 8,
+                                        width: 120,
+                                        child: Row(children: [
+                                          Text(
+                                            "Rs.500",
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: CommonColor.primaryColor,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 8,
+                                          ),
+                                          Flexible(
+                                            child: Text(
+                                              "10% Off",
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.red,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ]),
                                       ),
-                                      Text(
-                                        "10% Off",
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.red,
-                                            fontWeight: FontWeight.bold),
+                                      // const SizedBox(width: 8),
+                                      Icon(
+                                        MingCute.shopping_cart_1_line,
+                                        color: Colors.black87,
                                       ),
-                                    ]),
-                                    // const SizedBox(width: 8),
-                                    Icon(
-                                      MingCute.shopping_cart_1_line,
-                                      color: Colors.black87,
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
