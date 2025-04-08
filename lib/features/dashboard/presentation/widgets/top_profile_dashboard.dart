@@ -33,7 +33,7 @@ class TopProfileDashboard extends StatelessWidget {
                   "What would you like to buy today?",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
