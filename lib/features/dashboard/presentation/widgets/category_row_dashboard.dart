@@ -42,11 +42,14 @@ class CategoryRowDashboard extends StatelessWidget {
               )
             ],
           ),
+          SizedBox(
+            height: 5,
+          ),
           Consumer<ProductProvider>(builder: (context, productProvider, child) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: SizedBox(
-                height: 70,
+                height: 110,
                 child: productProvider.isCategoryWithoutallLoading == true
                     ? Center(
                         child: SizedBox(
@@ -63,47 +66,79 @@ class CategoryRowDashboard extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              CategoryDetailScreen(
-                                                category: productProvider
-                                                    .productCategoryWithoutAll[
-                                                        index]
-                                                    .name,
-                                              )));
-                                },
-                                child: Container(
-                                  // height: 90,
-                                  width: 70,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: CommonColor.primaryColor),
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: Colors.white,
+                              padding: const EdgeInsets.only(right: 20),
+                              child: Column(
+                                children: [
+                                  GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CategoryDetailScreen(
+                                                      category: productProvider
+                                                          .productCategoryWithoutAll[
+                                                              index]
+                                                          .name,
+                                                    )));
+                                      },
+                                      child: Padding(
+                                        padding: EdgeInsets.all(5),
+                                        child: Container(
+                                          // height: 90,
+                                          height: 70,
+                                          width: 70,
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  offset: Offset(0, 0),
+                                                  blurRadius: 4,
+                                                  color: Colors.grey),
+                                              // BoxShadow(
+                                              //     offset: Offset(-2, -2),
+                                              //     blurRadius: 1,
+                                              //     color: Colors.grey)
+                                            ],
+                                            border:
+                                                Border.all(color: Colors.white),
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            color: Colors.white,
+                                          ),
+                                          // child: Center(
+                                          //     child: Text(
+                                          //   productProvider
+                                          //       .productCategoryWithoutAll[index].name,
+                                          //   style: TextStyle(
+                                          //       fontSize: 12,
+                                          //       color: CommonColor.darkGreyColor,
+                                          //       fontWeight: FontWeight.w600),
+                                          //   overflow: TextOverflow.ellipsis,
+                                          // )),
+                                          child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              child: Image.asset(
+                                                "assets/images/food.png",
+                                                fit: BoxFit.cover,
+                                              )),
+                                        ),
+                                      )),
+                                  SizedBox(
+                                    height: 4,
                                   ),
-                                  child: Center(
-                                      child: Text(
+                                  Text(
                                     productProvider
                                         .productCategoryWithoutAll[index].name,
+                                    maxLines: 1,
                                     style: TextStyle(
                                         fontSize: 12,
                                         color: CommonColor.darkGreyColor,
                                         fontWeight: FontWeight.w600),
                                     overflow: TextOverflow.ellipsis,
-                                  )),
-                                  // child: ClipRRect(
-                                  //     borderRadius: BorderRadius.circular(50),
-                                  //     child: Image.asset(
-                                  //       "assets/images/book.jpeg",
-                                  //       fit: BoxFit.cover,
-                                  //     )),
-                                )),
-                          );
+                                  )
+                                ],
+                              ));
                         }),
               ),
             );

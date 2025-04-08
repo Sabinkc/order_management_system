@@ -229,6 +229,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           height: screenHeight * 0.5,
                           child: SingleChildScrollView(
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Container(
                                   decoration: BoxDecoration(
@@ -273,7 +274,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         title: Text(
                                           "My Profile",
                                           style: TextStyle(
-                                              color: CommonColor.darkGreyColor),
+                                              color:
+                                                  CommonColor.darkGreyColor),
                                         ),
                                       ),
                                       ListTile(
@@ -291,7 +293,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         title: Text(
                                           "Address",
                                           style: TextStyle(
-                                              color: CommonColor.darkGreyColor),
+                                              color:
+                                                  CommonColor.darkGreyColor),
                                         ),
                                       ),
                                       ListTile(
@@ -309,7 +312,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         title: Text(
                                           "Reset Password",
                                           style: TextStyle(
-                                              color: CommonColor.darkGreyColor),
+                                              color:
+                                                  CommonColor.darkGreyColor),
                                         ),
                                       ),
                                     ],
@@ -361,7 +365,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         title: Text(
                                           "Invoices",
                                           style: TextStyle(
-                                              color: CommonColor.darkGreyColor),
+                                              color:
+                                                  CommonColor.darkGreyColor),
                                         ),
                                       ),
                                       ListTile(
@@ -379,7 +384,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         title: Text(
                                           "Order History",
                                           style: TextStyle(
-                                              color: CommonColor.darkGreyColor),
+                                              color:
+                                                  CommonColor.darkGreyColor),
                                         ),
                                       ),
                                     ],
@@ -418,13 +424,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     children: [
                                       ListTile(
                                         leading: Icon(
-                                          Icons.notification_important_outlined,
+                                          Icons
+                                              .notification_important_outlined,
                                           color: CommonColor.primaryColor,
                                         ),
                                         title: Text(
                                           "Push Notification",
                                           style: TextStyle(
-                                              color: CommonColor.darkGreyColor),
+                                              color:
+                                                  CommonColor.darkGreyColor),
                                         ),
                                         trailing: Transform.scale(
                                           scale: 0.8,
@@ -457,16 +465,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                             ),
                                             trailing: IntrinsicWidth(
                                               child: Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 15),
+                                                padding: EdgeInsets.only(
+                                                    right: 15),
                                                 child: Row(
                                                   children: [
                                                     Text("Eng"),
                                                     Transform.scale(
                                                       scale: 0.8,
                                                       child: Switch(
-                                                        activeColor: CommonColor
-                                                            .primaryColor,
+                                                        activeColor:
+                                                            CommonColor
+                                                                .primaryColor,
                                                         inactiveThumbColor:
                                                             CommonColor
                                                                 .mediumGreyColor,
@@ -503,7 +512,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         title: Text(
                                           "Logout",
                                           style: TextStyle(
-                                              color: CommonColor.darkGreyColor),
+                                              color:
+                                                  CommonColor.darkGreyColor),
                                         ),
                                       ),
                                     ],
@@ -552,7 +562,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         title: Text(
                                           "Contact",
                                           style: TextStyle(
-                                              color: CommonColor.darkGreyColor),
+                                              color:
+                                                  CommonColor.darkGreyColor),
                                         ),
                                       ),
                                       ListTile(
@@ -570,7 +581,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         title: Text(
                                           "FAQs",
                                           style: TextStyle(
-                                              color: CommonColor.darkGreyColor),
+                                              color:
+                                                  CommonColor.darkGreyColor),
                                         ),
                                       ),
                                       ListTile(
@@ -588,7 +600,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         title: Text(
                                           "Report Issues",
                                           style: TextStyle(
-                                              color: CommonColor.darkGreyColor),
+                                              color:
+                                                  CommonColor.darkGreyColor),
                                         ),
                                       ),
                                     ],

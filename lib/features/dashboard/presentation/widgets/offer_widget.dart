@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/all_offers_screen.dart';
 
@@ -23,7 +24,6 @@ class OfferWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
@@ -41,12 +41,12 @@ class OfferWidget extends StatelessWidget {
                   ),
                 ),
                 InkWell(
-                   onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AllOffersScreen()));
-                },
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AllOffersScreen()));
+                  },
                   child: Text(
                     "See all",
                     style: TextStyle(
@@ -57,7 +57,10 @@ class OfferWidget extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 170,
+              height: 3,
+            ),
+            SizedBox(
+              height: 200,
               child: Center(
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -66,82 +69,107 @@ class OfferWidget extends StatelessWidget {
                       return Padding(
                         padding: EdgeInsets.only(right: 15),
                         child: Container(
-                          // height: 180,
-                          width: screenWidth - 40,
-
+                          width: 160,
+                          height: 200,
                           decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8)),
-                          child: Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 8),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      spacing: 10,
-                                      children: [
-                                        Text(
-                                          offersList[index]["offerTitle"],
-                                          maxLines: 3,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              color: CommonColor.darkGreyColor,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 22),
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: const Color(0XFFFAFAFA),
+                                  borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(8),
+                                  ),
+                                ),
+                                height: 130,
+                                width: double.infinity,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(8),
+                                      topRight: Radius.circular(8)),
+                                  child: Image.asset(
+                                    "assets/images/book.jpeg",
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            Icon(Icons.broken_image),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 15),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                child: Row(
+                                  spacing: 10,
+                                  children: [
+                                    Text(
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                      "Book",
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "Stationary",
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.bold,
+                                          color: CommonColor.mediumGreyColor,
                                         ),
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  CommonColor.primaryColor,
-                                            ),
-                                            onPressed: () {},
-                                            child: Text(
-                                              "Shop Now",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ))
-                                      ],
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(8),
-                                          bottomRight: Radius.circular(8),
-                                          bottomLeft: Radius.circular(60),
-                                          topLeft: Radius.circular(60)),
-                                      border:
-                                          Border.all(color: Colors.grey[100]!)),
-                                  height: double.infinity,
-                                  width: 140,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(8),
-                                        bottomRight: Radius.circular(8),
-                                        bottomLeft: Radius.circular(60),
-                                        topLeft: Radius.circular(60)),
-                                    child: Image.asset(
-                                      offersList[index]["image"],
-                                      fit: BoxFit.cover,
+                              ),
+                              const SizedBox(height: 2),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(children: [
+                                      Text(
+                                        "Rs.500",
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: CommonColor.primaryColor,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Text(
+                                        "10% Off",
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ]),
+                                    // const SizedBox(width: 8),
+                                    Icon(
+                                      MingCute.shopping_cart_1_line,
+                                      color: Colors.black87,
                                     ),
-                                  ),
-
-                                  // child: Image.asset(
-                                  //   "assets/images/laptopcharger.jpeg",
-                                  //   fit: BoxFit.cover,
-                                  // ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       );
