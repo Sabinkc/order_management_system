@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/all_categories_screen.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/category_detail_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -25,11 +26,19 @@ class CategoryRowDashboard extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              Text(
-                "See all",
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: CommonColor.primaryColor),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AllCategoriesScreen()));
+                },
+                child: Text(
+                  "See all",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: CommonColor.primaryColor),
+                ),
               )
             ],
           ),

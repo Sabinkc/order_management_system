@@ -476,65 +476,64 @@ class ProductApiSevice {
     }
   }
 
+  Future<List<InvoiceModel>> getAllMyOrders({int page = 1}) async {
+    String? token = await SharedPrefLoggedinState.getAccessToken();
 
-Future<List<InvoiceModel>> getAllMyOrders({int page = 1}) async {
-  String? token = await SharedPrefLoggedinState.getAccessToken();
+    if (token == null) {
+      throw "User not authenticated. Please login first.";
+    }
 
-  if (token == null) {
-    throw "User not authenticated. Please login first.";
-  }
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
 
-  var headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer $token'
-  };
+    var url = Uri.parse('${Constants.getMyAlloderdUrl}?page=$page');
 
-  var url = Uri.parse('${Constants.getMyAlloderdUrl}?page=$page');
+    var request = http.Request('GET', url);
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    String responseBody = await response.stream.bytesToString();
+    logger.log(response.toString());
+    Map<String, dynamic> jsonResponse = json.decode(responseBody);
 
-  var request = http.Request('GET', url);
-  request.headers.addAll(headers);
-  http.StreamedResponse response = await request.send();
-  String responseBody = await response.stream.bytesToString();
-  logger.log(response.toString());
-  Map<String, dynamic> jsonResponse = json.decode(responseBody);
+    if (response.statusCode == 200 && jsonResponse["success"]) {
+      List<dynamic> ordersJson = jsonResponse["data"];
+      List<InvoiceModel> orders = [];
 
-  if (response.statusCode == 200 && jsonResponse["success"]) {
-    List<dynamic> ordersJson = jsonResponse["data"];
-    List<InvoiceModel> orders = [];
+      for (var order in ordersJson) {
+        int totalQuantity = 0;
+        double totalAmount = 0.0;
+        List<InvoiceProductDetailModel> products = [];
 
-    for (var order in ordersJson) {
-      int totalQuantity = 0;
-      double totalAmount = 0.0;
-      List<InvoiceProductDetailModel> products = [];
+        for (var product in order["products"]) {
+          totalQuantity += product["quantity"] as int;
+          totalAmount += double.parse(product["amount"].toString());
 
-      for (var product in order["products"]) {
-        totalQuantity += product["quantity"] as int;
-        totalAmount += double.parse(product["amount"].toString());
+          products.add(InvoiceProductDetailModel(
+            name: product["name"],
+            price: double.parse(product["unitPrice"].toString()),
+            category: product["category"],
+            imagePath: product["imagePath"] ?? "N/A",
+            quantity: product["quantity"],
+          ));
+        }
 
-        products.add(InvoiceProductDetailModel(
-          name: product["name"],
-          price: double.parse(product["unitPrice"].toString()),
-          category: product["category"],
-          imagePath: product["imagePath"] ?? "N/A",
-          quantity: product["quantity"],
+        orders.add(InvoiceModel(
+          orderNo: order["key"],
+          totalAmount: totalAmount.toStringAsFixed(2),
+          date: order["products"][0]["createdAt"],
+          totalQuantity: totalQuantity,
+          status: order["status"],
+          products: products,
         ));
       }
-
-      orders.add(InvoiceModel(
-        orderNo: order["key"],
-        totalAmount: totalAmount.toStringAsFixed(2),
-        date: order["products"][0]["createdAt"],
-        totalQuantity: totalQuantity,
-        status: order["status"],
-        products: products,
-      ));
+      return orders;
+    } else {
+      throw "Failed to get orders";
     }
-    return orders;
-  } else {
-    throw "Failed to get orders";
   }
-}
   // Future<List<InvoiceModel>> getAllMyOrders() async {
   //   String? token = await SharedPrefLoggedinState.getAccessToken();
 

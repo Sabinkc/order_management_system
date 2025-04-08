@@ -4,8 +4,6 @@ import 'package:logger/logger.dart';
 class SimpleUiProvider extends ChangeNotifier {
   final Logger logger = Logger();
 
-
-
 //provider to filter by status
   String selectedStatus = "all_status";
   void switchSelectedStatus(String value) {
@@ -15,7 +13,7 @@ class SimpleUiProvider extends ChangeNotifier {
   }
 
 //provider to filter invoice based on date
-   DateTime? _selectedStartDate;
+  DateTime? _selectedStartDate;
   DateTime? _selectedEndDate;
 
   DateTime? get selectedStartDate => _selectedStartDate;
@@ -37,9 +35,9 @@ class SimpleUiProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clearFilter(){
+  void clearFilter() {
     selectedStatus = "all_status";
-     _selectedStartDate = null;
+    _selectedStartDate = null;
     _selectedEndDate = null;
     notifyListeners();
   }

@@ -53,23 +53,23 @@ class _EditShippingLocationScreenState
     final screenWidth = MediaQuery.of(context).size.width;
     return KeyboardDismisser(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: CommonColor.scaffoldbackgroundColor,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: CommonColor.primaryColor,
           title: RichText(
               text: TextSpan(children: [
             TextSpan(
               text: "Edit Shippi",
               style: TextStyle(
                   fontSize: 20,
-                  color: CommonColor.darkGreyColor,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold),
             ),
             TextSpan(
               text: "ng Address",
               style: TextStyle(
                   fontSize: 20,
-                  color: CommonColor.darkGreyColor,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold),
             ),
           ])),
@@ -77,7 +77,7 @@ class _EditShippingLocationScreenState
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
-              color: CommonColor.primaryColor,
+              color: Colors.white,
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -96,6 +96,9 @@ class _EditShippingLocationScreenState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
+                  height: 5,
+                ),
+                SizedBox(
                   height: screenHeight * 0.01,
                 ),
                 Padding(
@@ -111,15 +114,18 @@ class _EditShippingLocationScreenState
                 SizedBox(
                     width: screenWidth * 0.42,
                     child: CommonLocationTextformField(
+                        fillColor: Colors.white,
                         controller: fullNameController,
                         hintText: "First Name")),
                 SizedBox(height: screenHeight * 0.02),
                 CommonLocationTextformField(
+                    fillColor: Colors.white,
                     keyboardType: TextInputType.number,
                     controller: phoneController,
                     hintText: "Your Phone Number"),
                 SizedBox(height: screenHeight * 0.02),
                 CommonLocationTextformField(
+                    fillColor: Colors.white,
                     controller: emailController,
                     hintText: "Your Email Address"),
                 SizedBox(height: screenHeight * 0.03),
@@ -139,12 +145,15 @@ class _EditShippingLocationScreenState
                     SizedBox(
                         width: screenWidth * 0.42,
                         child: CommonLocationTextformField(
+                            fillColor: Colors.white,
                             controller: prefectureController,
                             hintText: "Prefecture")),
                     SizedBox(
                         width: screenWidth * 0.42,
                         child: CommonLocationTextformField(
-                            controller: cityController, hintText: "City")),
+                            fillColor: Colors.white,
+                            controller: cityController,
+                            hintText: "City")),
                   ],
                 ),
                 SizedBox(height: screenHeight * 0.02),
@@ -154,11 +163,13 @@ class _EditShippingLocationScreenState
                     SizedBox(
                         width: screenWidth * 0.42,
                         child: CommonLocationTextformField(
+                            fillColor: Colors.white,
                             controller: areaController,
                             hintText: "Street/Area")),
                     SizedBox(
                         width: screenWidth * 0.42,
                         child: CommonLocationTextformField(
+                            fillColor: Colors.white,
                             controller: landmarkController,
                             hintText: "Landmark")),
                   ],
@@ -188,7 +199,7 @@ class _EditShippingLocationScreenState
                             int locationId =
                                 locationProvider.locations[widget.index].id;
 
-                           await locationProvider.updateLocation(
+                            await locationProvider.updateLocation(
                                 locationId,
                                 fullNameController.text.trim(),
                                 phoneController.text.trim(),

@@ -7,9 +7,9 @@ class SettingsInvoiceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: CommonColor.scaffoldbackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: CommonColor.primaryColor,
         title: RichText(
           text: const TextSpan(
             children: [
@@ -17,7 +17,7 @@ class SettingsInvoiceScreen extends StatelessWidget {
                 text: "My Invoices",
                 style: TextStyle(
                   fontSize: 22,
-                  color: Colors.black,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -30,7 +30,7 @@ class SettingsInvoiceScreen extends StatelessWidget {
             },
             icon: Icon(
               Icons.arrow_back_ios,
-              color: CommonColor.primaryColor,
+              color: Colors.white,
               size: 20,
             )),
         centerTitle: true,

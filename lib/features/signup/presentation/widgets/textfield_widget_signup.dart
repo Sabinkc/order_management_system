@@ -9,7 +9,6 @@ import 'package:order_management_system/features/settings/domain/settings_provid
 import 'package:order_management_system/features/signup/domain/checkbox_provider.dart';
 import 'package:order_management_system/features/signup/domain/signup_textfield_provider.dart';
 import 'package:order_management_system/features/signup/presentation/widgets/checkbox_widget_signup.dart';
-
 import 'package:provider/provider.dart';
 
 class TextfieldWidgetSignup extends StatelessWidget {

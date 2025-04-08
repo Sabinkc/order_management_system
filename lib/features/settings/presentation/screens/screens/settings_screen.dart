@@ -595,6 +595,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         }));
   }
 
+//function to build avatar
   Widget _buildAvatarImage(SettingsProvider profileProvider) {
     if (profileProvider.avatarBytes != null) {
       return Image.memory(
@@ -606,6 +607,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
+//function build default avatar
   Widget _buildDefaultAvatar() {
     return Container(
       color: Colors.white,

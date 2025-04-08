@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 
-class InvoiceScreen extends StatelessWidget {
-  const InvoiceScreen({super.key});
+class AllProductScreen extends StatelessWidget {
+  const AllProductScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class InvoiceScreen extends StatelessWidget {
           text: const TextSpan(
             children: [
               TextSpan(
-                text: "My Invoices",
+                text: "All Products",
                 style: TextStyle(
                   fontSize: 22,
                   color: Colors.white,
@@ -24,14 +24,18 @@ class InvoiceScreen extends StatelessWidget {
             ],
           ),
         ),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+              size: 20,
+            )),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: Center(
-          child: Text(
-        "Invoice Screen",
-        style: TextStyle(color: Colors.grey, fontSize: 25),
-      )),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/category_row_dashboard.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/all_product_widget.dart';
@@ -95,7 +96,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     return KeyboardDismisser(
       child: Scaffold(
-        backgroundColor: Colors.grey[100],
+        backgroundColor: CommonColor.scaffoldbackgroundColor,
         // appBar: PreferredSize(
         //     preferredSize: Size.fromHeight(kToolbarHeight),
         //     child: AppbarDashboard()),

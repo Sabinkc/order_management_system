@@ -15,16 +15,16 @@ class ResetPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: CommonColor.scaffoldbackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: CommonColor.primaryColor,
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
             },
             icon: Icon(
               Icons.arrow_back_ios,
-              color: CommonColor.primaryColor,
+              color: Colors.white,
               size: 20,
             )),
         title: RichText(
@@ -32,7 +32,7 @@ class ResetPasswordScreen extends StatelessWidget {
           TextSpan(
             text: "Reset password",
             style: TextStyle(
-                fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
+                fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ])),
         centerTitle: true,
@@ -43,6 +43,9 @@ class ResetPasswordScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(
+              height: 20,
+            ),
             Padding(
               padding: EdgeInsets.only(left: 8),
               child: Text(
@@ -54,6 +57,7 @@ class ResetPasswordScreen extends StatelessWidget {
               height: screenHeight * 0.008,
             ),
             CommonLocationTextformField(
+                fillColor: Colors.white,
                 controller: oldPasswordController,
                 hintText: "Enter your old password"),
             SizedBox(height: screenHeight * 0.03),
@@ -68,6 +72,7 @@ class ResetPasswordScreen extends StatelessWidget {
               height: screenHeight * 0.008,
             ),
             CommonLocationTextformField(
+                fillColor: Colors.white,
                 controller: newPasswordController,
                 hintText: "Enter your new password"),
             SizedBox(height: screenHeight * 0.03),

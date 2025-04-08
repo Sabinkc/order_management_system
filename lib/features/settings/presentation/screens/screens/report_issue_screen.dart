@@ -9,9 +9,9 @@ class ReportIssueScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController reportTextController = TextEditingController();
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: CommonColor.scaffoldbackgroundColor,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: CommonColor.primaryColor,
           title: RichText(
             text: const TextSpan(
               children: [
@@ -19,7 +19,7 @@ class ReportIssueScreen extends StatelessWidget {
                   text: "Report Issues",
                   style: TextStyle(
                     fontSize: 22,
-                    color: Colors.black,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -32,7 +32,7 @@ class ReportIssueScreen extends StatelessWidget {
               },
               icon: Icon(
                 Icons.arrow_back_ios,
-                color: CommonColor.primaryColor,
+                color: Colors.white,
                 size: 20,
               )),
           centerTitle: true,
@@ -40,6 +40,9 @@ class ReportIssueScreen extends StatelessWidget {
         ),
         body: Column(
           children: [
+            SizedBox(
+              height: 10,
+            ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: TextField(
@@ -47,7 +50,7 @@ class ReportIssueScreen extends StatelessWidget {
                 decoration: InputDecoration(
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                  fillColor: Colors.grey[100],
+                  fillColor: Colors.white,
                   filled: true,
                   hintText: "Please, explain us your experience!",
                   hintStyle: TextStyle(

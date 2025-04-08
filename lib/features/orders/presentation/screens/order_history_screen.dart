@@ -43,9 +43,9 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
       builder: (context, orderScreenProvider, child) {
         return KeyboardDismisser(
           child: Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: CommonColor.scaffoldbackgroundColor,
             appBar: AppBar(
-              backgroundColor: Colors.white,
+              backgroundColor: CommonColor.primaryColor,
               title: RichText(
                 text: const TextSpan(
                   children: [
@@ -53,7 +53,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                       text: "My Orders",
                       style: TextStyle(
                         fontSize: 22,
-                        color: Colors.black,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -66,7 +66,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                   },
                   icon: Icon(
                     Icons.arrow_back_ios,
-                    color: CommonColor.primaryColor,
+                    color: Colors.white,
                     size: 20,
                   )),
               centerTitle: true,

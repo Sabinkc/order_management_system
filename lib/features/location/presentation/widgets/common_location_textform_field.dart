@@ -5,8 +5,13 @@ class CommonLocationTextformField extends StatelessWidget {
   final TextEditingController? controller;
   final String hintText;
   final TextInputType? keyboardType;
+  final Color? fillColor;
   const CommonLocationTextformField(
-      {super.key, this.controller, required this.hintText, this.keyboardType});
+      {super.key,
+      this.controller,
+      required this.hintText,
+      this.keyboardType,
+      this.fillColor});
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +19,8 @@ class CommonLocationTextformField extends StatelessWidget {
       keyboardType: keyboardType,
       controller: controller,
       decoration: InputDecoration(
-        
         contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-        fillColor: Colors.grey[100],
+        fillColor: fillColor ?? Colors.grey[100],
         filled: true,
         hintText: hintText,
         hintStyle: TextStyle(

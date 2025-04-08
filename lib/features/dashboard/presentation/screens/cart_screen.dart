@@ -14,9 +14,9 @@ class CartScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: CommonColor.scaffoldbackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: CommonColor.primaryColor,
         title: RichText(
           text: const TextSpan(
             children: [
@@ -24,7 +24,7 @@ class CartScreen extends StatelessWidget {
                 text: "My Cart",
                 style: TextStyle(
                   fontSize: 22,
-                  color: Colors.black,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),

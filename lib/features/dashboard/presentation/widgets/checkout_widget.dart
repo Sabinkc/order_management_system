@@ -75,7 +75,6 @@ class CheckoutWidget extends StatelessWidget {
 
   //loical part
   //function to show logoutdialog and checkout dialog
-
   showLogoutDialogAndCheckout(BuildContext context) {
     showDialog(
         context: context,
@@ -156,7 +155,6 @@ class CheckoutWidget extends StatelessWidget {
   }
 
   //function to checkout
-
   void checkout(BuildContext context) async {
     final cartQuantityProvider =
         Provider.of<CartQuantityProvider>(context, listen: false);

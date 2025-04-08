@@ -42,16 +42,16 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: CommonColor.scaffoldbackgroundColor,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: CommonColor.primaryColor,
           leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
               },
               icon: Icon(
                 Icons.arrow_back_ios,
-                color: CommonColor.primaryColor,
+                color: Colors.white,
                 size: 20,
               )),
           title: RichText(
@@ -60,7 +60,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               text: "My Profile",
               style: TextStyle(
                   fontSize: 22,
-                  color: Colors.black,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold),
             ),
           ])),
@@ -80,6 +80,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(
+                          height: 15,
+                        ),
                         Padding(
                           padding: EdgeInsets.only(left: 8),
                           child: Text(
@@ -92,6 +95,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           height: screenHeight * 0.008,
                         ),
                         CommonLocationTextformField(
+                            fillColor: Colors.white,
                             controller: fullnameController,
                             hintText: "Full Name"),
                         SizedBox(height: screenHeight * 0.03),
@@ -107,6 +111,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           height: screenHeight * 0.008,
                         ),
                         CommonLocationTextformField(
+                            fillColor: Colors.white,
                             keyboardType: TextInputType.number,
                             controller: contactNoController,
                             hintText: "Contact No"),
@@ -123,7 +128,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           height: screenHeight * 0.008,
                         ),
                         CommonLocationTextformField(
-                            controller: emailController, hintText: "Email"),
+                            fillColor: Colors.white,
+                            controller: emailController,
+                            hintText: "Email"),
                         SizedBox(height: screenHeight * 0.03),
                         Padding(
                           padding: EdgeInsets.only(left: 8),
@@ -137,7 +144,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           height: screenHeight * 0.008,
                         ),
                         CommonLocationTextformField(
-                            controller: genderController, hintText: "Gender"),
+                            fillColor: Colors.white,
+                            controller: genderController,
+                            hintText: "Gender"),
                         // SizedBox(
                         //   height: screenHeight * 0.008,
                         // ),
@@ -197,7 +206,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           height: screenHeight * 0.008,
                         ),
                         CommonLocationTextformField(
-                            controller: addressController, hintText: "Address"),
+                            fillColor: Colors.white,
+                            controller: addressController,
+                            hintText: "Address"),
                         SizedBox(height: screenHeight * 0.03),
                         SizedBox(
                           width: double.infinity,

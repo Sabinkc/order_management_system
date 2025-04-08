@@ -67,9 +67,8 @@ class InvoiceModel {
   String toString() {
     return 'InvoiceModel(orderNo: $orderNo, totalAmount: $totalAmount, date: $date, totalQuantity: $totalQuantity, status: $status, products: $products)';
   }
-
-
 }
+
 class InvoiceProductDetailModel {
   final String name;
   final String category;
@@ -85,10 +84,8 @@ class InvoiceProductDetailModel {
     required this.imagePath,
   });
 
-
   @override
   String toString() {
     return 'InvoiceProductDetailModel(name: $name, category: $category, quantity: $quantity, price: $price, imagePath: $imagePath)';
   }
 }
-

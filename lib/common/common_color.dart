@@ -9,4 +9,6 @@ class CommonColor {
   static Color whiteColor = Color(0xFFFFFFFF);
   static Color blackColor = Color(0xFF000000);
   static Color snackbarColor = Colors.orangeAccent;
+  static Color scaffoldbackgroundColor =
+      Color.fromARGB(255, 245, 245, 245); //grey[100]
 }

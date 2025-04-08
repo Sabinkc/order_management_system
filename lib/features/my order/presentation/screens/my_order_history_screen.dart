@@ -31,9 +31,9 @@ class _OrderHistoryScreenState extends State<MyOrderHistoryScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: CommonColor.scaffoldbackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: CommonColor.primaryColor,
         title: RichText(
           text: const TextSpan(
             children: [
@@ -41,7 +41,7 @@ class _OrderHistoryScreenState extends State<MyOrderHistoryScreen> {
                 text: "My Order",
                 style: TextStyle(
                   fontSize: 22,
-                  color: Colors.black,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
