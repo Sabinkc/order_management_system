@@ -108,41 +108,25 @@ class AddShippingLoationScreen extends StatelessWidget {
                 SizedBox(
                   height: screenHeight * 0.02,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                        width: screenWidth * 0.42,
-                        child: CommonLocationTextformField(
-                            fillColor: Colors.white,
-                            controller: prefectureController,
-                            hintText: "Prefecture")),
-                    SizedBox(
-                        width: screenWidth * 0.42,
-                        child: CommonLocationTextformField(
-                            fillColor: Colors.white,
-                            controller: cityController,
-                            hintText: "City")),
-                  ],
-                ),
+                CommonLocationTextformField(
+                    fillColor: Colors.white,
+                    controller: prefectureController,
+                    hintText: "Prefecture"),
                 SizedBox(height: screenHeight * 0.02),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                        width: screenWidth * 0.42,
-                        child: CommonLocationTextformField(
-                            fillColor: Colors.white,
-                            controller: areaController,
-                            hintText: "Street/Area")),
-                    SizedBox(
-                        width: screenWidth * 0.42,
-                        child: CommonLocationTextformField(
-                            fillColor: Colors.white,
-                            controller: landmarkController,
-                            hintText: "Landmark")),
-                  ],
-                ),
+                CommonLocationTextformField(
+                    fillColor: Colors.white,
+                    controller: cityController,
+                    hintText: "City"),
+                SizedBox(height: screenHeight * 0.02),
+                CommonLocationTextformField(
+                    fillColor: Colors.white,
+                    controller: areaController,
+                    hintText: "Street/Area"),
+                SizedBox(height: screenHeight * 0.02),
+                CommonLocationTextformField(
+                    fillColor: Colors.white,
+                    controller: landmarkController,
+                    hintText: "Landmark"),
                 SizedBox(
                   height: screenHeight * 0.04,
                 ),

@@ -108,7 +108,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: screenWidth * 0.05,
+                  height: screenWidth * 0.06,
                 ),
                 // TopContainerDashboard(),
                 TopProfileDashboard(),
