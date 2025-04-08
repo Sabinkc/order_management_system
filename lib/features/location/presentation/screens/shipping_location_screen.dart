@@ -85,7 +85,7 @@ class _ShippingLocationScreenState extends State<ShippingLocationScreen> {
                         "Address limit exceeded. Please delete a address first to proceed!");
               },
               child: Container(
-                height: screenHeight * 0.1,
+                height: screenHeight * 0.07,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -231,7 +231,7 @@ class _ShippingLocationScreenState extends State<ShippingLocationScreen> {
                                         SizedBox(
                                           width: screenWidth * 0.65,
                                           child: Text(
-                                            "${locationProvider.locations[index].area},${locationProvider.locations[index].city} (${locationProvider.locations[index].landmark})",
+                                            "${locationProvider.locations[index].area},(${locationProvider.locations[index].landmark})",
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
                                                 color:

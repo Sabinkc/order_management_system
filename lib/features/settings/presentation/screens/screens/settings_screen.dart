@@ -79,519 +79,532 @@ class _SettingsScreenState extends State<SettingsScreen> {
           automaticallyImplyLeading: false,
         ),
         body: LayoutBuilder(builder: (context, constraints) {
-          return SingleChildScrollView(
-            child:
-                Consumer<SettingsProvider>(builder: (context, provider, child) {
-              return ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: IntrinsicHeight(
-                  child: Stack(children: [
-                    Positioned(
-                      top: screenHeight * 0.09,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      child: Container(
-                        height: double
-                            .infinity, // Ensures it covers the remaining area
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(25),
-                            topRight: Radius.circular(25),
-                          ),
+          return Consumer<SettingsProvider>(
+              builder: (context, provider, child) {
+            return ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Stack(children: [
+                  Positioned(
+                    top: screenHeight * 0.09,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: Container(
+                      height: double
+                          .infinity, // Ensures it covers the remaining area
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          topRight: Radius.circular(25),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: screenHeight * 0.03,
-                          ),
-                          Center(
-                            child: Consumer<SettingsProvider>(
-                              builder: (context, profileProvider, child) {
-                                return GestureDetector(
-                                    onTap: () {
-                                      if (profileProvider.avatarBytes == null) {
-                                        Utilities.showCommonSnackBar(
-                                            context, "No avatar to view");
-                                      } else {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ViewAvatarScreen()));
-                                      }
-                                    },
-                                    child: Column(children: [
-                                      Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          Container(
-                                            height: 100,
-                                            width: 100,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                              child: _buildAvatarImage(
-                                                  profileProvider),
-                                            ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 40, right: 40, bottom: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: screenHeight * 0.03,
+                        ),
+                        Center(
+                          child: Consumer<SettingsProvider>(
+                            builder: (context, profileProvider, child) {
+                              return GestureDetector(
+                                  onTap: () {
+                                    if (profileProvider.avatarBytes == null) {
+                                      Utilities.showCommonSnackBar(
+                                          context, "No avatar to view");
+                                    } else {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ViewAvatarScreen()));
+                                    }
+                                  },
+                                  child: Column(children: [
+                                    Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Container(
+                                          height: 100,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
                                           ),
-                                          if (profileProvider
-                                                  .isUpdateAvatarLoading ||
-                                              profileProvider.isAvatarLoading)
-                                            Positioned.fill(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: Colors.grey[100],
-                                                  borderRadius:
-                                                      BorderRadius.circular(50),
-                                                ),
-                                                child: Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    color: CommonColor
-                                                        .primaryColor,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          Positioned(
-                                            bottom: 0,
-                                            right: 0,
-                                            child: InkWell(
-                                              onTap: () async {
-                                                final picker = ImagePicker();
-                                                try {
-                                                  final pickedFile =
-                                                      await picker.pickImage(
-                                                    source: ImageSource.gallery,
-                                                  );
-                                                  if (pickedFile != null) {
-                                                    await profileProvider
-                                                        .updateProfileAvatar(
-                                                      File(pickedFile.path),
-                                                    );
-                                                    // Optionally reload avatar after update
-                                                    await profileProvider
-                                                        .loadProfileAvatar();
-                                                    if (!context.mounted) {
-                                                      return;
-                                                    }
-                                                    Utilities.showCommonSnackBar(
-                                                        context,
-                                                        "Avatar updated successfully!");
-                                                  }
-                                                } catch (e) {
-                                                  if (!context.mounted) return;
-                                                  Utilities.showCommonSnackBar(
-                                                      context, "$e");
-                                                }
-                                              },
-                                              child: Container(
-                                                padding: EdgeInsets.all(8),
-                                                decoration: BoxDecoration(
-                                                  color:
-                                                      CommonColor.primaryColor,
-                                                  shape: BoxShape.circle,
-                                                ),
-                                                child: Icon(
-                                                  Icons.camera_alt,
-                                                  size: 20,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: screenHeight * 0.01),
-                                      Text(provider.profile.name,
-                                          style: TextStyle(
-                                              fontSize: 22,
-                                              fontWeight: FontWeight.bold)),
-                                      Text(provider.profile.email,
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color:
-                                                  CommonColor.darkGreyColor)),
-                                    ]));
-                              },
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.02),
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: ExpansionTile(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide.none,
-                              ),
-                              collapsedShape: RoundedRectangleBorder(
-                                side: BorderSide.none,
-                              ),
-                              leading: Icon(
-                                Icons.build_outlined,
-                                color: CommonColor.primaryColor,
-                                size: 28,
-                              ),
-                              title: Text(
-                                "General",
-                                style: TextStyle(
-                                    color: CommonColor.darkGreyColor,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              trailing: Icon(
-                                Icons.keyboard_arrow_right,
-                                color: CommonColor.primaryColor,
-                                size: 30,
-                              ),
-                              children: [
-                                ListTile(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                MyProfileScreen()));
-                                  },
-                                  leading: Icon(
-                                    Icons.person_2_outlined,
-                                    color: CommonColor.primaryColor,
-                                  ),
-                                  title: Text(
-                                    "My Profile",
-                                    style: TextStyle(
-                                        color: CommonColor.darkGreyColor),
-                                  ),
-                                ),
-                                ListTile(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ShippingLocationScreen()));
-                                  },
-                                  leading: Icon(
-                                    Icons.location_history_outlined,
-                                    color: CommonColor.primaryColor,
-                                  ),
-                                  title: Text(
-                                    "Address",
-                                    style: TextStyle(
-                                        color: CommonColor.darkGreyColor),
-                                  ),
-                                ),
-                                ListTile(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ResetPasswordScreen()));
-                                  },
-                                  leading: Icon(
-                                    Icons.change_circle_outlined,
-                                    color: CommonColor.primaryColor,
-                                  ),
-                                  title: Text(
-                                    "Reset Password",
-                                    style: TextStyle(
-                                        color: CommonColor.darkGreyColor),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: screenHeight * 0.01,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: ExpansionTile(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide.none,
-                              ),
-                              collapsedShape: RoundedRectangleBorder(
-                                side: BorderSide.none,
-                              ),
-                              leading: Icon(
-                                MingCute.list_ordered_line,
-                                color: CommonColor.primaryColor,
-                                size: 28,
-                              ),
-                              title: Text(
-                                "Orders",
-                                style: TextStyle(
-                                    color: CommonColor.darkGreyColor,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              trailing: Icon(
-                                Icons.keyboard_arrow_right,
-                                color: CommonColor.primaryColor,
-                                size: 30,
-                              ),
-                              children: [
-                                ListTile(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                SettingsInvoiceScreen()));
-                                  },
-                                  leading: Icon(
-                                    MingCute.inventory_line,
-                                    color: CommonColor.primaryColor,
-                                  ),
-                                  title: Text(
-                                    "Invoices",
-                                    style: TextStyle(
-                                        color: CommonColor.darkGreyColor),
-                                  ),
-                                ),
-                                ListTile(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                OrderScreen()));
-                                  },
-                                  leading: Icon(
-                                    Icons.history,
-                                    color: CommonColor.primaryColor,
-                                  ),
-                                  title: Text(
-                                    "Order History",
-                                    style: TextStyle(
-                                        color: CommonColor.darkGreyColor),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: screenHeight * 0.01,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: ExpansionTile(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide.none,
-                              ),
-                              collapsedShape: RoundedRectangleBorder(
-                                side: BorderSide.none,
-                              ),
-                              leading: Icon(
-                                MingCute.settings_1_line,
-                                color: CommonColor.primaryColor,
-                                size: 29,
-                              ),
-                              title: Text(
-                                "System Settings",
-                                style: TextStyle(
-                                    color: CommonColor.darkGreyColor,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              trailing: Icon(
-                                Icons.keyboard_arrow_right,
-                                color: CommonColor.primaryColor,
-                                size: 30,
-                              ),
-                              children: [
-                                ListTile(
-                                  leading: Icon(
-                                    Icons.notification_important_outlined,
-                                    color: CommonColor.primaryColor,
-                                  ),
-                                  title: Text(
-                                    "Push Notification",
-                                    style: TextStyle(
-                                        color: CommonColor.darkGreyColor),
-                                  ),
-                                  trailing: Transform.scale(
-                                    scale: 0.8,
-                                    child: Switch(
-                                        activeColor: CommonColor.primaryColor,
-                                        inactiveThumbColor:
-                                            CommonColor.mediumGreyColor,
-                                        value: provider.notficationSwitchState,
-                                        onChanged: (bool? value) {
-                                          provider.switchPushNotification();
-                                        }),
-                                  ),
-                                ),
-                                Consumer<LocalizationProvider>(builder:
-                                    (context, localizationProvider, child) {
-                                  return ListTile(
-                                      leading: Icon(
-                                        Icons.language_outlined,
-                                        color: CommonColor.primaryColor,
-                                      ),
-                                      title: Text(
-                                        "Language",
-                                        style: TextStyle(
-                                            color: CommonColor.darkGreyColor),
-                                      ),
-                                      trailing: IntrinsicWidth(
-                                        child: Padding(
-                                          padding: EdgeInsets.only(right: 15),
-                                          child: Row(
-                                            children: [
-                                              Text("Eng"),
-                                              Transform.scale(
-                                                scale: 0.8,
-                                                child: Switch(
-                                                  activeColor:
-                                                      CommonColor.primaryColor,
-                                                  inactiveThumbColor:
-                                                      CommonColor
-                                                          .mediumGreyColor,
-                                                  value: localizationProvider
-                                                          .locale
-                                                          .languageCode ==
-                                                      "ja",
-                                                  onChanged:
-                                                      (bool isJapanese) async {
-                                                    String newLanguage = isJapanese
-                                                        ? "ja"
-                                                        : "en"; // Toggle language
-                                                    localizationProvider
-                                                        .setLocale(Locale(
-                                                            newLanguage)); // Update language
-                                                  },
-                                                ),
-                                              ),
-                                              Text("Jap"),
-                                            ],
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            child: _buildAvatarImage(
+                                                profileProvider),
                                           ),
                                         ),
-                                      ));
-                                }),
-                                ListTile(
-                                  onTap: () {
-                                    showLogoutDialogAndLogout(context);
-                                  },
-                                  leading: Icon(
-                                    Icons.logout_outlined,
-                                    color: CommonColor.primaryColor,
-                                  ),
-                                  title: Text(
-                                    "Logout",
-                                    style: TextStyle(
-                                        color: CommonColor.darkGreyColor),
-                                  ),
-                                ),
-                              ],
-                            ),
+                                        if (profileProvider
+                                                .isUpdateAvatarLoading ||
+                                            profileProvider.isAvatarLoading)
+                                          Positioned.fill(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[100],
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                              ),
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color:
+                                                      CommonColor.primaryColor,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        Positioned(
+                                          bottom: 0,
+                                          right: 0,
+                                          child: InkWell(
+                                            onTap: () async {
+                                              final picker = ImagePicker();
+                                              try {
+                                                final pickedFile =
+                                                    await picker.pickImage(
+                                                  source: ImageSource.gallery,
+                                                );
+                                                if (pickedFile != null) {
+                                                  await profileProvider
+                                                      .updateProfileAvatar(
+                                                    File(pickedFile.path),
+                                                  );
+                                                  // Optionally reload avatar after update
+                                                  await profileProvider
+                                                      .loadProfileAvatar();
+                                                  if (!context.mounted) {
+                                                    return;
+                                                  }
+                                                  Utilities.showCommonSnackBar(
+                                                      context,
+                                                      "Avatar updated successfully!");
+                                                }
+                                              } catch (e) {
+                                                if (!context.mounted) return;
+                                                Utilities.showCommonSnackBar(
+                                                    context, "$e");
+                                              }
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                color: CommonColor.primaryColor,
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: Icon(
+                                                Icons.camera_alt,
+                                                size: 20,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: screenHeight * 0.01),
+                                    Text(provider.profile.name,
+                                        style: TextStyle(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold)),
+                                    Text(provider.profile.email,
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: CommonColor.darkGreyColor)),
+                                  ]));
+                            },
                           ),
-                          SizedBox(
-                            height: screenHeight * 0.01,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: ExpansionTile(
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide.none,
-                              ),
-                              collapsedShape: RoundedRectangleBorder(
-                                side: BorderSide.none,
-                              ),
-                              leading: SvgPicture.asset(
-                                  "assets/icons/help_and_support.svg"),
-                              title: Text(
-                                "Contact & Support",
-                                style: TextStyle(
-                                    color: CommonColor.darkGreyColor,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              trailing: Icon(
-                                Icons.keyboard_arrow_right,
-                                color: CommonColor.primaryColor,
-                                size: 30,
-                              ),
+                        ),
+                        SizedBox(height: screenHeight * 0.02),
+                        SizedBox(
+                          height: screenHeight * 0.5,
+                          child: SingleChildScrollView(
+                            child: Column(
                               children: [
-                                ListTile(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ContactScreen()));
-                                  },
-                                  leading: Icon(
-                                    Icons.contact_page_outlined,
-                                    color: CommonColor.primaryColor,
-                                  ),
-                                  title: Text(
-                                    "Contact",
-                                    style: TextStyle(
-                                        color: CommonColor.darkGreyColor),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: ExpansionTile(
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide.none,
+                                    ),
+                                    collapsedShape: RoundedRectangleBorder(
+                                      side: BorderSide.none,
+                                    ),
+                                    leading: Icon(
+                                      Icons.build_outlined,
+                                      color: CommonColor.primaryColor,
+                                      size: 28,
+                                    ),
+                                    title: Text(
+                                      "General",
+                                      style: TextStyle(
+                                          color: CommonColor.darkGreyColor,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    trailing: Icon(
+                                      Icons.keyboard_arrow_right,
+                                      color: CommonColor.primaryColor,
+                                      size: 30,
+                                    ),
+                                    children: [
+                                      ListTile(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MyProfileScreen()));
+                                        },
+                                        leading: Icon(
+                                          Icons.person_2_outlined,
+                                          color: CommonColor.primaryColor,
+                                        ),
+                                        title: Text(
+                                          "My Profile",
+                                          style: TextStyle(
+                                              color: CommonColor.darkGreyColor),
+                                        ),
+                                      ),
+                                      ListTile(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ShippingLocationScreen()));
+                                        },
+                                        leading: Icon(
+                                          Icons.location_history_outlined,
+                                          color: CommonColor.primaryColor,
+                                        ),
+                                        title: Text(
+                                          "Address",
+                                          style: TextStyle(
+                                              color: CommonColor.darkGreyColor),
+                                        ),
+                                      ),
+                                      ListTile(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ResetPasswordScreen()));
+                                        },
+                                        leading: Icon(
+                                          Icons.change_circle_outlined,
+                                          color: CommonColor.primaryColor,
+                                        ),
+                                        title: Text(
+                                          "Reset Password",
+                                          style: TextStyle(
+                                              color: CommonColor.darkGreyColor),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                ListTile(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => FaqScreen()));
-                                  },
-                                  leading: Icon(
-                                    Icons.question_answer_outlined,
-                                    color: CommonColor.primaryColor,
-                                  ),
-                                  title: Text(
-                                    "FAQs",
-                                    style: TextStyle(
-                                        color: CommonColor.darkGreyColor),
+                                SizedBox(
+                                  height: screenHeight * 0.01,
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: ExpansionTile(
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide.none,
+                                    ),
+                                    collapsedShape: RoundedRectangleBorder(
+                                      side: BorderSide.none,
+                                    ),
+                                    leading: Icon(
+                                      MingCute.list_ordered_line,
+                                      color: CommonColor.primaryColor,
+                                      size: 28,
+                                    ),
+                                    title: Text(
+                                      "Orders",
+                                      style: TextStyle(
+                                          color: CommonColor.darkGreyColor,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    trailing: Icon(
+                                      Icons.keyboard_arrow_right,
+                                      color: CommonColor.primaryColor,
+                                      size: 30,
+                                    ),
+                                    children: [
+                                      ListTile(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SettingsInvoiceScreen()));
+                                        },
+                                        leading: Icon(
+                                          MingCute.inventory_line,
+                                          color: CommonColor.primaryColor,
+                                        ),
+                                        title: Text(
+                                          "Invoices",
+                                          style: TextStyle(
+                                              color: CommonColor.darkGreyColor),
+                                        ),
+                                      ),
+                                      ListTile(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      OrderScreen()));
+                                        },
+                                        leading: Icon(
+                                          Icons.history,
+                                          color: CommonColor.primaryColor,
+                                        ),
+                                        title: Text(
+                                          "Order History",
+                                          style: TextStyle(
+                                              color: CommonColor.darkGreyColor),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                ListTile(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ReportIssueScreen()));
-                                  },
-                                  leading: Icon(
-                                    Icons.report_problem_outlined,
-                                    color: CommonColor.primaryColor,
+                                SizedBox(
+                                  height: screenHeight * 0.01,
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: ExpansionTile(
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide.none,
+                                    ),
+                                    collapsedShape: RoundedRectangleBorder(
+                                      side: BorderSide.none,
+                                    ),
+                                    leading: Icon(
+                                      MingCute.settings_1_line,
+                                      color: CommonColor.primaryColor,
+                                      size: 29,
+                                    ),
+                                    title: Text(
+                                      "System Settings",
+                                      style: TextStyle(
+                                          color: CommonColor.darkGreyColor,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    trailing: Icon(
+                                      Icons.keyboard_arrow_right,
+                                      color: CommonColor.primaryColor,
+                                      size: 30,
+                                    ),
+                                    children: [
+                                      ListTile(
+                                        leading: Icon(
+                                          Icons.notification_important_outlined,
+                                          color: CommonColor.primaryColor,
+                                        ),
+                                        title: Text(
+                                          "Push Notification",
+                                          style: TextStyle(
+                                              color: CommonColor.darkGreyColor),
+                                        ),
+                                        trailing: Transform.scale(
+                                          scale: 0.8,
+                                          child: Switch(
+                                              activeColor:
+                                                  CommonColor.primaryColor,
+                                              inactiveThumbColor:
+                                                  CommonColor.mediumGreyColor,
+                                              value: provider
+                                                  .notficationSwitchState,
+                                              onChanged: (bool? value) {
+                                                provider
+                                                    .switchPushNotification();
+                                              }),
+                                        ),
+                                      ),
+                                      Consumer<LocalizationProvider>(builder:
+                                          (context, localizationProvider,
+                                              child) {
+                                        return ListTile(
+                                            leading: Icon(
+                                              Icons.language_outlined,
+                                              color: CommonColor.primaryColor,
+                                            ),
+                                            title: Text(
+                                              "Language",
+                                              style: TextStyle(
+                                                  color: CommonColor
+                                                      .darkGreyColor),
+                                            ),
+                                            trailing: IntrinsicWidth(
+                                              child: Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 15),
+                                                child: Row(
+                                                  children: [
+                                                    Text("Eng"),
+                                                    Transform.scale(
+                                                      scale: 0.8,
+                                                      child: Switch(
+                                                        activeColor: CommonColor
+                                                            .primaryColor,
+                                                        inactiveThumbColor:
+                                                            CommonColor
+                                                                .mediumGreyColor,
+                                                        value: localizationProvider
+                                                                .locale
+                                                                .languageCode ==
+                                                            "ja",
+                                                        onChanged: (bool
+                                                            isJapanese) async {
+                                                          String newLanguage =
+                                                              isJapanese
+                                                                  ? "ja"
+                                                                  : "en"; // Toggle language
+                                                          localizationProvider
+                                                              .setLocale(Locale(
+                                                                  newLanguage)); // Update language
+                                                        },
+                                                      ),
+                                                    ),
+                                                    Text("Jap"),
+                                                  ],
+                                                ),
+                                              ),
+                                            ));
+                                      }),
+                                      ListTile(
+                                        onTap: () {
+                                          showLogoutDialogAndLogout(context);
+                                        },
+                                        leading: Icon(
+                                          Icons.logout_outlined,
+                                          color: CommonColor.primaryColor,
+                                        ),
+                                        title: Text(
+                                          "Logout",
+                                          style: TextStyle(
+                                              color: CommonColor.darkGreyColor),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  title: Text(
-                                    "Report Issues",
-                                    style: TextStyle(
-                                        color: CommonColor.darkGreyColor),
+                                ),
+                                SizedBox(
+                                  height: screenHeight * 0.01,
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: ExpansionTile(
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide.none,
+                                    ),
+                                    collapsedShape: RoundedRectangleBorder(
+                                      side: BorderSide.none,
+                                    ),
+                                    leading: SvgPicture.asset(
+                                        "assets/icons/help_and_support.svg"),
+                                    title: Text(
+                                      "Contact & Support",
+                                      style: TextStyle(
+                                          color: CommonColor.darkGreyColor,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    trailing: Icon(
+                                      Icons.keyboard_arrow_right,
+                                      color: CommonColor.primaryColor,
+                                      size: 30,
+                                    ),
+                                    children: [
+                                      ListTile(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ContactScreen()));
+                                        },
+                                        leading: Icon(
+                                          Icons.contact_page_outlined,
+                                          color: CommonColor.primaryColor,
+                                        ),
+                                        title: Text(
+                                          "Contact",
+                                          style: TextStyle(
+                                              color: CommonColor.darkGreyColor),
+                                        ),
+                                      ),
+                                      ListTile(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      FaqScreen()));
+                                        },
+                                        leading: Icon(
+                                          Icons.question_answer_outlined,
+                                          color: CommonColor.primaryColor,
+                                        ),
+                                        title: Text(
+                                          "FAQs",
+                                          style: TextStyle(
+                                              color: CommonColor.darkGreyColor),
+                                        ),
+                                      ),
+                                      ListTile(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ReportIssueScreen()));
+                                        },
+                                        leading: Icon(
+                                          Icons.report_problem_outlined,
+                                          color: CommonColor.primaryColor,
+                                        ),
+                                        title: Text(
+                                          "Report Issues",
+                                          style: TextStyle(
+                                              color: CommonColor.darkGreyColor),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ],
-                      ),
+                        )
+                      ],
                     ),
-                  ]),
-                ),
-              );
-            }),
-          );
+                  ),
+                ]),
+              ),
+            );
+          });
         }));
   }
 
