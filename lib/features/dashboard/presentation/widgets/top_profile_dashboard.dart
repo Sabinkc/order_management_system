@@ -29,12 +29,23 @@ class TopProfileDashboard extends StatelessWidget {
                     );
                   },
                 ),
-                const Text(
-                  "What would you like to buy today?",
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                SizedBox(
+                  height: 4,
                 ),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  const Text(
+                    "What would you like to",
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const Text(
+                    "buy today?",
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ]),
               ],
             ),
           ),
@@ -65,7 +76,6 @@ class TopProfileDashboard extends StatelessWidget {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                               ),
-
                               child: Image.memory(
                                 profileProvider.avatarBytes!,
                                 fit: BoxFit.cover,

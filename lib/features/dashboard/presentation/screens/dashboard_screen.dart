@@ -108,7 +108,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: screenWidth * 0.06,
+                  height: screenHeight * 0.05,
                 ),
                 // TopContainerDashboard(),
                 TopProfileDashboard(),
@@ -117,8 +117,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
 
                 SearchRowDashboard(),
+
                 SizedBox(
-                  height: screenWidth * 0.01,
+                  height: screenWidth * 0.03,
                 ),
                 CategoryRowDashboard(),
                 OfferWidget(),
