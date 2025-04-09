@@ -10,8 +10,21 @@ import 'package:order_management_system/features/my%20order/presentation/screens
 import 'package:order_management_system/localization/l10n.dart';
 import 'package:provider/provider.dart';
 
-class LandingScreen extends StatelessWidget {
+class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
+
+  @override
+  State<LandingScreen> createState() => _LandingScreenState();
+}
+
+class _LandingScreenState extends State<LandingScreen> {
+  @override
+  void initState() {
+    final bottomNavBarProvider =
+        Provider.of<BottomNavigationbarProvider>(context, listen: false);
+    bottomNavBarProvider.resetSelectedIndex();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

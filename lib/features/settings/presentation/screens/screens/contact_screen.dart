@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/features/signup/presentation/screens/email_verification_screen.dart';
 
 class ContactScreen extends StatelessWidget {
   const ContactScreen({super.key});
@@ -37,9 +38,15 @@ class ContactScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
       ),
       body: Center(
-          child: Text(
-        "Contact Screen",
-        style: TextStyle(color: Colors.grey, fontSize: 25),
+          child: GestureDetector(
+        onTap: () {
+          // Navigator.push(context,
+          //     MaterialPageRoute(builder: (context) => OtpVerificationScreen()));
+        },
+        child: Text(
+          "Contact Screen",
+          style: TextStyle(color: Colors.grey, fontSize: 25),
+        ),
       )),
     );
   }

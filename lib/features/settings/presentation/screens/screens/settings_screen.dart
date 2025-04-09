@@ -915,6 +915,7 @@ import 'package:order_management_system/features/settings/presentation/screens/s
 import 'package:order_management_system/features/settings/presentation/screens/screens/reset_password_screen.dart';
 import 'package:order_management_system/features/settings/presentation/screens/screens/settings_invoice_screen.dart';
 import 'package:order_management_system/features/settings/presentation/screens/screens/view_avatar_screen.dart';
+import 'package:order_management_system/features/signup/presentation/screens/email_verification_screen.dart';
 import 'package:order_management_system/localization/localization_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
@@ -1224,6 +1225,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         ),
                                         title: Text(
                                           "Address",
+                                          style: TextStyle(
+                                              color: CommonColor.darkGreyColor),
+                                        ),
+                                      ),
+                                      ListTile(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EmailVerificationScreen()));
+                                        },
+                                        leading: Icon(
+                                          Icons.verified_outlined,
+                                          color: CommonColor.primaryColor,
+                                        ),
+                                        title: Text(
+                                          "Verify Email",
                                           style: TextStyle(
                                               color: CommonColor.darkGreyColor),
                                         ),

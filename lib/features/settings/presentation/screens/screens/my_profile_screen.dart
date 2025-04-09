@@ -227,12 +227,13 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                         contactNo,
                                         gender,
                                         address);
-                                    await profileProvider.getProfile();
+                                
                                     if (context.mounted) {
                                       Navigator.pop(context);
                                       Utilities.showCommonSnackBar(context,
                                           "Profile Updated Successully!");
                                     }
+                                        await profileProvider.getProfile();
                                   }
                                 } catch (e) {
                                   if (!context.mounted) {

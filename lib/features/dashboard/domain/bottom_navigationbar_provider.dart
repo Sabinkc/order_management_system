@@ -7,4 +7,9 @@ class BottomNavigationbarProvider extends ChangeNotifier {
     selectedIndex = index;
     notifyListeners();
   }
+
+  resetSelectedIndex(){
+    selectedIndex = 0;
+    notifyListeners();
+  }
 }
