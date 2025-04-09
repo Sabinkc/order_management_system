@@ -34,10 +34,15 @@ class SettingsProvider extends ChangeNotifier {
 
   //provider to hande gender dropdon
 
-String? selectedGender = "select";
+String selectedGender = "N/A";
 
-void switchSelectedGender(String? gender){
+void switchSelectedGender(String gender){
   selectedGender = gender;
+  notifyListeners();
+}
+
+void resetSelectedGender(){
+  selectedGender = profile.gender;
   notifyListeners();
 }
 

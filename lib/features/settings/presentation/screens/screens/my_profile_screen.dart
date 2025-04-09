@@ -16,9 +16,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   final TextEditingController fullnameController = TextEditingController();
   final TextEditingController contactNoController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController genderController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
-  // String gender = "";
+  String gender = "";
 
   @override
   void initState() {
@@ -30,9 +29,10 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       fullnameController.text = settingProvider.profile.name;
       contactNoController.text = settingProvider.profile.phone;
       emailController.text = settingProvider.profile.email;
-      genderController.text = settingProvider.profile.gender;
       addressController.text = settingProvider.profile.address;
+      settingProvider.resetSelectedGender();
       // gender = settingProvider.profile.gender;
+      // settingProvider.selectedGender = gender;
     });
 
     super.initState();
@@ -143,57 +143,38 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         SizedBox(
                           height: screenHeight * 0.008,
                         ),
-                        CommonLocationTextformField(
-                            fillColor: Colors.white,
-                            controller: genderController,
-                            hintText: "Gender"),
-                        // SizedBox(
-                        //   height: screenHeight * 0.008,
-                        // ),
+                        Consumer<SettingsProvider>(
+                            builder: (context, settingsProvider, child) {
+                          return Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 3),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.white),
+                            width: double.infinity,
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                  elevation: 0,
+                                  value: settingsProvider.selectedGender,
+                                  items: [
+                                    DropdownMenuItem(
+                                        value: "N/A",
+                                        child: Text("Gender not set")),
+                                    DropdownMenuItem(
+                                        value: "male", child: Text("Male")),
+                                    DropdownMenuItem(
+                                        value: "female", child: Text("Female")),
+                                    DropdownMenuItem(
+                                        value: "others", child: Text("Others")),
+                                  ],
+                                  onChanged: (value) {
+                                    settingsProvider
+                                        .switchSelectedGender(value!);
+                                  }),
+                            ),
+                          );
+                        }),
                         SizedBox(height: screenHeight * 0.03),
-                        // Padding(
-                        //   padding: EdgeInsets.only(left: 8),
-                        //   child: Text(
-                        //     "Gender",
-                        //     style: TextStyle(
-                        //         fontSize: 15, fontWeight: FontWeight.bold),
-                        //   ),
-                        // ),
-                        // SizedBox(
-                        //   height: screenHeight * 0.008,
-                        // ),
-                        // Consumer<SettingsProvider>(
-                        //     builder: (context, settingsProvider, child) {
-                        //   return Container(
-                        //     padding: EdgeInsets.symmetric(
-                        //         horizontal: 20, vertical: 3),
-                        //     decoration: BoxDecoration(
-                        //         borderRadius: BorderRadius.circular(8),
-                        //         color: Colors.grey[200]),
-                        //     width: double.infinity,
-                        //     child: DropdownButtonHideUnderline(
-                        //       child: DropdownButton(
-                        //           elevation: 0,
-                        //           value: settingsProvider.selectedGender,
-                        //           items: [
-                        //             DropdownMenuItem(
-                        //                 value: "select",
-                        //                 child: Text("Select your gender")),
-                        //             DropdownMenuItem(
-                        //                 value: "male", child: Text("Male")),
-                        //             DropdownMenuItem(
-                        //                 value: "female", child: Text("Female")),
-                        //             DropdownMenuItem(
-                        //                 value: "others", child: Text("Others")),
-                        //           ],
-                        //           onChanged: (value) {
-                        //             settingsProvider
-                        //                 .switchSelectedGender(value);
-                        //           }),
-                        //     ),
-                        //   );
-                        // }),
-                        // SizedBox(height: screenHeight * 0.03),
                         Padding(
                           padding: EdgeInsets.only(left: 8),
                           child: Text(
@@ -216,17 +197,19 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           child: ElevatedButton(
                             onPressed: () async {
                               try {
+                                final settingsProvider =
+                                    Provider.of<SettingsProvider>(context,
+                                        listen: false);
                                 final email = emailController.text.trim();
                                 final fullName = fullnameController.text.trim();
                                 final contactNo =
                                     contactNoController.text.trim();
-                                final gender = genderController.text.trim();
+                                final gender = settingsProvider.selectedGender;
                                 final address = addressController.text.trim();
 
                                 if (email.isEmpty ||
                                     fullName.isEmpty ||
                                     contactNo.isEmpty ||
-                                    gender.isEmpty ||
                                     address.isEmpty) {
                                   Utilities.showCommonSnackBar(
                                       color: Colors.red,
