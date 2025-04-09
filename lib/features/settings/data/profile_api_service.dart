@@ -8,7 +8,6 @@ import 'package:order_management_system/features/settings/data/profile_model.dar
 import 'dart:developer' as logger;
 import 'package:http/http.dart' as http;
 
-
 class ProfileApiService {
   Future<ProfileModel> getMyProfile() async {
     // Retrieve the access token
@@ -46,10 +45,10 @@ class ProfileApiService {
         // Map the JSON data to a ProfileModel object
         ProfileModel profile = ProfileModel(
           name: profileJson["name"] ?? "Unknown",
-          email: profileJson["email"] ?? "N/A",
+          email: profileJson["email"] ?? "Email not set",
           emailVerified: profileJson["emailVerified"] ?? false,
-          phone: profileJson["phone"] ?? "N/A",
-          address: profileJson["address"] ?? "N/A",
+          phone: profileJson["phone"] ?? "",
+          address: profileJson["address"] ?? "",
           avatar: profileJson["avatar"] ?? "",
           gender: profileJson["gender"] ?? "N/A",
           createdAt: profileJson["createdAt"] ?? "N/A",
@@ -67,48 +66,53 @@ class ProfileApiService {
     }
   }
 
-Future<void> updateProfile({
-  required BuildContext context,
-  required ProfileModel currentProfile,
-  String? name,
-  String? email,
-  String? phone,
-  String? gender,
-  String? address,
-}) async {
-  Map<String, dynamic> changedFields = {};
+  Future<void> updateProfile({
+    required BuildContext context,
+    required ProfileModel currentProfile,
+    String? name,
+    String? email,
+    String? phone,
+    String? gender,
+    String? address,
+  }) async {
+    Map<String, dynamic> changedFields = {};
 
-  if (name != null && name != currentProfile.name) changedFields['name'] = name;
-  if (email != null && email != currentProfile.email) changedFields['email'] = email;
-  if (phone != null && phone != currentProfile.phone) changedFields['phone'] = phone;
-  if (gender != null && gender != currentProfile.gender) changedFields['gender'] = gender;
-  if (address != null && address != currentProfile.address) changedFields['address'] = address;
+    if (name != null && name != currentProfile.name){
+      changedFields['name'] = name;}
+    if (email != null && email != currentProfile.email)
+     { changedFields['email'] = email;}
+    if (phone != null && phone != currentProfile.phone)
+      {changedFields['phone'] = phone;}
+    if (gender != null && gender != currentProfile.gender)
+     { changedFields['gender'] = gender;}
+    if (address != null && address != currentProfile.address)
+      {changedFields['address'] = address;}
 
-  if (changedFields.isEmpty) {
-    logger.log("No changes detected. Skipping update.");
-    return;
+    if (changedFields.isEmpty) {
+      logger.log("No changes detected. Skipping update.");
+      return;
+    }
+
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+    if (token == null) throw "User not authenticated. Please login first.";
+
+    final url = Uri.parse(Constants.updateMyProfileUrl);
+    final response = await http.patch(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      },
+      body: json.encode(changedFields),
+    );
+
+    final jsonResponse = json.decode(response.body);
+    if (response.statusCode == 200 && jsonResponse["success"] == true) {
+      logger.log("Profile updated successfully.");
+    } else {
+      throw jsonResponse["message"] ?? "Profile update failed.";
+    }
   }
-
-  String? token = await SharedPrefLoggedinState.getAccessToken();
-  if (token == null) throw "User not authenticated. Please login first.";
-
-  final url = Uri.parse(Constants.updateMyProfileUrl);
-  final response = await http.patch(
-    url,
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $token",
-    },
-    body: json.encode(changedFields),
-  );
-
-  final jsonResponse = json.decode(response.body);
-  if (response.statusCode == 200 && jsonResponse["success"] == true) {
-    logger.log("Profile updated successfully.");
-  } else {
-    throw jsonResponse["message"] ?? "Profile update failed.";
-  }
-}
 
   Future<void> updateProfileAvatar({required File imageFile}) async {
     String? token = await SharedPrefLoggedinState.getAccessToken();
