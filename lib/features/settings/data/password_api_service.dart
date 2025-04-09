@@ -15,38 +15,61 @@ class PasswordApiService {
     var url = Uri.parse(Constants.changePasswordUrl);
 
     try {
-      // Use http.post or http.patch instead of http.Request
-      var response = await http.patch(
-        url,
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Authorization": "Bearer $token",
-        },
-        body: json.encode({
-          "password": newPassword,
-          "oldPassword": oldPassword,
-        }),
-      );
+      final response = await http
+          .patch(
+            url,
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+              "Authorization": "Bearer $token",
+            },
+            body: json.encode({
+              "password": newPassword,
+              "oldPassword": oldPassword,
+            }),
+          )
+          .timeout(const Duration(seconds: 30));
 
       logger.log("Status code: ${response.statusCode}");
       logger.log("Response Body: ${response.body}");
 
-      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      final jsonResponse = json.decode(response.body) as Map<String, dynamic>;
       logger.log("jsonResponse: $jsonResponse");
 
       if (response.statusCode == 200 && jsonResponse["success"] == true) {
-        logger.log("Password changed successfully");
-        return;
-      } else {
-        String errorMessage = jsonResponse["message"]?.toString() ??
-            "Failed to change password. Status code: ${response.statusCode}";
-        logger.log(errorMessage);
-        throw errorMessage;
+        return; // Success case
       }
+
+      // Handle API error responses
+      final errorMessage = _parseErrorMessage(jsonResponse);
+      throw errorMessage;
+    } on FormatException {
+      throw "Invalid server response";
+    } on http.ClientException catch (e) {
+      throw "Network error: ${e.message}";
     } catch (e) {
-      logger.log("Error changing password: $e");
-      throw "$e";
+      logger.log("Unexpected error: $e");
+      rethrow; // Preserve the original error
     }
+  }
+
+  String _parseErrorMessage(Map<String, dynamic> jsonResponse) {
+    final message = jsonResponse["message"];
+
+    if (message == null) return "Unknown error occurred";
+    if (message is String) return message;
+    if (message is Map<String, dynamic>) {
+      final firstError = message.entries.firstWhere(
+        (entry) => entry.value != null,
+        orElse: () => const MapEntry('error', 'Unknown error'),
+      );
+
+      if (firstError.value is List) {
+        return (firstError.value as List).first?.toString() ?? firstError.key;
+      }
+      return firstError.value?.toString() ?? firstError.key;
+    }
+
+    return "Failed to change password";
   }
 }

@@ -101,10 +101,13 @@ class ResetPasswordScreen extends StatelessWidget {
                         await authProvider.login(email, newPassword);
 
                         if (context.mounted) {
-                          Navigator.pop(context);
-                          Utilities.showCommonSnackBar(
+                          await Utilities.showCommonSnackBar(
                               context, "Password changed successfully",
                               icon: Icons.done);
+                          if (!context.mounted) {
+                            return;
+                          }
+                          Navigator.pop(context);
                         }
                       } catch (e) {
                         debugPrint(e.toString());

@@ -974,198 +974,195 @@ class _SettingsScreenState extends State<SettingsScreen> {
           automaticallyImplyLeading: false,
         ),
         body: LayoutBuilder(builder: (context, constraints) {
-          return Consumer<SettingsProvider>(
-              builder: (context, provider, child) {
-            return ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: IntrinsicHeight(
-                child: Stack(children: [
-                  Positioned(
-                    top: screenHeight * 0.09,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      height: double
-                          .infinity, // Ensures it covers the remaining area
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(25),
-                          topRight: Radius.circular(25),
+          return SingleChildScrollView(
+            child:
+                Consumer<SettingsProvider>(builder: (context, provider, child) {
+              return ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Stack(children: [
+                    Positioned(
+                      top: screenHeight * 0.09,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        height: double
+                            .infinity, // Ensures it covers the remaining area
+                        decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(25),
+                            topRight: Radius.circular(25),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 40, right: 40, bottom: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: screenHeight * 0.03,
-                        ),
-                        Center(
-                          child: Consumer<SettingsProvider>(
-                            builder: (context, profileProvider, child) {
-                              return GestureDetector(
-                                  onTap: () {
-                                    if (profileProvider.avatarBytes == null) {
-                                      Utilities.showCommonSnackBar(
-                                          context, "No avatar to view");
-                                    } else {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ViewAvatarScreen()));
-                                    }
-                                  },
-                                  child: Column(children: [
-                                    Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Container(
-                                          height: 100,
-                                          width: 100,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(50),
+                    Padding(
+                      padding: EdgeInsets.only(left: 40, right: 40, bottom: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: screenHeight * 0.03,
+                          ),
+                          Center(
+                            child: Consumer<SettingsProvider>(
+                              builder: (context, profileProvider, child) {
+                                return GestureDetector(
+                                    onTap: () {
+                                      if (profileProvider.avatarBytes == null) {
+                                        Utilities.showCommonSnackBar(
+                                            context, "No avatar to view");
+                                      } else {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewAvatarScreen()));
+                                      }
+                                    },
+                                    child: Column(children: [
+                                      Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          Container(
+                                            height: 100,
+                                            width: 100,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              child: _buildAvatarImage(
+                                                  profileProvider),
+                                            ),
                                           ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                            child: _buildAvatarImage(
-                                                profileProvider),
-                                          ),
-                                        ),
-                                        if (profileProvider
-                                                .isUpdateAvatarLoading ||
-                                            profileProvider.isAvatarLoading)
-                                          Positioned.fill(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.grey[100],
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
+                                          if (profileProvider
+                                                  .isUpdateAvatarLoading ||
+                                              profileProvider.isAvatarLoading)
+                                            Positioned.fill(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey[100],
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
+                                                ),
+                                                child: Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: CommonColor
+                                                        .primaryColor,
+                                                  ),
+                                                ),
                                               ),
-                                              child: Center(
-                                                child:
-                                                    CircularProgressIndicator(
+                                            ),
+                                          Positioned(
+                                            bottom: 0,
+                                            right: 0,
+                                            child: InkWell(
+                                              onTap: () async {
+                                                final picker = ImagePicker();
+
+                                                try {
+                                                  final pickedFile =
+                                                      await picker.pickImage(
+                                                          source: ImageSource
+                                                              .gallery);
+
+                                                  if (pickedFile != null) {
+                                                    // ✅ Crop the image before using it
+                                                    final croppedFile =
+                                                        await ImageCropper()
+                                                            .cropImage(
+                                                      sourcePath:
+                                                          pickedFile.path,
+
+                                                      // cropStyle: CropStyle.circle, // or CropStyle.rectangle
+                                                      aspectRatio:
+                                                          const CropAspectRatio(
+                                                              ratioX: 1,
+                                                              ratioY:
+                                                                  1), // Square aspect
+                                                      uiSettings: [
+                                                        AndroidUiSettings(
+                                                          toolbarTitle:
+                                                              'Crop Image',
+                                                          toolbarColor:
+                                                              Colors.deepOrange,
+                                                          toolbarWidgetColor:
+                                                              Colors.white,
+                                                          lockAspectRatio: true,
+                                                        ),
+                                                        IOSUiSettings(
+                                                          title: 'Crop Image',
+                                                          aspectRatioLockEnabled:
+                                                              true,
+                                                        ),
+                                                      ],
+                                                    );
+
+                                                    if (croppedFile != null) {
+                                                      await profileProvider
+                                                          .updateProfileAvatar(
+                                                              File(croppedFile
+                                                                  .path));
+                                                      await profileProvider
+                                                          .loadProfileAvatar();
+
+                                                      if (!context.mounted) {
+                                                        return;
+                                                      }
+                                                      ;
+                                                      Utilities.showCommonSnackBar(
+                                                          context,
+                                                          "Avatar updated successfully!");
+                                                    }
+                                                  }
+                                                } catch (e) {
+                                                  if (!context.mounted) return;
+                                                  Utilities.showCommonSnackBar(
+                                                      context, "$e");
+                                                }
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.all(8),
+                                                decoration: BoxDecoration(
                                                   color:
                                                       CommonColor.primaryColor,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: Icon(
+                                                  Icons.camera_alt,
+                                                  size: 20,
+                                                  color: Colors.white,
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        Positioned(
-                                          bottom: 0,
-                                          right: 0,
-                                          child: InkWell(
-                                            // onTap: () async {
-                                            //   final picker = ImagePicker();
-                                            //   try {
-                                            //     final pickedFile =
-                                            //         await picker.pickImage(
-                                            //       source: ImageSource.gallery,
-                                            //     );
-                                            //     if (pickedFile != null) {
-                                            //       await profileProvider
-                                            //           .updateProfileAvatar(
-                                            //         File(pickedFile.path),
-                                            //       );
-                                            //       // Optionally reload avatar after update
-                                            //       await profileProvider
-                                            //           .loadProfileAvatar();
-                                            //       if (!context.mounted) {
-                                            //         return;
-                                            //       }
-                                            //       Utilities.showCommonSnackBar(
-                                            //           context,
-                                            //           "Avatar updated successfully!");
-                                            //     }
-                                            //   } catch (e) {
-                                            //     if (!context.mounted) return;
-                                            //     Utilities.showCommonSnackBar(
-                                            //         context, "$e");
-                                            //   }
-                                              
-                                            // },
-                                            onTap: () async {
-  final picker = ImagePicker();
-
-  try {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      // ✅ Crop the image before using it
-      final croppedFile = await ImageCropper().cropImage(
-        sourcePath: pickedFile.path,
-        // cropStyle: CropStyle.circle, // or CropStyle.rectangle
-        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1), // Square aspect
-        uiSettings: [
-          AndroidUiSettings(
-            toolbarTitle: 'Crop Image',
-            toolbarColor: Colors.deepOrange,
-            toolbarWidgetColor: Colors.white,
-            lockAspectRatio: true,
-          ),
-          IOSUiSettings(
-            title: 'Crop Image',
-            aspectRatioLockEnabled: true,
-          ),
-        ],
-      );
-
-      if (croppedFile != null) {
-        await profileProvider.updateProfileAvatar(File(croppedFile.path));
-        await profileProvider.loadProfileAvatar();
-
-        if (!context.mounted) return;
-        Utilities.showCommonSnackBar(context, "Avatar updated successfully!");
-      }
-    }
-  } catch (e) {
-    if (!context.mounted) return;
-    Utilities.showCommonSnackBar(context, "$e");
-  }
-},
-
-                                            child: Container(
-                                              padding: EdgeInsets.all(8),
-                                              decoration: BoxDecoration(
-                                                color: CommonColor.primaryColor,
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: Icon(
-                                                Icons.camera_alt,
-                                                size: 20,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: screenHeight * 0.01),
-                                    Text(provider.profile.name,
-                                        style: TextStyle(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold)),
-                                    Text(provider.profile.email,
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: CommonColor.darkGreyColor)),
-                                  ]));
-                            },
+                                        ],
+                                      ),
+                                      SizedBox(height: screenHeight * 0.01),
+                                      Text(provider.profile.name,
+                                          style: TextStyle(
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.bold)),
+                                      Text(provider.profile.email,
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color:
+                                                  CommonColor.darkGreyColor)),
+                                    ]));
+                              },
+                            ),
                           ),
-                        ),
-                        SizedBox(height: screenHeight * 0.02),
-                        SizedBox(
-                          height: screenHeight * 0.5,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                          SizedBox(height: screenHeight * 0.02),
+                          SizedBox(
+                            height: screenHeight * 0.5,
+                            child: ListView(
+                              // mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Container(
                                   decoration: BoxDecoration(
@@ -1533,15 +1530,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 ),
                               ],
                             ),
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                ]),
-              ),
-            );
-          });
+                  ]),
+                ),
+              );
+            }),
+          );
         }));
   }
 
