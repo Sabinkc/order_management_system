@@ -1756,7 +1756,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircularProgressIndicator(),
+                  CircularProgressIndicator(
+                    color: CommonColor.primaryColor,
+                  ),
                   SizedBox(width: 10),
                   Text(
                     "Logging out",

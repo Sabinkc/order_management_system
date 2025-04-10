@@ -60,10 +60,10 @@ class AllProductWidget extends StatelessWidget {
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: 0.75, crossAxisCount: 2),
-                    itemCount: productProvider.categoryProducts.length,
+                    itemCount: 6,
                     itemBuilder: (context, index) {
                       final productApiService = ProductApiSevice();
-                      final product = productProvider.categoryProducts[index];
+                      final product = productProvider.product[index];
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(

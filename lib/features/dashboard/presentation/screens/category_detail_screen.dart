@@ -301,7 +301,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
-    List categoryImages = [
+    List subCategoryImages = [
       "assets/images/electronic_c.png",
       "assets/images/clothing_c.png",
       "assets/images/furniture_c.png",
@@ -311,6 +311,17 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
       "assets/images/toys_c.png",
       "assets/images/sports_c.png",
       "assets/images/automobile_c.png"
+    ];
+    List subCategoryName = [
+      "Cat A",
+      "Cat B",
+      "Cat C",
+      "Cat D",
+      "Cat E",
+      "Cat D",
+      "Cat E",
+      "Cat F",
+      "Cat G"
     ];
     return Scaffold(
         backgroundColor: Colors.grey[100],
@@ -345,6 +356,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
           ],
           leading: IconButton(
               onPressed: () {
+                // await productProvider.getAllProduct();
                 Navigator.pop(context);
               },
               icon: Icon(
@@ -404,7 +416,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                     child: ClipRRect(
                                         borderRadius: BorderRadius.circular(8),
                                         child: Image.asset(
-                                          categoryImages[index],
+                                          subCategoryImages[index],
                                           fit: BoxFit.cover,
                                         )),
                                   ),
@@ -413,7 +425,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                               height: 4,
                             ),
                             Text(
-                              "Sub Cat..",
+                              subCategoryName[index],
                               maxLines: 1,
                               style: TextStyle(
                                   fontSize: 12,
@@ -426,8 +438,13 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                       }),
                 ),
               ),
-              SizedBox(
-                height: 20,
+              // SizedBox(
+              //   height: 20,
+              // ),
+              Divider(
+                color: Colors.grey[300],
+                thickness: 1,
+                height: 40,
               ),
               Expanded(
                 child: productProvider.isCategoryProductLoading
