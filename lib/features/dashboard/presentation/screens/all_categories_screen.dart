@@ -75,14 +75,18 @@ class AllCategoriesScreen extends StatelessWidget {
                                                 .productCategoryWithoutAll[
                                                     index]
                                                 .name,
+                                            index: productProvider
+                                                .productCategoryWithoutAll[
+                                                    index]
+                                                .id,
                                           )));
                             },
                             child: Padding(
                               padding: EdgeInsets.all(5),
                               child: Container(
                                 // height: 90,
-                                height: 70,
-                                width: 80,
+                                height: 80,
+                                width: 90,
                                 decoration: BoxDecoration(
                                   boxShadow: [
                                     BoxShadow(

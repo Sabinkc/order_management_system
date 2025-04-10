@@ -92,6 +92,7 @@ class CategoryRowDashboard extends StatelessWidget {
                                                           .productCategoryWithoutAll[
                                                               index]
                                                           .name,
+                                                          index: productProvider.productCategoryWithoutAll[index].id,
                                                     )));
                                       },
                                       child: Padding(
