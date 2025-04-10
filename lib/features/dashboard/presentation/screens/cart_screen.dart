@@ -64,8 +64,8 @@ class CartScreen extends StatelessWidget {
                   ))
               : Padding(
                   padding: EdgeInsets.only(
-                      // top: 50,
-                      ),
+                    top: 10,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

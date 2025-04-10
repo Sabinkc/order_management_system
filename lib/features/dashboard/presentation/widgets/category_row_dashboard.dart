@@ -11,6 +11,18 @@ class CategoryRowDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final screenHeight = MediaQuery.of(context).size.height;
+
+    List categoryImages = [
+      "assets/images/electronic_c.png",
+      "assets/images/clothing_c.png",
+      "assets/images/furniture_c.png",
+      "assets/images/grocery_c.png",
+      "assets/images/stationary_c.png",
+      "assets/images/books_c.png",
+      "assets/images/toys_c.png",
+      "assets/images/sports_c.png",
+      "assets/images/automobile_c.png"
+    ];
     return Padding(
       padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
       child: Column(
@@ -119,7 +131,7 @@ class CategoryRowDashboard extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                               child: Image.asset(
-                                                "assets/images/food.png",
+                                                categoryImages[index],
                                                 fit: BoxFit.cover,
                                               )),
                                         ),

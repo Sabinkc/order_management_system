@@ -170,6 +170,7 @@ class CheckoutWidget extends StatelessWidget {
     orderHistoryProvider.addOrder(cartItemsCopy);
 
     List cartItems = cartQuantityProvider.cartItems;
+    logger.log("cartItmes: $cartItems");
     List<Map<String, dynamic>> orders = [];
     for (CartModel item in cartItems) {
       orders.add({

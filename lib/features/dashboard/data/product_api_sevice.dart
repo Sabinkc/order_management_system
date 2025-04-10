@@ -535,7 +535,7 @@ class ProductApiSevice {
       logger.log(jsonResponse.toString());
       return jsonResponse;
     } else {
-      String errorMessage = jsonResponse["message"]["product"][0];
+      String errorMessage = jsonResponse["message"].toString();
       logger.log(errorMessage);
       throw errorMessage;
     }

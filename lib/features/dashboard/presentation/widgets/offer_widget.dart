@@ -1,25 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/features/dashboard/data/offers_model.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/all_offers_screen.dart';
 
 class OfferWidget extends StatelessWidget {
-  OfferWidget({super.key});
-
-  final List<Map> offersList = [
-    {
-      "offerTitle": "20% off on every wearing products!",
-      "image": "assets/images/tshirt.jpeg"
-    },
-    {
-      "offerTitle": "50% off on every electronic products!",
-      "image": "assets/images/laptopcharger.jpeg"
-    },
-    {
-      "offerTitle": "10% off on every sport products!",
-      "image": "assets/images/sport.jpeg"
-    },
-  ];
+  const OfferWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +78,7 @@ class OfferWidget extends StatelessWidget {
                                       topLeft: Radius.circular(8),
                                       topRight: Radius.circular(8)),
                                   child: Image.asset(
-                                    "assets/images/book.jpeg",
+                                    OffersModel.offers[index]["image"],
                                     fit: BoxFit.cover,
                                     errorBuilder:
                                         (context, error, stackTrace) =>
@@ -110,7 +96,7 @@ class OfferWidget extends StatelessWidget {
                                     Text(
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
-                                      "Book",
+                                      OffersModel.offers[index]["product"],
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -119,7 +105,7 @@ class OfferWidget extends StatelessWidget {
                                     ),
                                     Expanded(
                                       child: Text(
-                                        "Stationary",
+                                        OffersModel.offers[index]["category"],
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                         style: TextStyle(
@@ -144,7 +130,7 @@ class OfferWidget extends StatelessWidget {
                                       width: 120,
                                       child: Row(children: [
                                         Text(
-                                          "Rs.500",
+                                          OffersModel.offers[index]["price"],
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
@@ -155,14 +141,17 @@ class OfferWidget extends StatelessWidget {
                                         SizedBox(
                                           width: 8,
                                         ),
-                                        Text(
-                                          "10% Off",
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.red,
-                                              fontWeight: FontWeight.bold),
+                                        Expanded(
+                                          child: Text(
+                                            OffersModel.offers[index]
+                                                ["discount"],
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                         ),
                                       ]),
                                     ),
