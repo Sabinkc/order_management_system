@@ -20,9 +20,13 @@ class LandingScreen extends StatefulWidget {
 class _LandingScreenState extends State<LandingScreen> {
   @override
   void initState() {
-    final bottomNavBarProvider =
-        Provider.of<BottomNavigationbarProvider>(context, listen: false);
-    bottomNavBarProvider.resetSelectedIndex();
+    Future.delayed(Duration.zero, () async {
+      if (!mounted) return;
+      final bottomNavBarProvider =
+          Provider.of<BottomNavigationbarProvider>(context, listen: false);
+      bottomNavBarProvider.resetSelectedIndex();
+    });
+
     super.initState();
   }
 

@@ -1,5 +1,5 @@
 class ProductDetails {
-  final int id;
+  // final int id;
   final String name;
   final String description;
   final String categoryName;
@@ -11,7 +11,7 @@ class ProductDetails {
   final String sku;
 
   ProductDetails({
-    required this.id,
+    // required this.id,
     required this.name,
     required this.description,
     required this.categoryName,
@@ -25,7 +25,7 @@ class ProductDetails {
 
   @override
   String toString() {
-    return 'ProductDetails{id: $id, name: $name, description: $description, categoryName: $categoryName, stockQuantity: $stockQuantity, price: $price, isAvailable: $isAvailable, imageUrl: $imageUrl, sku: $sku}';
+    return 'ProductDetails{ name: $name, description: $description, categoryName: $categoryName, stockQuantity: $stockQuantity, price: $price, isAvailable: $isAvailable, imageUrl: $imageUrl, sku: $sku}';
   }
 }
 

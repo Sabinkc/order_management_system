@@ -63,6 +63,70 @@ class ProductApiSevice {
   }
 
 //get all products
+  // Future<List<ProductDetails>> getAllProducts() async {
+  //   // Get the saved token from SharedPreferences
+  //   String? token = await SharedPrefLoggedinState.getAccessToken();
+
+  //   // If no token is found, return an error
+  //   if (token == null) {
+  //     throw Exception("User not authenticated. Please log in first.");
+  //   }
+
+  //   // Headers with Authorization token
+  //   var headers = {
+  //     'Accept': 'application/json',
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'Bearer $token', // Adding token in the header
+  //   };
+
+  //   // Constructing the URL to fetch all products
+  //   var url = Uri.parse("${Constants.baseUrl}/v1/products");
+
+  //   var request = http.Request('GET', url);
+  //   request.headers.addAll(headers);
+
+  //   try {
+  //     http.StreamedResponse response = await request.send();
+  //     String responseBody = await response.stream.bytesToString();
+
+  //     // logger.log("Response Status Code: ${response.statusCode}");
+  //     // logger.log("Response Body: $responseBody");
+
+  //     Map<String, dynamic> jsonResponse = json.decode(responseBody);
+  //     logger.log("jsonResponse: $jsonResponse");
+
+  //     if (response.statusCode == 200 && jsonResponse["success"]) {
+  //       List<dynamic> productJson = jsonResponse["data"];
+  //       List<ProductDetails> products = [];
+
+  //       for (var product in productJson) {
+  //         // Accessing the first element in the unitTypes list
+  //         var unitType = product["unitTypes"][0];
+
+  //         products.add(ProductDetails(
+  //           id: product["id"],
+  //           name: product["name"],
+  //           description: product["description"],
+  //           categoryName: product["category"]["name"],
+  //           stockQuantity: unitType[
+  //               "stockQuantity"], // Accessing stockQuantity from unitTypes[0]
+  //           price: double.parse(unitType["price"]), // Parsing price as a double
+  //           isAvailable: unitType["isAvailable"],
+  //           imageUrl: unitType["images"][0],
+  //           sku: unitType["sku"],
+  //         ));
+  //       }
+  //       // logger.log("products: $products");
+  //       return products;
+  //     } else {
+  //       throw Exception(jsonResponse['message'] ?? 'Failed to fetch products');
+  //     }
+  //   } catch (e) {
+  //     logger.log("Get Products Error: $e");
+  //     throw Exception('Failed to fetch products');
+  //   }
+  // }
+
   Future<List<ProductDetails>> getAllProducts() async {
     // Get the saved token from SharedPreferences
     String? token = await SharedPrefLoggedinState.getAccessToken();
@@ -89,7 +153,7 @@ class ProductApiSevice {
       http.StreamedResponse response = await request.send();
       String responseBody = await response.stream.bytesToString();
 
-      // logger.log("Response Status Code: ${response.statusCode}");
+      logger.log("Response Status Code: ${response.statusCode}");
       // logger.log("Response Body: $responseBody");
 
       Map<String, dynamic> jsonResponse = json.decode(responseBody);
@@ -101,22 +165,22 @@ class ProductApiSevice {
 
         for (var product in productJson) {
           // Accessing the first element in the unitTypes list
-          var unitType = product["unitTypes"][0];
+          // var unitType = product["unitTypes"][0];
 
           products.add(ProductDetails(
-            id: product["id"],
             name: product["name"],
             description: product["description"],
             categoryName: product["category"]["name"],
-            stockQuantity: unitType[
-                "stockQuantity"], // Accessing stockQuantity from unitTypes[0]
-            price: double.parse(unitType["price"]), // Parsing price as a double
-            isAvailable: unitType["isAvailable"],
-            imageUrl: unitType["images"][0],
-            sku: unitType["sku"],
+            stockQuantity: product[
+                "unitStock"], // Accessing stockQuantity from unitTypes[0]
+            price:
+                double.parse(product["unitPrice"]), // Parsing price as a double
+            isAvailable: product["isAvailable"],
+            imageUrl: product["unitImages"][0],
+            sku: product["sku"],
           ));
         }
-        // logger.log("products: $products");
+        logger.log("products: $products");
         return products;
       } else {
         throw Exception(jsonResponse['message'] ?? 'Failed to fetch products');
@@ -204,20 +268,21 @@ class ProductApiSevice {
 
         for (var product in productJson) {
           // Accessing the first element in the unitTypes list
-          var unitType = product["unitTypes"][0];
+          // var unitType = product["unitTypes"][0];
 
           products.add(ProductDetails(
-            id: product["id"],
+            // id: product["id"],
             name: product["name"],
             description: product["description"],
             categoryName: product["category"]["name"],
-            stockQuantity: unitType[
-                "stockQuantity"], // Accessing stockQuantity from unitTypes[0]
-            price: double.parse(unitType["price"]), // Parsing price as a double
-            isAvailable: unitType["isAvailable"],
-            imageUrl: unitType["images"]
+            stockQuantity: product[
+                "unitStock"], // Accessing stockQuantity from unitTypes[0]
+            price:
+                double.parse(product["unitPrice"]), // Parsing price as a double
+            isAvailable: product["isAvailable"],
+            imageUrl: product["unitImages"]
                 [0], // Accessing isAvailable from unitTypes[0]
-            sku: unitType["sku"],
+            sku: product["sku"],
           ));
         }
         logger.log("products: $products");
