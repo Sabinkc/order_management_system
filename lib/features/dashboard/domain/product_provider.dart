@@ -35,7 +35,7 @@ class ProductProvider extends ChangeNotifier {
     final response = await _service.getProductCategories();
     productCategoryWithoutAll = response;
     isCategoryWithoutallLoading = false;
-    logger.log(productCategoryWithoutAll.toString());
+    // logger.log(productCategoryWithoutAll.toString());
     notifyListeners();
   }
 

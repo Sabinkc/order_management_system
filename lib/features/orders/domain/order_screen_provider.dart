@@ -48,19 +48,26 @@ class OrderScreenProvider extends ChangeNotifier {
   DateTime? _endDate;
 
   final ProductApiSevice _service = ProductApiSevice(); // Your API service
-
+  bool getAllOrderFail = false;
   // Fetch all orders from the API
   Future<void> getAllOrder() async {
     isGetAllOrderLoading = true;
     notifyListeners();
-    final response = await _service.getAllMyOrders();
-    allOrders = response;
-    logger.log("All orders: $allOrders");
-    isGetAllOrderLoading = false;
-    notifyListeners();
+    try {
+      final response = await _service.getAllMyOrders();
+      allOrders = response;
+      logger.log("All orders: $allOrders");
+    } catch (e) {
+      logger.log("$e");
+      getAllOrderFail = true;
+      notifyListeners();
+    } finally {
+      isGetAllOrderLoading = false;
+      notifyListeners();
+    }
   }
 
-      final TextEditingController searchController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
 
   String _searchKeyword = ""; // Store the search keyword
 
@@ -74,9 +81,9 @@ class OrderScreenProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clearSearchKeyword(){
-    _searchKeyword="";
-     notifyListeners();
+  void clearSearchKeyword() {
+    _searchKeyword = "";
+    notifyListeners();
     // logger.log("search keyword after clearing: $_searchKeyword");
     searchController.clear();
     notifyListeners();

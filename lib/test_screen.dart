@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
+import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -14,12 +16,13 @@ class TestScreen extends StatelessWidget {
         children: [
           ElevatedButton(
               onPressed: () async {
-
-                final settingProvider =
-                    Provider.of<SettingsProvider>(context, listen: false);
-                // settingProvider.updatProfile("sabin", "sabinkc1206@gmail.com",
-                //     "9812060688", "male", "Ilam");
-                settingProvider.changePassword("oldpassword", "newpassword");
+                // final orderProvider =
+                //     Provider.of<OrderScreenProvider>(context, listen: false);
+                // orderProvider.getAllOrder();
+                final productProvider =
+                    Provider.of<ProductProvider>(context, listen: false);
+                productProvider.getProductCategoriesWithoutAll();
+                productProvider.getAllProduct();
               },
               child: Text("Press")),
           Center(child: Text("Test Screen")),

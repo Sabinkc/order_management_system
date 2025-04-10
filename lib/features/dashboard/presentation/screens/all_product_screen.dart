@@ -9,8 +9,26 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:developer' as logger;
 
-class AllProductScreen extends StatelessWidget {
+class AllProductScreen extends StatefulWidget {
   const AllProductScreen({super.key});
+
+  @override
+  State<AllProductScreen> createState() => _AllProductScreenState();
+}
+
+class _AllProductScreenState extends State<AllProductScreen> {
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      if (!mounted) {
+        return;
+      }
+      final productProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      await productProvider.getAllProduct();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,21 +66,23 @@ class AllProductScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Consumer<ProductProvider>(
             builder: (context, productProvider, children) {
-          return productProvider.isCategoryProductLoading == true
+          return productProvider.isProductLoading == true
               ? Padding(
                   padding: EdgeInsets.only(top: 20),
-                  child: CircularProgressIndicator(
-                    color: CommonColor.primaryColor,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: CommonColor.primaryColor,
+                    ),
                   ))
               : GridView.builder(
                   // shrinkWrap: true,
                   // physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       childAspectRatio: 0.75, crossAxisCount: 2),
-                  itemCount: productProvider.categoryProducts.length,
+                  itemCount: productProvider.product.length,
                   itemBuilder: (context, index) {
                     final productApiService = ProductApiSevice();
-                    final product = productProvider.categoryProducts[index];
+                    final product = productProvider.product[index];
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
