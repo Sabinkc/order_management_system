@@ -71,34 +71,32 @@ class _OrderHistoryScreenState extends State<MyOrderHistoryScreen> {
               );
             }
 
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  // SizedBox(
-                  //   height: screenHeight * 0.01,
-                  // ),
-                  // Padding(
-                  //   padding: EdgeInsets.symmetric(horizontal: 20),
-                  //   child: Text(
-                  //     "My Orders",
-                  //     style:
-                  //         TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  //   ),
-                  // ),
-                  SizedBox(
-                    height: screenHeight * 0.02,
-                  ),
-                  OrderHistoryTopCard(),
-                  Consumer<SwitchOrderScreenProvider>(
-                      builder: (context, provider, child) {
-                    return provider.selectedIndex == 0
-                        ? OrderHistoryTrackorderWidget()
-                        : OrderHistoryInvoiceWidget();
-                  })
-                ],
-              ),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // SizedBox(
+                //   height: screenHeight * 0.01,
+                // ),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(horizontal: 20),
+                //   child: Text(
+                //     "My Orders",
+                //     style:
+                //         TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                //   ),
+                // ),
+                SizedBox(
+                  height: screenHeight * 0.02,
+                ),
+                OrderHistoryTopCard(),
+                Consumer<SwitchOrderScreenProvider>(
+                    builder: (context, provider, child) {
+                  return provider.selectedIndex == 0
+                      ? OrderHistoryTrackorderWidget()
+                      : OrderHistoryInvoiceWidget();
+                })
+              ],
             );
           },
         ),

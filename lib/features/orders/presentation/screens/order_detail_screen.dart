@@ -31,9 +31,9 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
     return Consumer<OrderScreenProvider>(
         builder: (context, orderScreenProvider, child) {
       return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: CommonColor.scaffoldbackgroundColor,
           appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: CommonColor.primaryColor,
             leading: IconButton(
                 onPressed: () {
                   Provider.of<OrderScreenProvider>(context, listen: false)
@@ -41,16 +41,16 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                 },
                 icon: Icon(
                   Icons.arrow_back_ios,
-                  color: CommonColor.primaryColor,
+                  color: Colors.white,
                   size: 20,
                 )),
             title: RichText(
                 text: TextSpan(children: [
               TextSpan(
-                text: "OrderDetails",
+                text: "Order Details",
                 style: TextStyle(
                     fontSize: 22,
-                    color: Colors.black,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold),
               ),
             ])),
@@ -77,7 +77,14 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: screenHeight * 0.01,
+                    height: screenHeight * 0.005,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Divider(
+                      color: CommonColor.commonGreyColor,
+                      thickness: 2,
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
@@ -109,81 +116,88 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: order.products.map<Widget>((item) {
                                   return Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 10),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.symmetric(vertical: 5),
-                                          child: Container(
-                                            height: 90,
-                                            width: 70,
-                                            decoration: BoxDecoration(
-                                                color: Colors.grey[100],
-                                                borderRadius:
-                                                    BorderRadius.circular(8)),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              child: Image.network(
-                                                "${Constants.imageStorageBaseUrl}/${item.imagePath}",
-                                                fit: BoxFit.cover,
-                                                errorBuilder: (context, error,
-                                                        stackTrace) =>
-                                                    Icon(Icons.broken_image),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 10),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 10),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        child: Row(
                                           children: [
-                                            SizedBox(
-                                              width: 220,
-                                              child: Text(
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                item.name,
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
+                                            Container(
+                                              height: 90,
+                                              width: 70,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey[100],
+                                                  borderRadius:
+                                                      BorderRadius.circular(8)),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                child: Image.network(
+                                                  "${Constants.imageStorageBaseUrl}/${item.imagePath}",
+                                                  fit: BoxFit.cover,
+                                                  errorBuilder: (context, error,
+                                                          stackTrace) =>
+                                                      Icon(Icons.broken_image),
                                                 ),
                                               ),
                                             ),
-                                            Text(
-                                              "${item.category} | Qty: ${item.quantity}",
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: CommonColor
-                                                      .mediumGreyColor),
+                                            SizedBox(width: 15),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  width: 220,
+                                                  child: Text(
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    item.name,
+                                                    style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${item.category} | Qty: ${item.quantity}",
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: CommonColor
+                                                          .mediumGreyColor),
+                                                ),
+                                                RichText(
+                                                    text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: "Rs.",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: CommonColor
+                                                            .primaryColor),
+                                                  ),
+                                                  TextSpan(
+                                                    text:
+                                                        "${item.price * item.quantity}",
+                                                    style: TextStyle(
+                                                        fontSize: 21,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: CommonColor
+                                                            .primaryColor),
+                                                  ),
+                                                ])),
+                                              ],
                                             ),
-                                            RichText(
-                                                text: TextSpan(children: [
-                                              TextSpan(
-                                                text: "Rs.",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: CommonColor
-                                                        .primaryColor),
-                                              ),
-                                              TextSpan(
-                                                text:
-                                                    "${item.price * item.quantity}",
-                                                style: TextStyle(
-                                                    fontSize: 21,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: CommonColor
-                                                        .primaryColor),
-                                              ),
-                                            ])),
                                           ],
                                         ),
-                                      ],
-                                    ),
-                                  );
+                                      ));
                                 }).toList(),
                               ),
                             ],
@@ -193,8 +207,12 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Divider(),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 10),
+                    child: Divider(
+                      color: CommonColor.commonGreyColor,
+                      thickness: 2,
+                    ),
                   ),
                   // Spacer(),
                   Padding(

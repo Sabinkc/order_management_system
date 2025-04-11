@@ -16,7 +16,7 @@ class OrdersWidgetDashboard extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: SizedBox(
-        height: screenHeight * 0.46,
+        height: screenHeight * 0.45,
         child:
             Consumer<CartQuantityProvider>(builder: (context, provider, child) {
           return ListView.builder(
@@ -26,14 +26,14 @@ class OrdersWidgetDashboard extends StatelessWidget {
                 logger.log(
                     "imageUrl: ${Constants.imageStorageBaseUrl}/${item.imagePath}");
                 return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 5),
+                  padding: EdgeInsets.symmetric(vertical: 8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5),
                         child: Container(
-                          height: screenHeight * 0.15,
+                          height: 110,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(8),
@@ -46,8 +46,8 @@ class OrdersWidgetDashboard extends StatelessWidget {
                                   color: Colors.grey[100],
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                height: 150,
-                                width: 100,
+                                height: 130,
+                                width: 90,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
                                   child: Image.network(
@@ -58,6 +58,9 @@ class OrdersWidgetDashboard extends StatelessWidget {
                                             Icon(Icons.broken_image),
                                   ),
                                 ),
+                              ),
+                              SizedBox(
+                                width: 5,
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 15),
@@ -105,6 +108,9 @@ class OrdersWidgetDashboard extends StatelessWidget {
                                                 fontWeight: FontWeight.bold),
                                           )
                                         ],
+                                      ),
+                                      SizedBox(
+                                        height: 3,
                                       ),
                                       Row(
                                         children: [

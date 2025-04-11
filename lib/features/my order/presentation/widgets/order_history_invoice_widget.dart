@@ -18,12 +18,19 @@ class OrderHistoryInvoiceWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: screenHeight * 0.02,
+              height: screenHeight * 0.01,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Divider(
+                color: CommonColor.commonGreyColor,
+                thickness: 2,
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: SizedBox(
-                height: 240,
+                height: 220,
                 child: ListView.builder(
                   itemCount: 1,
                   itemBuilder: (context, orderIndex) {
@@ -35,16 +42,19 @@ class OrderHistoryInvoiceWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: firstOrder.products.map<Widget>((item) {
                             return Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 5),
-                                    child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 10),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Row(
+                                  children: [
+                                    Container(
                                       height: 90,
                                       width: 70,
                                       decoration: BoxDecoration(
-                                          color: Colors.grey[100],
+                                          color: Colors.white,
                                           borderRadius:
                                               BorderRadius.circular(8)),
                                       child: ClipRRect(
@@ -58,50 +68,54 @@ class OrderHistoryInvoiceWidget extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: 220,
-                                        child: Text(
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          item.name,
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
+                                    SizedBox(width: 20),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: 220,
+                                          child: Text(
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            item.name,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Text(
-                                        "${item.category} | Qty: ${item.quantity}",
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                            color: CommonColor.mediumGreyColor),
-                                      ),
-                                      RichText(
-                                          text: TextSpan(children: [
-                                        TextSpan(
-                                          text: "Rs.",
+                                        Text(
+                                          "${item.category} | Qty: ${item.quantity}",
                                           style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: CommonColor.primaryColor),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              color:
+                                                  CommonColor.mediumGreyColor),
                                         ),
-                                        TextSpan(
-                                          text: "${item.price * item.quantity}",
-                                          style: TextStyle(
-                                              fontSize: 21,
-                                              fontWeight: FontWeight.bold,
-                                              color: CommonColor.primaryColor),
-                                        ),
-                                      ])),
-                                    ],
-                                  ),
-                                ],
+                                        RichText(
+                                            text: TextSpan(children: [
+                                          TextSpan(
+                                            text: "Rs.",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color:
+                                                    CommonColor.primaryColor),
+                                          ),
+                                          TextSpan(
+                                            text:
+                                                "${item.price * item.quantity}",
+                                            style: TextStyle(
+                                                fontSize: 21,
+                                                fontWeight: FontWeight.bold,
+                                                color:
+                                                    CommonColor.primaryColor),
+                                          ),
+                                        ])),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           }).toList(),
@@ -113,9 +127,16 @@ class OrderHistoryInvoiceWidget extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Divider(),
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Divider(
+                  color: CommonColor.commonGreyColor,
+                  thickness: 2,
+                ),
+              ),
             ),
+            // Spacer(),
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
@@ -123,7 +144,7 @@ class OrderHistoryInvoiceWidget extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 )),
             SizedBox(
-              height: screenHeight * 0.02,
+              height: screenHeight * 0.015,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -188,6 +209,7 @@ class OrderHistoryInvoiceWidget extends StatelessWidget {
                       )
                     ],
                   ),
+                  // Spacer(),
                 ],
               ),
             )

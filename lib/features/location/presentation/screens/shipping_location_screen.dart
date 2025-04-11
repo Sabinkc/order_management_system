@@ -112,19 +112,21 @@ class _ShippingLocationScreenState extends State<ShippingLocationScreen> {
                 builder: (context, locationProvider, child) {
               if (locationProvider.locations.isEmpty) {
                 return Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset("assets/images/address.png"),
-                    Text(
-                      "Address not added yet!",
-                      style: TextStyle(
-                        color: CommonColor.darkGreyColor,
-                        // fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                      ),
-                    )
-                  ],
+                    child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset("assets/images/address.png"),
+                      Text(
+                        "Address not added yet!",
+                        style: TextStyle(
+                          color: CommonColor.darkGreyColor,
+                          // fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                        ),
+                      )
+                    ],
+                  ),
                 ));
               } else if (locationProvider.isGeAllLocationLoading == true) {
                 return CircularProgressIndicator(

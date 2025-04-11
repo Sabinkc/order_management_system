@@ -213,7 +213,10 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                           ),
                         ),
                       ),
-                      const Divider(),
+                      Divider(
+                        color: CommonColor.commonGreyColor,
+                        thickness: 2,
+                      ),
                       Expanded(
                         child: Consumer<OrderScreenProvider>(
                           builder: (context, searchProvider, child) {
@@ -454,13 +457,13 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                           DropdownMenuItem(
                               value: "all_status", child: Text("All")),
                           DropdownMenuItem(
-                              value: "confirmed", child: Text("Confirmed")),
-                          DropdownMenuItem(
                               value: "pending", child: Text("Pending")),
                           DropdownMenuItem(
-                              value: "cancelled", child: Text("Cancelled")),
+                              value: "confirmed", child: Text("Confirmed")),
                           DropdownMenuItem(
-                              value: "refunded", child: Text("Refunded")),
+                              value: "shipped", child: Text("Shipped")),
+                          DropdownMenuItem(
+                              value: "delivered", child: Text("Delivered")),
                         ],
                         onChanged: (value) {
                           simpleUiProvider.switchSelectedStatus(value!);

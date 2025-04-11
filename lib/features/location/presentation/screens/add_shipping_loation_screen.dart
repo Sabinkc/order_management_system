@@ -162,11 +162,14 @@ class AddShippingLoationScreen extends StatelessWidget {
 
                             if (context.mounted) {
                               Navigator.pop(context);
+                              await locationProvider.getAllLocation();
+                              if (!context.mounted) {
+                                return;
+                              }
                               Utilities.showCommonSnackBar(
                                   context, "Address added successfully",
                                   icon: Icons.done);
                             }
-                            await locationProvider.getAllLocation();
 
                             // if (context.mounted) {
                             //   Utilities.showCommonSnackBar(

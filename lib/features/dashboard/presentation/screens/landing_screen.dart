@@ -54,7 +54,7 @@ class _LandingScreenState extends State<LandingScreen> {
               height: 85,
               child: BottomNavigationBar(
                 type: BottomNavigationBarType.fixed,
-
+                elevation: 1,
                 backgroundColor: Colors.grey[100],
                 onTap: (index) {
                   Provider.of<BottomNavigationbarProvider>(context,

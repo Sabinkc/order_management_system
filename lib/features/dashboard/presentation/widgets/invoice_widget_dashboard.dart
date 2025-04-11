@@ -11,7 +11,7 @@ class InvoiceWidgetDashboard extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
-        spacing: 15,
+        spacing: 13,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

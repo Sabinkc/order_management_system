@@ -536,9 +536,15 @@ class ProductApiSevice {
       logger.log(jsonResponse.toString());
       return jsonResponse;
     } else {
-      String errorMessage = jsonResponse["message"].toString();
-      logger.log(errorMessage);
-      throw errorMessage;
+      if (jsonResponse["message"] is String) {
+        String errorMessage = jsonResponse["message"];
+        logger.log(errorMessage);
+        throw errorMessage;
+      } else {
+        String errorMessage = jsonResponse["message"]["stock"][0].toString();
+        logger.log(errorMessage);
+        throw errorMessage;
+      }
     }
   }
 

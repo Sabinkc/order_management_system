@@ -21,7 +21,7 @@ class CartScreen extends StatelessWidget {
           text: const TextSpan(
             children: [
               TextSpan(
-                text: "My Cart",
+                text: "Cart",
                 style: TextStyle(
                   fontSize: 22,
                   color: Colors.white,
@@ -77,16 +77,32 @@ class CartScreen extends StatelessWidget {
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           )),
                       SizedBox(
-                        height: screenWidth * 0.002,
+                        height: screenWidth * 0.009,
                       ),
-                      Divider(),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Divider(
+                          color: CommonColor.commonGreyColor,
+                          thickness: 2,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
                       OrdersWidgetDashboard(),
                       SizedBox(
                         height: 5,
                       ),
-                      Divider(),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Divider(
+                          color: CommonColor.commonGreyColor,
+                          thickness: 2,
+                        ),
+                      ),
+
                       SizedBox(
-                        height: screenHeight * 0.005,
+                        height: screenHeight * 0.009,
                       ),
                       Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -96,13 +112,20 @@ class CartScreen extends StatelessWidget {
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           )),
                       SizedBox(
-                        height: screenHeight * 0.01,
+                        height: screenHeight * 0.015,
                       ),
                       InvoiceWidgetDashboard(),
                       SizedBox(
-                        height: screenHeight * 0.005,
+                        height: screenHeight * 0.009,
                       ),
-                      Divider(),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Divider(
+                          color: CommonColor.commonGreyColor,
+                          thickness: 2,
+                        ),
+                      ),
+
                       SizedBox(
                         height: screenHeight * 0.01,
                       ),

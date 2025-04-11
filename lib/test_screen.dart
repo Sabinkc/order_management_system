@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
-import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
-import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
 
 class TestScreen extends StatelessWidget {

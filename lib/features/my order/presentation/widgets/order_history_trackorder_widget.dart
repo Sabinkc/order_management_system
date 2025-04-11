@@ -282,7 +282,7 @@ class OrderHistoryTrackorderWidget extends StatelessWidget {
         }
 
         final firstOrder = orderProvider.allOrders[0];
-        final currentStatus = firstOrder.status?.toLowerCase() ?? 'pending';
+        final currentStatus = firstOrder.status.toLowerCase();
         logger.log("Current order status: $currentStatus");
 
         // Generate steps with proper active state based on current status
@@ -308,10 +308,11 @@ class OrderHistoryTrackorderWidget extends StatelessWidget {
                   color: CommonColor.darkGreyColor,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 5),
               SizedBox(
-                height: screenHeight * 0.4,
+                height: screenHeight * 0.38,
                 child: ListView.builder(
+                  shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
                   itemCount: steps.length,
                   itemBuilder: (context, index) {
