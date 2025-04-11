@@ -88,7 +88,7 @@ class _OrderHistoryScreenState extends State<MyOrderHistoryScreen> {
                   //   ),
                   // ),
                   SizedBox(
-                    height: screenHeight * 0.01,
+                    height: screenHeight * 0.02,
                   ),
                   OrderHistoryTopCard(),
                   Consumer<SwitchOrderScreenProvider>(

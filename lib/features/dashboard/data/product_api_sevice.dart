@@ -501,6 +501,7 @@ class ProductApiSevice {
   Future<Map<String, dynamic>> createOrders(
       List<Map<String, dynamic>> orders) async {
     String? token = await SharedPrefLoggedinState.getAccessToken();
+    logger.log("orders: ${orders.toString()}");
 
     if (token == null) {
       String tokenErorMessage = "User not authenticated. Please login first.";
@@ -519,7 +520,7 @@ class ProductApiSevice {
 
     // Pass the list of orders in the request body
     request.body = json.encode({
-      "orders": orders, // Use the passed orders list here
+      "products": orders, // Use the passed orders list here
     });
 
     request.headers.addAll(headers);
@@ -601,6 +602,75 @@ class ProductApiSevice {
   //   }
   // }
 
+  // Future<List<InvoiceModel>> getAllMyOrders() async {
+  //   String? token = await SharedPrefLoggedinState.getAccessToken();
+
+  //   if (token == null) {
+  //     String tokenErrorMessage = "User not authenticated. Please login first.";
+  //     throw tokenErrorMessage;
+  //   }
+
+  //   var headers = {
+  //     'Accept': 'application/json',
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'Bearer $token'
+  //   };
+
+  //   var url = Uri.parse(Constants.getMyAlloderdUrl);
+
+  //   var request = http.Request('GET', url);
+  //   request.headers.addAll(headers);
+  //   http.StreamedResponse response = await request.send();
+  //   String responseBody = await response.stream.bytesToString();
+  //   // logger.log(responseBody.toString());
+  //   logger.log("status code: ${response.statusCode}");
+  //   Map<String, dynamic> jsonResponse = json.decode(responseBody);
+
+  //   if (response.statusCode == 200) {
+  //     List<dynamic> ordersJson = jsonResponse["data"];
+  //     List<InvoiceModel> orders = [];
+
+  //     for (var order in ordersJson) {
+  //       int totalQuantity = 0;
+  //       double totalAmount = 0.0;
+  //       List<InvoiceProductDetailModel> products =
+  //           []; // List to hold CartModel objects
+
+  //       for (var product in order["products"]) {
+  //         totalQuantity += product["quantity"] as int;
+  //         totalAmount += double.parse(product["amount"].toString());
+
+  //         // Create CartModel object directly
+  //         products.add(InvoiceProductDetailModel(
+  //           // Use a default value if "id" is missing
+  //           name: product["name"],
+  //           price: double.parse(product["unitPrice"].toString()),
+  //           category: product["category"],
+  //           imagePath: product["imagePath"] ??
+  //               "N/A", // Use a default value if "imagePath" is missing
+  //           quantity: product["quantity"],
+  //         ));
+  //       }
+
+  //       orders.add(InvoiceModel(
+  //         orderNo: order["key"],
+  //         totalAmount:
+  //             totalAmount.toStringAsFixed(2), // Ensures 2 decimal places
+  //         date: order["products"][0]["createdAt"],
+  //         totalQuantity: totalQuantity,
+  //         status: order["status"],
+  //         products: products, // Include the list of CartModel
+  //       ));
+  //     }
+  //     logger.log("orders: ${orders.toString()}");
+  //     return orders;
+  //   } else {
+  //     String errorMessage = "Failed to get orders";
+  //     logger.log(errorMessage);
+  //     throw errorMessage;
+  //   }
+  // }
+
   Future<List<InvoiceModel>> getAllMyOrders() async {
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
@@ -621,11 +691,11 @@ class ProductApiSevice {
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     String responseBody = await response.stream.bytesToString();
-    logger.log(responseBody.toString());
+    // logger.log(responseBody.toString());
     logger.log("status code: ${response.statusCode}");
     Map<String, dynamic> jsonResponse = json.decode(responseBody);
 
-    if (response.statusCode == 200 && jsonResponse["success"]) {
+    if (response.statusCode == 200) {
       List<dynamic> ordersJson = jsonResponse["data"];
       List<InvoiceModel> orders = [];
 
@@ -643,9 +713,9 @@ class ProductApiSevice {
           products.add(InvoiceProductDetailModel(
             // Use a default value if "id" is missing
             name: product["name"],
-            price: double.parse(product["unitPrice"].toString()),
-            category: product["category"],
-            imagePath: product["imagePath"] ??
+            price: double.parse(product["price"].toString()),
+            category: product["category"]["name"],
+            imagePath: product["image"] ??
                 "N/A", // Use a default value if "imagePath" is missing
             quantity: product["quantity"],
           ));
@@ -655,13 +725,13 @@ class ProductApiSevice {
           orderNo: order["key"],
           totalAmount:
               totalAmount.toStringAsFixed(2), // Ensures 2 decimal places
-          date: order["products"][0]["createdAt"],
+          date: order["createdAt"],
           totalQuantity: totalQuantity,
           status: order["status"],
           products: products, // Include the list of CartModel
         ));
       }
-      logger.log(orders.toString());
+      logger.log("orders: ${orders.toString()}");
       return orders;
     } else {
       String errorMessage = "Failed to get orders";
@@ -700,7 +770,7 @@ class ProductApiSevice {
     Map<String, dynamic> jsonResponse = json.decode(responseBody);
 
     // Check if the request was successful
-    if (response.statusCode == 200 && jsonResponse["success"]) {
+    if (response.statusCode == 200) {
       Map<String, dynamic> orderJson = jsonResponse["order"];
       List<InvoiceProductDetailModel> products = [];
 
@@ -715,10 +785,10 @@ class ProductApiSevice {
 
         products.add(InvoiceProductDetailModel(
           name: product["name"],
-          category: product["category"],
+          category: product["category"]["name"],
           quantity: product["quantity"],
-          price: double.parse(product["unitPrice"].toString()),
-          imagePath: product["imagePath"] ?? "N/A", // Default value if missing
+          price: double.parse(product["price"].toString()),
+          imagePath: product["image"] ?? "N/A", // Default value if missing
         ));
       }
 

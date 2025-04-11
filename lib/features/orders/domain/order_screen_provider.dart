@@ -58,7 +58,7 @@ class OrderScreenProvider extends ChangeNotifier {
       allOrders = response;
       logger.log("All orders: $allOrders");
     } catch (e) {
-      logger.log("$e");
+      logger.log("provider error: $e");
       getAllOrderFail = true;
       notifyListeners();
     } finally {

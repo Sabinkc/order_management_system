@@ -288,6 +288,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/common/constants.dart';
 import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:provider/provider.dart';
 // import 'dart:developer' as logger;
@@ -413,7 +414,7 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                               child: Image.network(
-                                                item.imagePath,
+                                                "${Constants.imageStorageBaseUrl}/${item.imagePath}",
                                                 fit: BoxFit.cover,
                                                 errorBuilder: (context, error,
                                                         stackTrace) =>
@@ -521,8 +522,7 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                                   ),
                                 ),
                                 Text(
-                                  orderScreenProvider
-                                      .invoiceDetail.totalAmount,
+                                  orderScreenProvider.invoiceDetail.totalAmount,
                                   style: TextStyle(
                                     color: CommonColor.primaryColor,
                                     fontWeight: FontWeight.bold,

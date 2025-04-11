@@ -118,6 +118,7 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
+      // logger.log("orders: ${orders.toString()}");
       final response = await _service.createOrders(orders);
       return response;
     } catch (e) {

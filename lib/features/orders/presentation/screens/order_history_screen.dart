@@ -131,7 +131,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                             contentPadding: const EdgeInsets.symmetric(
                               horizontal: 10,
                             ),
-                            fillColor: Colors.grey[100],
+                            fillColor: Colors.white,
                             filled: true,
                             hintText: "Search order no...",
                             hintStyle: TextStyle(
@@ -251,7 +251,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 15, vertical: 15),
                                       decoration: BoxDecoration(
-                                        color: Colors.grey[100],
+                                        color: Colors.white,
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: Column(
