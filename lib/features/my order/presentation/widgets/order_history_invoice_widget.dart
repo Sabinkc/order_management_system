@@ -27,13 +27,13 @@ class OrderHistoryInvoiceWidget extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: 1,
                   itemBuilder: (context, orderIndex) {
-                    final order = orderProvider.allOrders[0];
+                    final firstOrder = orderProvider.allOrders[0];
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: order.products.map<Widget>((item) {
+                          children: firstOrder.products.map<Widget>((item) {
                             return Padding(
                               padding: EdgeInsets.symmetric(vertical: 10),
                               child: Row(
