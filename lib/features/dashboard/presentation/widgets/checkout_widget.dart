@@ -8,7 +8,8 @@ import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
 
 class CheckoutWidget extends StatelessWidget {
-  const CheckoutWidget({super.key});
+  final int shipppingLocationId;
+  const CheckoutWidget({super.key,required this.shipppingLocationId});
 
   @override
   Widget build(BuildContext context) {
@@ -182,7 +183,7 @@ class CheckoutWidget extends StatelessWidget {
 
     try {
       // Wait for the order creation to complete
-      await productProvider.createOrder(orders);
+      await productProvider.createOrder(shipppingLocationId,orders);
       // Clear the cart only after order creation is successful
       cartQuantityProvider.clearCart();
       if (!context.mounted) return;

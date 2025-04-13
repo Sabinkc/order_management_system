@@ -175,7 +175,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => CheckOutScreen()));
+                                      builder: (context) => CheckOutScreen(shippingLocationid: 2,)));
                               // await locationProvider.getAllLocation();
 
                               Future.delayed(Duration(milliseconds: 200), () {

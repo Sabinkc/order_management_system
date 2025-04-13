@@ -36,7 +36,7 @@ class TopTextSignup extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(context,
+                Navigator.pushReplacement(context,
                     CupertinoPageRoute(builder: (context) => LoginScreen()));
               },
               child: Text(

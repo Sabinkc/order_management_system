@@ -1784,9 +1784,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     // Handle logout result
     if (logoutSuccessful) {
       if (context.mounted) {
-        Navigator.pushReplacement(
+       Navigator.pushAndRemoveUntil(
           context,
-          CupertinoPageRoute(builder: (context) => LoginScreen()),
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+          (route) => false,
         );
       }
     } else {

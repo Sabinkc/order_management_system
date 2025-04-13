@@ -7,9 +7,14 @@ import 'package:order_management_system/features/login/presentation/widgets/text
 import 'package:order_management_system/features/login/presentation/widgets/top_text_login.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;

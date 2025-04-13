@@ -11,12 +11,20 @@ import 'package:order_management_system/features/signup/domain/signup_textfield_
 import 'package:order_management_system/features/signup/presentation/widgets/checkbox_widget_signup.dart';
 import 'package:provider/provider.dart';
 
-class TextfieldWidgetSignup extends StatelessWidget {
-  TextfieldWidgetSignup({super.key});
+class TextfieldWidgetSignup extends StatefulWidget {
+  const TextfieldWidgetSignup({super.key});
 
+  @override
+  State<TextfieldWidgetSignup> createState() => _TextfieldWidgetSignupState();
+}
+
+class _TextfieldWidgetSignupState extends State<TextfieldWidgetSignup> {
   final fullnameController = TextEditingController();
+
   final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
+
   final confirmPasswordController = TextEditingController();
 
   @override
@@ -161,7 +169,6 @@ class TextfieldWidgetSignup extends StatelessWidget {
   }
 
 //Logical part
-//sign up function
   Future signup(
       BuildContext context,
       TextEditingController fullnameController,
@@ -281,9 +288,10 @@ class TextfieldWidgetSignup extends StatelessWidget {
         final email = response["data"]["data"]["profile"]["email"];
 
         profileProvider.addProfileData(name, email);
-        Navigator.pushReplacement(
+       Navigator.pushAndRemoveUntil(
           context,
-          CupertinoPageRoute(builder: (context) => LandingScreen()),
+          MaterialPageRoute(builder: (context) => LandingScreen()),
+          (route) => false,
         );
       }
     } else {

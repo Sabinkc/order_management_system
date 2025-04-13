@@ -102,35 +102,55 @@ class _DashboardScreenState extends State<DashboardScreen> {
         //     child: AppbarDashboard()),
 
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: screenHeight * 0.03,
-                ),
-                // TopContainerDashboard(),
-                TopProfileDashboard(),
-                SizedBox(
-                  height: screenWidth * 0.04,
-                ),
+          child: RefreshIndicator(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            edgeOffset: 2,
+            color: CommonColor.primaryColor,
+            onRefresh: () async {
+              loadAvatar();
+              final productProvider =
+                  Provider.of<ProductProvider>(context, listen: false);
+              await productProvider.getProductCategoriesWithoutAll();
+              await productProvider.getAllProduct();
+              await productProvider.getCategoryProducts(0);
+              if (!context.mounted) return;
+              final settingProvider =
+                  Provider.of<SettingsProvider>(context, listen: false);
+              await settingProvider.getProfile();
+              getCurrentLocation();
+            },
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: screenHeight * 0.03,
+                  ),
+                  // TopContainerDashboard(),
+                  TopProfileDashboard(),
+                  SizedBox(
+                    height: screenWidth * 0.04,
+                  ),
 
-                SearchRowDashboard(),
+                  SearchRowDashboard(),
 
-                SizedBox(
-                  height: screenWidth * 0.03,
-                ),
-                CategoryRowDashboard(),
-                OfferWidget(),
-                AllProductWidget(),
-                // SizedBox(
-                //   height: screenHeight * 0.67,
-                // ),
-                SizedBox(
-                  height: screenHeight * 0.01,
-                ),
-              ],
+                  SizedBox(
+                    height: screenWidth * 0.03,
+                  ),
+                  CategoryRowDashboard(),
+                  OfferWidget(),
+                  AllProductWidget(),
+                  // SizedBox(
+                  //   height: screenHeight * 0.67,
+                  // ),
+                  SizedBox(
+                    height: screenHeight * 0.01,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

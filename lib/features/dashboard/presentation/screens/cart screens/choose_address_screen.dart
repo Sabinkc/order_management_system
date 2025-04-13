@@ -3,6 +3,7 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/cart%20screens/checkout_screen.dart';
 import 'package:order_management_system/features/location/domain/location_provider.dart';
 import 'package:provider/provider.dart';
+import 'dart:developer' as logger;
 
 class ChooseAddressScreen extends StatefulWidget {
   const ChooseAddressScreen({super.key});
@@ -86,6 +87,8 @@ class _ChooseAddressScreenState extends State<ChooseAddressScreen> {
                         return GestureDetector(
                           onTap: () {
                             locationProvider.selectAddress(index);
+                            logger.log(
+                                "selected locationId: ${locationProvider.locations[locationProvider.selectedIndex].id}");
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(vertical: 10),
@@ -94,7 +97,10 @@ class _ChooseAddressScreenState extends State<ChooseAddressScreen> {
                                     horizontal: 15, vertical: 10),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
-                                  border: Border.all(color: isSelected? CommonColor.primaryColor: Colors.grey[100]!),
+                                  border: Border.all(
+                                      color: isSelected
+                                          ? CommonColor.primaryColor
+                                          : Colors.grey[100]!),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Column(
@@ -189,10 +195,14 @@ class _ChooseAddressScreenState extends State<ChooseAddressScreen> {
                         backgroundColor: CommonColor.primaryColor,
                       ),
                       onPressed: () {
+                        String locationId =
+                            "${locationProvider.locations[locationProvider.selectedIndex].id}";
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CheckOutScreen()));
+                                builder: (context) => CheckOutScreen(
+                                      shippingLocationid: int.parse(locationId),
+                                    )));
                       },
                       child: Text(
                         "Confirm Address",

@@ -318,7 +318,7 @@ class OrderHistoryTrackorderWidget extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final step = steps[index];
                     final isActive = step["isActive"] as bool;
-
+                
                     return SizedBox(
                       height: 80,
                       child: Stack(
@@ -406,7 +406,8 @@ class OrderHistoryTrackorderWidget extends StatelessWidget {
                               const SizedBox(width: 15),
                               Expanded(
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(

@@ -72,274 +72,301 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
               centerTitle: true,
               automaticallyImplyLeading: false,
             ),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Consumer<OrderScreenProvider>(
-                builder: (context, orderProvider, child) {
-                  if (orderProvider.isGetAllOrderLoading) {
-                    return Center(
-                        child: CircularProgressIndicator(
-                      color: CommonColor.primaryColor,
-                    ));
-                  }
-                  if (orderProvider.allOrders.isEmpty) {
-                    return Center(
-                      child: Text(
-                        "No orders till now",
-                        style: TextStyle(color: Colors.grey, fontSize: 25),
-                      ),
-                    );
-                  }
+            body: RefreshIndicator(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              edgeOffset: 2,
+              color: CommonColor.primaryColor,
+              onRefresh: () async {
+                final orderProvider =
+                    Provider.of<OrderScreenProvider>(context, listen: false);
+                final simpleUiProvider =
+                    Provider.of<SimpleUiProvider>(context, listen: false);
+                orderProvider.getAllOrder();
+                orderProvider.clearFilters();
+                orderProvider.clearSearchKeyword();
+                simpleUiProvider.clearDateRange();
+                simpleUiProvider.clearFilter();
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Consumer<OrderScreenProvider>(
+                  builder: (context, orderProvider, child) {
+                    if (orderProvider.isGetAllOrderLoading) {
+                      return Center(
+                          child: CircularProgressIndicator(
+                        color: CommonColor.primaryColor,
+                      ));
+                    }
+                    if (orderProvider.allOrders.isEmpty) {
+                      return Center(
+                        child: Text(
+                          "No orders till now",
+                          style: TextStyle(color: Colors.grey, fontSize: 25),
+                        ),
+                      );
+                    }
 
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10, bottom: 10),
-                        child: TextFormField(
-                          controller: orderProvider.searchController,
-                          onChanged: (value) {
-                            final trimmedValue = value.trim();
-                            if (debounce?.isActive ?? false) debounce?.cancel();
-                            debounce =
-                                Timer(const Duration(milliseconds: 500), () {
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: TextFormField(
+                            controller: orderProvider.searchController,
+                            onChanged: (value) {
+                              final trimmedValue = value.trim();
+                              if (debounce?.isActive ?? false)
+                                debounce?.cancel();
+                              debounce =
+                                  Timer(const Duration(milliseconds: 500), () {
+                                if (trimmedValue.isNotEmpty) {
+                                  // Update the search keyword in the SearchProvider
+                                  Provider.of<OrderScreenProvider>(context,
+                                          listen: false)
+                                      .updateSearchKeyword(trimmedValue);
+                                } else {
+                                  // Update the search keyword in the SearchProvider
+                                  Provider.of<OrderScreenProvider>(context,
+                                          listen: false)
+                                      .updateSearchKeyword("");
+                                }
+                              });
+                            },
+                            onFieldSubmitted: (value) {
+                              final trimmedValue = value.trim();
                               if (trimmedValue.isNotEmpty) {
-                                // Update the search keyword in the SearchProvider
                                 Provider.of<OrderScreenProvider>(context,
                                         listen: false)
                                     .updateSearchKeyword(trimmedValue);
                               } else {
-                                // Update the search keyword in the SearchProvider
                                 Provider.of<OrderScreenProvider>(context,
                                         listen: false)
                                     .updateSearchKeyword("");
                               }
-                            });
-                          },
-                          onFieldSubmitted: (value) {
-                            final trimmedValue = value.trim();
-                            if (trimmedValue.isNotEmpty) {
-                              Provider.of<OrderScreenProvider>(context,
-                                      listen: false)
-                                  .updateSearchKeyword(trimmedValue);
-                            } else {
-                              Provider.of<OrderScreenProvider>(context,
-                                      listen: false)
-                                  .updateSearchKeyword("");
-                            }
-                          },
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                            ),
-                            fillColor: Colors.white,
-                            filled: true,
-                            hintText: "Search order no...",
-                            hintStyle: TextStyle(
-                                color: CommonColor.darkGreyColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16),
-                            prefixIcon: Icon(
-                              Icons.search,
-                              size: 25,
-                              color: CommonColor.primaryColor,
-                            ),
-                            suffixIcon: Theme(
-                              data: ThemeData(
-                                  popupMenuTheme: PopupMenuThemeData(
-                                color: Colors.white,
-                              )),
-                              child: PopupMenuButton(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 5.0),
-                                  child: SvgPicture.asset(
-                                    "assets/icons/filter.svg",
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                                itemBuilder: (context) {
-                                  return [
-                                    PopupMenuItem(
-                                      padding: const EdgeInsets.only(
-                                        left: 15,
-                                        right: 15,
-                                        top: 0,
-                                        bottom: 0,
-                                      ),
-                                      onTap: () {
-                                        showFilterDialog(context);
-                                      },
-                                      child: const Center(
-                                          child: Text("Search filters")),
-                                    ),
-                                  ];
-                                },
+                            },
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 10,
                               ),
-                            ),
-                            suffixIconConstraints: const BoxConstraints(
-                                maxHeight: 30,
-                                maxWidth: 30,
-                                minHeight: 30,
-                                minWidth: 30),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(
-                                  color:
-                                      Colors.grey[100]!), // Transparent border
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(
-                                  color: CommonColor.primaryColor,
-                                  width: 2), // Focused border color
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(
-                                  color: Colors.red,
-                                  width: 2), // Error border color
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(
-                                  color: Colors.red,
-                                  width: 2), // Focused error border color
-                            ),
-                            disabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(
-                                  color: Colors
-                                      .grey[100]!), // Disabled border color
+                              fillColor: Colors.white,
+                              filled: true,
+                              hintText: "Search order no...",
+                              hintStyle: TextStyle(
+                                  color: CommonColor.darkGreyColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16),
+                              prefixIcon: Icon(
+                                Icons.search,
+                                size: 25,
+                                color: CommonColor.primaryColor,
+                              ),
+                              suffixIcon: Theme(
+                                data: ThemeData(
+                                    popupMenuTheme: PopupMenuThemeData(
+                                  color: Colors.white,
+                                )),
+                                child: PopupMenuButton(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 5.0),
+                                    child: SvgPicture.asset(
+                                      "assets/icons/filter.svg",
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  itemBuilder: (context) {
+                                    return [
+                                      PopupMenuItem(
+                                        padding: const EdgeInsets.only(
+                                          left: 15,
+                                          right: 15,
+                                          top: 0,
+                                          bottom: 0,
+                                        ),
+                                        onTap: () {
+                                          showFilterDialog(context);
+                                        },
+                                        child: const Center(
+                                            child: Text("Search filters")),
+                                      ),
+                                    ];
+                                  },
+                                ),
+                              ),
+                              suffixIconConstraints: const BoxConstraints(
+                                  maxHeight: 30,
+                                  maxWidth: 30,
+                                  minHeight: 30,
+                                  minWidth: 30),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: Colors
+                                        .grey[100]!), // Transparent border
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: CommonColor.primaryColor,
+                                    width: 2), // Focused border color
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: Colors.red,
+                                    width: 2), // Error border color
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: Colors.red,
+                                    width: 2), // Focused error border color
+                              ),
+                              disabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: Colors
+                                        .grey[100]!), // Disabled border color
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Divider(
-                        color: CommonColor.commonGreyColor,
-                        thickness: 2,
-                      ),
-                      Expanded(
-                        child: Consumer<OrderScreenProvider>(
-                          builder: (context, searchProvider, child) {
-                            if (orderProvider.filteredOrders.isEmpty) {
-                              return Center(
-                                child: Text(
-                                  "No invoices found!",
-                                  style: TextStyle(
-                                    color: CommonColor.darkGreyColor,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              );
-                            }
-//filtered list displayed in listview
-                            return ListView.builder(
-                              itemCount: orderProvider.filteredOrders.length,
-                              itemBuilder: (context, index) {
-                                final order =
-                                    orderProvider.filteredOrders[index];
-
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Provider.of<OrderScreenProvider>(context,
-                                              listen: false)
-                                          .switchInvoiceDetailPage();
-                                      Provider.of<OrderScreenProvider>(context,
-                                              listen: false)
-                                          .selectInvoiceKey(order.orderNo);
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15, vertical: 15),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        spacing: 3,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Order No: ${order.orderNo}",
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: CommonColor
-                                                        .darkGreyColor),
-                                              ),
-                                              Text(
-                                                "Rs.${order.totalAmount}",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 15,
-                                                    color: CommonColor
-                                                        .primaryColor),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                order.date,
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 11,
-                                                  color: CommonColor
-                                                      .mediumGreyColor,
-                                                ),
-                                              ),
-                                              Text(
-                                                "Qty: ${order.totalQuantity}",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 11,
-                                                    color: CommonColor
-                                                        .mediumGreyColor),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "Status: ",
-                                                style: TextStyle(
-                                                    color: CommonColor
-                                                        .darkGreyColor,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Text(
-                                                order.status,
-                                                style: TextStyle(
-                                                    color: CommonColor
-                                                        .primaryColor,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
+                        Divider(
+                          color: CommonColor.commonGreyColor,
+                          thickness: 2,
+                        ),
+                        Expanded(
+                          child: Consumer<OrderScreenProvider>(
+                            builder: (context, searchProvider, child) {
+                              if (orderProvider.filteredOrders.isEmpty) {
+                                return Center(
+                                  child: Text(
+                                    "No invoices found!",
+                                    style: TextStyle(
+                                      color: CommonColor.darkGreyColor,
+                                      fontSize: 20,
                                     ),
                                   ),
                                 );
-                              },
-                            );
-                          },
+                              }
+                              //filtered list displayed in listview
+                              return ListView.builder(
+                                physics: AlwaysScrollableScrollPhysics(),
+                                itemCount: orderProvider.filteredOrders.length,
+                                itemBuilder: (context, index) {
+                                  final order =
+                                      orderProvider.filteredOrders[index];
+
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Provider.of<OrderScreenProvider>(
+                                                context,
+                                                listen: false)
+                                            .switchInvoiceDetailPage();
+                                        Provider.of<OrderScreenProvider>(
+                                                context,
+                                                listen: false)
+                                            .selectInvoiceKey(order.orderNo);
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15, vertical: 15),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          spacing: 3,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Order No: ${order.orderNo}",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: CommonColor
+                                                          .darkGreyColor),
+                                                ),
+                                                Text(
+                                                  "Rs.${order.totalAmount}",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15,
+                                                      color: CommonColor
+                                                          .primaryColor),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  order.date,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 11,
+                                                    color: CommonColor
+                                                        .mediumGreyColor,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "Qty: ${order.totalQuantity}",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 11,
+                                                      color: CommonColor
+                                                          .mediumGreyColor),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "Status: ",
+                                                  style: TextStyle(
+                                                      color: CommonColor
+                                                          .darkGreyColor,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Text(
+                                                  order.status,
+                                                  style: TextStyle(
+                                                      color: CommonColor
+                                                          .primaryColor,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                    ],
-                  );
-                },
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
           ),

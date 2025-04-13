@@ -112,14 +112,14 @@ class ProductProvider extends ChangeNotifier {
   // }
   bool isCreateOrderLoading = false;
 
-  Future<Map<String, dynamic>> createOrder(
+  Future<Map<String, dynamic>> createOrder(int shippingLocationid,
       List<Map<String, dynamic>> orders) async {
     isCreateOrderLoading = true;
     notifyListeners();
 
     try {
       // logger.log("orders: ${orders.toString()}");
-      final response = await _service.createOrders(orders);
+      final response = await _service.createOrders(shippingLocationid, orders);
       return response;
     } catch (e) {
       // Log the error and re-throw it to handle it in the calling function

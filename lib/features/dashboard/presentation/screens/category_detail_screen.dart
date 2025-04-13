@@ -367,318 +367,345 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 110,
-                child: IntrinsicHeight(
-                  child: ListView.builder(
-                      itemCount: 5,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            GestureDetector(
-                                onTap: () {},
-                                child: Padding(
-                                  padding: EdgeInsets.all(5),
-                                  child: Container(
-                                    // height: 90,
-                                    height: 70,
-                                    width: 80,
-                                    decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                            offset: Offset(0, 0),
-                                            blurRadius: 3,
-                                            color: Colors.grey),
-                                        // BoxShadow(
-                                        //     offset: Offset(-2, -2),
-                                        //     blurRadius: 1,
-                                        //     color: Colors.grey)
-                                      ],
-                                      border: Border.all(color: Colors.white),
-                                      borderRadius: BorderRadius.circular(8),
-                                      color: Colors.white,
-                                    ),
-                                    // child: Center(
-                                    //     child: Text(
-                                    //   productProvider
-                                    //       .productCategoryWithoutAll[index].name,
-                                    //   style: TextStyle(
-                                    //       fontSize: 12,
-                                    //       color: CommonColor.darkGreyColor,
-                                    //       fontWeight: FontWeight.w600),
-                                    //   overflow: TextOverflow.ellipsis,
-                                    // )),
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: Image.asset(
-                                          subCategoryImages[index],
-                                          fit: BoxFit.cover,
-                                        )),
-                                  ),
-                                )),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              subCategoryName[index],
-                              maxLines: 1,
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: CommonColor.darkGreyColor,
-                                  fontWeight: FontWeight.w600),
-                              overflow: TextOverflow.ellipsis,
-                            )
-                          ],
-                        );
-                      }),
-                ),
-              ),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              Divider(
-                color: Colors.grey[300],
-                thickness: 1,
-                height: 40,
-              ),
-              Expanded(
-                child: productProvider.isCategoryProductLoading
-                    ? Center(
-                        child: CircularProgressIndicator(
-                          color: CommonColor.primaryColor,
-                        ),
-                      )
-                    : productProvider.categoryProducts.isEmpty
-                        ? Center(
-                            child: Text(
-                              "No products found",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 0),
-                            child: GridView.builder(
-                              itemCount:
-                                  productProvider.categoryProducts.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                childAspectRatio: 0.75,
-                                crossAxisCount: 2,
-                                mainAxisSpacing: 10,
-                                crossAxisSpacing: 10,
-                              ),
-                              itemBuilder: (context, index) {
-                                final product =
-                                    productProvider.categoryProducts[index];
-                                final productApiService = ProductApiSevice();
-                                // logger.log(
-                                //     "built image url: ${product.imageUrl}");
-                                return Consumer<CartQuantityProvider>(
-                                  builder: (context, provider, child) {
-                                    return Container(
+        body: RefreshIndicator(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          edgeOffset: 2,
+          color: CommonColor.primaryColor,
+          onRefresh: () async {
+            final productProvider =
+                Provider.of<ProductProvider>(context, listen: false);
+            // await productProvider.getAllProductCategories();
+            // await productProvider.getAllProduct();
+            await productProvider.getCategoryProducts(
+                widget.index); // Fetch products for category ID 1 initially
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 110,
+                  child: IntrinsicHeight(
+                    child: ListView.builder(
+                        itemCount: 5,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              GestureDetector(
+                                  onTap: () {},
+                                  child: Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: Container(
+                                      // height: 90,
+                                      height: 70,
+                                      width: 80,
                                       decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                              offset: Offset(0, 0),
+                                              blurRadius: 3,
+                                              color: Colors.grey),
+                                          // BoxShadow(
+                                          //     offset: Offset(-2, -2),
+                                          //     blurRadius: 1,
+                                          //     color: Colors.grey)
+                                        ],
+                                        border: Border.all(color: Colors.white),
                                         borderRadius: BorderRadius.circular(8),
                                         color: Colors.white,
                                       ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                              decoration: BoxDecoration(
-                                                color: const Color(0XFFFAFAFA),
-                                                borderRadius:
-                                                    const BorderRadius.vertical(
-                                                  top: Radius.circular(8),
+                                      // child: Center(
+                                      //     child: Text(
+                                      //   productProvider
+                                      //       .productCategoryWithoutAll[index].name,
+                                      //   style: TextStyle(
+                                      //       fontSize: 12,
+                                      //       color: CommonColor.darkGreyColor,
+                                      //       fontWeight: FontWeight.w600),
+                                      //   overflow: TextOverflow.ellipsis,
+                                      // )),
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          child: Image.asset(
+                                            subCategoryImages[index],
+                                            fit: BoxFit.cover,
+                                          )),
+                                    ),
+                                  )),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                subCategoryName[index],
+                                maxLines: 1,
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: CommonColor.darkGreyColor,
+                                    fontWeight: FontWeight.w600),
+                                overflow: TextOverflow.ellipsis,
+                              )
+                            ],
+                          );
+                        }),
+                  ),
+                ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                Divider(
+                  color: Colors.grey[300],
+                  thickness: 1,
+                  height: 40,
+                ),
+                Expanded(
+                  child: productProvider.isCategoryProductLoading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: CommonColor.primaryColor,
+                          ),
+                        )
+                      : productProvider.categoryProducts.isEmpty
+                          ? Center(
+                              child: Text(
+                                "No products found",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                            )
+                          : Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 0),
+                              child: GridView.builder(
+                                physics: AlwaysScrollableScrollPhysics(),
+                                itemCount:
+                                    productProvider.categoryProducts.length,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio: 0.75,
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 10,
+                                  crossAxisSpacing: 10,
+                                ),
+                                itemBuilder: (context, index) {
+                                  final product =
+                                      productProvider.categoryProducts[index];
+                                  final productApiService = ProductApiSevice();
+                                  // logger.log(
+                                  //     "built image url: ${product.imageUrl}");
+                                  return Consumer<CartQuantityProvider>(
+                                    builder: (context, provider, child) {
+                                      return Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          color: Colors.white,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      const Color(0XFFFAFAFA),
+                                                  borderRadius:
+                                                      const BorderRadius
+                                                          .vertical(
+                                                    top: Radius.circular(8),
+                                                  ),
                                                 ),
-                                              ),
-                                              height: 130,
-                                              width: double.infinity,
-                                              child: FutureBuilder<Uint8List>(
-                                                future: productApiService
-                                                    .getImageByFilename(
-                                                        product.imageUrl),
-                                                builder: (context, snapshot) {
-                                                  if (snapshot
-                                                          .connectionState ==
-                                                      ConnectionState.waiting) {
-                                                    return Center(
-                                                        child:
-                                                            Shimmer.fromColors(
-                                                      baseColor:
-                                                          Colors.grey[300]!,
-                                                      highlightColor:
-                                                          Colors.grey[100]!,
-                                                      child: Container(
-                                                        color: Colors.red,
+                                                height: 130,
+                                                width: double.infinity,
+                                                child: FutureBuilder<Uint8List>(
+                                                  future: productApiService
+                                                      .getImageByFilename(
+                                                          product.imageUrl),
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot
+                                                            .connectionState ==
+                                                        ConnectionState
+                                                            .waiting) {
+                                                      return Center(
+                                                          child: Shimmer
+                                                              .fromColors(
+                                                        baseColor:
+                                                            Colors.grey[300]!,
+                                                        highlightColor:
+                                                            Colors.grey[100]!,
+                                                        child: Container(
+                                                          color: Colors.red,
+                                                        ),
+                                                      ));
+                                                    } else if (snapshot
+                                                        .hasError) {
+                                                      return Icon(
+                                                          Icons.broken_image);
+                                                    } else if (snapshot
+                                                        .hasData) {
+                                                      return ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        8),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        8)),
+                                                        child: Image.memory(
+                                                          snapshot.data!,
+                                                          fit: BoxFit.cover,
+                                                          errorBuilder: (context,
+                                                                  error,
+                                                                  stackTrace) =>
+                                                              Icon(Icons
+                                                                  .broken_image),
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      return Icon(
+                                                          Icons.broken_image);
+                                                    }
+                                                  },
+                                                )),
+                                            const SizedBox(height: 15),
+                                            Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8),
+                                                child: Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 100,
+                                                      child: Text(
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 2,
+                                                        product.name,
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 14,
+                                                        ),
                                                       ),
-                                                    ));
-                                                  } else if (snapshot
-                                                      .hasError) {
-                                                    return Icon(
-                                                        Icons.broken_image);
-                                                  } else if (snapshot.hasData) {
-                                                    return ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                              topLeft: Radius
-                                                                  .circular(8),
-                                                              topRight: Radius
-                                                                  .circular(8)),
-                                                      child: Image.memory(
-                                                        snapshot.data!,
-                                                        fit: BoxFit.cover,
-                                                        errorBuilder: (context,
-                                                                error,
-                                                                stackTrace) =>
-                                                            Icon(Icons
-                                                                .broken_image),
+                                                    ),
+                                                    Expanded(
+                                                      child: Text(
+                                                        product.categoryName,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
+                                                        style: TextStyle(
+                                                          fontSize: 11,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: CommonColor
+                                                              .mediumGreyColor,
+                                                        ),
                                                       ),
-                                                    );
-                                                  } else {
-                                                    return Icon(
-                                                        Icons.broken_image);
-                                                  }
-                                                },
-                                              )),
-                                          const SizedBox(height: 15),
-                                          Padding(
+                                                    ),
+                                                  ],
+                                                )),
+                                            const SizedBox(height: 7),
+                                            Padding(
                                               padding:
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 8),
                                               child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   SizedBox(
                                                     width: 100,
                                                     child: Text(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
+                                                      "Rs. ${product.price}",
                                                       maxLines: 2,
-                                                      product.name,
-                                                      textAlign:
-                                                          TextAlign.start,
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 14,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Text(
-                                                      product.categoryName,
                                                       overflow:
                                                           TextOverflow.ellipsis,
-                                                      maxLines: 1,
                                                       style: TextStyle(
-                                                        fontSize: 11,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         color: CommonColor
-                                                            .mediumGreyColor,
+                                                            .primaryColor,
                                                       ),
                                                     ),
                                                   ),
-                                                ],
-                                              )),
-                                          const SizedBox(height: 7),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                SizedBox(
-                                                  width: 100,
-                                                  child: Text(
-                                                    "Rs. ${product.price}",
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: CommonColor
-                                                          .primaryColor,
+                                                  InkWell(
+                                                    onTap: () {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          Future.delayed(
+                                                              const Duration(
+                                                                  seconds: 1),
+                                                              () {
+                                                            if (context
+                                                                .mounted) {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            }
+                                                          });
+                                                          return AlertDialog(
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15),
+                                                            ),
+                                                            title: Center(
+                                                              child: Text(
+                                                                "Item added to cart successfully!",
+                                                                style: TextStyle(
+                                                                    color: CommonColor
+                                                                        .darkGreyColor,
+                                                                    fontSize:
+                                                                        14),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                      );
+                                                      Provider.of<CartQuantityProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .addToCart(
+                                                              product.sku
+                                                                  .toString(),
+                                                              context);
+                                                      logger.log(
+                                                          "tapped product sku: ${product.sku}");
+                                                    },
+                                                    child: Icon(
+                                                      MingCute
+                                                          .shopping_cart_1_line,
+                                                      color: Colors.black87,
                                                     ),
                                                   ),
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (context) {
-                                                        Future.delayed(
-                                                            const Duration(
-                                                                seconds: 1),
-                                                            () {
-                                                          if (context.mounted) {
-                                                            Navigator.pop(
-                                                                context);
-                                                          }
-                                                        });
-                                                        return AlertDialog(
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        15),
-                                                          ),
-                                                          title: Center(
-                                                            child: Text(
-                                                              "Item added to cart successfully!",
-                                                              style: TextStyle(
-                                                                  color: CommonColor
-                                                                      .darkGreyColor,
-                                                                  fontSize: 14),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                    );
-                                                    Provider.of<CartQuantityProvider>(
-                                                            context,
-                                                            listen: false)
-                                                        .addToCart(
-                                                            product.sku
-                                                                .toString(),
-                                                            context);
-                                                    logger.log(
-                                                        "tapped product sku: ${product.sku}");
-                                                  },
-                                                  child: Icon(
-                                                    MingCute
-                                                        .shopping_cart_1_line,
-                                                    color: Colors.black87,
-                                                  ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ));
   }

@@ -51,54 +51,68 @@ class _OrderHistoryScreenState extends State<MyOrderHistoryScreen> {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: SafeArea(
-        child: Consumer<OrderScreenProvider>(
-          builder: (context, orderProvider, child) {
-            if (orderProvider.isGetAllOrderLoading) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: CommonColor.primaryColor,
-                ),
-              );
-            }
-            if (orderProvider.allOrders.isEmpty) {
-              return Center(
-                child: Text(
-                  "No orders till now!",
-                  style:
-                      TextStyle(color: CommonColor.darkGreyColor, fontSize: 20),
-                ),
-              );
-            }
+      body: RefreshIndicator(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        edgeOffset: 2,
+        color: CommonColor.primaryColor,
+        onRefresh: () async {
+          final orderProvider =
+              Provider.of<OrderScreenProvider>(context, listen: false);
+          orderProvider.getAllOrder();
+        },
+        child: SafeArea(
+          child: Consumer<OrderScreenProvider>(
+            builder: (context, orderProvider, child) {
+              if (orderProvider.isGetAllOrderLoading) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: CommonColor.primaryColor,
+                  ),
+                );
+              }
+              if (orderProvider.allOrders.isEmpty) {
+                return Center(
+                  child: Text(
+                    "No orders till now!",
+                    style: TextStyle(
+                        color: CommonColor.darkGreyColor, fontSize: 20),
+                  ),
+                );
+              }
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // SizedBox(
-                //   height: screenHeight * 0.01,
-                // ),
-                // Padding(
-                //   padding: EdgeInsets.symmetric(horizontal: 20),
-                //   child: Text(
-                //     "My Orders",
-                //     style:
-                //         TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                //   ),
-                // ),
-                SizedBox(
-                  height: screenHeight * 0.02,
+              return SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    // SizedBox(
+                    //   height: screenHeight * 0.01,
+                    // ),
+                    // Padding(
+                    //   padding: EdgeInsets.symmetric(horizontal: 20),
+                    //   child: Text(
+                    //     "My Orders",
+                    //     style:
+                    //         TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    //   ),
+                    // ),
+                    SizedBox(
+                      height: screenHeight * 0.02,
+                    ),
+                    OrderHistoryTopCard(),
+                    Consumer<SwitchOrderScreenProvider>(
+                        builder: (context, provider, child) {
+                      return provider.selectedIndex == 0
+                          ? OrderHistoryTrackorderWidget()
+                          : OrderHistoryInvoiceWidget();
+                    })
+                  ],
                 ),
-                OrderHistoryTopCard(),
-                Consumer<SwitchOrderScreenProvider>(
-                    builder: (context, provider, child) {
-                  return provider.selectedIndex == 0
-                      ? OrderHistoryTrackorderWidget()
-                      : OrderHistoryInvoiceWidget();
-                })
-              ],
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );

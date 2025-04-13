@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
-import 'package:order_management_system/features/dashboard/presentation/screens/cart%20screens/cart_screen.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/checkout_order_widget_dashboard.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/checkout_widget.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/invoice_widget_dashboard.dart';
 import 'package:provider/provider.dart';
 
 class CheckOutScreen extends StatelessWidget {
-  const CheckOutScreen({super.key});
+  final int shippingLocationid;
+  const CheckOutScreen({super.key, required this.shippingLocationid});
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +119,9 @@ class CheckOutScreen extends StatelessWidget {
                 SizedBox(
                   height: screenHeight * 0.01,
                 ),
-                CheckoutWidget(),
+                CheckoutWidget(
+                  shipppingLocationId: shippingLocationid,
+                ),
 
                 SizedBox(
                   height: screenHeight * 0.01,

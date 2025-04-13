@@ -9,11 +9,19 @@ import 'package:order_management_system/features/login/domain/login_textfield_pr
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
 
-class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {
-   TextfieldandloginbuttonWidgetLogin({super.key});
-  
-   final  TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
+class TextfieldandloginbuttonWidgetLogin extends StatefulWidget {
+  const TextfieldandloginbuttonWidgetLogin({super.key});
+
+  @override
+  State<TextfieldandloginbuttonWidgetLogin> createState() =>
+      _TextfieldandloginbuttonWidgetLoginState();
+}
+
+class _TextfieldandloginbuttonWidgetLoginState
+    extends State<TextfieldandloginbuttonWidgetLogin> {
+  final TextEditingController emailController = TextEditingController();
+
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -103,9 +111,7 @@ class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {
     );
   }
 
-
 //logical part
-//function to login
   Future login(
       BuildContext context,
       TextEditingController emailController,
@@ -157,9 +163,10 @@ class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {
         final email = response["data"]["profile"]["email"];
 
         profileProvider.addProfileData(name, email);
-        Navigator.pushReplacement(
+        Navigator.pushAndRemoveUntil(
           context,
-          CupertinoPageRoute(builder: (context) => LandingScreen()),
+          MaterialPageRoute(builder: (context) => LandingScreen()),
+          (route) => false,
         );
       }
     } else {

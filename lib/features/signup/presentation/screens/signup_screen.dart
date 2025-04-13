@@ -4,9 +4,14 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/signup/presentation/widgets/textfield_widget_signup.dart';
 import 'package:order_management_system/features/signup/presentation/widgets/top_text_signup.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
 
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
