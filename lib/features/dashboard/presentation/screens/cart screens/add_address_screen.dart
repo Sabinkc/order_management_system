@@ -172,12 +172,20 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                 landmarkController.text.trim());
 
                             if (context.mounted) {
+                              await locationProvider.getAllLocation();
+                              String locationId =
+                                  "${locationProvider.locations[locationProvider.selectedIndex].id}";
+
+                              if (!context.mounted) {
+                                return;
+                              }
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => CheckOutScreen(shippingLocationid: 2,)));
-                              // await locationProvider.getAllLocation();
-
+                                      builder: (context) => CheckOutScreen(
+                                            shippingLocationid:
+                                                int.parse(locationId),
+                                          )));
                               Future.delayed(Duration(milliseconds: 200), () {
                                 if (!context.mounted) {
                                   return;
