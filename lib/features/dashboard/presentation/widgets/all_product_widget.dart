@@ -5,7 +5,7 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
-import 'package:order_management_system/features/dashboard/presentation/screens/all_product_screen.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/home_screens/all_product_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:developer' as logger;

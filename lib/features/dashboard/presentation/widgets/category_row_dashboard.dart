@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
-import 'package:order_management_system/features/dashboard/presentation/screens/all_categories_screen.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/home_screens/all_categories_screen.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/category_detail_screen.dart';
 import 'package:provider/provider.dart';
 

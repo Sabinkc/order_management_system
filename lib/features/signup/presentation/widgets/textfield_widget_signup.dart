@@ -12,15 +12,16 @@ import 'package:order_management_system/features/signup/presentation/widgets/che
 import 'package:provider/provider.dart';
 
 class TextfieldWidgetSignup extends StatelessWidget {
-  const TextfieldWidgetSignup({super.key});
+  TextfieldWidgetSignup({super.key});
+
+  final fullnameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-    final fullnameController = TextEditingController();
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final confirmPasswordController = TextEditingController();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

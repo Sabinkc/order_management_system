@@ -10,14 +10,15 @@ import 'package:order_management_system/features/settings/domain/settings_provid
 import 'package:provider/provider.dart';
 
 class TextfieldandloginbuttonWidgetLogin extends StatelessWidget {
-  const TextfieldandloginbuttonWidgetLogin({super.key});
+   TextfieldandloginbuttonWidgetLogin({super.key});
+  
+   final  TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
     final logger = Logger();
 
     return Column(

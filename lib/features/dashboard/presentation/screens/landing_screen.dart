@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/domain/bottom_navigationbar_provider.dart';
-import 'package:order_management_system/features/dashboard/presentation/screens/cart_screen.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/cart%20screens/cart_screen.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:order_management_system/features/invoice/presentation/screens/invoice_screen.dart';
 import 'package:order_management_system/features/settings/presentation/screens/screens/settings_screen.dart';

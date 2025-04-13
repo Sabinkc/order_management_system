@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/data/offers_model.dart';
-import 'package:order_management_system/features/dashboard/presentation/screens/all_offers_screen.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/home_screens/all_offers_screen.dart';
 
 class OfferWidget extends StatelessWidget {
   const OfferWidget({super.key});

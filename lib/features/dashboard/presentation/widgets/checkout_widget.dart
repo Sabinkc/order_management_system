@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:logger/logger.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/data/cart_model.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
@@ -50,7 +49,7 @@ class CheckoutWidget extends StatelessWidget {
             ],
           ),
           SizedBox(
-            width: screenWidth * 0.35,
+            width: screenWidth * 0.40,
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
@@ -223,6 +222,8 @@ class CheckoutWidget extends StatelessWidget {
                               ),
                               InkWell(
                                   onTap: () {
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                   },

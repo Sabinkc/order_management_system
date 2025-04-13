@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
-import 'package:order_management_system/features/dashboard/presentation/widgets/checkout_widget.dart';
+import 'package:order_management_system/features/dashboard/presentation/widgets/confirm_order_widget.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/invoice_widget_dashboard.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/orders_widget_dashboard.dart';
 import 'package:provider/provider.dart';
@@ -130,7 +130,7 @@ class CartScreen extends StatelessWidget {
                         height: screenHeight * 0.01,
                       ),
                       Spacer(),
-                      CheckoutWidget(),
+                      ConfirmOrderWidget(),
                       Spacer(),
                       SizedBox(
                         height: screenHeight * 0.01,
