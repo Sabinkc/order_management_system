@@ -15,7 +15,7 @@ class LocationProvider extends ChangeNotifier {
   // //provider to add address
   // List<AddressModel> addresses = [];
 
-  // int selectedIndex = 0;
+  int selectedIndex = 0;
 
   // void addAddress({
   //   String fullName = "John",
@@ -65,10 +65,10 @@ class LocationProvider extends ChangeNotifier {
   //   logger.log("address after edit: ${addresses[index]}");
   // }
 
-  // void selectAddress(int index) {
-  //   selectedIndex = index;
-  //   notifyListeners();
-  // }
+  void selectAddress(int index) {
+    selectedIndex = index;
+    notifyListeners();
+  }
 
   // void deleteAddress(int index) {
   //   addresses.removeAt(index);

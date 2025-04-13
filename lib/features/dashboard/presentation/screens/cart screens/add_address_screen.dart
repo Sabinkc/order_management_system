@@ -7,7 +7,6 @@ import 'package:order_management_system/features/location/domain/location_provid
 import 'package:order_management_system/features/location/presentation/widgets/common_location_textform_field.dart';
 import 'package:provider/provider.dart';
 
-
 class AddAddressScreen extends StatefulWidget {
   const AddAddressScreen({super.key});
 
@@ -178,25 +177,16 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                   MaterialPageRoute(
                                       builder: (context) => CheckOutScreen()));
                               // await locationProvider.getAllLocation();
-                              if (!context.mounted) {
-                                return;
-                              }
-                              Utilities.showCommonSnackBar(
-                                  context, "Address added successfully",
-                                  icon: Icons.done);
-                            }
 
-                            // if (context.mounted) {
-                            //   Utilities.showCommonSnackBar(
-                            //       context, "Address added successfully",
-                            //       icon: Icons.done);
-                            // }
-                            // await locationProvider.getAllLocation();
-                            // Future.delayed(Duration(seconds: 1), () {
-                            //   if (context.mounted) {
-                            //     Navigator.pop(context);
-                            //   }
-                            // });
+                              Future.delayed(Duration(milliseconds: 200), () {
+                                if (!context.mounted) {
+                                  return;
+                                }
+                                Utilities.showCommonSnackBar(
+                                    context, "Address added successfully",
+                                    icon: Icons.done);
+                              });
+                            }
                           } catch (e) {
                             debugPrint(e.toString());
                             if (context.mounted) {
