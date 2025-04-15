@@ -169,7 +169,7 @@ class ProductApiSevice {
   }
 
 //get products by category
-  Future<List<ProductDetails>> getProductsByCategory(int c) async {
+  Future<List<ProductDetails>> getProductsByCategory(int c, int page) async {
     // Get the saved token from SharedPreferences
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
@@ -186,7 +186,7 @@ class ProductApiSevice {
     };
 
     // Constructing the URL with the category filter (c for category)
-    var url = Uri.parse("${Constants.baseUrl}/v1/products?c=$c");
+    var url = Uri.parse("${Constants.baseUrl}/v1/products?c=$c&page=$page");
 
     var request = http.Request('GET', url);
     request.headers.addAll(headers);

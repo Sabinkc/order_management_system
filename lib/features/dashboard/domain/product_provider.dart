@@ -77,25 +77,83 @@ class ProductProvider extends ChangeNotifier {
   }
 
   // Provider to get product category-wise
+  // bool isCategoryProductLoading = false;
+  // List categoryProducts = [];
+
+  // Future<void> getCategoryProducts(int categoryId) async {
+  //   isCategoryProductLoading = true;
+  //   notifyListeners();
+  //   if (categoryId == 0) {
+  //     final response = await _service.getAllProducts(1);
+  //     product = response;
+  //     // If "All" category is selected, use the full product list
+  //     categoryProducts = List.from(product);
+  //     notifyListeners();
+  //   } else {
+  //     // Otherwise, fetch products for the specific category
+  //     final response = await _service.getProductsByCategory(categoryId);
+  //     categoryProducts = response;
+  //   }
+  //   // Update filtered products
+  //   filteredCategoryProducts = List.from(categoryProducts);
+  //   isCategoryProductLoading = false;
+  //   notifyListeners();
+  // }
   bool isCategoryProductLoading = false;
   List categoryProducts = [];
+  int categoryProductPage = 1;
+  bool hasMoreCategoryProducts = true;
 
-  Future<void> getCategoryProducts(int categoryId) async {
+  Future<void> getCategoryProducts(int categoryId, {bool reset = false}) async {
+    if (isCategoryLoading) return;
+
+    // Reset pagination and clear products if needed
+    if (reset) {
+      categoryProductPage = 1;
+      categoryProducts.clear();
+      hasMoreCategoryProducts = true;
+    }
+
+    if (!hasMoreCategoryProducts) return;
+
     isCategoryProductLoading = true;
     notifyListeners();
-    if (categoryId == 0) {
-      final response = await _service.getAllProducts(1);
-      product = response;
-      // If "All" category is selected, use the full product list
-      categoryProducts = List.from(product);
+
+    try {
+      List newProducts;
+      if (categoryId == 0) {
+        newProducts = await _service.getAllProducts(categoryProductPage);
+      } else {
+        newProducts = await _service.getProductsByCategory(
+            categoryId, categoryProductPage);
+      }
+
+      if (newProducts.isEmpty) {
+        hasMoreCategoryProducts = false;
+      } else {
+        // Always add to the list for consistent pagination behavior
+        categoryProducts.addAll(newProducts);
+        categoryProductPage += 1;
+      }
+
+      // Update filtered products
+      filteredCategoryProducts = List.from(categoryProducts);
+      logger.log(
+          "Fetched ${newProducts.length} products for category $categoryId");
+      logger.log("Total products now: ${categoryProducts.length}");
+    } catch (e) {
+      logger.log("Error fetching products: $e");
+      hasMoreCategoryProducts = false;
+    } finally {
+      isCategoryProductLoading = false;
       notifyListeners();
-    } else {
-      // Otherwise, fetch products for the specific category
-      final response = await _service.getProductsByCategory(categoryId);
-      categoryProducts = response;
     }
-    // Update filtered products
-    filteredCategoryProducts = List.from(categoryProducts);
+  }
+
+  void resetCategoryProducts() {
+    categoryProducts.clear();
+    hasMoreCategoryProducts = true;
+    categoryProductPage = 1;
     isCategoryProductLoading = false;
     notifyListeners();
   }

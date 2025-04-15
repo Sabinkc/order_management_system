@@ -4,6 +4,7 @@ import 'package:order_management_system/features/dashboard/domain/product_provid
 import 'package:order_management_system/features/dashboard/presentation/screens/home_screens/all_categories_screen.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/category_detail_screen.dart';
 import 'package:provider/provider.dart';
+import 'dart:developer' as logger;
 
 class CategoryRowDashboard extends StatelessWidget {
   const CategoryRowDashboard({super.key});
@@ -83,6 +84,8 @@ class CategoryRowDashboard extends StatelessWidget {
                                 children: [
                                   GestureDetector(
                                       onTap: () {
+                                        logger.log(
+                                            "tapped index id: ${productProvider.productCategoryWithoutAll[index].id}");
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -92,7 +95,10 @@ class CategoryRowDashboard extends StatelessWidget {
                                                           .productCategoryWithoutAll[
                                                               index]
                                                           .name,
-                                                          index: productProvider.productCategoryWithoutAll[index].id,
+                                                      index: productProvider
+                                                          .productCategoryWithoutAll[
+                                                              index]
+                                                          .id,
                                                     )));
                                       },
                                       child: Padding(

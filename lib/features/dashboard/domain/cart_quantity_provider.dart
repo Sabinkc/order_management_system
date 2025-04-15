@@ -8,6 +8,8 @@ class CartQuantityProvider extends ChangeNotifier {
   List<CartModel> cartItems = [];
 
   void addToCart(String sku, BuildContext context) {
+    // final products =
+    //     Provider.of<ProductProvider>(context, listen: false).product;
     final products =
         Provider.of<ProductProvider>(context, listen: false).categoryProducts;
     // Check if the product is already in the cart
@@ -35,14 +37,6 @@ class CartQuantityProvider extends ChangeNotifier {
             sku: product.sku,
             quantity: 1, // Default quantity
           ),
-          //      cartItems.add(CartModel(
-          //   id: "1",
-          //   productName: "product",
-          //   price: 300,
-          //   category: "Clothing",
-          //   imagePath: "url",
-          //   quantity: 1, // Default quantity
-          // ),
         );
       } else {
         // print("Product with ID $productId not found.");
