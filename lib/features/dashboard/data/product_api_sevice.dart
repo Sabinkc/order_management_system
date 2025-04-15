@@ -599,75 +599,6 @@ class ProductApiSevice {
     }
   }
 
-  // Future<List<InvoiceModel>> getAllMyOrders() async {
-  //   String? token = await SharedPrefLoggedinState.getAccessToken();
-
-  //   if (token == null) {
-  //     String tokenErrorMessage = "User not authenticated. Please login first.";
-  //     throw tokenErrorMessage;
-  //   }
-
-  //   var headers = {
-  //     'Accept': 'application/json',
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'Bearer $token'
-  //   };
-
-  //   var url = Uri.parse(Constants.getMyAlloderdUrl);
-
-  //   var request = http.Request('GET', url);
-  //   request.headers.addAll(headers);
-  //   http.StreamedResponse response = await request.send();
-  //   String responseBody = await response.stream.bytesToString();
-  //   // logger.log(responseBody.toString());
-  //   logger.log("status code: ${response.statusCode}");
-  //   Map<String, dynamic> jsonResponse = json.decode(responseBody);
-
-  //   if (response.statusCode == 200) {
-  //     List<dynamic> ordersJson = jsonResponse["data"];
-  //     List<InvoiceModel> orders = [];
-
-  //     for (var order in ordersJson) {
-  //       int totalQuantity = 0;
-  //       double totalAmount = 0.0;
-  //       List<InvoiceProductDetailModel> products =
-  //           []; // List to hold CartModel objects
-
-  //       for (var product in order["products"]) {
-  //         totalQuantity += product["quantity"] as int;
-  //         totalAmount += double.parse(product["amount"].toString());
-
-  //         // Create CartModel object directly
-  //         products.add(InvoiceProductDetailModel(
-  //           // Use a default value if "id" is missing
-  //           name: product["name"],
-  //           price: double.parse(product["price"].toString()),
-  //           category: product["category"]["name"],
-  //           imagePath: product["image"] ??
-  //               "N/A", // Use a default value if "imagePath" is missing
-  //           quantity: product["quantity"],
-  //         ));
-  //       }
-
-  //       orders.add(InvoiceModel(
-  //         orderNo: order["key"],
-  //         totalAmount:
-  //             totalAmount.toStringAsFixed(2), // Ensures 2 decimal places
-  //         date: order["createdAt"],
-  //         totalQuantity: totalQuantity,
-  //         status: order["status"],
-  //         products: products, // Include the list of CartModel
-  //       ));
-  //     }
-  //     logger.log("orders: ${orders.toString()}");
-  //     return orders;
-  //   } else {
-  //     String errorMessage = "Failed to get orders";
-  //     logger.log(errorMessage);
-  //     throw errorMessage;
-  //   }
-  // }
-
   Future<List<InvoiceModel>> getAllMyOrders(int page) async {
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
@@ -681,7 +612,6 @@ class ProductApiSevice {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token'
     };
-    
 
     var url = Uri.parse("${Constants.getMyAlloderdUrl}?page=$page");
 

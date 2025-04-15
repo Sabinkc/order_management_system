@@ -129,23 +129,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   SizedBox(
                     height: screenHeight * 0.03,
                   ),
-                  // TopContainerDashboard(),
                   TopProfileDashboard(),
                   SizedBox(
                     height: screenWidth * 0.04,
                   ),
-
                   SearchRowDashboard(),
-
                   SizedBox(
                     height: screenWidth * 0.03,
                   ),
                   CategoryRowDashboard(),
                   OfferWidget(),
                   AllProductWidget(),
-                  // SizedBox(
-                  //   height: screenHeight * 0.67,
-                  // ),
                   SizedBox(
                     height: screenHeight * 0.01,
                   ),

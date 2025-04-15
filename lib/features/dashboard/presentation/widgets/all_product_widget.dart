@@ -70,7 +70,9 @@ class AllProductWidget extends StatelessWidget {
                         physics: NeverScrollableScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             childAspectRatio: 0.75, crossAxisCount: 2),
-                        itemCount: 6,
+                        itemCount: productProvider.product.length > 6
+                            ? 6
+                            : productProvider.product.length,
                         itemBuilder: (context, index) {
                           final productApiService = ProductApiSevice();
                           final product = productProvider.product[index];

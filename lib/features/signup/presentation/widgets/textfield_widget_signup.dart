@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:order_management_system/common/common_color.dart';
@@ -288,7 +287,7 @@ class _TextfieldWidgetSignupState extends State<TextfieldWidgetSignup> {
         final email = response["data"]["data"]["profile"]["email"];
 
         profileProvider.addProfileData(name, email);
-       Navigator.pushAndRemoveUntil(
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => LandingScreen()),
           (route) => false,

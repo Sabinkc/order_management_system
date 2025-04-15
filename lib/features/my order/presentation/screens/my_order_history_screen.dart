@@ -17,11 +17,12 @@ class MyOrderHistoryScreen extends StatefulWidget {
 class _OrderHistoryScreenState extends State<MyOrderHistoryScreen> {
   @override
   void initState() {
-    Future.delayed(Duration.zero, () {
+    Future.delayed(Duration.zero, () async {
       if (!mounted) return;
       final orderProvider =
           Provider.of<OrderScreenProvider>(context, listen: false);
-      orderProvider.getAllOrder();
+      orderProvider.resetAllOrders();
+      await orderProvider.getAllOrder();
     });
     super.initState();
   }
@@ -59,7 +60,8 @@ class _OrderHistoryScreenState extends State<MyOrderHistoryScreen> {
         onRefresh: () async {
           final orderProvider =
               Provider.of<OrderScreenProvider>(context, listen: false);
-          orderProvider.getAllOrder();
+          orderProvider.resetAllOrders();
+          await orderProvider.getAllOrder();
         },
         child: SafeArea(
           child: Consumer<OrderScreenProvider>(

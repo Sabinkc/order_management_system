@@ -39,33 +39,6 @@ class OrderScreenProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // bool isGetAllOrderLoading = false; // Loading state
-  // List<InvoiceModel> allOrders = []; // Stores all orders from the API
-
-  // // Filter-related properties
-  // String _selectedFilter = "all_status"; // Default filter
-  // DateTime? _startDate;
-  // DateTime? _endDate;
-
-  // final ProductApiSevice _service = ProductApiSevice(); // Your API service
-  // bool getAllOrderFail = false;
-  // // Fetch all orders from the API
-  // Future<void> getAllOrder() async {
-  //   isGetAllOrderLoading = true;
-  //   notifyListeners();
-  //   try {
-  //     final response = await _service.getAllMyOrders(1);
-  //     allOrders = response;
-  //     logger.log("All orders: $allOrders");
-  //   } catch (e) {
-  //     logger.log("provider error: $e");
-  //     getAllOrderFail = true;
-  //     notifyListeners();
-  //   } finally {
-  //     isGetAllOrderLoading = false;
-  //     notifyListeners();
-  //   }
-  // }
 
   bool isGetAllOrderLoading = false; // Loading state
   List<InvoiceModel> allOrders = []; // Stores all orders from the API
