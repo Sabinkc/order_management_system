@@ -668,7 +668,7 @@ class ProductApiSevice {
   //   }
   // }
 
-  Future<List<InvoiceModel>> getAllMyOrders() async {
+  Future<List<InvoiceModel>> getAllMyOrders(int page) async {
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
     if (token == null) {
@@ -681,8 +681,9 @@ class ProductApiSevice {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token'
     };
+    
 
-    var url = Uri.parse(Constants.getMyAlloderdUrl);
+    var url = Uri.parse("${Constants.getMyAlloderdUrl}?page=$page");
 
     var request = http.Request('GET', url);
     request.headers.addAll(headers);
