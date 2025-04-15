@@ -42,16 +42,38 @@ class ProductProvider extends ChangeNotifier {
   // Provider to fetch all products
   bool isProductLoading = false;
   List product = [];
+  bool hasMoreAllProduct = true;
+  int allProductPage = 1;
 
   Future<void> getAllProduct() async {
+    if (isProductLoading || !hasMoreAllProduct) {
+      return;
+    }
     isProductLoading = true;
     notifyListeners();
-    final response = await _service.getAllProducts();
-    product = response;
-    notifyListeners();
-    logger.log("product in provider: $product");
+    try {
+      final response = await _service.getAllProducts(allProductPage);
+      if (response.isEmpty) {
+        hasMoreAllProduct = false;
+      } else {
+        final newProduct = response;
+        product.addAll(newProduct);
+        allProductPage += 1;
+        notifyListeners();
+      }
+    } catch (e) {
+      logger.log("$e");
+    } finally {
+      isProductLoading = false;
+      notifyListeners();
+    }
+  }
+
+  void resetAllProducts() {
     isProductLoading = false;
-    notifyListeners();
+    product.clear();
+    hasMoreAllProduct = true;
+    allProductPage = 1;
   }
 
   // Provider to get product category-wise
@@ -62,7 +84,7 @@ class ProductProvider extends ChangeNotifier {
     isCategoryProductLoading = true;
     notifyListeners();
     if (categoryId == 0) {
-      final response = await _service.getAllProducts();
+      final response = await _service.getAllProducts(1);
       product = response;
       // If "All" category is selected, use the full product list
       categoryProducts = List.from(product);
@@ -100,20 +122,10 @@ class ProductProvider extends ChangeNotifier {
   }
 
   // //provider to create orders
-  // bool isCreateOrderLoading = false;
-  // Future<Map<String, dynamic>> createOrder(
-  //     List<Map<String, dynamic>> orders) async {
-  //   isCreateOrderLoading = true;
-  //   notifyListeners();
-  //   final response = await _service.createOrders(orders);
-  //   isCreateOrderLoading = false;
-  //   notifyListeners();
-  //   return response;
-  // }
   bool isCreateOrderLoading = false;
 
-  Future<Map<String, dynamic>> createOrder(int shippingLocationid,
-      List<Map<String, dynamic>> orders) async {
+  Future<Map<String, dynamic>> createOrder(
+      int shippingLocationid, List<Map<String, dynamic>> orders) async {
     isCreateOrderLoading = true;
     notifyListeners();
 

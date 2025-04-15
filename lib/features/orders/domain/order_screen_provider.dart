@@ -39,7 +39,6 @@ class OrderScreenProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   bool isGetAllOrderLoading = false; // Loading state
   List<InvoiceModel> allOrders = []; // Stores all orders from the API
   int allOrderPage = 1;
@@ -52,37 +51,36 @@ class OrderScreenProvider extends ChangeNotifier {
 
   final ProductApiSevice _service = ProductApiSevice(); // Your API service
   // Fetch all orders from the API
- // In your OrderScreenProvider
-Future<void> getAllOrder() async {
-  if (isGetAllOrderLoading || !allOrderHasMore) return;
-  
-  isGetAllOrderLoading = true;
-  notifyListeners();
-  
-  try {
-    final response = await _service.getAllMyOrders(allOrderPage);
-    if (response.isEmpty) {
-      allOrderHasMore = false;
-    } else {
-      allOrders.addAll(response);
-      allOrderPage++;
+  // In your OrderScreenProvider
+  Future<void> getAllOrder() async {
+    if (isGetAllOrderLoading || !allOrderHasMore) return;
+
+    isGetAllOrderLoading = true;
+    notifyListeners();
+
+    try {
+      final response = await _service.getAllMyOrders(allOrderPage);
+      if (response.isEmpty) {
+        allOrderHasMore = false;
+      } else {
+        allOrders.addAll(response);
+        allOrderPage++;
+      }
+    } catch (e) {
+      // Handle error
+    } finally {
+      isGetAllOrderLoading = false;
+      notifyListeners();
     }
-  } catch (e) {
-    // Handle error
-  } finally {
+  }
+
+  void resetAllOrders() {
+    allOrderPage = 1;
+    allOrderHasMore = true;
+    allOrders.clear();
     isGetAllOrderLoading = false;
     notifyListeners();
   }
-}
-
-void resetAllOrders(){
-  allOrderPage = 1;
-  allOrderHasMore = true;
-  allOrders.clear();
-  isGetAllOrderLoading = false;
-  notifyListeners();
-}
-
 
   final TextEditingController searchController = TextEditingController();
 
