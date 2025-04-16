@@ -112,7 +112,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               final productProvider =
                   Provider.of<ProductProvider>(context, listen: false);
               await productProvider.getProductCategoriesWithoutAll();
-              await productProvider.getAllProduct();
+              // await productProvider.getAllProduct();
               await productProvider.getCategoryProducts(0);
               if (!context.mounted) return;
               final settingProvider =

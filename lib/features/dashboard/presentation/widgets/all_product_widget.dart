@@ -245,7 +245,7 @@ class AllProductWidget extends StatelessWidget {
                                               Provider.of<CartQuantityProvider>(
                                                       context,
                                                       listen: false)
-                                                  .addToCart(
+                                                  .addToCartFromAllProducts(
                                                       product.sku.toString(),
                                                       context);
                                               logger.log(

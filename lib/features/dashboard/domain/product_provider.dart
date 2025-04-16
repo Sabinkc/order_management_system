@@ -76,29 +76,7 @@ class ProductProvider extends ChangeNotifier {
     allProductPage = 1;
   }
 
-  // Provider to get product category-wise
-  // bool isCategoryProductLoading = false;
-  // List categoryProducts = [];
 
-  // Future<void> getCategoryProducts(int categoryId) async {
-  //   isCategoryProductLoading = true;
-  //   notifyListeners();
-  //   if (categoryId == 0) {
-  //     final response = await _service.getAllProducts(1);
-  //     product = response;
-  //     // If "All" category is selected, use the full product list
-  //     categoryProducts = List.from(product);
-  //     notifyListeners();
-  //   } else {
-  //     // Otherwise, fetch products for the specific category
-  //     final response = await _service.getProductsByCategory(categoryId);
-  //     categoryProducts = response;
-  //   }
-  //   // Update filtered products
-  //   filteredCategoryProducts = List.from(categoryProducts);
-  //   isCategoryProductLoading = false;
-  //   notifyListeners();
-  // }
   bool isCategoryProductLoading = false;
   List categoryProducts = [];
   int categoryProductPage = 1;

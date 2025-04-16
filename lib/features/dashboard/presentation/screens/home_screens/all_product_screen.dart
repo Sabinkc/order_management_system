@@ -275,7 +275,7 @@ class _AllProductScreenState extends State<AllProductScreen> {
                                             Provider.of<CartQuantityProvider>(
                                                     context,
                                                     listen: false)
-                                                .addToCart(
+                                                .addToCartFromAllProducts(
                                                     product.sku.toString(),
                                                     context);
                                             logger.log(
