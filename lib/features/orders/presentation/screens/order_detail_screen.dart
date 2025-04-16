@@ -218,7 +218,7 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                   Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Text(
-                        "Invoice Details:",
+                        "Order Details:",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16),
                       )),

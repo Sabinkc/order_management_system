@@ -1,4 +1,3 @@
-// // import 'dart:async';
 // import 'dart:async';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
@@ -45,10 +44,21 @@
 //     super.dispose();
 //   }
 
+//   // void onScroll() {
+//   //   if (scrollController.position.pixels ==
+//   //       scrollController.position.maxScrollExtent) {
+//   //     Provider.of<OrderScreenProvider>(context, listen: false).getAllOrder();
+//   //   }
+//   // }
+
 //   void onScroll() {
+//     final orderProvider =
+//         Provider.of<OrderScreenProvider>(context, listen: false);
 //     if (scrollController.position.pixels ==
-//         scrollController.position.maxScrollExtent) {
-//       Provider.of<OrderScreenProvider>(context, listen: false).getAllOrder();
+//             scrollController.position.maxScrollExtent &&
+//         orderProvider.allOrderHasMore &&
+//         !orderProvider.isGetAllOrderLoading) {
+//       orderProvider.getAllOrder();
 //     }
 //   }
 
@@ -300,10 +310,13 @@
 //                               return ListView.builder(
 //                                 controller: scrollController,
 //                                 physics: AlwaysScrollableScrollPhysics(),
-
 //                                 itemCount: orderProvider.filteredOrders.length +
-//     (orderProvider.allOrderHasMore &&
-//      orderProvider.filteredOrders.length >= pageSize ? 1 : 0),
+//                                     (orderProvider.allOrderHasMore &&
+//                                             orderProvider
+//                                                     .filteredOrders.length >=
+//                                                 pageSize
+//                                         ? 1
+//                                         : 0),
 //                                 itemBuilder: (context, index) {
 //                                   if (index <
 //                                       orderProvider.filteredOrders.length) {
@@ -419,24 +432,18 @@
 //                                       padding: const EdgeInsets.symmetric(
 //                                           vertical: 20),
 //                                       child: Center(
-//                                         child: orderProvider.allOrderHasMore
-//                                             ? SizedBox(
-//                                                 height: 40,
-//                                                 width: 40,
-//                                                 child:
-//                                                     CircularProgressIndicator(
-//                                                   strokeWidth: 4,
-//                                                   color:
-//                                                       CommonColor.primaryColor,
-//                                                 ),
+//                                         child: orderProvider.allOrderHasMore &&
+//                                                 orderProvider.filteredOrders
+//                                                         .length >=
+//                                                     pageSize
+//                                             ? CircularProgressIndicator(
+//                                                 color: CommonColor.primaryColor,
 //                                               )
-//                                             : Text(
-//                                                 "No more orders to fetch",
-//                                                 style: TextStyle(
-//                                                   color: Colors.grey,
-//                                                   fontSize: 18,
-//                                                 ),
-//                                               ),
+//                                             : orderProvider
+//                                                     .filteredOrders.isEmpty
+//                                                 ? Text(
+//                                                     "No more orders to fetch")
+//                                                 : SizedBox.shrink(),
 //                                       ),
 //                                     );
 //                                   }
@@ -612,13 +619,13 @@
 //   }
 // }
 
-// import 'dart:async';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/simple_ui_provider.dart';
+import 'package:order_management_system/features/my%20order/domain/order_history_provider.dart';
 import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -762,36 +769,36 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                           child: TextFormField(
                             controller: orderProvider.searchController,
                             onChanged: (value) {
-                              final trimmedValue = value.trim();
-                              if (debounce?.isActive ?? false) {
-                                debounce?.cancel();
-                              }
-                              debounce =
-                                  Timer(const Duration(milliseconds: 500), () {
-                                if (trimmedValue.isNotEmpty) {
-                                  // Update the search keyword in the SearchProvider
-                                  Provider.of<OrderScreenProvider>(context,
-                                          listen: false)
-                                      .updateSearchKeyword(trimmedValue);
-                                } else {
-                                  // Update the search keyword in the SearchProvider
-                                  Provider.of<OrderScreenProvider>(context,
-                                          listen: false)
-                                      .updateSearchKeyword("");
-                                }
-                              });
-                            },
-                            onFieldSubmitted: (value) {
-                              final trimmedValue = value.trim();
-                              if (trimmedValue.isNotEmpty) {
-                                Provider.of<OrderScreenProvider>(context,
-                                        listen: false)
-                                    .updateSearchKeyword(trimmedValue);
-                              } else {
-                                Provider.of<OrderScreenProvider>(context,
-                                        listen: false)
-                                    .updateSearchKeyword("");
-                              }
+                              //   final trimmedValue = value.trim();
+                              //   if (debounce?.isActive ?? false) {
+                              //     debounce?.cancel();
+                              //   }
+                              //   debounce =
+                              //       Timer(const Duration(milliseconds: 500), () {
+                              //     if (trimmedValue.isNotEmpty) {
+                              //       // Update the search keyword in the SearchProvider
+                              //       Provider.of<OrderScreenProvider>(context,
+                              //               listen: false)
+                              //           .updateSearchKeyword(trimmedValue);
+                              //     } else {
+                              //       // Update the search keyword in the SearchProvider
+                              //       Provider.of<OrderScreenProvider>(context,
+                              //               listen: false)
+                              //           .updateSearchKeyword("");
+                              //     }
+                              //   });
+                              // },
+                              // onFieldSubmitted: (value) {
+                              //   final trimmedValue = value.trim();
+                              //   if (trimmedValue.isNotEmpty) {
+                              //     Provider.of<OrderScreenProvider>(context,
+                              //             listen: false)
+                              //         .updateSearchKeyword(trimmedValue);
+                              //   } else {
+                              //     Provider.of<OrderScreenProvider>(context,
+                              //             listen: false)
+                              //         .updateSearchKeyword("");
+                              //   }
                             },
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.symmetric(
@@ -910,7 +917,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                         Expanded(
                           child: Consumer<OrderScreenProvider>(
                             builder: (context, searchProvider, child) {
-                              if (orderProvider.filteredOrders.isEmpty) {
+                              if (orderProvider.allOrders.isEmpty) {
                                 return Center(
                                   child: Text(
                                     "No invoices found!",
@@ -925,18 +932,16 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                               return ListView.builder(
                                 controller: scrollController,
                                 physics: AlwaysScrollableScrollPhysics(),
-                                itemCount: orderProvider.filteredOrders.length +
+                                itemCount: orderProvider.allOrders.length +
                                     (orderProvider.allOrderHasMore &&
-                                            orderProvider
-                                                    .filteredOrders.length >=
+                                            orderProvider.allOrders.length >=
                                                 pageSize
                                         ? 1
                                         : 0),
                                 itemBuilder: (context, index) {
-                                  if (index <
-                                      orderProvider.filteredOrders.length) {
+                                  if (index < orderProvider.allOrders.length) {
                                     final order =
-                                        orderProvider.filteredOrders[index];
+                                        orderProvider.allOrders[index];
 
                                     return Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -1048,14 +1053,13 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                                           vertical: 20),
                                       child: Center(
                                         child: orderProvider.allOrderHasMore &&
-                                                orderProvider.filteredOrders
-                                                        .length >=
+                                                orderProvider
+                                                        .allOrders.length >=
                                                     pageSize
                                             ? CircularProgressIndicator(
                                                 color: CommonColor.primaryColor,
                                               )
-                                            : orderProvider
-                                                    .filteredOrders.isEmpty
+                                            : orderProvider.allOrders.isEmpty
                                                 ? Text(
                                                     "No more orders to fetch")
                                                 : SizedBox.shrink(),
@@ -1218,6 +1222,14 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                             startDate: simpleUiProvider.selectedStartDate,
                             endDate: simpleUiProvider.selectedEndDate,
                           );
+                          final orderProvider =
+                              Provider.of<OrderScreenProvider>(context,
+                                  listen: false);
+                          orderProvider.getOrderByStatusAndDate(
+                              simpleUiProvider.selectedStatus,
+                              simpleUiProvider.selectedStartDate.toString(),
+                              simpleUiProvider.selectedEndDate.toString());
+                              
                           Navigator.pop(context);
                         },
                         child: const Text("Apply"),
