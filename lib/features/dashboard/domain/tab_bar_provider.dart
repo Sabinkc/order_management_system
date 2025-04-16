@@ -11,6 +11,11 @@ class TabBarProvider with ChangeNotifier {
     notifyListeners();
   }
 
+void resetCategoryId(){
+  _currentCategoryId = 0;
+  notifyListeners();
+}
+
   int _selectedIndex = 0;
 
   int get selectedIndex => _selectedIndex;

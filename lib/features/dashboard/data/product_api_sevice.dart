@@ -62,8 +62,6 @@ class ProductApiSevice {
     }
   }
 
-
-  
   Future<List<ProductDetails>> getAllProducts(int page) async {
     // Get the saved token from SharedPreferences
     String? token = await SharedPrefLoggedinState.getAccessToken();
@@ -90,7 +88,7 @@ class ProductApiSevice {
       http.StreamedResponse response = await request.send();
       String responseBody = await response.stream.bytesToString();
 
-      logger.log("Response Status Code: ${response.statusCode}");
+      // logger.log("Response Status Code: ${response.statusCode}");
       // logger.log("Response Body: $responseBody");
 
       Map<String, dynamic> jsonResponse = json.decode(responseBody);
@@ -117,7 +115,8 @@ class ProductApiSevice {
             sku: product["sku"],
           ));
         }
-        logger.log("products: $products");
+        logger.log("get all products api called");
+        // logger.log("products: $products");
         return products;
       } else {
         throw Exception(jsonResponse['message'] ?? 'Failed to fetch products');
@@ -222,7 +221,8 @@ class ProductApiSevice {
             sku: product["sku"],
           ));
         }
-        logger.log("products: $products");
+        logger.log("get products by category called");
+        // logger.log("products: $products");
         return products;
       } else {
         throw Exception(jsonResponse['message'] ?? 'Failed to fetch products');
@@ -375,7 +375,8 @@ class ProductApiSevice {
           productsCount: categoryJson['productsCount'],
         ));
       }
-      logger.log("categories: $categories");
+      logger.log("get all categories without all api called");
+      // logger.log("categories: $categories");
       return categories;
     } else {
       throw Exception(jsonResponse['message'] ?? 'Failed to fetch categories');
@@ -434,7 +435,6 @@ class ProductApiSevice {
       };
     }
   }
-
 
   Future<Map<String, dynamic>> createOrders(
       int shippingLocationId, List<Map<String, dynamic>> orders) async {
@@ -508,7 +508,7 @@ class ProductApiSevice {
     http.StreamedResponse response = await request.send();
     String responseBody = await response.stream.bytesToString();
     // logger.log(responseBody.toString());
-    logger.log("status code: ${response.statusCode}");
+    // logger.log("status code: ${response.statusCode}");
     Map<String, dynamic> jsonResponse = json.decode(responseBody);
 
     if (response.statusCode == 200) {
@@ -547,7 +547,8 @@ class ProductApiSevice {
           products: products, // Include the list of CartModel
         ));
       }
-      logger.log("orders: ${orders.toString()}");
+      logger.log("get all order api called");
+      // logger.log("orders: ${orders.toString()}");
       return orders;
     } else {
       String errorMessage = "Failed to get orders";

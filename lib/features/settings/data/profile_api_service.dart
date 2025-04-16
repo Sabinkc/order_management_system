@@ -32,7 +32,7 @@ class ProfileApiService {
       // Send the request and wait for the response
       http.StreamedResponse response = await request.send();
       String responseBody = await response.stream.bytesToString();
-      logger.log("Status code: ${response.statusCode}");
+      // logger.log("Status code: ${response.statusCode}");
 
       // Decode the JSON response
       Map<String, dynamic> jsonResponse = json.decode(responseBody);
@@ -53,7 +53,8 @@ class ProfileApiService {
           gender: profileJson["gender"] ?? "N/A",
           createdAt: profileJson["createdAt"] ?? "N/A",
         );
-        logger.log("profile data: $profile");
+        // logger.log("profile data: $profile");
+        logger.log("get profile api called");
         return profile;
       } else {
         // Throw an error if the request was not successful
@@ -77,19 +78,24 @@ class ProfileApiService {
   }) async {
     Map<String, dynamic> changedFields = {};
 
-    if (name != null && name != currentProfile.name){
-      changedFields['name'] = name;}
-    if (email != null && email != currentProfile.email)
-     { changedFields['email'] = email;}
-    if (phone != null && phone != currentProfile.phone)
-      {changedFields['phone'] = phone;}
-    if (gender != null && gender != currentProfile.gender)
-     { changedFields['gender'] = gender;}
-    if (address != null && address != currentProfile.address)
-      {changedFields['address'] = address;}
+    if (name != null && name != currentProfile.name) {
+      changedFields['name'] = name;
+    }
+    if (email != null && email != currentProfile.email) {
+      changedFields['email'] = email;
+    }
+    if (phone != null && phone != currentProfile.phone) {
+      changedFields['phone'] = phone;
+    }
+    if (gender != null && gender != currentProfile.gender) {
+      changedFields['gender'] = gender;
+    }
+    if (address != null && address != currentProfile.address) {
+      changedFields['address'] = address;
+    }
 
     if (changedFields.isEmpty) {
-      logger.log("No changes detected. Skipping update.");
+      // logger.log("No changes detected. Skipping update.");
       return;
     }
 
@@ -108,7 +114,8 @@ class ProfileApiService {
 
     final jsonResponse = json.decode(response.body);
     if (response.statusCode == 200 && jsonResponse["success"] == true) {
-      logger.log("Profile updated successfully.");
+      logger.log("update profile api called");
+      // logger.log("Profile updated successfully.");
     } else {
       throw jsonResponse["message"] ?? "Profile update failed.";
     }
@@ -180,6 +187,7 @@ class ProfileApiService {
       var response = await http.get(url, headers: headers);
 
       if (response.statusCode == 200) {
+        logger.log("get avatar api called");
         return response.bodyBytes; // Return the raw image bytes
       } else {
         throw "Failed to load avatar. Status code: ${response.statusCode}";

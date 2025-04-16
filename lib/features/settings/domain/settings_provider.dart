@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:order_management_system/features/settings/data/password_api_service.dart';
 import 'package:order_management_system/features/settings/data/profile_api_service.dart';
 import 'package:order_management_system/features/settings/data/profile_model.dart';
-import 'dart:developer' as logger;
+// import 'dart:developer' as logger;
 
 class SettingsProvider extends ChangeNotifier {
   //provider to add profile data
@@ -34,17 +34,17 @@ class SettingsProvider extends ChangeNotifier {
 
   //provider to hande gender dropdon
 
-String selectedGender = "N/A";
+  String selectedGender = "N/A";
 
-void switchSelectedGender(String gender){
-  selectedGender = gender;
-  notifyListeners();
-}
+  void switchSelectedGender(String gender) {
+    selectedGender = gender;
+    notifyListeners();
+  }
 
-void resetSelectedGender(){
-  selectedGender = profile.gender;
-  notifyListeners();
-}
+  void resetSelectedGender() {
+    selectedGender = profile.gender;
+    notifyListeners();
+  }
 
 //profile Provider
   bool isGetProfileLoading = false;
@@ -69,35 +69,34 @@ void resetSelectedGender(){
     } finally {
       isGetProfileLoading = false;
       notifyListeners();
-      logger.log("locations: $profile");
+      // logger.log("profile: $profile");
     }
   }
 
-
-bool isUpdateProfileLoading = false;
-Future updateProfile(BuildContext context, String name, String email, String phone, String gender, String address) async {
-  isUpdateProfileLoading = true;
-  notifyListeners();
-  try {
-    await profileApiService.updateProfile(
-      context: context,
-      currentProfile: profile,
-      name: name,
-      email: email,
-      phone: phone,
-      gender: gender,
-      address: address,
-    );
-
-  } catch (e) {
-    throw "$e";
-  } finally {
-    isUpdateProfileLoading = false;
+  bool isUpdateProfileLoading = false;
+  Future updateProfile(BuildContext context, String name, String email,
+      String phone, String gender, String address) async {
+    isUpdateProfileLoading = true;
     notifyListeners();
-    logger.log("profile: $profile");
+    try {
+      await profileApiService.updateProfile(
+        context: context,
+        currentProfile: profile,
+        name: name,
+        email: email,
+        phone: phone,
+        gender: gender,
+        address: address,
+      );
+    } catch (e) {
+      throw "$e";
+    } finally {
+      
+      isUpdateProfileLoading = false;
+      notifyListeners();
+      // logger.log("profile: $profile");
+    }
   }
-}
-
 
 //provider to create avatar
   bool isUpdateAvatarLoading = false;

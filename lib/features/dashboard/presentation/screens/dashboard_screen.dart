@@ -24,24 +24,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Future<void> getCurrentLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      logger.log("Location service disabled");
+      // logger.log("Location service disabled");
       return; // Stop execution if service is disabled
     }
 
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
-      logger.log("Location permission denied. Requesting permission...");
+      // logger.log("Location permission denied. Requesting permission...");
       permission =
           await Geolocator.requestPermission(); // Request permission here
 
       if (permission == LocationPermission.denied) {
-        logger.log("Location permission denied again.");
+        // logger.log("Location permission denied again.");
         return;
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      logger.log("Location permission denied forever. Cannot request again.");
+      // logger.log("Location permission denied forever. Cannot request again.");
       return;
     }
 
@@ -54,8 +54,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       locationProvider.addLatitudeLongitue(
           "${position.longitude}", "${position.latitude}");
     }
-    logger.log("Longitude: ${position.longitude}");
-    logger.log("Latitude: ${position.latitude}");
+    logger.log("get current location api called");
+    // logger.log("Longitude: ${position.longitude}");
+    // logger.log("Latitude: ${position.latitude}");
   }
 
   @override
@@ -67,7 +68,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Provider.of<ProductProvider>(context, listen: false);
       await productProvider.getProductCategoriesWithoutAll();
       await productProvider.getAllProduct();
-      await productProvider.getCategoryProducts(0);
+      // await productProvider.getCategoryProducts(0);
       if (!mounted) return;
       final settingProvider =
           Provider.of<SettingsProvider>(context, listen: false);

@@ -22,6 +22,7 @@ class ProductProvider extends ChangeNotifier {
       ProductCategory(id: 0, name: "All", productsCount: product.length),
       ...response
     ];
+logger.log("get all product categories called with calling calling without all categories");
     isCategoryLoading = false;
     notifyListeners();
   }
@@ -116,9 +117,9 @@ class ProductProvider extends ChangeNotifier {
 
       // Update filtered products
       filteredCategoryProducts = List.from(categoryProducts);
-      logger.log(
-          "Fetched ${newProducts.length} products for category $categoryId");
-      logger.log("Total products now: ${categoryProducts.length}");
+      // logger.log(
+      //     "Fetched ${newProducts.length} products for category $categoryId");
+      // logger.log("Total products now: ${categoryProducts.length}");
     } catch (e) {
       logger.log("Error fetching products: $e");
       hasMoreCategoryProducts = false;
