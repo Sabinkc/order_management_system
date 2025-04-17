@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:flutter/cupertino.dart';
 import 'package:order_management_system/common/constants.dart';
 import 'package:order_management_system/features/dashboard/data/product_model.dart';
 import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
@@ -98,14 +97,14 @@ class ProductApiSevice {
       if (response.statusCode == 200 && jsonResponse["success"]) {
         List<dynamic> productJson = jsonResponse["data"];
         List<ProductDetails> products = [];
-
+        logger.log("get all products api called");
         for (var product in productJson) {
           // Accessing the first element in the unitTypes list
           // var unitType = product["unitTypes"][0];
 
           products.add(ProductDetails(
             name: product["name"],
-            description: product["description"],
+            description: product["description"] ?? "Description not availiable",
             categoryName: product["category"]["name"],
             stockQuantity: product[
                 "unitStock"], // Accessing stockQuantity from unitTypes[0]
@@ -116,7 +115,7 @@ class ProductApiSevice {
             sku: product["sku"],
           ));
         }
-        logger.log("get all products api called");
+        logger.log("get all products api success");
         // logger.log("products: $products");
         return products;
       } else {
@@ -210,7 +209,7 @@ class ProductApiSevice {
           products.add(ProductDetails(
             // id: product["id"],
             name: product["name"],
-            description: product["description"],
+            description: product["description"] ?? "Description not availiable",
             categoryName: product["category"]["name"],
             stockQuantity: product[
                 "unitStock"], // Accessing stockQuantity from unitTypes[0]

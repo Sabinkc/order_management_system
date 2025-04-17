@@ -49,7 +49,7 @@ class AllProductWidget extends StatelessWidget {
           ),
           Consumer<ProductProvider>(
               builder: (context, productProvider, children) {
-            return productProvider.isCategoryProductLoading == true
+            return productProvider.isProductLoading == true
                 ? Padding(
                     padding: EdgeInsets.only(top: 20),
                     child: CircularProgressIndicator(
