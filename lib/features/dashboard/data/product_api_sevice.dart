@@ -703,6 +703,7 @@ class ProductApiSevice {
 
   Future<List<InvoiceModel>> getAllMyOrdersByStatusAndDate(
       int page, String status, String startDate, String endDate) async {
+    logger.log("status: $status, start Date: $startDate, end Date: $endDate");
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
     if (token == null) {
@@ -764,7 +765,7 @@ class ProductApiSevice {
         ));
       }
       logger.log("get all order api called");
-      logger.log("orders: ${orders.toString()}");
+      // logger.log("orders: ${orders.toString()}");
       return orders;
     } else {
       String errorMessage = "Failed to get orders";

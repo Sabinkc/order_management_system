@@ -5,7 +5,7 @@ class SimpleUiProvider extends ChangeNotifier {
   final Logger logger = Logger();
 
 //provider to filter by status
-  String selectedStatus = "all_status";
+  String selectedStatus = "";
   void switchSelectedStatus(String value) {
     selectedStatus = value;
     logger.i("selected status: $selectedStatus");
@@ -13,32 +13,32 @@ class SimpleUiProvider extends ChangeNotifier {
   }
 
 //provider to filter invoice based on date
-  DateTime? _selectedStartDate;
-  DateTime? _selectedEndDate;
+  String _selectedStartDate = "";
+  String _selectedEndDate = "";
 
-  DateTime? get selectedStartDate => _selectedStartDate;
-  DateTime? get selectedEndDate => _selectedEndDate;
+  String get selectedStartDate => _selectedStartDate;
+  String get selectedEndDate => _selectedEndDate;
 
-  void setSelectedStartDate(DateTime? date) {
+  void setSelectedStartDate(String date) {
     _selectedStartDate = date;
     notifyListeners();
   }
 
-  void setSelectedEndDate(DateTime? date) {
+  void setSelectedEndDate(String date) {
     _selectedEndDate = date;
     notifyListeners();
   }
 
   void clearDateRange() {
-    _selectedStartDate = null;
-    _selectedEndDate = null;
+    _selectedStartDate = "";
+    _selectedEndDate = "";
     notifyListeners();
   }
 
   void clearFilter() {
-    selectedStatus = "all_status";
-    _selectedStartDate = null;
-    _selectedEndDate = null;
+    selectedStatus = "";
+    _selectedStartDate = "";
+    _selectedEndDate = "";
     notifyListeners();
   }
 }

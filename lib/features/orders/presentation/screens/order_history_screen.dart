@@ -622,10 +622,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/simple_ui_provider.dart';
-import 'package:order_management_system/features/my%20order/domain/order_history_provider.dart';
 import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -642,7 +642,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
 
   @override
   void initState() {
-    scrollController.addListener(onScroll);
+    // scrollController.addListener(onScroll);
     Future.delayed(Duration.zero, () async {
       if (!mounted) return;
       final orderProvider =
@@ -654,7 +654,10 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
       simpleUiProvider.clearDateRange();
       simpleUiProvider.clearFilter();
       orderProvider.resetAllOrders();
-      await orderProvider.getAllOrder();
+      await orderProvider.getOrderByStatusAndDate(
+          simpleUiProvider.selectedStatus,
+          simpleUiProvider.selectedStartDate,
+          simpleUiProvider.selectedEndDate);
     });
 
     super.initState();
@@ -673,23 +676,25 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
   //   }
   // }
 
-  void onScroll() {
-    final orderProvider =
-        Provider.of<OrderScreenProvider>(context, listen: false);
-    if (scrollController.position.pixels ==
-            scrollController.position.maxScrollExtent &&
-        orderProvider.allOrderHasMore &&
-        !orderProvider.isGetAllOrderLoading) {
-      orderProvider.getAllOrder();
-    }
-  }
+  // void onScroll() {
+  //   final orderProvider =
+  //       Provider.of<OrderScreenProvider>(context, listen: false);
+  //   final simpleUiProvider =
+  //       Provider.of<SimpleUiProvider>(context, listen: false);
+  //   if (scrollController.position.pixels ==
+  //           scrollController.position.maxScrollExtent &&
+  //       orderProvider.orderBySandDHasMore &&
+  //       !orderProvider.isOrderBySandDLoading) {
+  //     orderProvider.getOrderByStatusAndDate(simpleUiProvider.selectedStatus,
+  //         simpleUiProvider.selectedStartDate, simpleUiProvider.selectedEndDate);
+  //   }
+  // }
 
   int pageSize = 20;
 
   @override
   Widget build(BuildContext context) {
     // final Logger logger = Logger();
-    Timer? debounce;
 
     return Consumer<OrderScreenProvider>(
       builder: (context, orderScreenProvider, child) {
@@ -740,19 +745,22 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                 simpleUiProvider.clearDateRange();
                 simpleUiProvider.clearFilter();
                 orderProvider.resetAllOrders();
-                await orderProvider.getAllOrder();
+                await orderProvider.getOrderByStatusAndDate(
+                    simpleUiProvider.selectedStatus,
+                    simpleUiProvider.selectedStartDate,
+                    simpleUiProvider.selectedEndDate);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Consumer<OrderScreenProvider>(
                   builder: (context, orderProvider, child) {
-                    if (orderProvider.isGetAllOrderLoading &&
-                        orderProvider.allOrders.isEmpty) {
+                    if (orderProvider.isOrderBySandDLoading &&
+                        orderProvider.ordersBySandD.isEmpty) {
                       return Center(
                           child: CircularProgressIndicator(
                         color: CommonColor.primaryColor,
                       ));
-                    } else if (orderProvider.allOrders.isEmpty) {
+                    } else if (orderProvider.ordersBySandD.isEmpty) {
                       return Center(
                         child: Text(
                           "No orders till now",
@@ -899,7 +907,10 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                               simpleUiProvider.clearDateRange();
                               simpleUiProvider.clearFilter();
                               orderProvider.resetAllOrders();
-                              await orderProvider.getAllOrder();
+                              await orderProvider.getOrderByStatusAndDate(
+                                  simpleUiProvider.selectedStatus,
+                                  simpleUiProvider.selectedStartDate,
+                                  simpleUiProvider.selectedEndDate);
                             },
                             child: Padding(
                               padding: EdgeInsets.only(right: 8),
@@ -917,7 +928,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                         Expanded(
                           child: Consumer<OrderScreenProvider>(
                             builder: (context, searchProvider, child) {
-                              if (orderProvider.allOrders.isEmpty) {
+                              if (orderProvider.ordersBySandD.isEmpty) {
                                 return Center(
                                   child: Text(
                                     "No invoices found!",
@@ -932,140 +943,143 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                               return ListView.builder(
                                 controller: scrollController,
                                 physics: AlwaysScrollableScrollPhysics(),
-                                itemCount: orderProvider.allOrders.length +
-                                    (orderProvider.allOrderHasMore &&
-                                            orderProvider.allOrders.length >=
-                                                pageSize
-                                        ? 1
-                                        : 0),
+                                itemCount: orderProvider.ordersBySandD.length,
+                                // itemCount: orderProvider.ordersBySandD.length +
+                                //     (orderProvider.orderBySandDHasMore &&
+                                //             orderProvider
+                                //                     .ordersBySandD.length >=
+                                //                 pageSize
+                                //         ? 1
+                                //         : 0),
                                 itemBuilder: (context, index) {
-                                  if (index < orderProvider.allOrders.length) {
-                                    final order =
-                                        orderProvider.allOrders[index];
+                                  // if (index < orderProvider.orderKey.length) {
+                                  final order =
+                                      orderProvider.ordersBySandD[index];
 
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Provider.of<OrderScreenProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .switchInvoiceDetailPage();
-                                          Provider.of<OrderScreenProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .selectInvoiceKey(order.orderNo);
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 15, vertical: 15),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            spacing: 3,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "Order No: ${order.orderNo}",
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: CommonColor
-                                                            .darkGreyColor),
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Provider.of<OrderScreenProvider>(
+                                                context,
+                                                listen: false)
+                                            .switchInvoiceDetailPage();
+                                        Provider.of<OrderScreenProvider>(
+                                                context,
+                                                listen: false)
+                                            .selectInvoiceKey(order.orderNo);
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15, vertical: 15),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          spacing: 3,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Order No: ${order.orderNo}",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: CommonColor
+                                                          .darkGreyColor),
+                                                ),
+                                                Text(
+                                                  "Rs.${order.totalAmount}",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15,
+                                                      color: CommonColor
+                                                          .primaryColor),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  order.date,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 11,
+                                                    color: CommonColor
+                                                        .mediumGreyColor,
                                                   ),
-                                                  Text(
-                                                    "Rs.${order.totalAmount}",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 15,
-                                                        color: CommonColor
-                                                            .primaryColor),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    order.date,
-                                                    style: TextStyle(
+                                                ),
+                                                Text(
+                                                  "Qty: ${order.totalQuantity}",
+                                                  style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 11,
                                                       color: CommonColor
-                                                          .mediumGreyColor,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "Qty: ${order.totalQuantity}",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 11,
-                                                        color: CommonColor
-                                                            .mediumGreyColor),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    "Status: ",
-                                                    style: TextStyle(
-                                                        color: CommonColor
-                                                            .darkGreyColor,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  Text(
-                                                    order.status,
-                                                    style: TextStyle(
-                                                        color: CommonColor
-                                                            .primaryColor,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
+                                                          .mediumGreyColor),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "Status: ",
+                                                  style: TextStyle(
+                                                      color: CommonColor
+                                                          .darkGreyColor,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Text(
+                                                  order.status,
+                                                  style: TextStyle(
+                                                      color: CommonColor
+                                                          .primaryColor,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    );
-                                  } else {
-                                    // Footer item (either loading indicator or "no more orders" message)
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 20),
-                                      child: Center(
-                                        child: orderProvider.allOrderHasMore &&
-                                                orderProvider
-                                                        .allOrders.length >=
-                                                    pageSize
-                                            ? CircularProgressIndicator(
-                                                color: CommonColor.primaryColor,
-                                              )
-                                            : orderProvider.allOrders.isEmpty
-                                                ? Text(
-                                                    "No more orders to fetch")
-                                                : SizedBox.shrink(),
-                                      ),
-                                    );
-                                  }
+                                    ),
+                                  );
+                                  // } else {
+                                  //   // Footer item (either loading indicator or "no more orders" message)
+                                  //   return Padding(
+                                  //     padding: const EdgeInsets.symmetric(
+                                  //         vertical: 20),
+                                  //     child: Center(
+                                  //       child: orderProvider
+                                  //                   .orderBySandDHasMore &&
+                                  //               orderProvider
+                                  //                       .ordersBySandD.length >=
+                                  //                   pageSize
+                                  //           ? CircularProgressIndicator(
+                                  //               color: CommonColor.primaryColor,
+                                  //             )
+                                  //           : orderProvider
+                                  //                   .ordersBySandD.isEmpty
+                                  //               ? Text(
+                                  //                   "No more orders to fetch")
+                                  //               : SizedBox.shrink(),
+                                  //     ),
+                                  //   );
+                                  // }
                                 },
                               );
                             },
@@ -1122,16 +1136,18 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                             lastDate: DateTime.now(),
                           );
                           if (picked != null) {
-                            simpleUiProvider.setSelectedStartDate(picked);
+                            String formattedDate =
+                                DateFormat('yyyy-MM-dd').format(picked);
+                            simpleUiProvider
+                                .setSelectedStartDate(formattedDate);
                           }
                         },
                         child: Text(
-                          simpleUiProvider.selectedStartDate != null
-                              ? "${simpleUiProvider.selectedStartDate!.toLocal()}"
-                                  .split(' ')[0]
+                          simpleUiProvider.selectedStartDate != ""
+                              ? simpleUiProvider.selectedStartDate.split(' ')[0]
                               : "Start Date",
                           style: TextStyle(
-                            color: simpleUiProvider.selectedStartDate != null
+                            color: simpleUiProvider.selectedStartDate != ""
                                 ? Colors.black
                                 : Colors.grey,
                           ),
@@ -1148,16 +1164,17 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                             lastDate: DateTime.now(),
                           );
                           if (picked != null) {
-                            simpleUiProvider.setSelectedEndDate(picked);
+                            String formattedDate =
+                                DateFormat('yyyy-MM-dd').format(picked);
+                            simpleUiProvider.setSelectedEndDate(formattedDate);
                           }
                         },
                         child: Text(
-                          simpleUiProvider.selectedEndDate != null
-                              ? "${simpleUiProvider.selectedEndDate!.toLocal()}"
-                                  .split(' ')[0]
+                          simpleUiProvider.selectedEndDate != ""
+                              ? simpleUiProvider.selectedEndDate.split(' ')[0]
                               : "End Date",
                           style: TextStyle(
-                            color: simpleUiProvider.selectedEndDate != null
+                            color: simpleUiProvider.selectedEndDate != ""
                                 ? Colors.black
                                 : Colors.grey,
                           ),
@@ -1189,8 +1206,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                       DropdownButton(
                         value: simpleUiProvider.selectedStatus,
                         items: [
-                          DropdownMenuItem(
-                              value: "all_status", child: Text("All")),
+                          DropdownMenuItem(value: "", child: Text("All")),
                           DropdownMenuItem(
                               value: "pending", child: Text("Pending")),
                           DropdownMenuItem(
@@ -1222,14 +1238,17 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                             startDate: simpleUiProvider.selectedStartDate,
                             endDate: simpleUiProvider.selectedEndDate,
                           );
+
                           final orderProvider =
                               Provider.of<OrderScreenProvider>(context,
                                   listen: false);
+                          orderProvider.resetAllOrders();
+
                           orderProvider.getOrderByStatusAndDate(
                               simpleUiProvider.selectedStatus,
                               simpleUiProvider.selectedStartDate.toString(),
                               simpleUiProvider.selectedEndDate.toString());
-                              
+
                           Navigator.pop(context);
                         },
                         child: const Text("Apply"),
