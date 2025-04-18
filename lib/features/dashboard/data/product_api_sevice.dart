@@ -62,7 +62,8 @@ class ProductApiSevice {
     }
   }
 
-  Future<List<ProductDetails>> getAllProducts(int page) async {
+
+  Future<List<ProductDetails>> getAllProducts(String s, int page) async {
     // Get the saved token from SharedPreferences
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
@@ -79,7 +80,7 @@ class ProductApiSevice {
     };
 
     // Constructing the URL to fetch all products
-    var url = Uri.parse("${Constants.baseUrl}/v1/products?page=$page");
+    var url = Uri.parse("${Constants.baseUrl}/v1/products?s=$s&page=$page");
 
     var request = http.Request('GET', url);
     request.headers.addAll(headers);
@@ -168,7 +169,7 @@ class ProductApiSevice {
   }
 
 //get products by category
-  Future<List<ProductDetails>> getProductsByCategory(int c, int page) async {
+ Future<List<ProductDetails>> getProductsByCategory(int c,String s,  int page) async {
     // Get the saved token from SharedPreferences
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
@@ -185,7 +186,7 @@ class ProductApiSevice {
     };
 
     // Constructing the URL with the category filter (c for category)
-    var url = Uri.parse("${Constants.baseUrl}/v1/products?c=$c&page=$page");
+    var url = Uri.parse("${Constants.baseUrl}/v1/products?c=$c&s=$s&page=$page");
 
     var request = http.Request('GET', url);
     request.headers.addAll(headers);
@@ -232,6 +233,9 @@ class ProductApiSevice {
       throw Exception('Failed to fetch products');
     }
   }
+
+
+
 
 //get products by availiability
   Future<Map<String, dynamic>> getProductsByAvailability(int a) async {
@@ -835,7 +839,7 @@ class ProductApiSevice {
         status: orderJson["status"],
         products: products,
       );
-      logger.log(invoice.toString());
+      // logger.log("orders: ${invoice.toString()}");
       return invoice;
     } else {
       String errorMessage = "Failed to fetch order details";

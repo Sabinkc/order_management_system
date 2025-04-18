@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/dashboard/data/product_model.dart';
-import 'package:order_management_system/features/dashboard/domain/tab_bar_provider.dart';
 import 'dart:developer' as logger;
-
-import 'package:provider/provider.dart';
 
 class ProductProvider extends ChangeNotifier {
   final _service = ProductApiSevice();
@@ -22,7 +19,8 @@ class ProductProvider extends ChangeNotifier {
       ProductCategory(id: 0, name: "All", productsCount: product.length),
       ...response
     ];
-logger.log("get all product categories called with calling calling without all categories");
+    logger.log(
+        "get all product categories called with calling calling without all categories");
     isCategoryLoading = false;
     notifyListeners();
   }
@@ -46,14 +44,14 @@ logger.log("get all product categories called with calling calling without all c
   bool hasMoreAllProduct = true;
   int allProductPage = 1;
 
-  Future<void> getAllProduct() async {
+  Future<void> getAllProduct(String s) async {
     if (isProductLoading || !hasMoreAllProduct) {
       return;
     }
     isProductLoading = true;
     notifyListeners();
     try {
-      final response = await _service.getAllProducts(allProductPage);
+      final response = await _service.getAllProducts(s, allProductPage);
       if (response.isEmpty) {
         hasMoreAllProduct = false;
       } else {
@@ -77,17 +75,19 @@ logger.log("get all product categories called with calling calling without all c
     allProductPage = 1;
   }
 
-
   bool isCategoryProductLoading = false;
   List categoryProducts = [];
   int categoryProductPage = 1;
   bool hasMoreCategoryProducts = true;
 
-  Future<void> getCategoryProducts(int categoryId, {bool reset = false}) async {
+  Future<void> getCategoryProducts(int categoryId, String s,
+      {bool reset = false}) async {
+    logger.log("passed category id: $categoryId, passed search Keyword:$s");
     if (isCategoryLoading) return;
 
     // Reset pagination and clear products if needed
     if (reset) {
+      categoryProducts.clear();
       categoryProductPage = 1;
       categoryProducts.clear();
       hasMoreCategoryProducts = true;
@@ -101,10 +101,10 @@ logger.log("get all product categories called with calling calling without all c
     try {
       List newProducts;
       if (categoryId == 0) {
-        newProducts = await _service.getAllProducts(categoryProductPage);
+        newProducts = await _service.getAllProducts(s, categoryProductPage);
       } else {
         newProducts = await _service.getProductsByCategory(
-            categoryId, categoryProductPage);
+            categoryId, s, categoryProductPage);
       }
 
       if (newProducts.isEmpty) {
@@ -114,9 +114,9 @@ logger.log("get all product categories called with calling calling without all c
         categoryProducts.addAll(newProducts);
         categoryProductPage += 1;
       }
-
+      logger.log("category Products: $categoryProducts");
       // Update filtered products
-      filteredCategoryProducts = List.from(categoryProducts);
+      // filteredCategoryProducts = List.from(categoryProducts);
       // logger.log(
       //     "Fetched ${newProducts.length} products for category $categoryId");
       // logger.log("Total products now: ${categoryProducts.length}");
@@ -134,27 +134,6 @@ logger.log("get all product categories called with calling calling without all c
     hasMoreCategoryProducts = true;
     categoryProductPage = 1;
     isCategoryProductLoading = false;
-    notifyListeners();
-  }
-
-  // Provider to search products
-  List filteredCategoryProducts = [];
-
-  // Search for products based on a keyword
-  void searchProducts(BuildContext context) {
-    final tabBarProvider = Provider.of<TabBarProvider>(context, listen: false);
-    final query = tabBarProvider.searchKeyword;
-
-    if (query.isEmpty) {
-      // If the search query is empty, show all products
-      filteredCategoryProducts = List.from(categoryProducts);
-    } else {
-      // Filter products based on the search keyword
-      filteredCategoryProducts = categoryProducts
-          .where((product) =>
-              product.name.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    }
     notifyListeners();
   }
 

@@ -31,7 +31,7 @@ class SearchWidgetDashboard extends StatelessWidget {
             if(!context.mounted) return;
                final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
-      await productProvider.getCategoryProducts(0);
+      await productProvider.getCategoryProducts(0,"",reset: true);
 
           });
         },

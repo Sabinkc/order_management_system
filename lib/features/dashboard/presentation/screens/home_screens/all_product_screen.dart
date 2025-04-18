@@ -29,7 +29,7 @@ class _AllProductScreenState extends State<AllProductScreen> {
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       productProvider.resetAllProducts();
-      await productProvider.getAllProduct();
+      await productProvider.getAllProduct("");
     });
     super.initState();
   }
@@ -43,7 +43,7 @@ class _AllProductScreenState extends State<AllProductScreen> {
             scrollController.position.maxScrollExtent &&
         productProvider.hasMoreAllProduct &&
         !productProvider.isProductLoading) {
-      Provider.of<ProductProvider>(context, listen: false).getAllProduct();
+      Provider.of<ProductProvider>(context, listen: false).getAllProduct("");
     }
   }
 
@@ -94,7 +94,7 @@ class _AllProductScreenState extends State<AllProductScreen> {
           final productProvider =
               Provider.of<ProductProvider>(context, listen: false);
           productProvider.resetAllProducts();
-          await productProvider.getAllProduct();
+          await productProvider.getAllProduct("");
         },
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),

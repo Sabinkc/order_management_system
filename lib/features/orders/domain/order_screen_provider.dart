@@ -28,13 +28,29 @@ class OrderScreenProvider extends ChangeNotifier {
       totalQuantity: 0,
       status: "",
       products: []);
+  List<InvoiceModel> searchedOrder = [];
   bool isFetchOrderByLoading = false;
 
   Future fetchOrderByorderKey(String orderKey) async {
     isFetchOrderByLoading = true;
     notifyListeners();
-    InvoiceModel response = await productApiSevice.getOrderByKey(orderKey);
-    invoiceDetail = response;
+    try {
+      InvoiceModel response = await productApiSevice.getOrderByKey(orderKey);
+
+      invoiceDetail = response;
+      searchedOrder = [invoiceDetail];
+      logger.log("order by key: $invoiceDetail");
+    } catch (e) {
+      logger.log("$e");
+      searchedOrder.clear();
+    } finally {
+      isFetchOrderByLoading = false;
+      notifyListeners();
+    }
+  }
+
+  void clearSearchedOrder() {
+    searchedOrder = [];
     isFetchOrderByLoading = false;
     notifyListeners();
   }
@@ -189,39 +205,6 @@ class OrderScreenProvider extends ChangeNotifier {
     searchController.clear();
     notifyListeners();
   }
-
-  // // Getter for filtered orders
-  // List<InvoiceModel> get filteredOrders {
-  //   logger.log("Selected filter: $_selectedFilter");
-
-  //   // First, filter by status if a specific status is selected
-  //   List<InvoiceModel> statusFilteredOrders = allOrders;
-
-  //   if (_selectedFilter != 'all_status') {
-  //     statusFilteredOrders = allOrders.where((order) {
-  //       return order.status.toLowerCase() == _selectedFilter.toLowerCase();
-  //     }).toList();
-  //   }
-
-  //   // Then, filter by date range if start and end dates are provided
-  //   if (_startDate != null && _endDate != null) {
-  //     statusFilteredOrders = statusFilteredOrders.where((order) {
-  //       final orderDate = DateTime.parse(order.date); // Parse the date string
-  //       return orderDate.isAfter(_startDate!.subtract(Duration(days: 1))) &&
-  //           orderDate.isBefore(_endDate!.add(Duration(days: 1)));
-  //     }).toList();
-  //   }
-
-  //   if (_searchKeyword.isNotEmpty) {
-  //     statusFilteredOrders = statusFilteredOrders.where((order) {
-  //       return order.orderNo
-  //           .toLowerCase()
-  //           .contains(_searchKeyword.toLowerCase());
-  //     }).toList();
-  //   }
-  //   logger.log("filteredOrders: $statusFilteredOrders");
-  //   return statusFilteredOrders;
-  // }
 
   // Method to set filters
   void setFilter(String filter, {String? startDate, String? endDate}) {

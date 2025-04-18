@@ -27,7 +27,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
       if (!mounted) return;
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
-      productProvider.getCategoryProducts(widget.index, reset: true);
+      productProvider.getCategoryProducts(widget.index, "",reset: true);
     });
   }
 
@@ -108,7 +108,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
           onRefresh: () async {
             final productProvider =
                 Provider.of<ProductProvider>(context, listen: false);
-            await productProvider.getCategoryProducts(widget.index,
+            await productProvider.getCategoryProducts(widget.index,"",
                 reset: true);
           },
           child: Padding(

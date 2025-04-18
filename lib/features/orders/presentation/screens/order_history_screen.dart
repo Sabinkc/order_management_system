@@ -6,6 +6,7 @@ import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/simple_ui_provider.dart';
 import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
+import 'package:order_management_system/features/orders/presentation/screens/search_order_screen.dart';
 import 'package:provider/provider.dart';
 
 // import 'dart:developer' as logger;
@@ -18,6 +19,7 @@ class OrderHistoryScreen extends StatefulWidget {
 
 class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
   final ScrollController scrollController = ScrollController();
+  // final TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
@@ -45,6 +47,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
   @override
   void dispose() {
     scrollController.dispose();
+    // searchController.dispose();
     super.dispose();
   }
 
@@ -139,140 +142,92 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                           child: CircularProgressIndicator(
                         color: CommonColor.primaryColor,
                       ));
-                    } else if (orderProvider.ordersBySandD.isEmpty) {
-                      return Center(
-                        child: Text(
-                          "No orders till now",
-                          style: TextStyle(color: Colors.grey, fontSize: 25),
-                        ),
-                      );
                     }
-
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
-                          child: TextFormField(
-                            controller: orderProvider.searchController,
-                            onChanged: (value) {
-                              //   final trimmedValue = value.trim();
-                              //   if (debounce?.isActive ?? false) {
-                              //     debounce?.cancel();
-                              //   }
-                              //   debounce =
-                              //       Timer(const Duration(milliseconds: 500), () {
-                              //     if (trimmedValue.isNotEmpty) {
-                              //       // Update the search keyword in the SearchProvider
-                              //       Provider.of<OrderScreenProvider>(context,
-                              //               listen: false)
-                              //           .updateSearchKeyword(trimmedValue);
-                              //     } else {
-                              //       // Update the search keyword in the SearchProvider
-                              //       Provider.of<OrderScreenProvider>(context,
-                              //               listen: false)
-                              //           .updateSearchKeyword("");
-                              //     }
-                              //   });
-                              // },
-                              // onFieldSubmitted: (value) {
-                              //   final trimmedValue = value.trim();
-                              //   if (trimmedValue.isNotEmpty) {
-                              //     Provider.of<OrderScreenProvider>(context,
-                              //             listen: false)
-                              //         .updateSearchKeyword(trimmedValue);
-                              //   } else {
-                              //     Provider.of<OrderScreenProvider>(context,
-                              //             listen: false)
-                              //         .updateSearchKeyword("");
-                              //   }
+                          padding: EdgeInsets.only(top: 10, bottom: 10),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SearchOrderScreen()));
                             },
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 10,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 7,
                               ),
-                              fillColor: Colors.white,
-                              filled: true,
-                              hintText: "Search order no...",
-                              hintStyle: TextStyle(
-                                  color: CommonColor.darkGreyColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16),
-                              prefixIcon: Icon(
-                                Icons.search,
-                                size: 25,
-                                color: CommonColor.primaryColor,
+                              height: 45,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.white,
                               ),
-                              suffixIcon: Theme(
-                                data: ThemeData(
-                                    popupMenuTheme: PopupMenuThemeData(
-                                  color: Colors.white,
-                                )),
-                                child: PopupMenuButton(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 5.0),
-                                    child: SvgPicture.asset(
-                                      "assets/icons/filter.svg",
-                                      fit: BoxFit.contain,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.search,
+                                        size: 25,
+                                        color: CommonColor.primaryColor,
+                                      ),
+                                      SizedBox(
+                                        width: 15,
+                                      ),
+                                      Text(
+                                        "Search order no....",
+                                        style: TextStyle(
+                                            color: CommonColor.darkGreyColor,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
+                                      )
+                                    ],
+                                  ),
+                                  Theme(
+                                    data: ThemeData(
+                                        popupMenuTheme: PopupMenuThemeData(
+                                      color: Colors.white,
+                                    )),
+                                    child: PopupMenuButton(
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 5.0),
+                                        child: SvgPicture.asset(
+                                          "assets/icons/filter.svg",
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                      itemBuilder: (context) {
+                                        return [
+                                          PopupMenuItem(
+                                            padding: const EdgeInsets.only(
+                                              left: 15,
+                                              right: 15,
+                                              top: 0,
+                                              bottom: 0,
+                                            ),
+                                            onTap: () {
+                                              showFilterDialog(context);
+                                            },
+                                            child: const Center(
+                                                child: Text("Search filters")),
+                                          ),
+                                        ];
+                                      },
                                     ),
                                   ),
-                                  itemBuilder: (context) {
-                                    return [
-                                      PopupMenuItem(
-                                        padding: const EdgeInsets.only(
-                                          left: 15,
-                                          right: 15,
-                                          top: 0,
-                                          bottom: 0,
-                                        ),
-                                        onTap: () {
-                                          showFilterDialog(context);
-                                        },
-                                        child: const Center(
-                                            child: Text("Search filters")),
-                                      ),
-                                    ];
-                                  },
-                                ),
-                              ),
-                              suffixIconConstraints: const BoxConstraints(
-                                  maxHeight: 30,
-                                  maxWidth: 30,
-                                  minHeight: 30,
-                                  minWidth: 30),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                    color: Colors
-                                        .grey[100]!), // Transparent border
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                    color: CommonColor.primaryColor,
-                                    width: 2), // Focused border color
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 2), // Error border color
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 2), // Focused error border color
-                              ),
-                              disabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                    color: Colors
-                                        .grey[100]!), // Disabled border color
+                                ],
                               ),
                             ),
                           ),
                         ),
+                        
                         InkWell(
                             onTap: () async {
                               final orderProvider =
@@ -310,7 +265,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                               if (orderProvider.ordersBySandD.isEmpty) {
                                 return Center(
                                   child: Text(
-                                    "No invoices found!",
+                                    "No orders found!",
                                     style: TextStyle(
                                       color: CommonColor.darkGreyColor,
                                       fontSize: 20,
