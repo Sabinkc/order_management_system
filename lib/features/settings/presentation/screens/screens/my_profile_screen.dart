@@ -21,6 +21,15 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   String gender = "";
 
   @override
+  void dispose() {
+    fullnameController.dispose();
+    contactNoController.dispose();
+    emailController.dispose();
+    addressController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     Future.delayed(Duration.zero, () async {
       if (!mounted) return;

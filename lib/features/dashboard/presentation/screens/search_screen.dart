@@ -20,14 +20,14 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final ScrollController scrollController = ScrollController();
+  // final ScrollController scrollController = ScrollController();
   final TextEditingController searchController = SearchController();
   Timer? debounce;
 
   @override
   void initState() {
     super.initState();
-    scrollController.addListener(onScroll);
+    // scrollController.addListener(onScroll);
 
     // Focus on the search field when screen loads
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -43,22 +43,22 @@ class _SearchScreenState extends State<SearchScreen> {
             Provider.of<ProductProvider>(context, listen: false);
         await productProvider.getAllProductCategories();
         productProvider.resetCategoryProducts();
-        await productProvider.getCategoryProducts(
-            0, "",reset: true); // Fetch products for category ID 1 initially
+        await productProvider.getCategoryProducts(0, "",
+            reset: true); // Fetch products for category ID 1 initially
       });
     });
   }
 
-  int pageSize = 20;
-  void onScroll() {
-    if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
-      final tabBarProvider =
-          Provider.of<TabBarProvider>(context, listen: false);
-      Provider.of<ProductProvider>(context, listen: false).getCategoryProducts(
-          tabBarProvider.currentCategoryId, searchController.text.trim());
-    }
-  }
+  // int pageSize = 20;
+  // void onScroll() {
+  //   if (scrollController.position.pixels ==
+  //       scrollController.position.maxScrollExtent) {
+  //     final tabBarProvider =
+  //         Provider.of<TabBarProvider>(context, listen: false);
+  //     Provider.of<ProductProvider>(context, listen: false).getCategoryProducts(
+  //         tabBarProvider.currentCategoryId, searchController.text.trim());
+  //   }
+  // }
 
   // void onScroll() {
   //   final productProvider =
@@ -73,7 +73,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void dispose() {
-    scrollController.dispose();
+    // scrollController.dispose();
     searchController.dispose();
     debounce?.cancel();
     super.dispose();
@@ -139,17 +139,18 @@ class _SearchScreenState extends State<SearchScreen> {
                         }
                         debounce = Timer(Duration(seconds: 1), () {
                           // logger.log(searchController.text.trim());
-                          productProvider.getCategoryProducts(reset: true,
+                          productProvider.getCategoryProducts(
+                              reset: true,
                               tabBarProvider.currentCategoryId,
                               searchController.text.trim());
                         });
                       },
                       onFieldSubmitted: (value) {
                         // logger.log(searchController.text.trim());
-                        productProvider.getCategoryProducts(
-                          reset: true,
-                            tabBarProvider.currentCategoryId,
-                            searchController.text.trim());
+                        // productProvider.getCategoryProducts(
+                        //     reset: true,
+                        //     tabBarProvider.currentCategoryId,
+                        //     searchController.text.trim());
                       },
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
@@ -215,11 +216,13 @@ class _SearchScreenState extends State<SearchScreen> {
 
                             if (selectedCategory.id == 0) {
                               // If "All" category is selected, fetch all products
-                              productProvider.getCategoryProducts(0, "",reset: true);
+                              productProvider.getCategoryProducts(0, "",
+                                  reset: true);
                             } else {
                               // Otherwise, fetch products for the selected category
                               productProvider.getCategoryProducts(
-                                  selectedCategory.id, "",reset: true);
+                                  selectedCategory.id, "",
+                                  reset: true);
                             }
                           },
                           tabs: productProvider.productCategory
@@ -259,19 +262,18 @@ class _SearchScreenState extends State<SearchScreen> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 20),
                                 child: GridView.builder(
-                                  controller: scrollController,
+                                  // controller: scrollController,
+                                  itemCount:
+                                      productProvider.categoryProducts.length,
                                   // itemCount: productProvider
-                                  //         .filteredCategoryProducts.length +
-                                  //     1,
-                                  itemCount: productProvider
-                                          .categoryProducts.length +
-                                      (productProvider
-                                                  .hasMoreCategoryProducts &&
-                                              productProvider.categoryProducts
-                                                      .length >=
-                                                  pageSize
-                                          ? 1
-                                          : 0),
+                                  //         .categoryProducts.length +
+                                  //     (productProvider
+                                  //                 .hasMoreCategoryProducts &&
+                                  //             productProvider.categoryProducts
+                                  //                     .length >=
+                                  //                 pageSize
+                                  //         ? 1
+                                  //         : 0),
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
                                     childAspectRatio: 0.75,
@@ -280,256 +282,249 @@ class _SearchScreenState extends State<SearchScreen> {
                                     crossAxisSpacing: 10,
                                   ),
                                   itemBuilder: (context, index) {
-                                    if (index <
-                                        productProvider
-                                            .categoryProducts.length) {
-                                      final product = productProvider
-                                          .categoryProducts[index];
-                                      final productApiService =
-                                          ProductApiSevice();
-                                      // logger.log(
-                                      //     "built image url: ${product.imageUrl}");
-                                      return Consumer<CartQuantityProvider>(
-                                        builder: (context, provider, child) {
-                                          return Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              color: Colors.white,
-                                            ),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                    decoration: BoxDecoration(
-                                                      color: const Color(
-                                                          0XFFFAFAFA),
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .vertical(
-                                                        top: Radius.circular(8),
-                                                      ),
-                                                    ),
-                                                    height: 130,
-                                                    width: double.infinity,
-                                                    child: FutureBuilder<
-                                                        Uint8List>(
-                                                      future: productApiService
-                                                          .getImageByFilename(
-                                                              product.imageUrl),
-                                                      builder:
-                                                          (context, snapshot) {
-                                                        if (snapshot
-                                                                .connectionState ==
-                                                            ConnectionState
-                                                                .waiting) {
-                                                          return Center(
-                                                              child: Shimmer
-                                                                  .fromColors(
-                                                            baseColor: Colors
-                                                                .grey[300]!,
-                                                            highlightColor:
-                                                                Colors
-                                                                    .grey[100]!,
-                                                            child: Container(
-                                                              color: Colors.red,
-                                                            ),
-                                                          ));
-                                                        } else if (snapshot
-                                                            .hasError) {
-                                                          return Icon(Icons
-                                                              .broken_image);
-                                                        } else if (snapshot
-                                                            .hasData) {
-                                                          return ClipRRect(
-                                                            borderRadius: BorderRadius.only(
+                                    // if (index <
+                                    //     productProvider
+                                    //         .categoryProducts.length) {
+                                    final product =
+                                        productProvider.categoryProducts[index];
+                                    final productApiService =
+                                        ProductApiSevice();
+                                    // logger.log(
+                                    //     "built image url: ${product.imageUrl}");
+                                    // logger.log("built prouct: ${product.name}");
+                                    return Consumer<CartQuantityProvider>(
+                                      builder: (context, provider, child) {
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            color: Colors.white,
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      const Color(0XFFFAFAFA),
+                                                  borderRadius:
+                                                      const BorderRadius
+                                                          .vertical(
+                                                    top: Radius.circular(8),
+                                                  ),
+                                                ),
+                                                height: 130,
+                                                width: double.infinity,
+                                                child: FutureBuilder<Uint8List>(
+                                                  future: productApiService
+                                                      .getImageByFilename(
+                                                          product.imageUrl),
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot
+                                                            .connectionState ==
+                                                        ConnectionState
+                                                            .waiting) {
+                                                      return Center(
+                                                          child: Shimmer
+                                                              .fromColors(
+                                                        baseColor:
+                                                            Colors.grey[300]!,
+                                                        highlightColor:
+                                                            Colors.grey[100]!,
+                                                        child: Container(
+                                                          color: Colors.red,
+                                                        ),
+                                                      ));
+                                                    } else if (snapshot
+                                                        .hasError) {
+                                                      return Icon(
+                                                          Icons.broken_image);
+                                                    } else if (snapshot
+                                                        .hasData) {
+                                                      return ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius.only(
                                                                 topLeft: Radius
                                                                     .circular(
                                                                         8),
                                                                 topRight: Radius
                                                                     .circular(
                                                                         8)),
-                                                            child: Image.memory(
-                                                              snapshot.data!,
-                                                              fit: BoxFit.cover,
-                                                              errorBuilder: (context,
-                                                                      error,
-                                                                      stackTrace) =>
-                                                                  Icon(Icons
-                                                                      .broken_image),
-                                                            ),
-                                                          );
-                                                        } else {
-                                                          return Icon(Icons
-                                                              .broken_image);
-                                                        }
-                                                      },
-                                                    )),
-                                                const SizedBox(height: 15),
-                                                Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 8),
-                                                    child: Row(
-                                                      children: [
-                                                        SizedBox(
-                                                          width: 100,
-                                                          child: Text(
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            maxLines: 2,
-                                                            product.name,
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 14,
-                                                            ),
-                                                          ),
+                                                        child: Image.memory(
+                                                          snapshot.data!,
+                                                          fit: BoxFit.cover,
+                                                          errorBuilder: (context,
+                                                                  error,
+                                                                  stackTrace) =>
+                                                              Icon(Icons
+                                                                  .broken_image),
                                                         ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            product
-                                                                .categoryName,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            maxLines: 1,
-                                                            style: TextStyle(
-                                                              fontSize: 11,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: CommonColor
-                                                                  .mediumGreyColor,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )),
-                                                const SizedBox(height: 7),
-                                                Padding(
+                                                      );
+                                                    } else {
+                                                      return Icon(
+                                                          Icons.broken_image);
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                              const SizedBox(height: 15),
+                                              Padding(
                                                   padding: const EdgeInsets
                                                       .symmetric(horizontal: 8),
                                                   child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
                                                     children: [
                                                       SizedBox(
                                                         width: 100,
                                                         child: Text(
-                                                          "Rs. ${product.price}",
-                                                          maxLines: 2,
                                                           overflow: TextOverflow
                                                               .ellipsis,
+                                                          maxLines: 2,
+                                                          product.name,
+                                                          textAlign:
+                                                              TextAlign.start,
                                                           style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            color: CommonColor
-                                                                .primaryColor,
+                                                            fontSize: 14,
                                                           ),
                                                         ),
                                                       ),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          showDialog(
-                                                            context: context,
-                                                            builder: (context) {
-                                                              Future.delayed(
-                                                                  const Duration(
-                                                                      seconds:
-                                                                          1),
-                                                                  () {
-                                                                if (context
-                                                                    .mounted) {
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                }
-                                                              });
-                                                              return AlertDialog(
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .white,
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              15),
-                                                                ),
-                                                                title: Center(
-                                                                  child: Text(
-                                                                    "Item added to cart successfully!",
-                                                                    style: TextStyle(
-                                                                        color: CommonColor
-                                                                            .darkGreyColor,
-                                                                        fontSize:
-                                                                            14),
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            },
-                                                          );
-                                                          Provider.of<CartQuantityProvider>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .addToCart(
-                                                                  product.sku
-                                                                      .toString(),
-                                                                  context);
-                                                          logger.log(
-                                                              "tapped product sku: ${product.sku}");
-                                                        },
-                                                        child: Icon(
-                                                          MingCute
-                                                              .shopping_cart_1_line,
-                                                          color: Colors.black87,
+                                                      Expanded(
+                                                        child: Text(
+                                                          product.categoryName,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 1,
+                                                          style: TextStyle(
+                                                            fontSize: 11,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: CommonColor
+                                                                .mediumGreyColor,
+                                                          ),
                                                         ),
                                                       ),
                                                     ],
-                                                  ),
+                                                  )),
+                                              const SizedBox(height: 7),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 100,
+                                                      child: Text(
+                                                        "Rs. ${product.price}",
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: CommonColor
+                                                              .primaryColor,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            Future.delayed(
+                                                                const Duration(
+                                                                    seconds: 1),
+                                                                () {
+                                                              if (context
+                                                                  .mounted) {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              }
+                                                            });
+                                                            return AlertDialog(
+                                                              backgroundColor:
+                                                                  Colors.white,
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            15),
+                                                              ),
+                                                              title: Center(
+                                                                child: Text(
+                                                                  "Item added to cart successfully!",
+                                                                  style: TextStyle(
+                                                                      color: CommonColor
+                                                                          .darkGreyColor,
+                                                                      fontSize:
+                                                                          14),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        );
+                                                        Provider.of<CartQuantityProvider>(
+                                                                context,
+                                                                listen: false)
+                                                            .addToCart(
+                                                                product.sku
+                                                                    .toString(),
+                                                                context);
+                                                        logger.log(
+                                                            "tapped product sku: ${product.sku}");
+                                                      },
+                                                      child: Icon(
+                                                        MingCute
+                                                            .shopping_cart_1_line,
+                                                        color: Colors.black87,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    } else {
-                                      return productProvider
-                                                  .hasMoreCategoryProducts &&
-                                              productProvider.categoryProducts
-                                                      .length >=
-                                                  pageSize
-                                          ? Center(
-                                              child: SizedBox(
-                                                  height: 30,
-                                                  width: 30,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    color: CommonColor
-                                                        .primaryColor,
-                                                  )))
-                                          : Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                  "No more products!",
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 16),
-                                                ),
-                                              ],
-                                            );
-                                    }
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                    // } else {
+                                    //   return productProvider
+                                    //               .hasMoreCategoryProducts &&
+                                    //           productProvider.categoryProducts
+                                    //                   .length >=
+                                    //               pageSize
+                                    //       ? Center(
+                                    //           child: SizedBox(
+                                    //               height: 30,
+                                    //               width: 30,
+                                    //               child:
+                                    //                   CircularProgressIndicator(
+                                    //                 color: CommonColor
+                                    //                     .primaryColor,
+                                    //               )))
+                                    //       : Column(
+                                    //           mainAxisAlignment:
+                                    //               MainAxisAlignment.start,
+                                    //           children: [
+                                    //             SizedBox(
+                                    //               height: 10,
+                                    //             ),
+                                    //             Text(
+                                    //               "No more products!",
+                                    //               style: TextStyle(
+                                    //                   color: Colors.grey,
+                                    //                   fontSize: 16),
+                                    //             ),
+                                    //           ],
+                                    //         );
+                                    // }
                                   },
                                 ),
                               ),

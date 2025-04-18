@@ -7,11 +7,25 @@ import 'package:order_management_system/features/login/domain/auth_provider.dart
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
 
-class ResetPasswordScreen extends StatelessWidget {
-  ResetPasswordScreen({super.key});
+class ResetPasswordScreen extends StatefulWidget {
+ const ResetPasswordScreen({super.key});
 
+  @override
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
+}
+
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final TextEditingController oldPasswordController = TextEditingController();
+
   final TextEditingController newPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    oldPasswordController.dispose();
+    newPasswordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;

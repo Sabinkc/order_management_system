@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/dashboard/data/product_model.dart';
@@ -127,6 +129,23 @@ class ProductProvider extends ChangeNotifier {
       isCategoryProductLoading = false;
       notifyListeners();
     }
+  }
+
+bool isImageLoading = false;
+Uint8List productImage = Uint8List(10);
+  Future<Uint8List> getProductImage(String imageUrl) async{
+    isImageLoading = true;
+    notifyListeners();
+    
+    Uint8List imageData = await _service.getImageByFilename(imageUrl);
+    
+productImage = imageData;
+isImageLoading = false;
+notifyListeners();
+
+return productImage;
+    
+
   }
 
   void resetCategoryProducts() {

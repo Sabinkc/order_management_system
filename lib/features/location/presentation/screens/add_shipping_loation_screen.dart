@@ -6,16 +6,40 @@ import 'package:order_management_system/features/location/domain/location_provid
 import 'package:order_management_system/features/location/presentation/widgets/common_location_textform_field.dart';
 import 'package:provider/provider.dart';
 
-class AddShippingLoationScreen extends StatelessWidget {
-  AddShippingLoationScreen({super.key});
+class AddShippingLoationScreen extends StatefulWidget {
+ const AddShippingLoationScreen({super.key});
 
+  @override
+  State<AddShippingLoationScreen> createState() => _AddShippingLoationScreenState();
+}
+
+class _AddShippingLoationScreenState extends State<AddShippingLoationScreen> {
   final TextEditingController fullNameController = TextEditingController();
+
   final TextEditingController phoneController = TextEditingController();
+
   final TextEditingController emailController = TextEditingController();
+
   final TextEditingController areaController = TextEditingController();
+
   final TextEditingController cityController = TextEditingController();
+
   final TextEditingController prefectureController = TextEditingController();
+
   final TextEditingController landmarkController = TextEditingController();
+
+  @override
+  void dispose() {
+    fullNameController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
+    areaController.dispose();
+    cityController.dispose();
+    prefectureController.dispose();
+    landmarkController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;

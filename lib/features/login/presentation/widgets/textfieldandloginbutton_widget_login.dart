@@ -21,6 +21,13 @@ class _TextfieldandloginbuttonWidgetLoginState
   final TextEditingController emailController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
   
 
   @override

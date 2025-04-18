@@ -48,6 +48,18 @@ class _EditShippingLocationScreenState
   }
 
   @override
+  void dispose() {
+    fullNameController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    prefectureController.dispose();
+    cityController.dispose();
+    areaController.dispose();
+    landmarkController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;

@@ -2,12 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/utils.dart';
 
-class ReportIssueScreen extends StatelessWidget {
+class ReportIssueScreen extends StatefulWidget {
   const ReportIssueScreen({super.key});
 
   @override
+  State<ReportIssueScreen> createState() => _ReportIssueScreenState();
+}
+   
+    
+
+class _ReportIssueScreenState extends State<ReportIssueScreen> {
+
+   final TextEditingController reportTextController = TextEditingController();
+   @override
+  void dispose() {
+    reportTextController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
-    final TextEditingController reportTextController = TextEditingController();
+
     return Scaffold(
         backgroundColor: CommonColor.scaffoldbackgroundColor,
         appBar: AppBar(

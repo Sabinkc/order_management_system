@@ -29,6 +29,12 @@ class _SearchOrderScreenState extends State<SearchOrderScreen> {
   }
 
   @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     return KeyboardDismisser(

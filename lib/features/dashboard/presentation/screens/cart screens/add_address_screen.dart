@@ -30,6 +30,18 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   final TextEditingController landmarkController = TextEditingController();
 
   @override
+  void dispose() {
+    fullNameController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
+    areaController.dispose();
+    cityController.dispose();
+    prefectureController.dispose();
+    landmarkController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     return KeyboardDismisser(

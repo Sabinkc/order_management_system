@@ -2,12 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:pinput/pinput.dart';
 
-class EmailVerificationScreen extends StatelessWidget {
+class EmailVerificationScreen extends StatefulWidget {
   const EmailVerificationScreen({super.key});
 
   @override
+  State<EmailVerificationScreen> createState() =>
+      _EmailVerificationScreenState();
+}
+
+class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
+  final TextEditingController pinController = TextEditingController();
+  @override
+  void dispose() {
+    pinController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final TextEditingController pinController = TextEditingController();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

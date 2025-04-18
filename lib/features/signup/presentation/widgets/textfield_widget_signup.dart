@@ -27,6 +27,15 @@ class _TextfieldWidgetSignupState extends State<TextfieldWidgetSignup> {
   final confirmPasswordController = TextEditingController();
 
   @override
+  void dispose() {
+    fullnameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
 
