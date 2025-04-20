@@ -847,7 +847,7 @@ class ProductApiSevice {
   }
 
   Future<List<InvoiceModel>> getAllInvoiceByStatusAndDate(
-      int page, bool paidStatus, String startDate, String endDate) async {
+      int page, String paidStatus, String startDate, String endDate) async {
     logger
         .log("status: $paidStatus, start Date: $startDate, end Date: $endDate");
     String? token = await SharedPrefLoggedinState.getAccessToken();
@@ -863,15 +863,8 @@ class ProductApiSevice {
       'Authorization': 'Bearer $token'
     };
 
-    int p;
-    if (paidStatus == false) {
-      p = 0;
-    } else {
-      p = 1;
-    }
-
     var url = Uri.parse(
-        "${Constants.getAllInvoiceUrl}?page=$page&p=$p&sd=$startDate&ed=$endDate");
+        "${Constants.getAllInvoiceUrl}?page=$page&p=$paidStatus&sd=$startDate&ed=$endDate");
 
     var request = http.Request('GET', url);
     request.headers.addAll(headers);
@@ -880,6 +873,7 @@ class ProductApiSevice {
     // logger.log(responseBody.toString());
     logger.log("status code: ${response.statusCode}");
     Map<String, dynamic> jsonResponse = json.decode(responseBody);
+    // logger.log("$responseBody");
 
     if (response.statusCode == 200) {
       List<dynamic> invoicesJson = jsonResponse["data"];
@@ -911,7 +905,7 @@ class ProductApiSevice {
           totalAmount: invoice["totalAmount"], // Use the provided totalAmount
           date: order["createdAt"],
           totalQuantity: totalQuantity,
-          paidStatus: invoice["isPaid"],
+          paidStatus: invoice["isPaid"].toString(),
           products: products,
           receiverName: receiver["name"],
           receiverPhone: receiver["phone"],
@@ -924,6 +918,77 @@ class ProductApiSevice {
       logger.log("invoices: $invoices");
       logger.log("get all invoice api called");
       return invoices;
+    } else {
+      String errorMessage = "Failed to get invoice";
+      logger.log(errorMessage);
+      throw errorMessage;
+    }
+  }
+
+  Future<InvoiceModel> getInvoiceByInvoiceno(String invoiceNo) async {
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+
+    if (token == null) {
+      String tokenErrorMessage = "User not authenticated. Please login first.";
+      throw tokenErrorMessage;
+    }
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    var url = Uri.parse("${Constants.baseUrl}/v1/my-invoices/$invoiceNo");
+    logger.log("$url");
+
+    var request = http.Request('GET', url);
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    String responseBody = await response.stream.bytesToString();
+
+    Map<String, dynamic> jsonResponse = json.decode(responseBody);
+
+    if (response.statusCode == 200) {
+      var invoiceData = jsonResponse["invoice"]; // Access the invoice object
+      var order = invoiceData["order"];
+      var shippingLocation = order["shippingLocation"];
+      var receiver = shippingLocation["receiver"];
+
+      // Process products
+      List<OrderProductDetailModel> products = [];
+      for (var product in order["products"]) {
+        products.add(OrderProductDetailModel(
+          name: product["name"],
+          price: double.parse(product["price"].toString()),
+          category: product["category"]["name"],
+          imagePath: product["image"] ?? "N/A",
+          quantity: product["quantity"],
+        ));
+      }
+
+      // Calculate total quantity
+      int totalQuantity = order["products"]
+          .fold(0, (sum, product) => sum + product["quantity"]);
+
+      InvoiceModel invoice = InvoiceModel(
+        invoiceNo: invoiceData["invoiceNo"],
+        totalAmount: invoiceData["totalAmount"],
+        date: order["createdAt"],
+        totalQuantity: totalQuantity,
+        paidStatus: invoiceData["isPaid"].toString(),
+        products: products,
+        receiverName: receiver["name"],
+        receiverPhone: receiver["phone"],
+        receiverEmail: receiver["email"],
+        receiverPrefecture: shippingLocation["prefecture"],
+        receiverCity: shippingLocation["city"],
+        receiverArea: shippingLocation["area"],
+      );
+
+      logger.log("invoice: $invoice");
+      logger.log("get invoice by invoice no api called");
+      return invoice; // Return single invoice instead of list
     } else {
       String errorMessage = "Failed to get invoice";
       logger.log(errorMessage);

@@ -182,7 +182,7 @@ class ProductProvider extends ChangeNotifier {
 
   int invoicePage = 1;
   Future<void> getAllInvoice(
-      bool reset, bool paidStatus, String startDate, String endDate) async {
+      bool reset, String paidStatus, String startDate, String endDate) async {
     if (reset) {
       invoicePage = 1;
       allInvoiceHasMore = true;
@@ -213,4 +213,44 @@ class ProductProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  InvoiceModel invoiceDetail = InvoiceModel(
+    invoiceNo: "",
+      totalAmount: "",
+      date: "",
+      totalQuantity: 0,
+      paidStatus: "",
+      products: [],
+      receiverName: "",
+      receiverEmail: "", 
+      receiverPhone: "", 
+      receiverPrefecture: "", 
+      receiverCity: "", 
+      receiverArea: "");
+  // List<OrderModel> searchedInvoice = [];
+  bool isFetchInvoiceByNoLoading = false;
+
+  Future fetchInvoiceByNo(String invoiceNo) async {
+    isFetchInvoiceByNoLoading = true;
+    notifyListeners();
+    try {
+      InvoiceModel response = await _service.getInvoiceByInvoiceno(invoiceNo);
+
+      invoiceDetail = response;
+      // searchedInvoice = [invoiceDetail];
+      logger.log("invoice by key: $invoiceDetail");
+    } catch (e) {
+      logger.log("$e");
+      // searchedOrder.clear();
+    } finally {
+      isFetchInvoiceByNoLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // void clearSearchedOrder() {
+  //   searchedOrder = [];
+  //   isFetchOrderByLoading = false;
+  //   notifyListeners();
+  // }
 }

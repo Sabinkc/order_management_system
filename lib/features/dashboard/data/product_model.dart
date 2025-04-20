@@ -97,7 +97,7 @@ class InvoiceModel {
   final String totalAmount;
   final String date;
   final int totalQuantity;
-  final bool paidStatus;
+  final String paidStatus;
   final List<OrderProductDetailModel> products;
   String receiverName;
   String receiverPhone;

@@ -22,7 +22,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       }
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
-      await productProvider.getAllInvoice(true, false, "", "");
+      await productProvider.getAllInvoice(true, "", "", "");
     });
     super.initState();
   }
@@ -183,7 +183,9 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  InvoiceDetailScreen()));
+                                                  InvoiceDetailScreen(
+                                                      invoiceNo:
+                                                          invoice.invoiceNo)));
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(

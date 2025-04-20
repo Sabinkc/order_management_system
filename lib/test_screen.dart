@@ -18,9 +18,12 @@ class TestScreen extends StatelessWidget {
                 // final orderProvider =
                 //     Provider.of<OrderScreenProvider>(context, listen: false);
                 // orderProvider.getAllOrder();
-                final productProvider =
-                    Provider.of<ProductProvider>(context, listen: false);
-                productProvider.getAllInvoice(true, false, "", "");
+                // final productProvider =
+                //     Provider.of<ProductProvider>(context, listen: false);
+                // productProvider.getAllInvoice(true, "", "", "");
+                final productApiService = ProductApiSevice();
+                // productApiService.getInvoiceByInvoiceno("2-3-4-n");
+                productApiService.getAllInvoiceByStatusAndDate(1, "", "", "");
 
                 // final orderProvider =
                 //     Provider.of<OrderScreenProvider>(context, listen: false);
