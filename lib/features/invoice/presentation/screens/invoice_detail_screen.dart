@@ -31,333 +31,259 @@ class InvoiceDetailScreen extends StatelessWidget {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            // Text(index.toString()),
-            SizedBox(
-              height: screenHeight * 0.01,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                "Products",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-            ),
-            SizedBox(
-              height: screenHeight * 0.005,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Divider(
-                color: CommonColor.commonGreyColor,
-                thickness: 2,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: SizedBox(
-                height: screenHeight * 0.4,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8)),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 90,
-                                width: 70,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey[100],
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Image.asset(
-                                    "assets/images/book.jpeg",
-                                    fit: BoxFit.cover,
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            Icon(Icons.broken_image),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 15),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: 220,
-                                    child: Text(
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      "Book",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    "Stationery | Qty: 5",
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
-                                        color: CommonColor.mediumGreyColor),
-                                  ),
-                                  RichText(
-                                      text: TextSpan(children: [
-                                    TextSpan(
-                                      text: "Rs.",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: CommonColor.primaryColor),
-                                    ),
-                                    TextSpan(
-                                      text: "500",
-                                      style: TextStyle(
-                                          fontSize: 21,
-                                          fontWeight: FontWeight.bold,
-                                          color: CommonColor.primaryColor),
-                                    ),
-                                  ])),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ));
-                  },
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          // Text("Receipt"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Prepared for",
+                      style: TextStyle(
+                          color: CommonColor.mediumGreyColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      "John Wilson",
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    Text(
+                      "9812060688",
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    Text(
+                      "johnwilson@gmail.com",
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    Text(
+                      "Shankhamul, Kathmandu",
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    )
+                  ],
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Divider(
-                color: CommonColor.commonGreyColor,
-                thickness: 2,
+              SizedBox(
+                width: 10,
               ),
-            ),
-            // Spacer(),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  "Invoice Details:",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                )),
-            SizedBox(
-              height: screenHeight * 0.02,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                spacing: 15,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Invoice No:",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "01234567",
-                            style: TextStyle(
-                              color: CommonColor.primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
+                  Text(
+                    "Date",
+                    style: TextStyle(
+                        color: CommonColor.mediumGreyColor,
+                        fontWeight: FontWeight.bold),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Invoice Status:",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Paid",
-                            style: TextStyle(
-                              color: CommonColor.primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Invocie From:",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Karl John",
-                            style: TextStyle(
-                              color: CommonColor.primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Invocie To:",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "John Karl",
-                            style: TextStyle(
-                              color: CommonColor.primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Total Products Quantity:",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "9",
-                            style: TextStyle(
-                              color: CommonColor.primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Discount:",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Rs.70",
-                            style: TextStyle(
-                              color: CommonColor.primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  Divider(
-                    height: 0,
-                    color: CommonColor.commonGreyColor,
-                    thickness: 2,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Total Amount:",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Rs.",
-                            style: TextStyle(
-                              color: CommonColor.primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                            ),
-                          ),
-                          Text(
-                            "700",
-                            style: TextStyle(
-                              color: CommonColor.primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
+                  Text(
+                    "2025-02-01",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  )
                 ],
-              ),
-            ),
+              )
+            ],
+          ),
+          Divider(
+            color: CommonColor.commonGreyColor,
+            thickness: 2,
+            height: screenHeight * 0.05,
+          ),
 
-            // SizedBox(
-            //   height: 20,
-            // ),
-          ],
-        ),
+          Text(
+            "Invoice Summary",
+            style: TextStyle(
+                color: CommonColor.primaryColor,
+                fontSize: 16,
+                fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: screenHeight * 0.01,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Products",
+                  style: TextStyle(color: CommonColor.mediumGreyColor),
+                ),
+                Text(
+                  "Amount",
+                  style: TextStyle(color: CommonColor.mediumGreyColor),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: screenHeight * 0.01,
+          ),
+          // Divider(
+          //   color: CommonColor.commonGreyColor,
+          //   thickness: 2,
+          //   // height: screenHeight * 0.05,
+          // ),
+          // SizedBox(
+          //   height: screenHeight * 0.01,
+          // ),
+          Expanded(
+            // height: 200,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(8)),
+              child: ListView.builder(
+                  itemCount: 8,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "5 T shirts",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "Rs.500",
+                                  style: TextStyle(
+                                      color: CommonColor.mediumGreyColor,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                            Divider(
+                              color: CommonColor.commonGreyColor,
+                              thickness: 2,
+                              // height: screenHeight * 0.05,
+                            ),
+                          ],
+                        ));
+                  }),
+            ),
+          ),
+          SizedBox(
+            height: screenHeight * 0.02,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Invoice no",
+                style: TextStyle(
+                  color: CommonColor.mediumGreyColor,
+                ),
+              ),
+              Text(
+                "012345",
+                style: TextStyle(color: CommonColor.mediumGreyColor),
+              )
+            ],
+          ),
+          Divider(
+            color: CommonColor.commonGreyColor,
+            thickness: 2,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Invoice status",
+                style: TextStyle(
+                  color: CommonColor.mediumGreyColor,
+                ),
+              ),
+              Text(
+                "Paid",
+                style: TextStyle(color: CommonColor.mediumGreyColor),
+              )
+            ],
+          ),
+          Divider(
+            color: CommonColor.commonGreyColor,
+            thickness: 2,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Subtotal",
+                style: TextStyle(
+                  color: CommonColor.mediumGreyColor,
+                ),
+              ),
+              Text(
+                "Rs.500",
+                style: TextStyle(color: CommonColor.mediumGreyColor),
+              )
+            ],
+          ),
+          Divider(
+            color: CommonColor.commonGreyColor,
+            thickness: 2,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Discount",
+                style: TextStyle(
+                  color: CommonColor.mediumGreyColor,
+                ),
+              ),
+              Text(
+                "Rs.50",
+                style: TextStyle(color: CommonColor.mediumGreyColor),
+              )
+            ],
+          ),
+          Divider(
+            color: CommonColor.commonGreyColor,
+            thickness: 2,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Total",
+                style: TextStyle(
+                  color: CommonColor.mediumGreyColor,
+                ),
+              ),
+              Text(
+                "Rs.700",
+                style: TextStyle(color: CommonColor.mediumGreyColor),
+              )
+            ],
+          ),
+          SizedBox(
+            height: screenHeight * 0.005,
+          )
+        ]),
       ),
     );
   }
