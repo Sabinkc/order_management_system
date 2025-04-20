@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/invoice/presentation/screens/invoice_detail_screen.dart';
+import 'package:provider/provider.dart';
 
 class InvoiceScreen extends StatefulWidget {
   const InvoiceScreen({super.key});
@@ -12,6 +14,19 @@ class InvoiceScreen extends StatefulWidget {
 }
 
 class _InvoiceScreenState extends State<InvoiceScreen> {
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      if (!mounted) {
+        return;
+      }
+      final productProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      await productProvider.getAllInvoice(true, false, "", "");
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return KeyboardDismisser(
@@ -36,205 +51,222 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
             centerTitle: true,
             automaticallyImplyLeading: false,
           ),
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                      ),
-                      fillColor: Colors.white,
-                      filled: true,
-                      hintText: "Search invoice no...",
-                      hintStyle: TextStyle(
-                          color: CommonColor.darkGreyColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16),
-                      prefixIcon: Icon(
-                        Icons.search,
-                        size: 25,
-                        color: CommonColor.primaryColor,
-                      ),
-                      suffixIcon: Theme(
-                        data: ThemeData(
-                            popupMenuTheme: PopupMenuThemeData(
-                          color: Colors.white,
-                        )),
-                        child: PopupMenuButton(
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 5.0),
-                            child: SvgPicture.asset(
-                              "assets/icons/filter.svg",
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          itemBuilder: (context) {
-                            return [
-                              PopupMenuItem(
-                                padding: const EdgeInsets.only(
-                                  left: 15,
-                                  right: 15,
-                                  top: 0,
-                                  bottom: 0,
-                                ),
-                                onTap: () {
-                                  showFilterDialog(context);
-                                },
-                                child:
-                                    const Center(child: Text("Search filters")),
-                              ),
-                            ];
-                          },
-                        ),
-                      ),
-                      suffixIconConstraints: const BoxConstraints(
-                          maxHeight: 30,
-                          maxWidth: 30,
-                          minHeight: 30,
-                          minWidth: 30),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(
-                            color: Colors.grey[100]!), // Transparent border
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(
-                            color: CommonColor.primaryColor,
-                            width: 2), // Focused border color
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(
-                            color: Colors.red, width: 2), // Error border color
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(
-                            color: Colors.red,
-                            width: 2), // Focused error border color
-                      ),
-                      disabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(
-                            color: Colors.grey[100]!), // Disabled border color
-                      ),
+          body: Consumer<ProductProvider>(
+              builder: (context, productProvider, child) {
+            return productProvider.isGetAllInvoiceLoading == true
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: CommonColor.primaryColor,
                     ),
-                  ),
-                ),
-                InkWell(
-                    onTap: () async {},
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 8),
-                      child: Text(
-                        "Reset filter",
-                        style: TextStyle(
-                            color: CommonColor.primaryColor,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )),
-                Divider(
-                  color: CommonColor.commonGreyColor,
-                  thickness: 2,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                      physics: AlwaysScrollableScrollPhysics(),
-                      itemCount: 5,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          InvoiceDetailScreen()));
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 15),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
+                  )
+                : Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 10,
                               ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                spacing: 3,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Invoice No: 01234567",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            color: CommonColor.darkGreyColor),
-                                      ),
-                                      Text(
-                                        "Rs.100",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15,
-                                            color: CommonColor.primaryColor),
-                                      ),
-                                    ],
+                              fillColor: Colors.white,
+                              filled: true,
+                              hintText: "Search invoice no...",
+                              hintStyle: TextStyle(
+                                  color: CommonColor.darkGreyColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16),
+                              prefixIcon: Icon(
+                                Icons.search,
+                                size: 25,
+                                color: CommonColor.primaryColor,
+                              ),
+                              suffixIcon: Theme(
+                                data: ThemeData(
+                                    popupMenuTheme: PopupMenuThemeData(
+                                  color: Colors.white,
+                                )),
+                                child: PopupMenuButton(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 5.0),
+                                    child: SvgPicture.asset(
+                                      "assets/icons/filter.svg",
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "2025-1-3",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 11,
-                                          color: CommonColor.mediumGreyColor,
+                                  itemBuilder: (context) {
+                                    return [
+                                      PopupMenuItem(
+                                        padding: const EdgeInsets.only(
+                                          left: 15,
+                                          right: 15,
+                                          top: 0,
+                                          bottom: 0,
                                         ),
+                                        onTap: () {
+                                          showFilterDialog(context);
+                                        },
+                                        child: const Center(
+                                            child: Text("Search filters")),
                                       ),
-                                      Text(
-                                        "Qty: 4",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 11,
-                                            color: CommonColor.mediumGreyColor),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Status: ",
-                                        style: TextStyle(
-                                            color: CommonColor.darkGreyColor,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        "Paid",
-                                        style: TextStyle(
-                                            color: CommonColor.primaryColor,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                    ];
+                                  },
+                                ),
+                              ),
+                              suffixIconConstraints: const BoxConstraints(
+                                  maxHeight: 30,
+                                  maxWidth: 30,
+                                  minHeight: 30,
+                                  minWidth: 30),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: Colors
+                                        .grey[100]!), // Transparent border
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: CommonColor.primaryColor,
+                                    width: 2), // Focused border color
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: Colors.red,
+                                    width: 2), // Error border color
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: Colors.red,
+                                    width: 2), // Focused error border color
+                              ),
+                              disabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: Colors
+                                        .grey[100]!), // Disabled border color
                               ),
                             ),
                           ),
-                        );
-                      }),
-                )
-              ],
-            ),
-          )),
+                        ),
+                        InkWell(
+                            onTap: () async {},
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 8),
+                              child: Text(
+                                "Reset filter",
+                                style: TextStyle(
+                                    color: CommonColor.primaryColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )),
+                        Divider(
+                          color: CommonColor.commonGreyColor,
+                          thickness: 2,
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                              physics: AlwaysScrollableScrollPhysics(),
+                              itemCount: productProvider.invoices.length,
+                              itemBuilder: (context, index) {
+                                final invoice = productProvider.invoices[index];
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  InvoiceDetailScreen()));
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15, vertical: 15),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        spacing: 3,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Invoice No: ${invoice.invoiceNo}",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: CommonColor
+                                                        .darkGreyColor),
+                                              ),
+                                              Text(
+                                                "Rs.${invoice.totalAmount}",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15,
+                                                    color: CommonColor
+                                                        .primaryColor),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "Status: ",
+                                                    style: TextStyle(
+                                                        color: CommonColor
+                                                            .darkGreyColor,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    invoice.paidStatus == false
+                                                        ? "Unpaid"
+                                                        : "Paid",
+                                                    style: TextStyle(
+                                                        color: CommonColor
+                                                            .primaryColor,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ],
+                                              ),
+                                              Text(
+                                                invoice.date,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 11,
+                                                  color: CommonColor
+                                                      .mediumGreyColor,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                        )
+                      ],
+                    ),
+                  );
+          })),
     );
   }
 

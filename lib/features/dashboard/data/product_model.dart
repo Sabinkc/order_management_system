@@ -46,15 +46,15 @@ class ProductCategory {
   }
 }
 
-class InvoiceModel {
+class OrderModel {
   final String orderNo;
   final String totalAmount;
   final String date;
   final int totalQuantity;
   final String status;
-  final List<InvoiceProductDetailModel> products;
+  final List<OrderProductDetailModel> products;
 
-  InvoiceModel({
+  OrderModel({
     required this.orderNo,
     required this.totalAmount,
     required this.date,
@@ -69,14 +69,14 @@ class InvoiceModel {
   }
 }
 
-class InvoiceProductDetailModel {
+class OrderProductDetailModel {
   final String name;
   final String category;
   final int quantity;
   final double price;
   final String imagePath;
 
-  InvoiceProductDetailModel({
+  OrderProductDetailModel({
     required this.name,
     required this.category,
     required this.quantity,
@@ -88,4 +88,45 @@ class InvoiceProductDetailModel {
   String toString() {
     return 'InvoiceProductDetailModel(name: $name, category: $category, quantity: $quantity, price: $price, imagePath: $imagePath)';
   }
+
 }
+
+
+class InvoiceModel {
+  final String invoiceNo;
+  final String totalAmount;
+  final String date;
+  final int totalQuantity;
+  final bool paidStatus;
+  final List<OrderProductDetailModel> products;
+  String receiverName;
+  String receiverPhone;
+  String receiverEmail;
+  String receiverPrefecture;
+  String receiverCity;
+  String receiverArea;
+
+
+  InvoiceModel({
+    required this.invoiceNo,
+    required this.totalAmount,
+    required this.date,
+    required this.totalQuantity,
+    required this.paidStatus,
+    required this.products,
+    required this.receiverName, 
+    required this.receiverPhone, 
+    required this.receiverEmail,
+    required this.receiverPrefecture, 
+    required this.receiverCity, 
+    required this.receiverArea
+
+  });
+
+  @override
+  String toString() {
+    return 'InvoiceModel(orderNo: $invoiceNo, totalAmount: $totalAmount, date: $date, totalQuantity: $totalQuantity, status: $paidStatus, products: $products, receiverName: $receiverName, receiverPhone: $receiverPhone, receiverEmail: $receiverEmail, receiverPrefecture: $receiverPrefecture, rceiverCity: $receiverArea, receiverArea: $receiverArea)';
+  }
+}
+
+

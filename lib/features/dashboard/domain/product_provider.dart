@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/dashboard/data/product_model.dart';
@@ -131,21 +130,19 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
-bool isImageLoading = false;
-Uint8List productImage = Uint8List(10);
-  Future<Uint8List> getProductImage(String imageUrl) async{
+  bool isImageLoading = false;
+  Uint8List productImage = Uint8List(10);
+  Future<Uint8List> getProductImage(String imageUrl) async {
     isImageLoading = true;
     notifyListeners();
-    
+
     Uint8List imageData = await _service.getImageByFilename(imageUrl);
-    
-productImage = imageData;
-isImageLoading = false;
-notifyListeners();
 
-return productImage;
-    
+    productImage = imageData;
+    isImageLoading = false;
+    notifyListeners();
 
+    return productImage;
   }
 
   void resetCategoryProducts() {
@@ -175,6 +172,44 @@ return productImage;
     } finally {
       // Reset the loading state, regardless of success or failure
       isCreateOrderLoading = false;
+      notifyListeners();
+    }
+  }
+
+  bool isGetAllInvoiceLoading = false; // Loading state
+  List<InvoiceModel> invoices = []; // Stores all orders from the API
+  bool allInvoiceHasMore = true;
+
+  int invoicePage = 1;
+  Future<void> getAllInvoice(
+      bool reset, bool paidStatus, String startDate, String endDate) async {
+    if (reset) {
+      invoicePage = 1;
+      allInvoiceHasMore = true;
+      invoices.clear();
+      isGetAllInvoiceLoading = false;
+      notifyListeners();
+    }
+    if (isGetAllInvoiceLoading || !allInvoiceHasMore) return;
+    isGetAllInvoiceLoading = true;
+    notifyListeners();
+
+    try {
+      logger.log(
+          "page:$invoicePage, status: $paidStatus, startDate: $startDate, endDate: $endDate");
+      final response = await _service.getAllInvoiceByStatusAndDate(
+          invoicePage, paidStatus, startDate, endDate);
+      if (response.isEmpty) {
+        allInvoiceHasMore = false;
+      } else {
+        invoices.addAll(response);
+        invoicePage++;
+        notifyListeners();
+      }
+    } catch (e) {
+      logger.log("$e");
+    } finally {
+      isGetAllInvoiceLoading = false;
       notifyListeners();
     }
   }

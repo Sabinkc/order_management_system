@@ -21,21 +21,21 @@ class OrderScreenProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  InvoiceModel invoiceDetail = InvoiceModel(
+  OrderModel invoiceDetail = OrderModel(
       orderNo: "",
       totalAmount: "",
       date: "",
       totalQuantity: 0,
       status: "",
       products: []);
-  List<InvoiceModel> searchedOrder = [];
+  List<OrderModel> searchedOrder = [];
   bool isFetchOrderByLoading = false;
 
   Future fetchOrderByorderKey(String orderKey) async {
     isFetchOrderByLoading = true;
     notifyListeners();
     try {
-      InvoiceModel response = await productApiSevice.getOrderByKey(orderKey);
+      OrderModel response = await productApiSevice.getOrderByKey(orderKey);
 
       invoiceDetail = response;
       searchedOrder = [invoiceDetail];
@@ -144,7 +144,7 @@ class OrderScreenProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
   bool isOrderBySandDLoading = false; // Loading state
-  List<InvoiceModel> ordersBySandD = []; // Stores all orders from the API
+  List<OrderModel> ordersBySandD = []; // Stores all orders from the API
   bool orderBySandDHasMore = true;
 
   int orderBySandDPage = 1;

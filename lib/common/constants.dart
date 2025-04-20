@@ -28,4 +28,5 @@ class Constants {
       "https://oms.sysqube.com.np/api/v1/my-profile";
   static final String changePasswordUrl =
       "https://oms.sysqube.com.np/api/v1/password";
+      static final String getAllInvoiceUrl = "https://oms.sysqube.com.np/api/v1/my-invoices";
 }

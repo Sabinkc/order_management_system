@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
+import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
+import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:provider/provider.dart';
 
 class TestScreen extends StatelessWidget {
@@ -17,15 +18,13 @@ class TestScreen extends StatelessWidget {
                 // final orderProvider =
                 //     Provider.of<OrderScreenProvider>(context, listen: false);
                 // orderProvider.getAllOrder();
-                // final productProvider =
-                //     Provider.of<ProductProvider>(context, listen: false);
-                // productProvider.getProductCategoriesWithoutAll();
-                // productProvider.getAllProduct();
-                // final productApiService = ProductApiSevice();
-                // productApiService.getAllMyOrdersByStatusAndDate(1, "", "", "");
-                final orderProvider =
-                    Provider.of<OrderScreenProvider>(context, listen: false);
-                orderProvider.getOrderByStatusAndDate("pending", "", "");
+                final productProvider =
+                    Provider.of<ProductProvider>(context, listen: false);
+                productProvider.getAllInvoice(true, false, "", "");
+
+                // final orderProvider =
+                //     Provider.of<OrderScreenProvider>(context, listen: false);
+                // orderProvider.getOrderByStatusAndDate("pending", "", "");
               },
               child: Text("Press")),
           Center(child: Text("Test Screen")),

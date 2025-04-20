@@ -62,7 +62,6 @@ class ProductApiSevice {
     }
   }
 
-
   Future<List<ProductDetails>> getAllProducts(String s, int page) async {
     // Get the saved token from SharedPreferences
     String? token = await SharedPrefLoggedinState.getAccessToken();
@@ -169,7 +168,8 @@ class ProductApiSevice {
   }
 
 //get products by category
- Future<List<ProductDetails>> getProductsByCategory(int c,String s,  int page) async {
+  Future<List<ProductDetails>> getProductsByCategory(
+      int c, String s, int page) async {
     // Get the saved token from SharedPreferences
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
@@ -186,7 +186,8 @@ class ProductApiSevice {
     };
 
     // Constructing the URL with the category filter (c for category)
-    var url = Uri.parse("${Constants.baseUrl}/v1/products?c=$c&s=$s&page=$page");
+    var url =
+        Uri.parse("${Constants.baseUrl}/v1/products?c=$c&s=$s&page=$page");
 
     var request = http.Request('GET', url);
     request.headers.addAll(headers);
@@ -233,9 +234,6 @@ class ProductApiSevice {
       throw Exception('Failed to fetch products');
     }
   }
-
-
-
 
 //get products by availiability
   Future<Map<String, dynamic>> getProductsByAvailability(int a) async {
@@ -491,7 +489,7 @@ class ProductApiSevice {
     }
   }
 
-  Future<List<InvoiceModel>> getAllMyOrders(int page) async {
+  Future<List<OrderModel>> getAllMyOrders(int page) async {
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
     if (token == null) {
@@ -517,12 +515,12 @@ class ProductApiSevice {
 
     if (response.statusCode == 200) {
       List<dynamic> ordersJson = jsonResponse["data"];
-      List<InvoiceModel> orders = [];
+      List<OrderModel> orders = [];
 
       for (var order in ordersJson) {
         int totalQuantity = 0;
         double totalAmount = 0.0;
-        List<InvoiceProductDetailModel> products =
+        List<OrderProductDetailModel> products =
             []; // List to hold CartModel objects
 
         for (var product in order["products"]) {
@@ -530,7 +528,7 @@ class ProductApiSevice {
           totalAmount += double.parse(product["amount"].toString());
 
           // Create CartModel object directly
-          products.add(InvoiceProductDetailModel(
+          products.add(OrderProductDetailModel(
             // Use a default value if "id" is missing
             name: product["name"],
             price: double.parse(product["price"].toString()),
@@ -541,7 +539,7 @@ class ProductApiSevice {
           ));
         }
 
-        orders.add(InvoiceModel(
+        orders.add(OrderModel(
           orderNo: order["key"],
           totalAmount:
               totalAmount.toStringAsFixed(2), // Ensures 2 decimal places
@@ -561,7 +559,7 @@ class ProductApiSevice {
     }
   }
 
-  Future<List<InvoiceModel>> getAllMyOrdersByStatus(
+  Future<List<OrderModel>> getAllMyOrdersByStatus(
       int page, String status) async {
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
@@ -588,12 +586,12 @@ class ProductApiSevice {
 
     if (response.statusCode == 200) {
       List<dynamic> ordersJson = jsonResponse["data"];
-      List<InvoiceModel> orders = [];
+      List<OrderModel> orders = [];
 
       for (var order in ordersJson) {
         int totalQuantity = 0;
         double totalAmount = 0.0;
-        List<InvoiceProductDetailModel> products =
+        List<OrderProductDetailModel> products =
             []; // List to hold CartModel objects
 
         for (var product in order["products"]) {
@@ -601,7 +599,7 @@ class ProductApiSevice {
           totalAmount += double.parse(product["amount"].toString());
 
           // Create CartModel object directly
-          products.add(InvoiceProductDetailModel(
+          products.add(OrderProductDetailModel(
             // Use a default value if "id" is missing
             name: product["name"],
             price: double.parse(product["price"].toString()),
@@ -612,7 +610,7 @@ class ProductApiSevice {
           ));
         }
 
-        orders.add(InvoiceModel(
+        orders.add(OrderModel(
           orderNo: order["key"],
           totalAmount:
               totalAmount.toStringAsFixed(2), // Ensures 2 decimal places
@@ -632,7 +630,7 @@ class ProductApiSevice {
     }
   }
 
-  Future<List<InvoiceModel>> getAllMyOrdersByDate(
+  Future<List<OrderModel>> getAllMyOrdersByDate(
       int page, String startDate, String endDate) async {
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
@@ -660,12 +658,12 @@ class ProductApiSevice {
 
     if (response.statusCode == 200) {
       List<dynamic> ordersJson = jsonResponse["data"];
-      List<InvoiceModel> orders = [];
+      List<OrderModel> orders = [];
 
       for (var order in ordersJson) {
         int totalQuantity = 0;
         double totalAmount = 0.0;
-        List<InvoiceProductDetailModel> products =
+        List<OrderProductDetailModel> products =
             []; // List to hold CartModel objects
 
         for (var product in order["products"]) {
@@ -673,7 +671,7 @@ class ProductApiSevice {
           totalAmount += double.parse(product["amount"].toString());
 
           // Create CartModel object directly
-          products.add(InvoiceProductDetailModel(
+          products.add(OrderProductDetailModel(
             // Use a default value if "id" is missing
             name: product["name"],
             price: double.parse(product["price"].toString()),
@@ -684,7 +682,7 @@ class ProductApiSevice {
           ));
         }
 
-        orders.add(InvoiceModel(
+        orders.add(OrderModel(
           orderNo: order["key"],
           totalAmount:
               totalAmount.toStringAsFixed(2), // Ensures 2 decimal places
@@ -704,7 +702,7 @@ class ProductApiSevice {
     }
   }
 
-  Future<List<InvoiceModel>> getAllMyOrdersByStatusAndDate(
+  Future<List<OrderModel>> getAllMyOrdersByStatusAndDate(
       int page, String status, String startDate, String endDate) async {
     logger.log("status: $status, start Date: $startDate, end Date: $endDate");
     String? token = await SharedPrefLoggedinState.getAccessToken();
@@ -733,12 +731,12 @@ class ProductApiSevice {
 
     if (response.statusCode == 200) {
       List<dynamic> ordersJson = jsonResponse["data"];
-      List<InvoiceModel> orders = [];
+      List<OrderModel> orders = [];
 
       for (var order in ordersJson) {
         int totalQuantity = 0;
         double totalAmount = 0.0;
-        List<InvoiceProductDetailModel> products =
+        List<OrderProductDetailModel> products =
             []; // List to hold CartModel objects
 
         for (var product in order["products"]) {
@@ -746,7 +744,7 @@ class ProductApiSevice {
           totalAmount += double.parse(product["amount"].toString());
 
           // Create CartModel object directly
-          products.add(InvoiceProductDetailModel(
+          products.add(OrderProductDetailModel(
             // Use a default value if "id" is missing
             name: product["name"],
             price: double.parse(product["price"].toString()),
@@ -757,7 +755,7 @@ class ProductApiSevice {
           ));
         }
 
-        orders.add(InvoiceModel(
+        orders.add(OrderModel(
           orderNo: order["key"],
           totalAmount:
               totalAmount.toStringAsFixed(2), // Ensures 2 decimal places
@@ -777,7 +775,7 @@ class ProductApiSevice {
     }
   }
 
-  Future<InvoiceModel> getOrderByKey(String orderKey) async {
+  Future<OrderModel> getOrderByKey(String orderKey) async {
     // Retrieve the access token
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
@@ -809,7 +807,7 @@ class ProductApiSevice {
     // Check if the request was successful
     if (response.statusCode == 200) {
       Map<String, dynamic> orderJson = jsonResponse["order"];
-      List<InvoiceProductDetailModel> products = [];
+      List<OrderProductDetailModel> products = [];
 
       // Calculate total quantity and total amount
       int totalQuantity = 0;
@@ -820,7 +818,7 @@ class ProductApiSevice {
         totalQuantity += product["quantity"] as int;
         totalAmount += double.parse(product["amount"].toString());
 
-        products.add(InvoiceProductDetailModel(
+        products.add(OrderProductDetailModel(
           name: product["name"],
           category: product["category"]["name"],
           quantity: product["quantity"],
@@ -830,7 +828,7 @@ class ProductApiSevice {
       }
 
       // Create and return the InvoiceModel
-      InvoiceModel invoice = InvoiceModel(
+      OrderModel invoice = OrderModel(
         orderNo: orderKey,
         totalAmount:
             totalAmount.toStringAsFixed(2), // Format to 2 decimal places
@@ -843,6 +841,91 @@ class ProductApiSevice {
       return invoice;
     } else {
       String errorMessage = "Failed to fetch order details";
+      logger.log(errorMessage);
+      throw errorMessage;
+    }
+  }
+
+  Future<List<InvoiceModel>> getAllInvoiceByStatusAndDate(
+      int page, bool paidStatus, String startDate, String endDate) async {
+    logger
+        .log("status: $paidStatus, start Date: $startDate, end Date: $endDate");
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+
+    if (token == null) {
+      String tokenErrorMessage = "User not authenticated. Please login first.";
+      throw tokenErrorMessage;
+    }
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    int p;
+    if (paidStatus == false) {
+      p = 0;
+    } else {
+      p = 1;
+    }
+
+    var url = Uri.parse(
+        "${Constants.getAllInvoiceUrl}?page=$page&p=$p&sd=$startDate&ed=$endDate");
+
+    var request = http.Request('GET', url);
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    String responseBody = await response.stream.bytesToString();
+    // logger.log(responseBody.toString());
+    logger.log("status code: ${response.statusCode}");
+    Map<String, dynamic> jsonResponse = json.decode(responseBody);
+
+    if (response.statusCode == 200) {
+      List<dynamic> invoicesJson = jsonResponse["data"];
+      List<InvoiceModel> invoices = [];
+
+      for (var invoice in invoicesJson) {
+        List<OrderProductDetailModel> products = [];
+        var order = invoice["order"];
+        var shippingLocation = order["shippingLocation"];
+        var receiver = shippingLocation["receiver"];
+
+        // Process products
+        for (var product in order["products"]) {
+          products.add(OrderProductDetailModel(
+            name: product["name"],
+            price: double.parse(product["price"].toString()),
+            category: product["category"]["name"],
+            imagePath: product["image"] ?? "N/A",
+            quantity: product["quantity"],
+          ));
+        }
+
+        // Calculate total quantity
+        int totalQuantity = order["products"]
+            .fold(0, (sum, product) => sum + product["quantity"]);
+
+        invoices.add(InvoiceModel(
+          invoiceNo: invoice["invoiceNo"],
+          totalAmount: invoice["totalAmount"], // Use the provided totalAmount
+          date: order["createdAt"],
+          totalQuantity: totalQuantity,
+          paidStatus: invoice["isPaid"],
+          products: products,
+          receiverName: receiver["name"],
+          receiverPhone: receiver["phone"],
+          receiverEmail: receiver["email"],
+          receiverPrefecture: shippingLocation["prefecture"],
+          receiverCity: shippingLocation["city"],
+          receiverArea: shippingLocation["area"],
+        ));
+      }
+      logger.log("invoices: $invoices");
+      logger.log("get all invoice api called");
+      return invoices;
+    } else {
+      String errorMessage = "Failed to get invoice";
       logger.log(errorMessage);
       throw errorMessage;
     }
