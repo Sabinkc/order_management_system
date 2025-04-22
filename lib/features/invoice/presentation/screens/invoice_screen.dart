@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/common/simple_ui_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/invoice/presentation/screens/invoice_detail_screen.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +25,13 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       await productProvider.getAllInvoice(true, "", "", "");
+      if (!mounted) {
+        return;
+      }
+      final simpleUiProvider =
+          Provider.of<SimpleUiProvider>(context, listen: false);
+      simpleUiProvider.clearInvoiceDateRange();
+      simpleUiProvider.clearInvoiceFilter();
     });
     super.initState();
   }
@@ -154,7 +163,29 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                           ),
                         ),
                         InkWell(
-                            onTap: () async {},
+                            onTap: () async {
+                              final simpleUiProvider =
+                                  Provider.of<SimpleUiProvider>(context,
+                                      listen: false);
+                              simpleUiProvider.clearInvoiceDateRange();
+                              simpleUiProvider.clearInvoiceFilter();
+                              final productProvider =
+                                  Provider.of<ProductProvider>(context,
+                                      listen: false);
+                              productProvider.resetAllInvoice();
+                              await productProvider.getAllInvoice(
+                                  true,
+                                  simpleUiProvider.selectedInvoiceStatus ==
+                                          "paid"
+                                      ? "1"
+                                      : simpleUiProvider
+                                                  .selectedInvoiceStatus ==
+                                              "unpaid"
+                                          ? "0"
+                                          : "",
+                                  simpleUiProvider.selectedInvoiceStartDate,
+                                  simpleUiProvider.selectedInvoiceEndDate);
+                            },
                             child: Padding(
                               padding: EdgeInsets.only(right: 8),
                               child: Text(
@@ -277,114 +308,156 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          contentPadding: const EdgeInsets.all(20),
-          backgroundColor: Colors.white,
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Search filter by:",
-                style: TextStyle(
-                  color: CommonColor.darkGreyColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Text("Date:",
-                      style: TextStyle(color: CommonColor.darkGreyColor)),
-                  TextButton(
-                    onPressed: () async {
-                      DateTime? picked = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime.now(),
-                      );
-                      if (picked != null) {}
-                    },
-                    child: Text(
-                      "Start Date",
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                  Text("to",
-                      style: TextStyle(color: CommonColor.darkGreyColor)),
-                  TextButton(
-                    onPressed: () async {
-                      DateTime? picked = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime.now(),
-                      );
-                      if (picked != null) {}
-                    },
-                    child: Text(
-                      "End Date",
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Text(
-                  "Clear date range",
+        return Consumer<SimpleUiProvider>(
+            builder: (context, simpleUiProvider, child) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            contentPadding: const EdgeInsets.all(20),
+            backgroundColor: Colors.white,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Search filter by:",
                   style: TextStyle(
-                      // decoration: TextDecoration.underline,
-                      color: CommonColor.darkGreyColor,
-                      fontWeight: FontWeight.w600),
+                    color: CommonColor.darkGreyColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Divider(),
-              Row(
-                children: [
-                  Text("Status:",
-                      style: TextStyle(color: CommonColor.darkGreyColor)),
-                  const SizedBox(width: 10),
-                  DropdownButton(
-                    value: "all_status",
-                    items: [
-                      DropdownMenuItem(value: "all_status", child: Text("All")),
-                      DropdownMenuItem(value: "paid", child: Text("Paid")),
-                      DropdownMenuItem(value: "un_paid", child: Text("Unpaid")),
-                    ],
-                    onChanged: (value) {},
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Text("Date:",
+                        style: TextStyle(color: CommonColor.darkGreyColor)),
+                    TextButton(
+                      onPressed: () async {
+                        DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime.now(),
+                        );
+                        if (picked != null) {
+                          String formattedDate =
+                              DateFormat('yyyy-MM-dd').format(picked);
+                          simpleUiProvider
+                              .setSelectedInvoiceStartDate(formattedDate);
+                        }
+                      },
+                      child: Text(
+                        simpleUiProvider.selectedInvoiceStartDate != ""
+                            ? simpleUiProvider.selectedInvoiceStartDate
+                                .split(' ')[0]
+                            : "Start Date",
+                        style: TextStyle(
+                          color: simpleUiProvider.selectedInvoiceStartDate != ""
+                              ? Colors.black
+                              : Colors.grey,
+                        ),
+                      ),
+                    ),
+                    Text("to",
+                        style: TextStyle(color: CommonColor.darkGreyColor)),
+                    TextButton(
+                      onPressed: () async {
+                        DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime.now(),
+                        );
+                        if (picked != null) {
+                          String formattedDate =
+                              DateFormat('yyyy-MM-dd').format(picked);
+                          simpleUiProvider
+                              .setSelectedInvoiceEndDate(formattedDate);
+                        }
+                      },
+                      child: Text(
+                        simpleUiProvider.selectedInvoiceEndDate != ""
+                            ? simpleUiProvider.selectedInvoiceEndDate
+                                .split(' ')[0]
+                            : "End Date",
+                        style: TextStyle(
+                          color: simpleUiProvider.selectedInvoiceEndDate != ""
+                              ? Colors.black
+                              : Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                GestureDetector(
+                  onTap: () {
+                    simpleUiProvider.clearInvoiceFilter();
+                  },
+                  child: Text(
+                    "Clear date range",
+                    style: TextStyle(
+                        // decoration: TextDecoration.underline,
+                        color: CommonColor.darkGreyColor,
+                        fontWeight: FontWeight.w600),
                   ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text("Cancel")),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text("Apply"),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Divider(),
+                Row(
+                  children: [
+                    Text("Status:",
+                        style: TextStyle(color: CommonColor.darkGreyColor)),
+                    const SizedBox(width: 10),
+                    DropdownButton(
+                      value: simpleUiProvider.selectedInvoiceStatus,
+                      items: [
+                        DropdownMenuItem(value: "", child: Text("All")),
+                        DropdownMenuItem(value: "paid", child: Text("Paid")),
+                        DropdownMenuItem(
+                            value: "un_paid", child: Text("Unpaid")),
+                      ],
+                      onChanged: (value) {
+                        simpleUiProvider.switchSelectedInvoiceStatus(value!);
+                      },
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text("Cancel")),
+                    TextButton(
+                      onPressed: () {
+                        final productProvider = Provider.of<ProductProvider>(
+                            context,
+                            listen: false);
+                        productProvider.resetAllInvoice();
+                        productProvider.getAllInvoice(
+                            true,
+                            simpleUiProvider.selectedInvoiceStatus == "paid"
+                                ? "1"
+                                : simpleUiProvider.selectedInvoiceStatus ==
+                                        "un_paid"
+                                    ? "0"
+                                    : "",
+                            simpleUiProvider.selectedInvoiceStartDate,
+                            simpleUiProvider.selectedInvoiceEndDate);
+                        Navigator.pop(context);
+                      },
+                      child: const Text("Apply"),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
       },
     );
   }

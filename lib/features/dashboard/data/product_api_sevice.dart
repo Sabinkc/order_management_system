@@ -873,7 +873,7 @@ class ProductApiSevice {
     // logger.log(responseBody.toString());
     logger.log("status code: ${response.statusCode}");
     Map<String, dynamic> jsonResponse = json.decode(responseBody);
-    // logger.log("$responseBody");
+    logger.log("$responseBody");
 
     if (response.statusCode == 200) {
       List<dynamic> invoicesJson = jsonResponse["data"];
@@ -903,7 +903,7 @@ class ProductApiSevice {
         invoices.add(InvoiceModel(
           invoiceNo: invoice["invoiceNo"],
           totalAmount: invoice["totalAmount"], // Use the provided totalAmount
-          date: order["createdAt"],
+          date: invoice["createdAt"],
           totalQuantity: totalQuantity,
           paidStatus: invoice["isPaid"].toString(),
           products: products,
@@ -974,7 +974,7 @@ class ProductApiSevice {
       InvoiceModel invoice = InvoiceModel(
         invoiceNo: invoiceData["invoiceNo"],
         totalAmount: invoiceData["totalAmount"],
-        date: order["createdAt"],
+        date: invoiceData["createdAt"],
         totalQuantity: totalQuantity,
         paidStatus: invoiceData["isPaid"].toString(),
         products: products,

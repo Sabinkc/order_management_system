@@ -190,13 +190,13 @@ class ProductProvider extends ChangeNotifier {
       isGetAllInvoiceLoading = false;
       notifyListeners();
     }
+    logger.log(
+        "page:$invoicePage, status: $paidStatus, startDate: $startDate, endDate: $endDate");
     if (isGetAllInvoiceLoading || !allInvoiceHasMore) return;
     isGetAllInvoiceLoading = true;
     notifyListeners();
 
     try {
-      logger.log(
-          "page:$invoicePage, status: $paidStatus, startDate: $startDate, endDate: $endDate");
       final response = await _service.getAllInvoiceByStatusAndDate(
           invoicePage, paidStatus, startDate, endDate);
       if (response.isEmpty) {
@@ -204,6 +204,7 @@ class ProductProvider extends ChangeNotifier {
       } else {
         invoices.addAll(response);
         invoicePage++;
+        logger.log("invoices: $invoices");
         notifyListeners();
       }
     } catch (e) {
@@ -214,18 +215,26 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
+  void resetAllInvoice() {
+    invoicePage = 1;
+    allInvoiceHasMore = true;
+    invoices.clear();
+    isGetAllInvoiceLoading = false;
+    notifyListeners();
+  }
+
   InvoiceModel invoiceDetail = InvoiceModel(
-    invoiceNo: "",
+      invoiceNo: "",
       totalAmount: "",
       date: "",
       totalQuantity: 0,
       paidStatus: "",
       products: [],
       receiverName: "",
-      receiverEmail: "", 
-      receiverPhone: "", 
-      receiverPrefecture: "", 
-      receiverCity: "", 
+      receiverEmail: "",
+      receiverPhone: "",
+      receiverPrefecture: "",
+      receiverCity: "",
       receiverArea: "");
   // List<OrderModel> searchedInvoice = [];
   bool isFetchInvoiceByNoLoading = false;

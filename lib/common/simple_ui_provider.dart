@@ -41,4 +41,41 @@ class SimpleUiProvider extends ChangeNotifier {
     _selectedEndDate = "";
     notifyListeners();
   }
+
+    String selectedInvoiceStatus = "";
+  void switchSelectedInvoiceStatus(String value) {
+    selectedInvoiceStatus = value;
+    logger.i("selected Invoice status: $selectedInvoiceStatus");
+    notifyListeners();
+  }
+
+//provider to filter invoice based on date
+  String _selectedInvoiceStartDate = "";
+  String _selectedInvoiceEndDate = "";
+
+  String get selectedInvoiceStartDate => _selectedInvoiceStartDate;
+  String get selectedInvoiceEndDate => _selectedInvoiceEndDate;
+
+  void setSelectedInvoiceStartDate(String date) {
+    _selectedInvoiceStartDate = date;
+    notifyListeners();
+  }
+
+  void setSelectedInvoiceEndDate(String date) {
+    _selectedInvoiceEndDate = date;
+    notifyListeners();
+  }
+
+  void clearInvoiceDateRange() {
+    _selectedInvoiceStartDate = "";
+    _selectedInvoiceEndDate = "";
+    notifyListeners();
+  }
+
+  void clearInvoiceFilter() {
+    selectedInvoiceStatus = "";
+    _selectedInvoiceStartDate = "";
+    _selectedInvoiceEndDate = "";
+    notifyListeners();
+  }
 }
