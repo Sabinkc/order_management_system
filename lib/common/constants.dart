@@ -28,6 +28,10 @@ class Constants {
       "https://oms.sysqube.com.np/api/v1/my-profile";
   static final String changePasswordUrl =
       "https://oms.sysqube.com.np/api/v1/password";
-      static final String getAllInvoiceUrl = "https://oms.sysqube.com.np/api/v1/my-invoices";
-      static final String resendEmailVerificationUrl = "https://oms.sysqube.com.np/api/v1/my-invoices";
+  static final String getAllInvoiceUrl =
+      "https://oms.sysqube.com.np/api/v1/my-invoices";
+  static final String resendEmailVerificationUrl =
+      "https://oms.sysqube.com.np/api/v1/email/verification-notify";
+        static final String verifyEmailUrl =
+      "https://oms.sysqube.com.np/api/v1/email/verify";
 }

@@ -18,18 +18,29 @@ class TopProfileDashboard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SendEmailOtpScreen()));
-                  },
-                  child: Text(
-                    "Please verify your email!",
-                    style: TextStyle(
-                        color: CommonColor.primaryColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
+                Consumer<SettingsProvider>(
+                    builder: (context, settingProvider, child) {
+                  return settingProvider.profile.emailVerified == true
+                      ? SizedBox(
+                          height: 1,
+                        )
+                      : InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        SendEmailOtpScreen()));
+                          },
+                          child: Text(
+                            "Please verify your email!",
+                            style: TextStyle(
+                                color: CommonColor.primaryColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        );
+                }),
                 SizedBox(
                   height: 2,
                 ),

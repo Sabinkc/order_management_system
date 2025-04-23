@@ -255,11 +255,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           style: TextStyle(
                                               fontSize: 22,
                                               fontWeight: FontWeight.bold)),
-                                      Text(provider.profile.email,
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color:
-                                                  CommonColor.darkGreyColor)),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(provider.profile.email,
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: CommonColor
+                                                      .darkGreyColor)),
+                                          if (provider.profile.emailVerified ==
+                                              true)
+                                            Padding(
+                                              padding: EdgeInsets.only(left: 1),
+                                              child: Icon(
+                                                Icons.verified,
+                                                color: Colors.blue,
+                                                size: 12,
+                                              ),
+                                            )
+                                        ],
+                                      )
                                     ]));
                               },
                             ),

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/common/utils.dart';
+import 'package:order_management_system/features/login/domain/auth_provider.dart';
+import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
+import 'dart:developer' as logger;
 
 class EmailVerificationScreen extends StatefulWidget {
   const EmailVerificationScreen({super.key});
@@ -46,13 +51,16 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
             SizedBox(
               height: 10,
             ),
-            Text(
-              "We have send the email verification code to test@example.com",
-              style: TextStyle(
-                  color: CommonColor.darkGreyColor,
-                  fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
+            Consumer<SettingsProvider>(
+                builder: (context, settingProvider, child) {
+              return Text(
+                "We have send the email verification code to ${settingProvider.profile.email}",
+                style: TextStyle(
+                    color: CommonColor.darkGreyColor,
+                    fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              );
+            }),
             SizedBox(
               height: 30,
             ),
@@ -84,30 +92,74 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
             SizedBox(
               height: 30,
             ),
-            SizedBox(
-              height: 50,
-              width: double.infinity,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      backgroundColor: CommonColor.primaryColor),
-                  onPressed: () {},
-                  child: Text(
-                    "Continue",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                  )),
-            ),
+            Consumer<AuthProvider>(builder: (context, authProvider, child) {
+              return SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                        backgroundColor: CommonColor.primaryColor),
+                    onPressed: () async {
+                      if (pinController.text.length < 5) {
+                        Utilities.showCommonSnackBar(
+                            context, "Please input all the fileds!");
+                        return;
+                      }
+                      try {
+                        logger.log("pincontroller val: ${pinController.text}");
+                        final response =
+                            await authProvider.verifyEmail(pinController.text);
+                        logger.log("UI response: $response");
+
+                        if (response["success"] == true) {
+                          String message = response["message"];
+                          if (context.mounted) {
+                            final settingProvider =
+                                Provider.of<SettingsProvider>(context,
+                                    listen: false);
+                            await settingProvider.getProfile();
+                            if (!context.mounted) {
+                              return;
+                            }
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            Utilities.showCommonSnackBar(context, message,
+                                durationMilliseconds: 1000);
+                          }
+                        } else {
+                          String message = response["message"];
+                          if (context.mounted) {
+                            Utilities.showCommonSnackBar(context, message);
+                          }
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          Utilities.showCommonSnackBar(context, e.toString());
+                        }
+                      }
+                    },
+                    child: authProvider.isVerifyEmailLoading == true
+                        ? CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : Text(
+                            "Continue",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          )),
+              );
+            }),
             SizedBox(
               height: 30,
             ),
-            Text(
-              "Resend code",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            )
+            // Text(
+            //   "Resend code",
+            //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            // )
           ],
         ),
       ),

@@ -219,7 +219,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                       width: 15,
                                     ),
                                     Text(
-                                      "Search order no....",
+                                      "Search invoice no....",
                                       style: TextStyle(
                                           color: CommonColor.darkGreyColor,
                                           fontWeight: FontWeight.bold,
@@ -292,121 +292,118 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                         color: CommonColor.commonGreyColor,
                         thickness: 2,
                       ),
-                      productProvider.invoices.isEmpty
-                          ? Center(
-                              child: Text(
-                              "No invoices found",
-                              style: TextStyle(
-                                  color: CommonColor.mediumGreyColor,
-                                  fontSize: 16),
-                            ))
-                          : Expanded(
-                              child: ListView.builder(
-                                  physics: AlwaysScrollableScrollPhysics(),
-                                  itemCount: productProvider.invoices.length,
-                                  itemBuilder: (context, index) {
-                                    final invoice =
-                                        productProvider.invoices[index];
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      InvoiceDetailScreen(
-                                                          invoiceNo: invoice
-                                                              .invoiceNo)));
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 15, vertical: 15),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            spacing: 3,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "Invoice No: ${invoice.invoiceNo}",
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: CommonColor
-                                                            .darkGreyColor),
-                                                  ),
-                                                  Text(
-                                                    "Rs.${invoice.totalAmount}",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 15,
-                                                        color: CommonColor
-                                                            .primaryColor),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        "Status: ",
-                                                        style: TextStyle(
-                                                            color: CommonColor
-                                                                .darkGreyColor,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                      Text(
-                                                        invoice.paidStatus ==
-                                                                "false"
-                                                            ? "Unpaid"
-                                                            : "Paid",
-                                                        style: TextStyle(
-                                                            color: CommonColor
-                                                                .primaryColor,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Text(
-                                                    invoice.date,
-                                                    style: TextStyle(
+                      Expanded(
+                        child: productProvider.invoices.isEmpty
+                            ? Center(
+                                child: Text(
+                                "No invoices found!",
+                                style: TextStyle(
+                                    color: CommonColor.darkGreyColor,
+                                    fontSize: 20),
+                              ))
+                            : ListView.builder(
+                                physics: AlwaysScrollableScrollPhysics(),
+                                itemCount: productProvider.invoices.length,
+                                itemBuilder: (context, index) {
+                                  final invoice =
+                                      productProvider.invoices[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    InvoiceDetailScreen(
+                                                        invoiceNo: invoice
+                                                            .invoiceNo)));
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15, vertical: 15),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          spacing: 3,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Invoice No: ${invoice.invoiceNo}",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      fontSize: 11,
                                                       color: CommonColor
-                                                          .mediumGreyColor,
+                                                          .darkGreyColor),
+                                                ),
+                                                Text(
+                                                  "Rs.${invoice.totalAmount}",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15,
+                                                      color: CommonColor
+                                                          .primaryColor),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      "Status: ",
+                                                      style: TextStyle(
+                                                          color: CommonColor
+                                                              .darkGreyColor,
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     ),
+                                                    Text(
+                                                      invoice.paidStatus ==
+                                                              "false"
+                                                          ? "Unpaid"
+                                                          : "Paid",
+                                                      style: TextStyle(
+                                                          color: CommonColor
+                                                              .primaryColor,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Text(
+                                                  invoice.date,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 11,
+                                                    color: CommonColor
+                                                        .mediumGreyColor,
                                                   ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    );
-                                  }),
-                            ),
+                                    ),
+                                  );
+                                }),
+                      ),
                     ],
                   );
                 }
