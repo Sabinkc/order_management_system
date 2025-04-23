@@ -340,24 +340,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      EmailVerificationScreen()));
-                                        },
-                                        leading: Icon(
-                                          Icons.verified_outlined,
-                                          color: CommonColor.primaryColor,
-                                        ),
-                                        title: Text(
-                                          "Verify Email",
-                                          style: TextStyle(
-                                              color: CommonColor.darkGreyColor),
-                                        ),
-                                      ),
-                                      ListTile(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
                                                       ResetPasswordScreen()));
                                         },
                                         leading: Icon(
@@ -889,7 +871,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     // Handle logout result
     if (logoutSuccessful) {
       if (context.mounted) {
-       Navigator.pushAndRemoveUntil(
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => LoginScreen()),
           (route) => false,

@@ -133,13 +133,16 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                                       color: CommonColor.mediumGreyColor,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Text(
-                                  "2025-02-01",
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
+                                SizedBox(
+                                  width: 110,
+                                  child: Text(
+                                    invoice.date,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
                                 )
                               ],
                             )
@@ -270,7 +273,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                               ),
                             ),
                             Text(
-                              invoice.paidStatus,
+                              invoice.paidStatus == "false" ? "Unpaid" : "Paid",
                               style:
                                   TextStyle(color: CommonColor.mediumGreyColor),
                             )

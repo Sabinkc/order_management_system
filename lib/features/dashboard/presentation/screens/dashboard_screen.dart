@@ -115,7 +115,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Provider.of<ProductProvider>(context, listen: false);
               await productProvider.getProductCategoriesWithoutAll();
               // await productProvider.getAllProduct();
-              await productProvider.getCategoryProducts(0,"",reset: true);
+              await productProvider.getCategoryProducts(0, "", reset: true);
               if (!context.mounted) return;
               final settingProvider =
                   Provider.of<SettingsProvider>(context, listen: false);
@@ -129,7 +129,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: screenHeight * 0.03,
+                    height: screenHeight * 0.02,
                   ),
                   TopProfileDashboard(),
                   SizedBox(

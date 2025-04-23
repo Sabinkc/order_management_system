@@ -889,7 +889,7 @@ class ProductApiSevice {
         for (var product in order["products"]) {
           products.add(OrderProductDetailModel(
             name: product["name"],
-            price: double.parse(product["price"].toString()),
+            price: double.parse(product["amount"].toString()),
             category: product["category"]["name"],
             imagePath: product["image"] ?? "N/A",
             quantity: product["quantity"],
@@ -960,7 +960,7 @@ class ProductApiSevice {
       for (var product in order["products"]) {
         products.add(OrderProductDetailModel(
           name: product["name"],
-          price: double.parse(product["price"].toString()),
+          price: double.parse(product["amount"].toString()),
           category: product["category"]["name"],
           imagePath: product["image"] ?? "N/A",
           quantity: product["quantity"],

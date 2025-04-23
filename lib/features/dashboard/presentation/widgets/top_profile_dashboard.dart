@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/send_email_otp_screen.dart';
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,21 @@ class TopProfileDashboard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SendEmailOtpScreen()));
+                  },
+                  child: Text(
+                    "Please verify your email!",
+                    style: TextStyle(
+                        color: CommonColor.primaryColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(
+                  height: 2,
+                ),
                 Consumer<SettingsProvider>(
                   builder: (context, profileProvider, child) {
                     final name = profileProvider.profile.name;

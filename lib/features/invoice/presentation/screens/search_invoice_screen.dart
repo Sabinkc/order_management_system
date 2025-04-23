@@ -247,13 +247,16 @@ class _SearchOrderScreenState extends State<SearchInvoiceScreen> {
                                                     CommonColor.mediumGreyColor,
                                                 fontWeight: FontWeight.bold),
                                           ),
-                                          Text(
-                                            "2025-02-01",
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16),
+                                          SizedBox(
+                                            width: 110,
+                                            child: Text(
+                                              invoice.date,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16),
+                                            ),
                                           )
                                         ],
                                       )
@@ -396,7 +399,9 @@ class _SearchOrderScreenState extends State<SearchInvoiceScreen> {
                                         ),
                                       ),
                                       Text(
-                                        invoice.paidStatus=="false"?"Unpaid":"Paid",
+                                        invoice.paidStatus == "false"
+                                            ? "Unpaid"
+                                            : "Paid",
                                         style: TextStyle(
                                             color: CommonColor.mediumGreyColor),
                                       )
