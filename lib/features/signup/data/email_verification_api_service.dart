@@ -47,54 +47,6 @@ class EmailVerificationApiService {
     }
   }
 
-  // Future verifyEmail(String otp) async {
-  //   logger.log("email service Otp: $otp");
-  //   // Get the saved token from SharedPreferences
-  //   String? token = await SharedPrefLoggedinState.getAccessToken();
-
-  //   // If no token is found, return an error
-  //   if (token == null) {
-  //     throw Exception("User not authenticated. Please log in first.");
-  //   }
-
-  //   // Headers with Authorization token
-  //   var headers = {
-  //     'Accept': 'application/json',
-  //     'Authorization': 'Bearer $token', // Adding token in the header
-  //   };
-
-  //   // Constructing the URL to fetch image by filename
-  //   var url = Uri.parse(Constants.verifyEmailUrl);
-
-  //   var request = http.Request('POST', url);
-  //   request.body = json.encode({
-  //     "otp": otp,
-  //   });
-  //   request.headers.addAll(headers);
-
-  //   try {
-  //     http.StreamedResponse response = await request.send();
-
-  //     logger.log("Response Status Code: ${response.statusCode}");
-
-  //     final responseBody = await response.stream.bytesToString();
-  //     logger.log("Response Body: $responseBody");
-  //     final jsonResponse = jsonDecode(responseBody);
-
-  //     if (response.statusCode == 200) {
-  //       logger.log("Email Verified");
-
-  //       return jsonResponse;
-  //       // Getting image data as bytes
-  //     } else {
-  //       logger.log("Email verification failed:");
-  //       return jsonResponse;
-  //     }
-  //   } catch (e) {
-  //     logger.log("Email verification Error: $e");
-  //     throw "Failed to verify email";
-  //   }
-  // }
 
   Future<Map<String, dynamic>> verifyEmail(String otp) async {
     logger.log("email service Otp: $otp");

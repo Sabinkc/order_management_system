@@ -7,6 +7,7 @@ import 'package:order_management_system/features/login/domain/auth_provider.dart
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:order_management_system/features/signup/domain/checkbox_provider.dart';
 import 'package:order_management_system/features/signup/domain/signup_textfield_provider.dart';
+import 'package:order_management_system/features/signup/presentation/screens/signup_send_otp_screen.dart';
 import 'package:order_management_system/features/signup/presentation/widgets/checkbox_widget_signup.dart';
 import 'package:provider/provider.dart';
 
@@ -296,11 +297,13 @@ class _TextfieldWidgetSignupState extends State<TextfieldWidgetSignup> {
         final email = response["data"]["data"]["profile"]["email"];
 
         profileProvider.addProfileData(name, email);
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => LandingScreen()),
-          (route) => false,
-        );
+        // Navigator.pushAndRemoveUntil(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => LandingScreen()),
+        //   (route) => false,
+        // );
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => SignupSendOtpScreen()));
       }
     } else {
       String errorMessage = "Unable to signup!";

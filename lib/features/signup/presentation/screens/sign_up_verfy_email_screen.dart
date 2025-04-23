@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/utils.dart';
-import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
 
-class EmailVerificationScreen extends StatefulWidget {
-  const EmailVerificationScreen({super.key});
+class SignUpVerfyEmailScreen extends StatefulWidget {
+  const SignUpVerfyEmailScreen({super.key});
 
   @override
-  State<EmailVerificationScreen> createState() =>
+  State<SignUpVerfyEmailScreen> createState() =>
       _EmailVerificationScreenState();
 }
 
-class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
+class _EmailVerificationScreenState extends State<SignUpVerfyEmailScreen> {
   final TextEditingController pinController = TextEditingController();
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero,(){
+
+    });
+    super.initState();
+  }
   @override
   void dispose() {
     pinController.dispose();
@@ -124,12 +131,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                             if (!context.mounted) {
                               return;
                             }
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LandingScreen()),
-                              (route) => false,
-                            );
+                            Navigator.pop(context);
+                            Navigator.pop(context);
                             Utilities.showCommonSnackBar(context, message,
                                 durationMilliseconds: 1000);
                           }
