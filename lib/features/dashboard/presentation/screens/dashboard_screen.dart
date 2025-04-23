@@ -66,7 +66,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       loadAvatar();
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
-      await productProvider.getProductCategoriesWithoutAll();
+      // await productProvider.getProductCategoriesWithoutAll();
       productProvider.resetAllProducts();
       await productProvider.getAllProduct("");
       // await productProvider.getCategoryProducts(0);

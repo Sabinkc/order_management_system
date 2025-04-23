@@ -873,7 +873,7 @@ class ProductApiSevice {
     // logger.log(responseBody.toString());
     logger.log("status code: ${response.statusCode}");
     Map<String, dynamic> jsonResponse = json.decode(responseBody);
-    logger.log("$responseBody");
+    // logger.log("$responseBody");
 
     if (response.statusCode == 200) {
       List<dynamic> invoicesJson = jsonResponse["data"];

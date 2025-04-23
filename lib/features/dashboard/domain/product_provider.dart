@@ -223,6 +223,8 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<InvoiceModel> searchedInvoice = [];
+
   InvoiceModel invoiceDetail = InvoiceModel(
       invoiceNo: "",
       totalAmount: "",
@@ -246,20 +248,20 @@ class ProductProvider extends ChangeNotifier {
       InvoiceModel response = await _service.getInvoiceByInvoiceno(invoiceNo);
 
       invoiceDetail = response;
-      // searchedInvoice = [invoiceDetail];
+      searchedInvoice = [invoiceDetail];
       logger.log("invoice by key: $invoiceDetail");
     } catch (e) {
       logger.log("$e");
-      // searchedOrder.clear();
+      searchedInvoice.clear();
     } finally {
       isFetchInvoiceByNoLoading = false;
       notifyListeners();
     }
   }
 
-  // void clearSearchedOrder() {
-  //   searchedOrder = [];
-  //   isFetchOrderByLoading = false;
-  //   notifyListeners();
-  // }
+  void clearSearchedInvoice() {
+    searchedInvoice = [];
+    isFetchInvoiceByNoLoading = false;
+    notifyListeners();
+  }
 }
