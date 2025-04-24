@@ -115,7 +115,8 @@ class ProductProvider extends ChangeNotifier {
         categoryProducts.addAll(newProducts);
         categoryProductPage += 1;
       }
-      logger.log("category Products: $categoryProducts");
+      // logger.log("category Products: $categoryProducts");
+      logger.log("category product length: ${categoryProducts.length}");
       // Update filtered products
       // filteredCategoryProducts = List.from(categoryProducts);
       // logger.log(
