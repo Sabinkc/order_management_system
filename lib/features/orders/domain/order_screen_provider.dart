@@ -176,6 +176,10 @@ class OrderScreenProvider extends ChangeNotifier {
     }
   }
 
+  void clearOrders() {
+    ordersBySandD.clear();
+  }
+
   void resetAllOrders() {
     orderBySandDPage = 1;
     orderBySandDHasMore = true;
@@ -224,4 +228,10 @@ class OrderScreenProvider extends ChangeNotifier {
     _endDate = null;
     notifyListeners();
   }
+
+  // @override
+  // void dispose() {
+  //   clearOrders();
+  //   super.dispose();
+  // }
 }

@@ -31,6 +31,9 @@ class _SearchOrderScreenState extends State<SearchOrderScreen> {
   @override
   void dispose() {
     searchController.dispose();
+    final orderProvider =
+        Provider.of<OrderScreenProvider>(context, listen: false);
+    orderProvider.clearSearchedOrder();
     super.dispose();
   }
 
