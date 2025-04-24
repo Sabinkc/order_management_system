@@ -653,8 +653,14 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
   void onScroll() {
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
+      final simpleUiProvider =
+          Provider.of<SimpleUiProvider>(context, listen: false);
+
       Provider.of<OrderScreenProvider>(context, listen: false)
-          .getOrderByStatusAndDate("", "", "");
+          .getOrderByStatusAndDate(
+              simpleUiProvider.selectedStatus,
+              simpleUiProvider.selectedStartDate,
+              simpleUiProvider.selectedEndDate);
     }
   }
 
@@ -987,11 +993,13 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                                             ? CircularProgressIndicator(
                                                 color: CommonColor.primaryColor,
                                               )
-                                            : orderProvider
-                                                    .ordersBySandD.isEmpty
-                                                ? Text(
-                                                    "No more orders to fetch")
-                                                : SizedBox.shrink(),
+                                            : Text(
+                                                "No more orders to fetch",
+                                                style: TextStyle(
+                                                    color: CommonColor
+                                                        .darkGreyColor,
+                                                    fontSize: 16),
+                                              ),
                                       ),
                                     );
                                   }
