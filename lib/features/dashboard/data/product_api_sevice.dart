@@ -344,46 +344,6 @@ class ProductApiSevice {
   }
 
 //get product categories
-  // Future<List<ProductCategory>> getProductCategories() async {
-  //   String? token = await SharedPrefLoggedinState.getAccessToken();
-
-  //   if (token == null) {
-  //     throw Exception("User not authenticated. Please log in first.");
-  //   }
-
-  //   var headers = {
-  //     'Accept': 'application/json',
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'Bearer $token',
-  //   };
-
-  //   var url = Uri.parse("${Constants.baseUrl}/v1/product-categories");
-
-  //   var request = http.Request('GET', url);
-  //   request.headers.addAll(headers);
-
-  //   http.StreamedResponse response = await request.send();
-  //   String responseBody = await response.stream.bytesToString();
-  //   Map<String, dynamic> jsonResponse = json.decode(responseBody);
-
-  //   if (response.statusCode == 200 && jsonResponse['success']) {
-  //     List<dynamic> categoriesJson = jsonResponse['categories'];
-  //     List<ProductCategory> categories = [];
-
-  //     for (var categoryJson in categoriesJson) {
-  //       categories.add(ProductCategory(
-  //         id: categoryJson['id'],
-  //         name: categoryJson['name'],
-  //         productsCount: categoryJson['productsCount'],
-  //       ));
-  //     }
-  //     logger.log("get all categories without all api called");
-  //     // logger.log("categories: $categories");
-  //     return categories;
-  //   } else {
-  //     throw Exception(jsonResponse['message'] ?? 'Failed to fetch categories');
-  //   }
-  // }
   Future<List<ProductCategory>> getProductCategories() async {
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
