@@ -226,7 +226,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       loadAvatar();
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
-//  await productProvider.getProductCategoriesWithoutAll();
+      await productProvider.getProductCategoriesWithoutAll();
       productProvider.resetAllProducts();
       await productProvider.getAllProduct("");
 
@@ -236,7 +236,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Provider.of<SettingsProvider>(context, listen: false);
       await settingProvider.getProfile();
       getCurrentLocation();
-      await productProvider.getProductCategoriesWithoutAll();
     });
 
     super.initState();
@@ -246,9 +245,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     try {
       final profileProvider =
           Provider.of<SettingsProvider>(context, listen: false);
-      if (profileProvider.avatarBytes == null) {
-        await profileProvider.loadProfileAvatar();
-      }
+
+      await profileProvider.loadProfileAvatar();
     } catch (e) {
       if (!mounted) return;
       logger.log("$e");

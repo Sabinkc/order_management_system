@@ -988,9 +988,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     try {
       final profileProvider =
           Provider.of<SettingsProvider>(context, listen: false);
-      if (profileProvider.avatarBytes == null) {
-        await profileProvider.loadProfileAvatar();
-      }
+      await profileProvider.loadProfileAvatar();
     } catch (e) {
       if (!mounted) return;
       logger.log("$e");
