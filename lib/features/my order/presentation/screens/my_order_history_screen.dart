@@ -29,10 +29,7 @@ class _OrderHistoryScreenState extends State<MyOrderHistoryScreen> {
       orderProvider.clearFilters();
       orderProvider.clearSearchKeyword();
       simpleUiProvider.clearDateRange();
-      await orderProvider.getOrderByStatusAndDate(
-          simpleUiProvider.selectedStatus,
-          simpleUiProvider.selectedStartDate,
-          simpleUiProvider.selectedEndDate);
+      await orderProvider.getOrderByStatusAndDate("", "", "");
     });
     super.initState();
   }

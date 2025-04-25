@@ -1,4 +1,3 @@
-//
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:order_management_system/common/common_color.dart';
@@ -46,11 +45,11 @@ class _LandingScreenState extends State<LandingScreen> {
       child: Scaffold(
         body: Consumer<BottomNavigationbarProvider>(
           builder: (context, provider, child) {
-            // return screens[provider.selectedIndex];
-            return IndexedStack(
-              index: provider.selectedIndex,
-              children: screens,
-            );
+            return screens[provider.selectedIndex];
+            // return IndexedStack(
+            //   index: provider.selectedIndex,
+            //   children: screens,
+            // );
           },
         ),
         bottomNavigationBar: Consumer<BottomNavigationbarProvider>(

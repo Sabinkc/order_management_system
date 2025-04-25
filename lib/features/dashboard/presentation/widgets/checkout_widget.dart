@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/common/simple_ui_provider.dart';
 import 'package:order_management_system/features/dashboard/data/cart_model.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/my%20order/domain/order_history_provider.dart';
+import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
 
 class CheckoutWidget extends StatelessWidget {
   final int shipppingLocationId;
-  const CheckoutWidget({super.key,required this.shipppingLocationId});
+  const CheckoutWidget({super.key, required this.shipppingLocationId});
 
   @override
   Widget build(BuildContext context) {
@@ -183,8 +185,28 @@ class CheckoutWidget extends StatelessWidget {
 
     try {
       // Wait for the order creation to complete
-      await productProvider.createOrder(shipppingLocationId,orders);
-      // Clear the cart only after order creation is successful
+      await productProvider.createOrder(shipppingLocationId, orders);
+      if (!context.mounted) {
+        return;
+      }
+
+//to update in my order screen
+      final orderProvider =
+          Provider.of<OrderScreenProvider>(context, listen: false);
+      orderProvider.resetAllOrders();
+      Provider.of<OrderScreenProvider>(context, listen: false);
+      final simpleUiProvider =
+          Provider.of<SimpleUiProvider>(context, listen: false);
+      orderProvider.clearFilters();
+      orderProvider.clearSearchKeyword();
+      simpleUiProvider.clearDateRange();
+      simpleUiProvider.clearFilter();
+      simpleUiProvider.clearDateRange();
+      await orderProvider.getOrderByStatusAndDate("", "", "");
+      simpleUiProvider.clearInvoiceDateRange();
+      simpleUiProvider.clearInvoiceFilter();
+      await productProvider.getAllInvoice(true, "", "", "");
+
       cartQuantityProvider.clearCart();
       if (!context.mounted) return;
       showDialog(

@@ -633,11 +633,11 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
           Provider.of<OrderScreenProvider>(context, listen: false);
       final simpleUiProvider =
           Provider.of<SimpleUiProvider>(context, listen: false);
-      // orderProvider.clearFilters();
+      orderProvider.clearFilters();
       orderProvider.clearSearchKeyword();
-      // simpleUiProvider.clearDateRange();
-      // simpleUiProvider.clearFilter();
-      // orderProvider.resetAllOrders();
+      simpleUiProvider.clearDateRange();
+      simpleUiProvider.clearFilter();
+      orderProvider.resetAllOrders();
       await orderProvider.getOrderByStatusAndDate(
           simpleUiProvider.selectedStatus,
           simpleUiProvider.selectedStartDate,
@@ -717,10 +717,10 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                 final simpleUiProvider =
                     Provider.of<SimpleUiProvider>(context, listen: false);
 
-                // orderProvider.clearFilters();
-                // orderProvider.clearSearchKeyword();
-                // simpleUiProvider.clearDateRange();
-                // simpleUiProvider.clearFilter();
+                orderProvider.clearFilters();
+                orderProvider.clearSearchKeyword();
+                simpleUiProvider.clearDateRange();
+                simpleUiProvider.clearFilter();
                 orderProvider.resetAllOrders();
                 await orderProvider.getOrderByStatusAndDate(
                     simpleUiProvider.selectedStatus,

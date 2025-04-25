@@ -162,6 +162,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/common/simple_ui_provider.dart';
+import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/category_row_dashboard.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/all_product_widget.dart';
@@ -169,6 +171,7 @@ import 'package:order_management_system/features/dashboard/presentation/widgets/
 import 'package:order_management_system/features/dashboard/presentation/widgets/search_row_dashboard.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/top_profile_dashboard.dart';
 import 'package:order_management_system/features/location/domain/location_provider.dart';
+import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
@@ -236,9 +239,39 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Provider.of<SettingsProvider>(context, listen: false);
       await settingProvider.getProfile();
       getCurrentLocation();
+      // prevents from email switching data conflict
+      // preventEmailSwitchingConflict();
     });
 
     super.initState();
+  }
+
+  Future preventEmailSwitchingConflict() async {
+    if (mounted) {
+      Provider.of<CartQuantityProvider>(context, listen: false)
+          .cartItems
+          .clear();
+      Provider.of<OrderScreenProvider>(context, listen: false)
+          .ordersBySandD
+          .clear();
+      final simpleUiProvider =
+          Provider.of<SimpleUiProvider>(context, listen: false);
+      final productProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      productProvider.invoices.clear();
+
+      simpleUiProvider.clearDateRange();
+      simpleUiProvider.clearFilter();
+      simpleUiProvider.clearInvoiceDateRange();
+      simpleUiProvider.clearInvoiceFilter();
+
+      final orderProvider =
+          Provider.of<OrderScreenProvider>(context, listen: false);
+      orderProvider.clearFilters();
+      orderProvider.clearOrders();
+      await orderProvider.getOrderByStatusAndDate("", "", "");
+      await productProvider.getAllInvoice(true, "", "", "");
+    }
   }
 
   Future loadAvatar() async {

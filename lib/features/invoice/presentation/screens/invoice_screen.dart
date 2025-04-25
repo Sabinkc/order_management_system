@@ -512,15 +512,15 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       }
       final simpleUiProvider =
           Provider.of<SimpleUiProvider>(context, listen: false);
-      // simpleUiProvider.clearInvoiceDateRange();
-      // simpleUiProvider.clearInvoiceFilter();
+      simpleUiProvider.clearInvoiceDateRange();
+      simpleUiProvider.clearInvoiceFilter();
       if (!mounted) {
         return;
       }
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       await productProvider.getAllInvoice(
-          false,
+          true,
           simpleUiProvider.selectedInvoiceStatus,
           simpleUiProvider.selectedInvoiceStartDate,
           simpleUiProvider.selectedInvoiceEndDate);
