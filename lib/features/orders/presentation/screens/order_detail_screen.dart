@@ -89,7 +89,7 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: SizedBox(
-                      height: 450,
+                      height: screenHeight * 0.6,
                       child: ListView.builder(
                         shrinkWrap: true,
                         itemCount: 1,
@@ -120,6 +120,8 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                                           vertical: 10, horizontal: 10),
                                       child: Container(
                                         decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.grey, width: 0.2),
                                             color: Colors.white,
                                             borderRadius:
                                                 BorderRadius.circular(8)),

@@ -933,22 +933,23 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                             child: CircularProgressIndicator(
                                             color: CommonColor.primaryColor,
                                           ))
-                                        : Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text(
-                                                "No more products!",
-                                                style: TextStyle(
-                                                    color: CommonColor
-                                                        .darkGreyColor,
-                                                    fontSize: 16),
-                                              )
-                                            ],
-                                          );
+                                        // : Column(
+                                        //     mainAxisAlignment:
+                                        //         MainAxisAlignment.start,
+                                        //     children: [
+                                        //       SizedBox(
+                                        //         height: 10,
+                                        //       ),
+                                        //       Text(
+                                        //         "No more products!",
+                                        //         style: TextStyle(
+                                        //             color: CommonColor
+                                        //                 .darkGreyColor,
+                                        //             fontSize: 16),
+                                        //       )
+                                        //     ],
+                                        //   );
+                                        : SizedBox.shrink();
                                   }
                                 },
                               ),

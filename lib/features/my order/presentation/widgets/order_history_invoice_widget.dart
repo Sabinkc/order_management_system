@@ -30,7 +30,7 @@ class OrderHistoryInvoiceWidget extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: SizedBox(
-                height: 220,
+                height: screenHeight * 0.28,
                 child: ListView.builder(
                   itemCount: 1,
                   itemBuilder: (context, orderIndex) {
@@ -46,6 +46,8 @@ class OrderHistoryInvoiceWidget extends StatelessWidget {
                                   vertical: 5, horizontal: 10),
                               child: Container(
                                 decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.grey, width: 0.2),
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(8)),
                                 child: Row(

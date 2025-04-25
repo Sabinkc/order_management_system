@@ -653,19 +653,20 @@ class _AllProductScreenState extends State<AllProductScreen> {
                                       color: CommonColor.primaryColor,
                                     )),
                               )
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    "No more products!",
-                                    style: TextStyle(
-                                        color: Colors.grey, fontSize: 16),
-                                  ),
-                                ],
-                              );
+                            // : Column(
+                            //     mainAxisAlignment: MainAxisAlignment.start,
+                            //     children: [
+                            //       SizedBox(
+                            //         height: 10,
+                            //       ),
+                            //       Text(
+                            //         "No more products!",
+                            //         style: TextStyle(
+                            //             color: Colors.grey, fontSize: 16),
+                            //       ),
+                            //     ],
+                            //   );
+                            : SizedBox.shrink();
                       }
                     });
           }),

@@ -454,6 +454,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                                                     child: Text(
                                                       "${invoiceProduct[index].price * invoiceProduct[index].quantity}",
                                                       style: TextStyle(
+                                                        
                                                           fontWeight:
                                                               FontWeight.bold),
                                                     ),

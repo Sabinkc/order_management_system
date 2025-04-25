@@ -35,9 +35,10 @@ class OrdersWidgetDashboard extends StatelessWidget {
                         child: Container(
                           height: 110,
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              border:
+                                  Border.all(color: Colors.grey, width: 0.2)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

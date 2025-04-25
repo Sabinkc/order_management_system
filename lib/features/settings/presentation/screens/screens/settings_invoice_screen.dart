@@ -927,13 +927,14 @@ class _InvoiceScreenState extends State<SettingsInvoiceScreen> {
                                             ? CircularProgressIndicator(
                                                 color: CommonColor.primaryColor,
                                               )
-                                            : Text(
-                                                "No more invoices to fetch",
-                                                style: TextStyle(
-                                                    color: CommonColor
-                                                        .darkGreyColor,
-                                                    fontSize: 16),
-                                              ),
+                                            // : Text(
+                                            //     "No more invoices to fetch",
+                                            //     style: TextStyle(
+                                            //         color: CommonColor
+                                            //             .darkGreyColor,
+                                            //         fontSize: 16),
+                                            //   ),
+                                            : SizedBox.shrink(),
                                       ),
                                     );
                                     // return CircularProgressIndicator();

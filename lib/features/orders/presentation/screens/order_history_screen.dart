@@ -605,6 +605,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
@@ -908,7 +909,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
-                                            spacing: 3,
+                                            spacing: 5,
                                             children: [
                                               Row(
                                                 mainAxisAlignment:
@@ -918,20 +919,18 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                                                   Text(
                                                     "Order No: ${order.orderNo}",
                                                     style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: CommonColor
-                                                            .darkGreyColor),
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
                                                   ),
                                                   Text(
                                                     "Rs.${order.totalAmount}",
                                                     style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 15,
-                                                        color: CommonColor
-                                                            .primaryColor),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15,
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -940,25 +939,60 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Text(
-                                                    order.date,
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 11,
-                                                      color: CommonColor
-                                                          .mediumGreyColor,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "Qty: ${order.totalQuantity}",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 11,
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons
+                                                            .shopping_bag_outlined,
+                                                        size: 15,
                                                         color: CommonColor
-                                                            .mediumGreyColor),
+                                                            .mediumGreyColor,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 3,
+                                                      ),
+                                                      Text(
+                                                        order.date,
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 11,
+                                                          color: CommonColor
+                                                              .mediumGreyColor,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
+                                                  Row(
+                                                    spacing: 3,
+                                                    children: [
+                                                      Icon(
+                                                        MingCute
+                                                            .shopping_bag_3_line,
+                                                        size: 15,
+                                                        color: CommonColor
+                                                            .mediumGreyColor,
+                                                      ),
+                                                      Text(
+                                                        "${order.totalQuantity}",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 11,
+                                                            color: CommonColor
+                                                                .mediumGreyColor),
+                                                      ),
+                                                      Text(
+                                                        "items",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 11,
+                                                            color: CommonColor
+                                                                .mediumGreyColor),
+                                                      ),
+                                                    ],
+                                                  )
                                                 ],
                                               ),
                                               Row(
@@ -967,20 +1001,64 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                                                     "Status: ",
                                                     style: TextStyle(
                                                         color: CommonColor
-                                                            .darkGreyColor,
+                                                            .primaryColor,
                                                         fontWeight:
                                                             FontWeight.bold),
                                                   ),
                                                   Text(
                                                     order.status,
                                                     style: TextStyle(
-                                                        color: CommonColor
-                                                            .primaryColor,
+                                                        color:
+                                                            Colors.brown[500],
+                                                        // color: CommonColor
+                                                        //     .primaryColor,
                                                         fontWeight:
                                                             FontWeight.w600),
                                                   ),
                                                 ],
                                               ),
+                                              // Row(
+                                              //   children: [
+                                              //     Container(
+                                              //       padding:
+                                              //           EdgeInsets.symmetric(
+                                              //               horizontal: 5,
+                                              //               vertical: 2),
+                                              //       decoration: BoxDecoration(
+                                              //           border: Border.all(
+                                              //               color: Colors
+                                              //                   .brown[100]!),
+                                              //           borderRadius:
+                                              //               BorderRadius
+                                              //                   .circular(15),
+                                              //           color:
+                                              //               Colors.yellow[100]),
+                                              //       child: Row(
+                                              //         children: [
+                                              //           Icon(
+                                              //             Icons
+                                              //                 .access_alarm_outlined,
+                                              //             size: 14,
+                                              //             color:
+                                              //                 Colors.brown[400],
+                                              //           ),
+                                              //           SizedBox(
+                                              //             width: 3,
+                                              //           ),
+                                              //           Text(
+                                              //             order.status,
+                                              //             style: TextStyle(
+                                              //                 color:
+                                              //                     Colors.brown,
+                                              //                 fontWeight:
+                                              //                     FontWeight
+                                              //                         .w600),
+                                              //           ),
+                                              //         ],
+                                              //       ),
+                                              //     ),
+                                              //   ],
+                                              // ),
                                             ],
                                           ),
                                         ),
@@ -1000,13 +1078,14 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                                             ? CircularProgressIndicator(
                                                 color: CommonColor.primaryColor,
                                               )
-                                            : Text(
-                                                "No more orders to fetch",
-                                                style: TextStyle(
-                                                    color: CommonColor
-                                                        .darkGreyColor,
-                                                    fontSize: 16),
-                                              ),
+                                            // : Text(
+                                            //     "No more orders to fetch",
+                                            //     style: TextStyle(
+                                            //         color: CommonColor
+                                            //             .darkGreyColor,
+                                            //         fontSize: 16),
+                                            //   ),
+                                            : SizedBox.shrink(),
                                       ),
                                     );
                                   }
