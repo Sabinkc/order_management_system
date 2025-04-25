@@ -492,6 +492,7 @@
 //With pagination
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
@@ -766,13 +767,17 @@ class _InvoiceScreenState extends State<SettingsInvoiceScreen> {
                                               horizontal: 15, vertical: 15),
                                           decoration: BoxDecoration(
                                             color: Colors.white,
+                                            border: Border.all(
+                                                width: 0.1,
+                                                color: CommonColor
+                                                    .mediumGreyColor),
                                             borderRadius:
                                                 BorderRadius.circular(8),
                                           ),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
-                                            spacing: 3,
+                                            spacing: 5,
                                             children: [
                                               Row(
                                                 mainAxisAlignment:
@@ -782,20 +787,73 @@ class _InvoiceScreenState extends State<SettingsInvoiceScreen> {
                                                   Text(
                                                     "Invoice No: ${invoice.invoiceNo}",
                                                     style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: CommonColor
-                                                            .darkGreyColor),
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
                                                   ),
                                                   Text(
                                                     "Rs.${invoice.totalAmount}",
                                                     style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    invoice.receiverName,
+                                                    style: TextStyle(
                                                         color: CommonColor
-                                                            .primaryColor),
+                                                            .darkGreyColor,
+                                                        fontSize: 15),
+                                                  ),
+                                                  Container(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 8,
+                                                            vertical: 3),
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            color: Colors
+                                                                .brown[100]!),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                        color:
+                                                            Colors.yellow[100]),
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons
+                                                              .access_alarm_outlined,
+                                                          size: 18,
+                                                          color:
+                                                              Colors.brown[400],
+                                                        ),
+                                                        SizedBox(
+                                                          width: 3,
+                                                        ),
+                                                        Text(
+                                                          invoice.paidStatus ==
+                                                                  "false"
+                                                              ? "Unpaid"
+                                                              : "Paid",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.brown,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -806,41 +864,51 @@ class _InvoiceScreenState extends State<SettingsInvoiceScreen> {
                                                 children: [
                                                   Row(
                                                     children: [
-                                                      Text(
-                                                        "Status: ",
-                                                        style: TextStyle(
-                                                            color: CommonColor
-                                                                .darkGreyColor,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                      Icon(
+                                                        Icons
+                                                            .shopping_bag_outlined,
+                                                        size: 15,
+                                                        color: CommonColor
+                                                            .mediumGreyColor,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 3,
                                                       ),
                                                       Text(
-                                                        invoice.paidStatus ==
-                                                                "false"
-                                                            ? "Unpaid"
-                                                            : "Paid",
+                                                        invoice.date
+                                                            .substring(0, 10),
                                                         style: TextStyle(
-                                                            color: CommonColor
-                                                                .primaryColor,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
+                                                          fontSize: 15,
+                                                          color: CommonColor
+                                                              .mediumGreyColor,
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
-                                                  Text(
-                                                    invoice.date,
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 11,
-                                                      color: CommonColor
-                                                          .mediumGreyColor,
-                                                    ),
-                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                        MingCute
+                                                            .shopping_bag_3_line,
+                                                        size: 15,
+                                                        color: CommonColor
+                                                            .mediumGreyColor,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 3,
+                                                      ),
+                                                      Text(
+                                                        "${invoice.totalQuantity} items",
+                                                        style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: CommonColor
+                                                              .mediumGreyColor,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
                                                 ],
-                                              ),
+                                              )
                                             ],
                                           ),
                                         ),

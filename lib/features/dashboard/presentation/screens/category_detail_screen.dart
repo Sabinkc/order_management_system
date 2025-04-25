@@ -504,15 +504,15 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
       "assets/images/automobile_c.png"
     ];
     List subCategoryName = [
-      "Cat A",
-      "Cat B",
-      "Cat C",
-      "Cat D",
-      "Cat E",
-      "Cat D",
-      "Cat E",
-      "Cat F",
-      "Cat G"
+      "CategoryA",
+      "CategoryB",
+      "CategoryC",
+      "CategoryD",
+      "CategoryE",
+      "CategoryF",
+      "CategoryG",
+      "CategoryH",
+      "CategoyryI"
     ];
     return Scaffold(
         backgroundColor: Colors.grey[100],
@@ -573,8 +573,36 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
               children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Sub Categories",
+                        style: TextStyle(
+                          color: CommonColor.blackColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        child: Text(
+                          "See all",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: CommonColor.primaryColor),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
                 SizedBox(
-                  height: 110,
+                  height: 5,
+                ),
+                SizedBox(
+                  height: 115,
                   child: IntrinsicHeight(
                     child: ListView.builder(
                         itemCount: 5,
@@ -585,24 +613,25 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                               GestureDetector(
                                   onTap: () {},
                                   child: Padding(
-                                    padding: EdgeInsets.all(5),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 8),
                                     child: Container(
                                       // height: 90,
                                       height: 70,
-                                      width: 80,
+                                      width: 70,
                                       decoration: BoxDecoration(
                                         boxShadow: [
                                           BoxShadow(
                                               offset: Offset(0, 0),
                                               blurRadius: 3,
                                               color: Colors.grey),
-                                          // BoxShadow(
+                                          // // BoxShadow(
                                           //     offset: Offset(-2, -2),
                                           //     blurRadius: 1,
                                           //     color: Colors.grey)
                                         ],
                                         border: Border.all(color: Colors.white),
-                                        borderRadius: BorderRadius.circular(8),
+                                        borderRadius: BorderRadius.circular(50),
                                         color: Colors.white,
                                       ),
                                       // child: Center(
@@ -617,7 +646,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                       // )),
                                       child: ClipRRect(
                                           borderRadius:
-                                              BorderRadius.circular(8),
+                                              BorderRadius.circular(50),
                                           child: Image.asset(
                                             subCategoryImages[index],
                                             fit: BoxFit.cover,

@@ -898,6 +898,10 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                                               horizontal: 15, vertical: 15),
                                           decoration: BoxDecoration(
                                             color: Colors.white,
+                                            border: Border.all(
+                                                width: 0.1,
+                                                color: CommonColor
+                                                    .mediumGreyColor),
                                             borderRadius:
                                                 BorderRadius.circular(8),
                                           ),
