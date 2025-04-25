@@ -99,13 +99,17 @@ class CheckoutOrderWidgetDashboard extends StatelessWidget {
                                           SizedBox(
                                             width: 7,
                                           ),
-                                          Text(
-                                            item.category,
-                                            style: TextStyle(
-                                                fontSize: 11,
-                                                color:
-                                                    CommonColor.mediumGreyColor,
-                                                fontWeight: FontWeight.bold),
+                                          Expanded(
+                                            child: Text(
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              item.category,
+                                              style: TextStyle(
+                                                  fontSize: 11,
+                                                  color: CommonColor
+                                                      .mediumGreyColor,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
                                           )
                                         ],
                                       ),

@@ -959,11 +959,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      SizedBox(
-                                                        width: 100,
+                                                      Expanded(
                                                         child: Text(
                                                           "Rs. ${product.price}",
-                                                          maxLines: 2,
+                                                          maxLines: 1,
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           style: TextStyle(

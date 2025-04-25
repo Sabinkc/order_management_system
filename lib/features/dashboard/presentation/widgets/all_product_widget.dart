@@ -161,14 +161,18 @@ class AllProductWidget extends StatelessWidget {
                                       child: Row(
                                         spacing: 10,
                                         children: [
-                                          Text(
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
-                                            productProvider.product[index].name,
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,
+                                          SizedBox(
+                                            width: 70,
+                                            child: Text(
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2,
+                                              productProvider
+                                                  .product[index].name,
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                              ),
                                             ),
                                           ),
                                           Expanded(
@@ -196,8 +200,7 @@ class AllProductWidget extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          SizedBox(
-                                            width: 100,
+                                          Expanded(
                                             child: Text(
                                               "Rs.${productProvider.product[index].price}",
                                               maxLines: 2,

@@ -847,8 +847,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    SizedBox(
-                                                      width: 100,
+                                                    Expanded(
                                                       child: Text(
                                                         "Rs. ${product.price}",
                                                         maxLines: 2,

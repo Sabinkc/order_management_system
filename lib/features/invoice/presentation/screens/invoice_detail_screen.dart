@@ -281,7 +281,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                                       height: 5,
                                     ),
                                     Text(
-                                      invoice.receiverName,
+                                      "John Doe",
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
@@ -289,19 +289,19 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                                           fontSize: 16),
                                     ),
                                     Text(
-                                      invoice.receiverPhone,
+                                      "9812345678",
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 16),
                                     ),
                                     Text(
-                                      invoice.receiverEmail,
+                                      "johndoe@gmail.com",
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 16),
                                     ),
                                     Text(
-                                      "${invoice.receiverCity}, ${invoice.receiverArea}",
+                                      "City, Street",
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 16),
@@ -406,7 +406,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                                                   flex: 3,
                                                   child: Padding(
                                                     padding: EdgeInsets.only(
-                                                        left: 10),
+                                                        left: 10, right: 5),
                                                     child: Text(
                                                       invoiceProduct[index]
                                                           .name,
@@ -418,24 +418,17 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                                                 ),
                                                 Expanded(
                                                   flex: 2,
-                                                  child: Text(
-                                                    invoiceProduct[index]
-                                                        .quantity
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  flex: 2,
-                                                  child: Text(
-                                                    invoiceProduct[index]
-                                                        .price
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 5, right: 5),
+                                                    child: Text(
+                                                      invoiceProduct[index]
+                                                          .quantity
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
                                                   ),
                                                 ),
                                                 Expanded(
@@ -444,7 +437,22 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                                                     padding: EdgeInsets.only(
                                                         right: 10),
                                                     child: Text(
-                                                      "${invoiceProduct[index].price}",
+                                                      invoiceProduct[index]
+                                                          .price
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: 10),
+                                                    child: Text(
+                                                      "${invoiceProduct[index].price * invoiceProduct[index].quantity}",
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold),
@@ -492,87 +500,6 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                             ],
                           ),
                         )
-
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     Text(
-                        //       "Invoice no",
-                        //       style: TextStyle(
-                        //         color: CommonColor.mediumGreyColor,
-                        //       ),
-                        //     ),
-                        //     Text(
-                        //       invoice.invoiceNo,
-                        //       style:
-                        //           TextStyle(color: CommonColor.mediumGreyColor),
-                        //     )
-                        //   ],
-                        // ),
-                        // Divider(
-                        //   color: CommonColor.commonGreyColor,
-                        //   thickness: 2,
-                        // ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     Text(
-                        //       "Invoice status",
-                        //       style: TextStyle(
-                        //         color: CommonColor.mediumGreyColor,
-                        //       ),
-                        //     ),
-                        //     Text(
-                        //       invoice.paidStatus == "false" ? "Unpaid" : "Paid",
-                        //       style:
-                        //           TextStyle(color: CommonColor.mediumGreyColor),
-                        //     )
-                        //   ],
-                        // ),
-                        // Divider(
-                        //   color: CommonColor.commonGreyColor,
-                        //   thickness: 2,
-                        // ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     Text(
-                        //       "Subtotal",
-                        //       style: TextStyle(
-                        //         color: CommonColor.mediumGreyColor,
-                        //       ),
-                        //     ),
-                        //     Text(
-                        //       "Rs.${invoice.totalAmount}",
-                        //       style:
-                        //           TextStyle(color: CommonColor.mediumGreyColor),
-                        //     )
-                        //   ],
-                        // ),
-                        // Divider(
-                        //   color: CommonColor.commonGreyColor,
-                        //   thickness: 2,
-                        // ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     Text(
-                        //       "Discount",
-                        //       style: TextStyle(
-                        //         color: CommonColor.mediumGreyColor,
-                        //       ),
-                        //     ),
-                        //     Text(
-                        //       "Rs.0",
-                        //       style:
-                        //           TextStyle(color: CommonColor.mediumGreyColor),
-                        //     )
-                        //   ],
-                        // ),
-                        // Divider(
-                        //   color: CommonColor.commonGreyColor,
-                        //   thickness: 2,
-                        // ),
                       ]),
                 );
         }));

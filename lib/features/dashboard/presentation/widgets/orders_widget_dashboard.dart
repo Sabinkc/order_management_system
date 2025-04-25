@@ -72,13 +72,15 @@ class OrdersWidgetDashboard extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        item.productName,
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
+                                      Expanded(
+                                        child: Text(
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          item.productName,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ),
                                       Row(
                                         children: [
@@ -99,13 +101,17 @@ class OrdersWidgetDashboard extends StatelessWidget {
                                           SizedBox(
                                             width: 7,
                                           ),
-                                          Text(
-                                            item.category,
-                                            style: TextStyle(
-                                                fontSize: 11,
-                                                color:
-                                                    CommonColor.mediumGreyColor,
-                                                fontWeight: FontWeight.bold),
+                                          Expanded(
+                                            child: Text(
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              item.category,
+                                              style: TextStyle(
+                                                  fontSize: 11,
+                                                  color: CommonColor
+                                                      .mediumGreyColor,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
                                           )
                                         ],
                                       ),
