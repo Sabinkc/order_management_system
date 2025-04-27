@@ -34,6 +34,7 @@ class CheckoutOrderWidgetDashboard extends StatelessWidget {
                         child: Container(
                           height: 110,
                           decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey, width: 0.2),
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(8),
                           ),

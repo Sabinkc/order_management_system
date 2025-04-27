@@ -119,12 +119,16 @@ class CheckOutScreen extends StatelessWidget {
                 SizedBox(
                   height: screenHeight * 0.01,
                 ),
+                Spacer(
+                  flex: 2,
+                ),
                 CheckoutWidget(
                   shipppingLocationId: shippingLocationid,
                 ),
+       
 
                 SizedBox(
-                  height: screenHeight * 0.01,
+                  height: screenHeight * 0.02,
                 ),
                 // Divider(),
               ],
