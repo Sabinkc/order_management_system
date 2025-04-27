@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
-import 'package:order_management_system/features/dashboard/presentation/screens/product_detail_screen.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/category_product_detail_screen.dart.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/search_widget_dashboard.dart';
 
 class SearchRowDashboard extends StatelessWidget {

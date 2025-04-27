@@ -452,7 +452,7 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
-import 'package:order_management_system/features/dashboard/presentation/screens/product_detail_screen.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/category_product_detail_screen.dart.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:developer' as logger;
@@ -730,7 +730,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        ProductDetailScreen(
+                                                        CategoryProductDetailScreen(
                                                             sku: product.sku
                                                                 .toString())));
                                           },
@@ -879,6 +879,15 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                                       ),
                                                       InkWell(
                                                         onTap: () {
+                                                           Provider.of<CartQuantityProvider>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .addToCart(
+                                                                  product.sku
+                                                                      .toString(),
+                                                                  context);
+                                                          logger.log(
+                                                              "tapped product sku: ${product.sku}");
                                                           showDialog(
                                                             context: context,
                                                             builder: (context) {
@@ -917,15 +926,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                                               );
                                                             },
                                                           );
-                                                          Provider.of<CartQuantityProvider>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .addToCart(
-                                                                  product.sku
-                                                                      .toString(),
-                                                                  context);
-                                                          logger.log(
-                                                              "tapped product sku: ${product.sku}");
+                                                         
                                                         },
                                                         child: Icon(
                                                           MingCute

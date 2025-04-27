@@ -8,15 +8,15 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class ProductDetailScreen extends StatefulWidget {
+class CategoryProductDetailScreen extends StatefulWidget {
   final String sku;
-  const ProductDetailScreen({super.key, required this.sku});
+  const CategoryProductDetailScreen({super.key, required this.sku});
 
   @override
-  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+  State<CategoryProductDetailScreen> createState() => _ProductDetailScreenState();
 }
 
-class _ProductDetailScreenState extends State<ProductDetailScreen> {
+class _ProductDetailScreenState extends State<CategoryProductDetailScreen> {
   final PageController smoothController = PageController();
 
   @override
@@ -142,16 +142,94 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(productProvider.productDetail.name,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20)),
-                                Text(
-                                  productProvider.productDetail.categoryName,
-                                  style: TextStyle(
-                                      color: CommonColor.darkGreyColor,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14),
+                                Row(
+                                  spacing: 10,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                          productProvider.productDetail.name,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18)),
+                                    ),
+                                    Row(
+                                      spacing: 3,
+                                      children: [
+                                        productProvider.productDetail
+                                                    .isAvailable ==
+                                                true
+                                            ? Text("Availiable",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16))
+                                            : Text("Not Availiable",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16)),
+                                        productProvider.productDetail
+                                                    .isAvailable ==
+                                                true
+                                            ? Icon(
+                                                Icons.check_circle_outline,
+                                                color: Colors.blue,
+                                                size: 17,
+                                              )
+                                            : Icon(
+                                                Icons.cancel_outlined,
+                                                color: Colors.red,
+                                                size: 17,
+                                              )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        productProvider
+                                            .productDetail.categoryName,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            color: CommonColor.darkGreyColor,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14),
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Stock: ",
+                                          style: TextStyle(
+                                              color: CommonColor.darkGreyColor,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14),
+                                        ),
+                                        Text(
+                                          productProvider
+                                              .productDetail.stockQuantity
+                                              .toString(),
+                                          style: TextStyle(
+                                              color: CommonColor.darkGreyColor,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        )
+                                      ],
+                                    )
+                                  ],
                                 ),
                                 SizedBox(
                                   height: 10,
@@ -161,7 +239,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   style: TextStyle(
                                       color: CommonColor.primaryColor,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 22),
+                                      fontSize: 28),
                                 ),
                                 SizedBox(
                                   height: 10,
@@ -169,7 +247,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 Text("Description",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 18)),
+                                        fontSize: 16)),
                                 SizedBox(
                                   height: 5,
                                 ),
@@ -205,6 +283,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       borderRadius: BorderRadius.circular(8)),
                                   backgroundColor: CommonColor.primaryColor),
                               onPressed: () {
+                                Provider.of<CartQuantityProvider>(context,
+                                        listen: false)
+                                    .addToCart(
+                                        productProvider.productDetail.sku
+                                            .toString(),
+                                        context);
                                 showDialog(
                                   context: context,
                                   builder: (context) {
@@ -230,12 +314,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     );
                                   },
                                 );
-                                Provider.of<CartQuantityProvider>(context,
-                                        listen: false)
-                                    .addToCart(
-                                        productProvider.productDetail.sku
-                                            .toString(),
-                                        context);
                               },
                               child: Text(
                                 "Add To Cart",

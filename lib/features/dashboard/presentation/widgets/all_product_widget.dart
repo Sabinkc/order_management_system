@@ -5,8 +5,9 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/all_product_detail_screen.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/home_screens/all_product_screen.dart';
-import 'package:order_management_system/features/dashboard/presentation/screens/product_detail_screen.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/category_product_detail_screen.dart.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:developer' as logger;
@@ -85,7 +86,7 @@ class AllProductWidget extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            ProductDetailScreen(
+                                            AllProductDetailScreen(
                                                 sku: product.sku.toString())));
                               },
                               child: Container(
@@ -222,6 +223,14 @@ class AllProductWidget extends StatelessWidget {
                                           const SizedBox(width: 8),
                                           InkWell(
                                             onTap: () {
+                                              Provider.of<CartQuantityProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .addToCartFromAllProducts(
+                                                      product.sku.toString(),
+                                                      context);
+                                              logger.log(
+                                                  "tapped product id: ${product.sku}");
                                               showDialog(
                                                 context: context,
                                                 builder: (context) {
@@ -253,14 +262,6 @@ class AllProductWidget extends StatelessWidget {
                                                   );
                                                 },
                                               );
-                                              Provider.of<CartQuantityProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .addToCartFromAllProducts(
-                                                      product.sku.toString(),
-                                                      context);
-                                              logger.log(
-                                                  "tapped product id: ${product.sku}");
                                             },
                                             child: Icon(
                                               MingCute.shopping_cart_1_line,

@@ -111,7 +111,7 @@ class ProductApiSevice {
             price:
                 double.parse(product["unitPrice"]), // Parsing price as a double
             isAvailable: product["isAvailable"],
-            imageUrl: product["unitImages"][0],
+            imageUrl: product["unitImages"][0] ?? "url not found",
             sku: product["sku"],
           ));
         }
