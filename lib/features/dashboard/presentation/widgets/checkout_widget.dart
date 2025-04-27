@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/simple_ui_provider.dart';
+import 'package:order_management_system/common/utils.dart';
 import 'package:order_management_system/features/dashboard/data/cart_model.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
@@ -249,6 +250,10 @@ class CheckoutWidget extends StatelessWidget {
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                     Navigator.pop(context);
+                                    Utilities.showCommonSnackBar(
+                                        context,
+                                        durationMilliseconds: 2000,
+                                        "Your order has been placed successfully!");
                                   },
                                   child: Text(
                                     "OK",

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
+import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -14,8 +16,8 @@ class TestScreen extends StatelessWidget {
         children: [
           ElevatedButton(
               onPressed: () async {
-              final authProvider = Provider.of<AuthProvider>(context,listen: false);
-              authProvider.verifyEmail("");
+       final productProvider = Provider.of<ProductProvider>(context,listen: false);
+       productProvider.getProductDetail("1-6-u");
               },
               child: Text("Press")),
           Center(child: Text("Test Screen")),
@@ -36,16 +38,3 @@ class TestScreen2 extends StatelessWidget {
   }
 }
 
-// import 'package:flutter/material.dart';
-
-// class TestScreen extends StatelessWidget {
-//   const TestScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       body: Center(child: Text("Invoice Screen")),
-//     );
-//   }
-// }

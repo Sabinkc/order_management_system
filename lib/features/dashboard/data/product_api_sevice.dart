@@ -290,16 +290,13 @@ class ProductApiSevice {
   }
 
 //get product details
-  Future<Map<String, dynamic>> getProductDetailsById(int productId) async {
+  Future<ProductDetails> getProductDetailsById(String productId) async {
     // Get the saved token from SharedPreferences
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
     // If no token is found, return an error
     if (token == null) {
-      return {
-        "success": false,
-        "message": "User not authenticated. Please log in first."
-      };
+      throw "User not authenticated. Please log in first.";
     }
 
     // Headers with Authorization token
@@ -319,27 +316,30 @@ class ProductApiSevice {
       http.StreamedResponse response = await request.send();
       String responseBody = await response.stream.bytesToString();
 
-      logger.log("Response Status Code: ${response.statusCode}");
-      logger.log("Response Body: $responseBody");
+      // logger.log("Response Status Code: ${response.statusCode}");
+      // logger.log("Response Body: $responseBody");
 
       Map<String, dynamic> jsonResponse = json.decode(responseBody);
-      logger.log("jsonResponse: $jsonResponse");
+      // logger.log("jsonResponse: $jsonResponse");
 
       if (response.statusCode == 200) {
-        return {"success": true, "data": jsonResponse};
+        // return {"success": true, "data": jsonResponse};
+        return ProductDetails(
+            name: jsonResponse["product"]["name"],
+            description: jsonResponse["product"]["description"] ??
+                "Product description not availiable",
+            categoryName: jsonResponse["product"]["category"]["name"],
+            imageUrl: jsonResponse["product"]["unitImages"][0],
+            stockQuantity: jsonResponse["product"]["unitStock"],
+            price: double.parse(jsonResponse["product"]["unitPrice"]),
+            isAvailable: jsonResponse["product"]["isUnitAvailable"],
+            sku: jsonResponse["product"]["sku"]);
       } else {
-        return {
-          "success": false,
-          "message":
-              jsonResponse["message"] ?? "Failed to fetch product details"
-        };
+        throw jsonResponse["message"] ?? "Failed to fetch product details";
       }
     } catch (e) {
       logger.log("Get Product by ID Error: $e");
-      return {
-        "success": false,
-        "message": "Something went wrong. Please try again."
-      };
+      rethrow;
     }
   }
 

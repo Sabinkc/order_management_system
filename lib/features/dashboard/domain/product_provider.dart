@@ -131,6 +131,31 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
+  bool isProductDetailLoading = false;
+  ProductDetails productDetail = ProductDetails(
+      name: "",
+      description: "",
+      categoryName: "",
+      imageUrl: "",
+      stockQuantity: 0,
+      price: 0,
+      isAvailable: true,
+      sku: "");
+  Future getProductDetail(String sku) async {
+    isProductDetailLoading = true;
+    notifyListeners();
+    try {
+      final response = await _service.getProductDetailsById(sku);
+      productDetail = response;
+      logger.log(productDetail.toString());
+    } catch (e) {
+      logger.log("$e");
+    } finally {
+      isProductDetailLoading = false;
+      notifyListeners();
+    }
+  }
+
   bool isImageLoading = false;
   Uint8List productImage = Uint8List(10);
   Future<Uint8List> getProductImage(String imageUrl) async {
