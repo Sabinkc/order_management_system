@@ -285,7 +285,7 @@ class _ProductDetailScreenState extends State<AllProductDetailScreen> {
                               onPressed: () {
                                 Provider.of<CartQuantityProvider>(context,
                                         listen: false)
-                                    .addToCart(
+                                    .addToCartFromAllProducts(
                                         productProvider.productDetail.sku
                                             .toString(),
                                         context);

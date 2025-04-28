@@ -13,6 +13,7 @@ class CartQuantityProvider extends ChangeNotifier {
     //     Provider.of<ProductProvider>(context, listen: false).product;
     final products =
         Provider.of<ProductProvider>(context, listen: false).categoryProducts;
+        logger.log("category prouducts: $products");
     // Check if the product is already in the cart
     final existingIndex = cartItems.indexWhere((item) => item.sku == sku);
 
@@ -51,6 +52,7 @@ class CartQuantityProvider extends ChangeNotifier {
   void addToCartFromAllProducts(String sku, BuildContext context) {
     final products =
         Provider.of<ProductProvider>(context, listen: false).product;
+        logger.log("all products: $products");
 
     // Check if the product is already in the cart
     final existingIndex = cartItems.indexWhere((item) => item.sku == sku);
