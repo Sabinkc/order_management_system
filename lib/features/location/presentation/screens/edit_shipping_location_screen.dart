@@ -123,12 +123,10 @@ class _EditShippingLocationScreenState
                 SizedBox(
                   height: screenHeight * 0.02,
                 ),
-                SizedBox(
-                    width: screenWidth * 0.42,
-                    child: CommonLocationTextformField(
-                        fillColor: Colors.white,
-                        controller: fullNameController,
-                        hintText: "First Name")),
+                CommonLocationTextformField(
+                    fillColor: Colors.white,
+                    controller: fullNameController,
+                    hintText: "First Name"),
                 SizedBox(height: screenHeight * 0.02),
                 CommonLocationTextformField(
                     fillColor: Colors.white,

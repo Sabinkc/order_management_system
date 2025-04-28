@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/simple_ui_provider.dart';
 import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
@@ -87,12 +88,25 @@ class _OrderHistoryScreenState extends State<MyOrderHistoryScreen> {
               }
               if (orderProvider.ordersBySandD.isEmpty) {
                 return Center(
-                  child: Text(
-                    "No orders till now!",
-                    style: TextStyle(
-                        color: CommonColor.darkGreyColor, fontSize: 20),
-                  ),
-                );
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      MingCute.shopping_bag_1_line,
+                      color: CommonColor.darkGreyColor,
+                      weight: 0.5,
+                      size: 100,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "No orders till now!",
+                      style: TextStyle(
+                          color: CommonColor.darkGreyColor, fontSize: 20),
+                    ),
+                  ],
+                ));
               }
 
               return SingleChildScrollView(

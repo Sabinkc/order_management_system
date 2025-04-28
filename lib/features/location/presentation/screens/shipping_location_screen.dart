@@ -39,7 +39,7 @@ class _ShippingLocationScreenState extends State<ShippingLocationScreen> {
         title: RichText(
             text: TextSpan(children: [
           TextSpan(
-            text: "Select Shipping ",
+            text: "Shipping ",
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
@@ -150,7 +150,9 @@ class _ShippingLocationScreenState extends State<ShippingLocationScreen> {
                                     horizontal: 15, vertical: 10),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
-                                  border: Border.all(color: Colors.grey[100]!),
+                                  // border: Border.all(color: Colors.grey[100]!),
+                                  border: Border.all(
+                                      color: Colors.grey, width: 0.2),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Column(

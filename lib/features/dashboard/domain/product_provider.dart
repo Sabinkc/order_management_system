@@ -217,8 +217,8 @@ class ProductProvider extends ChangeNotifier {
       isGetAllInvoiceLoading = false;
       notifyListeners();
     }
-    logger.log(
-        "page:$invoicePage, status: $paidStatus, startDate: $startDate, endDate: $endDate");
+    // logger.log(
+        // "page:$invoicePage, status: $paidStatus, startDate: $startDate, endDate: $endDate");
     if (isGetAllInvoiceLoading || !allInvoiceHasMore) return;
     isGetAllInvoiceLoading = true;
     notifyListeners();
@@ -231,7 +231,7 @@ class ProductProvider extends ChangeNotifier {
       } else {
         invoices.addAll(response);
         invoicePage++;
-        logger.log("invoices: $invoices");
+        // logger.log("invoices: $invoices");
         notifyListeners();
       }
     } catch (e) {

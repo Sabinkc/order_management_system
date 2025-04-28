@@ -113,7 +113,7 @@ class ProductApiSevice {
             isAvailable: product["isAvailable"],
             imageUrl: product["unitImages"][0] ?? "url not found",
             sku: product["sku"],
-            images: product["unitImages"]??[],
+            images: product["unitImages"] ?? [],
           ));
         }
         logger.log("get all products api success");
@@ -222,7 +222,7 @@ class ProductApiSevice {
             imageUrl: product["unitImages"]
                 [0], // Accessing isAvailable from unitTypes[0]
             sku: product["sku"],
-            images: product["unitImages"]??[],
+            images: product["unitImages"] ?? [],
           ));
         }
         logger.log("get products by category called");
@@ -335,7 +335,7 @@ class ProductApiSevice {
             stockQuantity: jsonResponse["product"]["unitStock"],
             price: double.parse(jsonResponse["product"]["unitPrice"]),
             isAvailable: jsonResponse["product"]["isUnitAvailable"],
-            images: jsonResponse["product"]["unitImages"]??[],
+            images: jsonResponse["product"]["unitImages"] ?? [],
             sku: jsonResponse["product"]["sku"]);
       } else {
         throw jsonResponse["message"] ?? "Failed to fetch product details";
@@ -708,7 +708,7 @@ class ProductApiSevice {
 
   Future<List<OrderModel>> getAllMyOrdersByStatusAndDate(
       int page, String status, String startDate, String endDate) async {
-    logger.log("status: $status, start Date: $startDate, end Date: $endDate");
+    // logger.log("status: $status, start Date: $startDate, end Date: $endDate");
     String? token = await SharedPrefLoggedinState.getAccessToken();
 
     if (token == null) {

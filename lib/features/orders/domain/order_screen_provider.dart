@@ -156,8 +156,8 @@ class OrderScreenProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      logger.log(
-          "page:$orderBySandDPage, status: $status, startDate: $startDate, endDate: $endDate");
+      // logger.log(
+      //     "page:$orderBySandDPage, status: $status, startDate: $startDate, endDate: $endDate");
       final response = await _service.getAllMyOrdersByStatusAndDate(
           orderBySandDPage, status, startDate, endDate);
       if (response.isEmpty) {
@@ -165,7 +165,7 @@ class OrderScreenProvider extends ChangeNotifier {
       } else {
         ordersBySandD.addAll(response);
         orderBySandDPage++;
-        logger.log("ordersbysandd: $ordersBySandD");
+        // logger.log("ordersbysandd: $ordersBySandD");
         notifyListeners();
       }
     } catch (e) {
