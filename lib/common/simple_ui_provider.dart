@@ -78,4 +78,15 @@ class SimpleUiProvider extends ChangeNotifier {
     _selectedInvoiceEndDate = "";
     notifyListeners();
   }
+
+  int carouselIndex = 0;
+   void updateCarouselIndex(int index){
+    carouselIndex = index;
+    notifyListeners();
+   }
+
+   void clearCarouselIndex(){
+    carouselIndex=0;
+    notifyListeners();
+   }
 }

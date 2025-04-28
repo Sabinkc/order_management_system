@@ -140,6 +140,7 @@ class ProductProvider extends ChangeNotifier {
       stockQuantity: 0,
       price: 0,
       isAvailable: true,
+      images: [],
       sku: "");
   Future getProductDetail(String sku) async {
     isProductDetailLoading = true;

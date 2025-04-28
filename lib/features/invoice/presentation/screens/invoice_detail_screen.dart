@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/common/utils.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -105,10 +107,19 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 18),
                                           ),
-                                          Icon(
-                                            Icons.copy_outlined,
-                                            size: 16,
-                                            color: CommonColor.primaryColor,
+                                          InkWell(
+                                            onTap: () {
+                                              Clipboard.setData(ClipboardData(
+                                                  text: invoice.invoiceNo));
+                                              Utilities.showCommonSnackBar(
+                                                  context,
+                                                  "Invoice no copied to clipboard");
+                                            },
+                                            child: Icon(
+                                              Icons.copy_outlined,
+                                              size: 16,
+                                              color: CommonColor.primaryColor,
+                                            ),
                                           ),
                                         ],
                                       )
@@ -176,23 +187,23 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                                       )
                                     ],
                                   ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        "Due Date",
-                                        style: TextStyle(
-                                            color: CommonColor.darkGreyColor,
-                                            fontSize: 18),
-                                      ),
-                                      Text(
-                                        invoice.date.substring(0, 10),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
-                                      )
-                                    ],
-                                  )
+                                  // Column(
+                                  //   crossAxisAlignment: CrossAxisAlignment.end,
+                                  //   children: [
+                                  //     Text(
+                                  //       "Due Date",
+                                  //       style: TextStyle(
+                                  //           color: CommonColor.darkGreyColor,
+                                  //           fontSize: 18),
+                                  //     ),
+                                  //     Text(
+                                  //       invoice.date.substring(0, 10),
+                                  //       style: TextStyle(
+                                  //           fontWeight: FontWeight.bold,
+                                  //           fontSize: 18),
+                                  //     )
+                                  //   ],
+                                  // )
                                 ],
                               )
                             ],
@@ -202,9 +213,16 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                           padding: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           decoration: BoxDecoration(
-                              border: Border.symmetric(
-                                  vertical: BorderSide(
-                                      color: Colors.grey, width: 0.2))),
+                              border:
+                                  Border.all(color: Colors.grey, width: 0.2),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(8),
+                                  bottomRight: Radius.circular(8))
+
+                              // border: Border.symmetric(
+                              //     vertical:
+                              //         BorderSide(color: Colors.grey, width: 0.2)),
+                              ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,64 +272,64 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                             ],
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(8),
-                                  bottomRight: Radius.circular(8)),
-                              border:
-                                  Border.all(color: Colors.grey, width: 0.2)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Billed From",
-                                      style: TextStyle(
-                                          color: CommonColor.mediumGreyColor,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      "John Doe",
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                    Text(
-                                      "9812345678",
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                    Text(
-                                      "johndoe@gmail.com",
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                    Text(
-                                      "City, Street",
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 16),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        // Container(
+                        //   padding: EdgeInsets.symmetric(
+                        //       horizontal: 20, vertical: 10),
+                        //   decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.only(
+                        //           bottomLeft: Radius.circular(8),
+                        //           bottomRight: Radius.circular(8)),
+                        //       border:
+                        //           Border.all(color: Colors.grey, width: 0.2)),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //     crossAxisAlignment: CrossAxisAlignment.start,
+                        //     children: [
+                        //       Expanded(
+                        //         child: Column(
+                        //           crossAxisAlignment: CrossAxisAlignment.start,
+                        //           children: [
+                        //             Text(
+                        //               "Billed From",
+                        //               style: TextStyle(
+                        //                   color: CommonColor.mediumGreyColor,
+                        //                   fontWeight: FontWeight.bold),
+                        //             ),
+                        //             SizedBox(
+                        //               height: 5,
+                        //             ),
+                        //             Text(
+                        //               "John Doe",
+                        //               maxLines: 2,
+                        //               overflow: TextOverflow.ellipsis,
+                        //               style: TextStyle(
+                        //                   fontWeight: FontWeight.bold,
+                        //                   fontSize: 16),
+                        //             ),
+                        //             Text(
+                        //               "9812345678",
+                        //               maxLines: 2,
+                        //               overflow: TextOverflow.ellipsis,
+                        //               style: TextStyle(fontSize: 16),
+                        //             ),
+                        //             Text(
+                        //               "johndoe@gmail.com",
+                        //               maxLines: 2,
+                        //               overflow: TextOverflow.ellipsis,
+                        //               style: TextStyle(fontSize: 16),
+                        //             ),
+                        //             Text(
+                        //               "City, Street",
+                        //               maxLines: 2,
+                        //               overflow: TextOverflow.ellipsis,
+                        //               style: TextStyle(fontSize: 16),
+                        //             )
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                         SizedBox(
                           height: 10,
                         ),
@@ -454,7 +472,6 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                                                     child: Text(
                                                       "${invoiceProduct[index].price * invoiceProduct[index].quantity}",
                                                       style: TextStyle(
-                                                        
                                                           fontWeight:
                                                               FontWeight.bold),
                                                     ),

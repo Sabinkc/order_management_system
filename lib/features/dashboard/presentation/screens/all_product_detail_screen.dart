@@ -1,6 +1,8 @@
 import 'dart:typed_data';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/common/simple_ui_provider.dart';
 import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
@@ -18,6 +20,8 @@ class AllProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<AllProductDetailScreen> {
   final PageController smoothController = PageController();
+  final CarouselSliderController carouselSliderController =
+      CarouselSliderController();
 
   @override
   void initState() {
@@ -28,6 +32,7 @@ class _ProductDetailScreenState extends State<AllProductDetailScreen> {
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       productProvider.getProductDetail(widget.sku);
+      Provider.of<SimpleUiProvider>(context,listen: false).clearCarouselIndex();
     });
     super.initState();
   }
@@ -76,59 +81,78 @@ class _ProductDetailScreenState extends State<AllProductDetailScreen> {
                     SizedBox(
                       height: screenHeight * 0.35,
                       width: double.infinity,
-                      child: FutureBuilder<Uint8List>(
-                        future: productApiSevice.getImageByFilename(
-                            productProvider.productDetail.imageUrl),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(
-                                child: Shimmer.fromColors(
-                              baseColor: Colors.grey[300]!,
-                              highlightColor: Colors.grey[100]!,
-                              child: Container(
-                                color: Colors.red,
-                              ),
-                            ));
-                          } else if (snapshot.hasError) {
-                            return Icon(Icons.broken_image);
-                          } else if (snapshot.hasData) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(8),
-                                  topRight: Radius.circular(8)),
-                              child: Image.memory(
-                                snapshot.data!,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    Icon(Icons.broken_image),
-                              ),
+                      child: CarouselSlider(
+                          carouselController: carouselSliderController,
+                          items: List.generate(
+                              productProvider.productDetail.images.length,
+                              (index) {
+                            return FutureBuilder<Uint8List>(
+                              future: productApiSevice.getImageByFilename(
+                                  productProvider.productDetail.images[index]),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                      child: Shimmer.fromColors(
+                                    baseColor: Colors.grey[300]!,
+                                    highlightColor: Colors.grey[100]!,
+                                    child: Container(
+                                      color: Colors.red,
+                                    ),
+                                  ));
+                                } else if (snapshot.hasError) {
+                                  return Icon(Icons.broken_image);
+                                } else if (snapshot.hasData) {
+                                  return ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(8),
+                                        topRight: Radius.circular(8)),
+                                    child: SizedBox.expand(
+                                      child: Image.memory(
+                                        snapshot.data!,
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Icon(Icons.broken_image),
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  return Icon(Icons.broken_image);
+                                }
+                              },
                             );
-                          } else {
-                            return Icon(Icons.broken_image);
-                          }
-                        },
-                      ),
-                      // child: Image.asset(
-                      //   "assets/images/tshirt.jpeg",
-                      //   fit: BoxFit.cover,
-                      // ),
+                          }),
+                          options: CarouselOptions(
+                              height: screenHeight * 0.35,
+                              autoPlay: false,
+                              enableInfiniteScroll: false,
+                              viewportFraction: 1,
+                              onPageChanged: (index, reason) {
+                                Provider.of<SimpleUiProvider>(context,
+                                        listen: false)
+                                    .updateCarouselIndex(index);
+                              })),
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     Align(
-                      alignment: Alignment.center,
-                      child: SmoothPageIndicator(
-                          effect: JumpingDotEffect(
-                            dotColor: Colors.green[200]!,
-                            activeDotColor: CommonColor.primaryColor,
-                            dotHeight: 10,
-                            dotWidth: 10,
-                          ),
-                          controller: smoothController,
-                          count: 3),
-                    ),
+                        alignment: Alignment.center,
+                        child: Consumer<SimpleUiProvider>(
+                            builder: (context, simpleUiProvider, child) {
+                          return SmoothPageIndicator(
+                              effect: JumpingDotEffect(
+                                dotColor: Colors.green[200]!,
+                                activeDotColor: CommonColor.primaryColor,
+                                dotHeight: 10,
+                                dotWidth: 10,
+                              ),
+                              controller: PageController(
+                                  initialPage: simpleUiProvider.carouselIndex),
+                              count:
+                                  productProvider.productDetail.images.length);
+                        })),
                     SizedBox(
                       height: 10,
                     ),
@@ -232,14 +256,44 @@ class _ProductDetailScreenState extends State<AllProductDetailScreen> {
                                   ],
                                 ),
                                 SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "S-K-U: ",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14),
+                                    ),
+                                    Text(
+                                      productProvider.productDetail.sku
+                                          .toString(),
+                                      style: TextStyle(
+                                          color: CommonColor.darkGreyColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
                                   height: 10,
                                 ),
-                                Text(
-                                  "Rs.${productProvider.productDetail.price}",
-                                  style: TextStyle(
-                                      color: CommonColor.primaryColor,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 28),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Rs.${productProvider.productDetail.price}",
+                                      style: TextStyle(
+                                          color: CommonColor.primaryColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 28),
+                                    ),
+                                  ],
                                 ),
                                 SizedBox(
                                   height: 10,

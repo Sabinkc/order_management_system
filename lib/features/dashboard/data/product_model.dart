@@ -7,7 +7,7 @@ class ProductDetails {
   final int stockQuantity;
   final double price;
   final bool isAvailable;
-  // final List<String> images;
+  final List<dynamic> images;
   final String sku;
 
   ProductDetails({
@@ -19,13 +19,13 @@ class ProductDetails {
     required this.stockQuantity,
     required this.price,
     required this.isAvailable,
-    // required this.images,
+    required this.images,
     required this.sku,
   });
 
   @override
   String toString() {
-    return 'ProductDetails{ name: $name, description: $description, categoryName: $categoryName, stockQuantity: $stockQuantity, price: $price, isAvailable: $isAvailable, imageUrl: $imageUrl, sku: $sku}';
+    return 'ProductDetails{ name: $name, description: $description, categoryName: $categoryName, stockQuantity: $stockQuantity, price: $price, isAvailable: $isAvailable, imageUrl: $imageUrl, sku: $sku,images:$images}';
   }
 }
 
@@ -88,9 +88,7 @@ class OrderProductDetailModel {
   String toString() {
     return 'InvoiceProductDetailModel(name: $name, category: $category, quantity: $quantity, price: $price, imagePath: $imagePath)';
   }
-
 }
-
 
 class InvoiceModel {
   final String invoiceNo;
@@ -106,27 +104,22 @@ class InvoiceModel {
   String receiverCity;
   String receiverArea;
 
-
-  InvoiceModel({
-    required this.invoiceNo,
-    required this.totalAmount,
-    required this.date,
-    required this.totalQuantity,
-    required this.paidStatus,
-    required this.products,
-    required this.receiverName, 
-    required this.receiverPhone, 
-    required this.receiverEmail,
-    required this.receiverPrefecture, 
-    required this.receiverCity, 
-    required this.receiverArea
-
-  });
+  InvoiceModel(
+      {required this.invoiceNo,
+      required this.totalAmount,
+      required this.date,
+      required this.totalQuantity,
+      required this.paidStatus,
+      required this.products,
+      required this.receiverName,
+      required this.receiverPhone,
+      required this.receiverEmail,
+      required this.receiverPrefecture,
+      required this.receiverCity,
+      required this.receiverArea});
 
   @override
   String toString() {
     return 'InvoiceModel(orderNo: $invoiceNo, totalAmount: $totalAmount, date: $date, totalQuantity: $totalQuantity, status: $paidStatus, products: $products, receiverName: $receiverName, receiverPhone: $receiverPhone, receiverEmail: $receiverEmail, receiverPrefecture: $receiverPrefecture, rceiverCity: $receiverArea, receiverArea: $receiverArea)';
   }
 }
-
-
