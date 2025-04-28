@@ -76,6 +76,36 @@ class ProductProvider extends ChangeNotifier {
     allProductPage = 1;
   }
 
+    // Provider to fetch all product widget
+  bool isWidgetProductLoading = false;
+  List widgetProduct = [];
+  bool hasMoreWidgetProduct = true;
+  int widgetProductPage = 1;
+
+  Future<void> getWidgetProduct(String s) async {
+    if (isWidgetProductLoading || !hasMoreWidgetProduct) {
+      return;
+    }
+    isWidgetProductLoading = true;
+    notifyListeners();
+    try {
+      final response = await _service.getAllProducts(s, allProductPage);
+      if (response.isEmpty) {
+        hasMoreWidgetProduct = false;
+      } else {
+        final newProduct = response;
+        widgetProduct.addAll(newProduct);
+        widgetProductPage += 1;
+        notifyListeners();
+      }
+    } catch (e) {
+      logger.log("$e");
+    } finally {
+      isWidgetProductLoading = false;
+      notifyListeners();
+    }
+  }
+
   bool isCategoryProductLoading = false;
   List categoryProducts = [];
   int categoryProductPage = 1;

@@ -137,11 +137,12 @@ class _SearchScreenState extends State<SearchScreen> {
                         });
                       },
                       onFieldSubmitted: (value) {
-                        // logger.log(searchController.text.trim());
-                        // productProvider.getCategoryProducts(
-                        //     reset: true,
-                        //     tabBarProvider.currentCategoryId,
-                        //     searchController.text.trim());
+                        debounce?.cancel();
+                        logger.log(searchController.text.trim());
+                        productProvider.getCategoryProducts(
+                            reset: true,
+                            tabBarProvider.currentCategoryId,
+                            searchController.text.trim());
                       },
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
@@ -448,7 +449,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                                         ),
                                                         InkWell(
                                                           onTap: () {
-                                                             Provider.of<CartQuantityProvider>(
+                                                            Provider.of<CartQuantityProvider>(
                                                                     context,
                                                                     listen:
                                                                         false)
@@ -496,7 +497,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                                                 );
                                                               },
                                                             );
-                                                           
                                                           },
                                                           child: Icon(
                                                             MingCute

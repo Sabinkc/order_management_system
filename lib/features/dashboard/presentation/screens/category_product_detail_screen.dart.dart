@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/simple_ui_provider.dart';
@@ -45,24 +46,25 @@ class _ProductDetailScreenState extends State<CategoryProductDetailScreen> {
     return Scaffold(
         backgroundColor: CommonColor.scaffoldbackgroundColor,
         appBar: AppBar(
-          backgroundColor: CommonColor.primaryColor,
+          backgroundColor: CommonColor.scaffoldbackgroundColor,
           leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
               },
               icon: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-                size: 20,
+                Icons.arrow_back,
+                color: Colors.black,
+                size: 24,
               )),
           title: RichText(
               text: TextSpan(children: [
             TextSpan(
               text: "Product Details",
               style: TextStyle(
-                  fontSize: 22,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
+                fontWeight: FontWeight.w500,
+                fontSize: 22,
+                color: Colors.black,
+              ),
             ),
           ])),
           centerTitle: true,
@@ -81,7 +83,7 @@ class _ProductDetailScreenState extends State<CategoryProductDetailScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: screenHeight * 0.35,
+                      height: screenHeight * 0.40,
                       width: double.infinity,
                       child: CarouselSlider(
                           carouselController: carouselSliderController,
@@ -126,7 +128,7 @@ class _ProductDetailScreenState extends State<CategoryProductDetailScreen> {
                             );
                           }),
                           options: CarouselOptions(
-                              height: screenHeight * 0.35,
+                              height: screenHeight * 0.40,
                               autoPlay: false,
                               enableInfiniteScroll: false,
                               viewportFraction: 1,
@@ -144,9 +146,9 @@ class _ProductDetailScreenState extends State<CategoryProductDetailScreen> {
                         child: Consumer<SimpleUiProvider>(
                             builder: (context, simpleUiProvider, child) {
                           return SmoothPageIndicator(
-                              effect: JumpingDotEffect(
-                                dotColor: Colors.green[200]!,
-                                activeDotColor: CommonColor.primaryColor,
+                              effect: ExpandingDotsEffect(
+                                dotColor: Colors.grey,
+                                activeDotColor: Colors.black,
                                 dotHeight: 10,
                                 dotWidth: 10,
                               ),
@@ -156,10 +158,7 @@ class _ProductDetailScreenState extends State<CategoryProductDetailScreen> {
                                   productProvider.productDetail.images.length);
                         })),
                     SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
                     Expanded(
                       child: SingleChildScrollView(
@@ -175,42 +174,13 @@ class _ProductDetailScreenState extends State<CategoryProductDetailScreen> {
                                   children: [
                                     Flexible(
                                       child: Text(
-                                          productProvider.productDetail.name,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18)),
+                                        "Category: ${productProvider.productDetail.categoryName}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 16),
+                                      ),
                                     ),
-                                    Row(
-                                      spacing: 3,
-                                      children: [
-                                        productProvider.productDetail
-                                                    .isAvailable ==
-                                                true
-                                            ? Text("Availiable",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16))
-                                            : Text("Not Availiable",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16)),
-                                        productProvider.productDetail
-                                                    .isAvailable ==
-                                                true
-                                            ? Icon(
-                                                Icons.check_circle_outline,
-                                                color: Colors.blue,
-                                                size: 17,
-                                              )
-                                            : Icon(
-                                                Icons.cancel_outlined,
-                                                color: Colors.red,
-                                                size: 17,
-                                              )
-                                      ],
-                                    )
                                   ],
                                 ),
                                 SizedBox(
@@ -222,61 +192,87 @@ class _ProductDetailScreenState extends State<CategoryProductDetailScreen> {
                                   children: [
                                     Flexible(
                                       child: Text(
-                                        productProvider
-                                            .productDetail.categoryName,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            color: CommonColor.darkGreyColor,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14),
-                                      ),
+                                          productProvider.productDetail.name,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18)),
                                     ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Stock: ",
-                                          style: TextStyle(
-                                              color: CommonColor.darkGreyColor,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14),
-                                        ),
-                                        Text(
-                                          productProvider
-                                              .productDetail.stockQuantity
-                                              .toString(),
-                                          style: TextStyle(
-                                              color: CommonColor.darkGreyColor,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        )
-                                      ],
-                                    )
+                                    // Row(
+                                    //   children: [
+                                    //     Text(
+                                    //       "Stock: ",
+                                    //       style: TextStyle(
+                                    //           color: CommonColor.darkGreyColor,
+                                    //           fontWeight: FontWeight.bold,
+                                    //           fontSize: 14),
+                                    //     ),
+                                    //     Text(
+                                    //       productProvider
+                                    //           .productDetail.stockQuantity
+                                    //           .toString(),
+                                    //       style: TextStyle(
+                                    //           color: CommonColor.darkGreyColor,
+                                    //           fontWeight: FontWeight.bold,
+                                    //           fontSize: 14),
+                                    //     ),
+                                    //     SizedBox(
+                                    //       width: 5,
+                                    //     )
+                                    //   ],
+                                    // )
                                   ],
                                 ),
                                 SizedBox(
-                                  height: 10,
+                                  height: 15,
                                 ),
-                                Text(
-                                  "Rs.${productProvider.productDetail.price}",
-                                  style: TextStyle(
-                                      color: CommonColor.primaryColor,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 28),
+                                Row(
+                                  spacing: 3,
+                                  children: [
+                                    productProvider.productDetail.isAvailable ==
+                                            true
+                                        ? Text("Availiable",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16))
+                                        : Text("Not Availiable",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16)),
+                                    productProvider.productDetail.isAvailable ==
+                                            true
+                                        ? Icon(
+                                            Icons.check_circle,
+                                            color: Colors.blue,
+                                            size: 17,
+                                          )
+                                        : Icon(
+                                            Icons.cancel,
+                                            color: Colors.red,
+                                            size: 17,
+                                          )
+                                  ],
                                 ),
                                 SizedBox(
                                   height: 5,
                                 ),
                                 Row(
+                                  spacing: 3,
                                   children: [
+                                    Icon(
+                                      color: CommonColor.primaryColor,
+                                      Icons.inventory_2_outlined,
+                                      size: 18,
+                                    ),
                                     Text(
-                                      "S-K-U: ",
+                                      "S-K-U:",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 14),
+                                          fontSize: 16),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
                                     ),
                                     Text(
                                       productProvider.productDetail.sku
@@ -294,6 +290,10 @@ class _ProductDetailScreenState extends State<CategoryProductDetailScreen> {
                                 SizedBox(
                                   height: 10,
                                 ),
+
+                                SizedBox(
+                                  height: 10,
+                                ),
                                 Text("Description",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -301,13 +301,18 @@ class _ProductDetailScreenState extends State<CategoryProductDetailScreen> {
                                 SizedBox(
                                   height: 5,
                                 ),
-                                Text(
+                                ExpandableText(
                                   productProvider.productDetail.description,
-                                  textAlign: TextAlign.justify,
+                                  expandText: "Show more!",
+                                  collapseText: "Show less!",
                                   style: TextStyle(
                                       color: CommonColor.darkGreyColor,
                                       // fontWeight: FontWeight.bold,
                                       fontSize: 14),
+                                  maxLines: 5,
+                                  linkColor: Colors.blue,
+                                  textAlign: TextAlign.justify,
+                                  animation: true,
                                 ),
                                 SizedBox(
                                   height: 10,
@@ -321,56 +326,100 @@ class _ProductDetailScreenState extends State<CategoryProductDetailScreen> {
                         ),
                       ),
                     ),
+                    Divider(),
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      child: SizedBox(
-                          height: screenHeight * 0.06,
-                          width: double.infinity,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8)),
-                                  backgroundColor: CommonColor.primaryColor),
-                              onPressed: () {
-                                Provider.of<CartQuantityProvider>(context,
-                                        listen: false)
-                                    .addToCart(
-                                        productProvider.productDetail.sku
-                                            .toString(),
-                                        context);
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    Future.delayed(const Duration(seconds: 1),
-                                        () {
-                                      if (context.mounted) {
-                                        Navigator.pop(context);
-                                      }
-                                    });
-                                    return AlertDialog(
-                                      backgroundColor: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      title: Center(
-                                        child: Text(
-                                          "Item added to cart successfully!",
-                                          style: TextStyle(
-                                              color: CommonColor.darkGreyColor,
-                                              fontSize: 14),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                              child: Text(
-                                "Add To Cart",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ))),
+                      child: Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        spacing: 20,
+                        // crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Rs.",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    "${productProvider.productDetail.price}",
+                                    // "1000000000000",
+                                    style: TextStyle(
+                                        color: CommonColor.primaryColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 26),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: SizedBox(
+                                height: screenHeight * 0.055,
+
+                                // width: double.infinity,
+                                child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 50),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        backgroundColor:
+                                            CommonColor.primaryColor),
+                                    onPressed: () {
+                                      Provider.of<CartQuantityProvider>(context,
+                                              listen: false)
+                                          .addToCart(
+                                              productProvider.productDetail.sku
+                                                  .toString(),
+                                              context);
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          Future.delayed(
+                                              const Duration(seconds: 1), () {
+                                            if (context.mounted) {
+                                              Navigator.pop(context);
+                                            }
+                                          });
+                                          return AlertDialog(
+                                            backgroundColor: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
+                                            title: Center(
+                                              child: Text(
+                                                "Item added to cart successfully!",
+                                                style: TextStyle(
+                                                    color: CommonColor
+                                                        .darkGreyColor,
+                                                    fontSize: 14),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Text(
+                                      "Add To Cart",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ))),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 );
