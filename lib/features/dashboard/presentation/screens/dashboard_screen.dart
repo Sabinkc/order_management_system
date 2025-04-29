@@ -180,7 +180,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     height: screenWidth * 0.03,
                   ),
                   CategoryRowDashboard(),
-                  OfferWidget(),
+                  // OfferWidget(),
                   AllProductWidget(),
                   SizedBox(
                     height: screenHeight * 0.01,
