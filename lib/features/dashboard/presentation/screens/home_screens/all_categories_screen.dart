@@ -86,7 +86,7 @@ class AllCategoriesScreen extends StatelessWidget {
                               child: Container(
                                 // height: 90,
                                 height: 80,
-                                width: 90,
+                                width: 80,
                                 decoration: BoxDecoration(
                                   boxShadow: [
                                     BoxShadow(
@@ -99,7 +99,7 @@ class AllCategoriesScreen extends StatelessWidget {
                                     //     color: Colors.grey)
                                   ],
                                   border: Border.all(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(50),
                                   color: Colors.white,
                                 ),
                                 // child: Center(
@@ -113,9 +113,10 @@ class AllCategoriesScreen extends StatelessWidget {
                                 //   overflow: TextOverflow.ellipsis,
                                 // )),
                                 child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
+                                    borderRadius: BorderRadius.circular(50),
                                     child: Image.asset(
-                                      categoryImages[index],
+                                      "assets/images/profile.jpg",
+                                      // categoryImages[index],
                                       fit: BoxFit.cover,
                                     )),
                               ),

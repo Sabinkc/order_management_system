@@ -574,111 +574,111 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Sub Categories",
-                        style: TextStyle(
-                          color: CommonColor.blackColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: Text(
-                          "See all",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: CommonColor.primaryColor),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                SizedBox(
-                  height: 115,
-                  child: IntrinsicHeight(
-                    child: ListView.builder(
-                        itemCount: 5,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              GestureDetector(
-                                  onTap: () {},
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 8),
-                                    child: Container(
-                                      // height: 90,
-                                      height: 70,
-                                      width: 70,
-                                      decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                              offset: Offset(0, 0),
-                                              blurRadius: 3,
-                                              color: Colors.grey),
-                                          // // BoxShadow(
-                                          //     offset: Offset(-2, -2),
-                                          //     blurRadius: 1,
-                                          //     color: Colors.grey)
-                                        ],
-                                        border: Border.all(color: Colors.white),
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.white,
-                                      ),
-                                      // child: Center(
-                                      //     child: Text(
-                                      //   productProvider
-                                      //       .productCategoryWithoutAll[index].name,
-                                      //   style: TextStyle(
-                                      //       fontSize: 12,
-                                      //       color: CommonColor.darkGreyColor,
-                                      //       fontWeight: FontWeight.w600),
-                                      //   overflow: TextOverflow.ellipsis,
-                                      // )),
-                                      child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          child: Image.asset(
-                                            subCategoryImages[index],
-                                            fit: BoxFit.cover,
-                                          )),
-                                    ),
-                                  )),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              Text(
-                                subCategoryName[index],
-                                maxLines: 1,
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: CommonColor.darkGreyColor,
-                                    fontWeight: FontWeight.w600),
-                                overflow: TextOverflow.ellipsis,
-                              )
-                            ],
-                          );
-                        }),
-                  ),
-                ),
-                // SizedBox(
-                //   height: 20,
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 10),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Text(
+                //         "Sub Categories",
+                //         style: TextStyle(
+                //           color: CommonColor.blackColor,
+                //           fontSize: 18,
+                //           fontWeight: FontWeight.w600,
+                //         ),
+                //       ),
+                //       InkWell(
+                //         onTap: () {},
+                //         child: Text(
+                //           "See all",
+                //           style: TextStyle(
+                //               fontWeight: FontWeight.w600,
+                //               color: CommonColor.primaryColor),
+                //         ),
+                //       )
+                //     ],
+                //   ),
                 // ),
-                Divider(
-                  color: Colors.grey[300],
-                  thickness: 1,
-                  height: 40,
-                ),
+                // SizedBox(
+                //   height: 5,
+                // ),
+                // SizedBox(
+                //   height: 115,
+                //   child: IntrinsicHeight(
+                //     child: ListView.builder(
+                //         itemCount: 5,
+                //         scrollDirection: Axis.horizontal,
+                //         itemBuilder: (context, index) {
+                //           return Column(
+                //             children: [
+                //               GestureDetector(
+                //                   onTap: () {},
+                //                   child: Padding(
+                //                     padding: EdgeInsets.symmetric(
+                //                         vertical: 5, horizontal: 8),
+                //                     child: Container(
+                //                       // height: 90,
+                //                       height: 70,
+                //                       width: 70,
+                //                       decoration: BoxDecoration(
+                //                         boxShadow: [
+                //                           BoxShadow(
+                //                               offset: Offset(0, 0),
+                //                               blurRadius: 3,
+                //                               color: Colors.grey),
+                //                           // // BoxShadow(
+                //                           //     offset: Offset(-2, -2),
+                //                           //     blurRadius: 1,
+                //                           //     color: Colors.grey)
+                //                         ],
+                //                         border: Border.all(color: Colors.white),
+                //                         borderRadius: BorderRadius.circular(50),
+                //                         color: Colors.white,
+                //                       ),
+                //                       // child: Center(
+                //                       //     child: Text(
+                //                       //   productProvider
+                //                       //       .productCategoryWithoutAll[index].name,
+                //                       //   style: TextStyle(
+                //                       //       fontSize: 12,
+                //                       //       color: CommonColor.darkGreyColor,
+                //                       //       fontWeight: FontWeight.w600),
+                //                       //   overflow: TextOverflow.ellipsis,
+                //                       // )),
+                //                       child: ClipRRect(
+                //                           borderRadius:
+                //                               BorderRadius.circular(50),
+                //                           child: Image.asset(
+                //                             subCategoryImages[index],
+                //                             fit: BoxFit.cover,
+                //                           )),
+                //                     ),
+                //                   )),
+                //               SizedBox(
+                //                 height: 4,
+                //               ),
+                //               Text(
+                //                 subCategoryName[index],
+                //                 maxLines: 1,
+                //                 style: TextStyle(
+                //                     fontSize: 12,
+                //                     color: CommonColor.darkGreyColor,
+                //                     fontWeight: FontWeight.w600),
+                //                 overflow: TextOverflow.ellipsis,
+                //               )
+                //             ],
+                //           );
+                //         }),
+                //   ),
+                // ),
+                // // SizedBox(
+                // //   height: 20,
+                // // ),
+                // Divider(
+                //   color: Colors.grey[300],
+                //   thickness: 1,
+                //   height: 40,
+                // ),
                 Expanded(
                   child: productProvider.isCategoryProductLoading &&
                           productProvider.categoryProducts.isEmpty

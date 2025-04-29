@@ -41,10 +41,10 @@ class CategoryRowDashboard extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => AllCategoriesScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AllCategoriesScreen()));
                 },
                 child: Text(
                   "See all",
@@ -84,22 +84,22 @@ class CategoryRowDashboard extends StatelessWidget {
                                 children: [
                                   GestureDetector(
                                       onTap: () {
-                                        // logger.log(
-                                        //     "tapped index id: ${productProvider.productCategoryWithoutAll[index].id}");
-                                        // Navigator.push(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //         builder: (context) =>
-                                        //             CategoryDetailScreen(
-                                        //               category: productProvider
-                                        //                   .productCategoryWithoutAll[
-                                        //                       index]
-                                        //                   .name,
-                                        //               index: productProvider
-                                        //                   .productCategoryWithoutAll[
-                                        //                       index]
-                                        //                   .id,
-                                        //             )));
+                                        logger.log(
+                                            "tapped index id: ${productProvider.productCategoryWithoutAll[index].id}");
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CategoryDetailScreen(
+                                                      category: productProvider
+                                                          .productCategoryWithoutAll[
+                                                              index]
+                                                          .name,
+                                                      index: productProvider
+                                                          .productCategoryWithoutAll[
+                                                              index]
+                                                          .id,
+                                                    )));
                                       },
                                       child: Padding(
                                         padding: EdgeInsets.all(5),
