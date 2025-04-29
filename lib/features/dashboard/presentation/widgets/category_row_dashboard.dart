@@ -41,10 +41,10 @@ class CategoryRowDashboard extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AllCategoriesScreen()));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => AllCategoriesScreen()));
                 },
                 child: Text(
                   "See all",
@@ -84,29 +84,29 @@ class CategoryRowDashboard extends StatelessWidget {
                                 children: [
                                   GestureDetector(
                                       onTap: () {
-                                        logger.log(
-                                            "tapped index id: ${productProvider.productCategoryWithoutAll[index].id}");
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    CategoryDetailScreen(
-                                                      category: productProvider
-                                                          .productCategoryWithoutAll[
-                                                              index]
-                                                          .name,
-                                                      index: productProvider
-                                                          .productCategoryWithoutAll[
-                                                              index]
-                                                          .id,
-                                                    )));
+                                        // logger.log(
+                                        //     "tapped index id: ${productProvider.productCategoryWithoutAll[index].id}");
+                                        // Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) =>
+                                        //             CategoryDetailScreen(
+                                        //               category: productProvider
+                                        //                   .productCategoryWithoutAll[
+                                        //                       index]
+                                        //                   .name,
+                                        //               index: productProvider
+                                        //                   .productCategoryWithoutAll[
+                                        //                       index]
+                                        //                   .id,
+                                        //             )));
                                       },
                                       child: Padding(
                                         padding: EdgeInsets.all(5),
                                         child: Container(
                                           // height: 90,
                                           height: 70,
-                                          width: 80,
+                                          width: 70,
                                           decoration: BoxDecoration(
                                             boxShadow: [
                                               BoxShadow(
@@ -121,7 +121,7 @@ class CategoryRowDashboard extends StatelessWidget {
                                             border:
                                                 Border.all(color: Colors.white),
                                             borderRadius:
-                                                BorderRadius.circular(8),
+                                                BorderRadius.circular(50),
                                             color: Colors.white,
                                           ),
                                           // child: Center(
@@ -136,9 +136,10 @@ class CategoryRowDashboard extends StatelessWidget {
                                           // )),
                                           child: ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(8),
+                                                  BorderRadius.circular(50),
                                               child: Image.asset(
-                                                categoryImages[index],
+                                                "assets/images/profile.jpg",
+                                                // categoryImages[index],
                                                 fit: BoxFit.cover,
                                               )),
                                         ),

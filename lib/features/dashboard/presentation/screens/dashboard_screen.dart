@@ -66,10 +66,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     Future.delayed(Duration.zero, () async {
       if (!mounted) return;
-           // prevents from email switching data conflict
-    //  await preventEmailSwitchingConflict();
+      // prevents from email switching data conflict
+      //  await preventEmailSwitchingConflict();
       loadAvatar();
-      if(!mounted){
+      if (!mounted) {
         return;
       }
       final productProvider =
@@ -77,6 +77,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       await productProvider.getProductCategoriesWithoutAll();
       productProvider.resetAllProducts();
       await productProvider.getAllProduct("");
+      // productProvider.resetWidgetProducts();
+      // await productProvider.getWidgetProduct("");
 
       // await productProvider.getCategoryProducts(0);
       if (!mounted) return;
@@ -84,7 +86,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Provider.of<SettingsProvider>(context, listen: false);
       await settingProvider.getProfile();
       getCurrentLocation();
- 
     });
 
     super.initState();
@@ -153,7 +154,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               final productProvider =
                   Provider.of<ProductProvider>(context, listen: false);
               await productProvider.getProductCategoriesWithoutAll();
-              // await productProvider.getAllProduct();
+              await productProvider.getAllProduct("");
               await productProvider.getCategoryProducts(0, "", reset: true);
               if (!context.mounted) return;
               final settingProvider =

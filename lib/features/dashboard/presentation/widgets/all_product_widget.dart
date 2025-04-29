@@ -7,7 +7,6 @@ import 'package:order_management_system/features/dashboard/domain/cart_quantity_
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/all_product_detail_screen.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/home_screens/all_product_screen.dart';
-import 'package:order_management_system/features/dashboard/presentation/screens/category_product_detail_screen.dart.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:developer' as logger;
@@ -75,6 +74,7 @@ class AllProductWidget extends StatelessWidget {
                         itemCount: productProvider.product.length > 6
                             ? 6
                             : productProvider.product.length,
+                        // itemCount: 3,
                         itemBuilder: (context, index) {
                           final productApiService = ProductApiSevice();
                           final product = productProvider.product[index];

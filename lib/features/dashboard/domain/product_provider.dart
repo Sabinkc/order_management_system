@@ -59,10 +59,11 @@ class ProductProvider extends ChangeNotifier {
         final newProduct = response;
         product.addAll(newProduct);
         allProductPage += 1;
+        logger.log("products: $product");
         notifyListeners();
       }
     } catch (e) {
-      logger.log("$e");
+      logger.log("provider error: $e");
     } finally {
       isProductLoading = false;
       notifyListeners();
@@ -76,7 +77,7 @@ class ProductProvider extends ChangeNotifier {
     allProductPage = 1;
   }
 
-    // Provider to fetch all product widget
+  // Provider to fetch all product widget
   bool isWidgetProductLoading = false;
   List widgetProduct = [];
   bool hasMoreWidgetProduct = true;
@@ -96,6 +97,7 @@ class ProductProvider extends ChangeNotifier {
         final newProduct = response;
         widgetProduct.addAll(newProduct);
         widgetProductPage += 1;
+        logger.log("widget product: ${widgetProduct.length}");
         notifyListeners();
       }
     } catch (e) {
@@ -104,6 +106,13 @@ class ProductProvider extends ChangeNotifier {
       isWidgetProductLoading = false;
       notifyListeners();
     }
+  }
+
+  void resetWidgetProducts() {
+    isWidgetProductLoading = false;
+    widgetProduct.clear();
+    hasMoreWidgetProduct = true;
+    widgetProductPage = 1;
   }
 
   bool isCategoryProductLoading = false;
@@ -248,7 +257,7 @@ class ProductProvider extends ChangeNotifier {
       notifyListeners();
     }
     // logger.log(
-        // "page:$invoicePage, status: $paidStatus, startDate: $startDate, endDate: $endDate");
+    // "page:$invoicePage, status: $paidStatus, startDate: $startDate, endDate: $endDate");
     if (isGetAllInvoiceLoading || !allInvoiceHasMore) return;
     isGetAllInvoiceLoading = true;
     notifyListeners();
