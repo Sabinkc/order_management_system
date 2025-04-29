@@ -158,6 +158,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   height: screenHeight * 0.06,
                   child: ElevatedButton(
                       onPressed: () async {
+                        final loationProvider = Provider.of<LocationProvider>(
+                            context,
+                            listen: false);
                         if (fullNameController.text.trim().isEmpty ||
                             phoneController.text.trim().isEmpty ||
                             emailController.text.trim().isEmpty ||
@@ -176,8 +179,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                 fullNameController.text.trim(),
                                 phoneController.text.trim(),
                                 emailController.text.trim(),
-                                12.00,
-                                13.00,
+                                double.parse(locationProvider.latitude),
+                                double.parse(locationProvider.longitude),
                                 prefectureController.text.trim(),
                                 cityController.text.trim(),
                                 areaController.text.trim(),
