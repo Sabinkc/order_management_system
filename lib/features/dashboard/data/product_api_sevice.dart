@@ -61,68 +61,70 @@ class ProductApiSevice {
       };
     }
   }
+
   Future<List<ProductDetails>> getAllProducts(String s, int page) async {
-  String? token = await SharedPrefLoggedinState.getAccessToken();
-  if (token == null) {
-    throw Exception("User not authenticated. Please log in first.");
-  }
-
-  var headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer $token',
-  };
-
-  var url = Uri.parse("${Constants.baseUrl}/v1/products?s=$s&page=$page");
-  var request = http.Request('GET', url);
-  request.headers.addAll(headers);
-
-  try {
-    http.StreamedResponse response = await request.send();
-    String responseBody = await response.stream.bytesToString();
-    Map<String, dynamic> jsonResponse = json.decode(responseBody);
-
-    if (response.statusCode == 200 && jsonResponse["success"]) {
-      List<dynamic> productJson = jsonResponse["data"];
-      List<ProductDetails> products = [];
-      logger.log("get all products api called");
-
-      for (var product in productJson) {
-        // Safely handle unitImages
-        String? imageUrl;
-        if (product["unitImages"] != null && product["unitImages"].isNotEmpty) {
-          imageUrl = product["unitImages"][0];
-        }
-
-        // Safely parse unitPrice
-        double price = 0.0;
-        if (product["unitPrice"] != null) {
-          price = double.tryParse(product["unitPrice"].toString()) ?? 0.0;
-        }
-
-        products.add(ProductDetails(
-          name: product["name"] ?? "No name",
-          description: product["description"] ?? "Description not available",
-          categoryName: product["category"]["name"] ?? "Uncategorized",
-          stockQuantity: product["unitStock"] ?? 0,
-          price: price,
-          isAvailable: product["isAvailable"] ?? false,
-          imageUrl: imageUrl ?? "default_image_url", // Fallback if no image
-          sku: product["sku"] ?? "N/A",
-          images: product["unitImages"] ?? [], // Ensure this is never null
-        ));
-      }
-
-      logger.log("get all products api success");
-      return products;
-    } else {
-      throw Exception(jsonResponse['message'] ?? 'Failed to fetch products');
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+    if (token == null) {
+      throw Exception("User not authenticated. Please log in first.");
     }
-  } catch (e) {
-    logger.log("Get Products Error: $e");
-    throw Exception('Failed to fetch products: ${e.toString()}');
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    var url = Uri.parse("${Constants.baseUrl}/v1/products?s=$s&page=$page");
+    var request = http.Request('GET', url);
+    request.headers.addAll(headers);
+
+    try {
+      http.StreamedResponse response = await request.send();
+      String responseBody = await response.stream.bytesToString();
+      Map<String, dynamic> jsonResponse = json.decode(responseBody);
+
+      if (response.statusCode == 200 && jsonResponse["success"]) {
+        List<dynamic> productJson = jsonResponse["data"];
+        List<ProductDetails> products = [];
+        logger.log("get all products api called");
+
+        for (var product in productJson) {
+          // Safely handle unitImages
+          String? imageUrl;
+          if (product["unitImages"] != null &&
+              product["unitImages"].isNotEmpty) {
+            imageUrl = product["unitImages"][0];
+          }
+
+          // Safely parse unitPrice
+          double price = 0.0;
+          if (product["unitPrice"] != null) {
+            price = double.tryParse(product["unitPrice"].toString()) ?? 0.0;
+          }
+
+          products.add(ProductDetails(
+            name: product["name"] ?? "No name",
+            description: product["description"] ?? "Description not available",
+            categoryName: product["category"]["name"] ?? "Uncategorized",
+            stockQuantity: product["unitStock"] ?? 0,
+            price: price,
+            isAvailable: product["isAvailable"] ?? false,
+            imageUrl: imageUrl ?? "default_image_url", // Fallback if no image
+            sku: product["sku"] ?? "N/A",
+            images: product["unitImages"] ?? [], // Ensure this is never null
+          ));
+        }
+
+        logger.log("get all products api success");
+        return products;
+      } else {
+        throw Exception(jsonResponse['message'] ?? 'Failed to fetch products');
+      }
+    } catch (e) {
+      logger.log("Get Products Error: $e");
+      throw Exception('Failed to fetch products: ${e.toString()}');
+    }
   }
-}
 
   // Future<List<ProductDetails>> getAllProducts(String s, int page) async {
   //   // Get the saved token from SharedPreferences
@@ -442,6 +444,7 @@ class ProductApiSevice {
           id: int.parse(id),
           name: categoryJson['name'],
           productsCount: categoryJson['productsCount'],
+          categoryImage: categoryJson["categoryImage"] ?? "default image url",
         ));
       }
       logger.log("get all categories without all api called");

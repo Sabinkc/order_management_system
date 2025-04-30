@@ -67,26 +67,58 @@ class AllOffersScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        decoration: BoxDecoration(
-                          color: const Color(0XFFFAFAFA),
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(8),
+                          decoration: BoxDecoration(
+                            color: const Color(0XFFFAFAFA),
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(8),
+                            ),
                           ),
-                        ),
-                        height: 130,
-                        width: double.infinity,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8),
-                              topRight: Radius.circular(8)),
-                          child: Image.asset(
-                            OffersModel.offers[index]["image"],
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) =>
-                                Icon(Icons.broken_image),
-                          ),
-                        ),
-                      ),
+                          height: 130,
+                          width: double.infinity,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                right: 0,
+                                bottom: 0,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(8),
+                                      topRight: Radius.circular(8)),
+                                  child: Image.asset(
+                                    OffersModel.offers[index]["image"],
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            Icon(Icons.broken_image),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                  left: 0,
+                                  top: 0,
+                                  child: Container(
+                                    padding: EdgeInsets.all(3),
+                                    decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(8),
+                                            topLeft: Radius.circular(8))),
+                                    child: Center(
+                                      child: Text(
+                                        OffersModel.offers[index]["discount"],
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ))
+                            ],
+                          )),
                       const SizedBox(height: 15),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -132,8 +164,10 @@ class AllOffersScreen extends StatelessWidget {
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
+                                    fontSize: 12,
+                                    decoration: TextDecoration.lineThrough,
                                     fontWeight: FontWeight.bold,
-                                    color: CommonColor.primaryColor,
+                                    color: CommonColor.darkGreyColor,
                                   ),
                                 ),
                                 SizedBox(
@@ -141,12 +175,13 @@ class AllOffersScreen extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    OffersModel.offers[index]["discount"],
+                                    OffersModel.offers[index]
+                                        ["priceAfterDiscount"],
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.red,
+                                        fontSize: 14,
+                                        color: CommonColor.primaryColor,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),

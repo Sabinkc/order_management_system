@@ -17,7 +17,11 @@ class ProductProvider extends ChangeNotifier {
     final response = await _service.getProductCategories();
     // Add the "All" category at the beginning of the list
     productCategory = [
-      ProductCategory(id: 0, name: "All", productsCount: product.length),
+      ProductCategory(
+          id: 0,
+          name: "All",
+          productsCount: product.length,
+          categoryImage: "not availiable"),
       ...response
     ];
     logger.log(
@@ -59,7 +63,7 @@ class ProductProvider extends ChangeNotifier {
         final newProduct = response;
         product.addAll(newProduct);
         allProductPage += 1;
-        logger.log("products: $product");
+        // logger.log("products: $product");
         notifyListeners();
       }
     } catch (e) {
@@ -90,7 +94,7 @@ class ProductProvider extends ChangeNotifier {
     isWidgetProductLoading = true;
     notifyListeners();
     try {
-      final response = await _service.getAllProducts(s, allProductPage);
+      final response = await _service.getAllProducts(s, widgetProductPage);
       if (response.isEmpty) {
         hasMoreWidgetProduct = false;
       } else {

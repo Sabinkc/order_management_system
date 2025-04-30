@@ -85,7 +85,7 @@ class LocationApiService {
 
     http.StreamedResponse response = await request.send();
     String responseBody = await response.stream.bytesToString();
-    logger.log("status code: ${response.statusCode}");
+    // logger.log("status code: ${response.statusCode}");
     // logger.log("Response Body: $responseBody");
     Map<String, dynamic> jsonResponse = json.decode(responseBody);
     // logger.log("jsonResponse: $jsonResponse");

@@ -346,7 +346,12 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                                             BorderRadius
                                                                 .circular(15),
                                                         color:
-                                                            Colors.yellow[100]),
+                                                            invoice.paidStatus ==
+                                                                    "true"
+                                                                ? Colors
+                                                                    .green[100]
+                                                                : Colors.yellow[
+                                                                    100]),
                                                     child: Row(
                                                       children: [
                                                         Icon(

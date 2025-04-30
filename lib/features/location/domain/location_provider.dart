@@ -87,6 +87,7 @@ class LocationProvider extends ChangeNotifier {
   void addLatitudeLongitue(String lat, String long) {
     longitude = long;
     latitude = lat;
+    logger.log("latitude: $longitude, longitude: $latitude");
     notifyListeners();
   }
 
@@ -106,6 +107,9 @@ class LocationProvider extends ChangeNotifier {
     isCreateShippingLocationLoading = true;
     notifyListeners();
     try {
+      logger
+          .log("provider latitude: $latitude, provider longitude: $longitude");
+      logger.log("passed latitude: $lat, passed longitude: $long");
       final response = await locationApiService.createShippingLocation(
           receiverName,
           receiverPhone,
@@ -141,7 +145,7 @@ class LocationProvider extends ChangeNotifier {
     } finally {
       isGeAllLocationLoading = false;
       notifyListeners();
-      logger.log("locations: $locations");
+      // logger.log("locations: $locations");
     }
   }
 

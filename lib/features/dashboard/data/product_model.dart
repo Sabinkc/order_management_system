@@ -33,16 +33,18 @@ class ProductCategory {
   final int id;
   final String name;
   final int productsCount;
+  final String categoryImage;
 
   ProductCategory({
     required this.id,
     required this.name,
     required this.productsCount,
+    required this.categoryImage,
   });
 
   @override
   String toString() {
-    return 'ProductCategory(id: $id, name: $name, productsCount: $productsCount)';
+    return 'ProductCategory(id: $id, name: $name, productsCount: $productsCount), categoryImage: $categoryImage';
   }
 }
 

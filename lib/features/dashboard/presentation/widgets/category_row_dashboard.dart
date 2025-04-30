@@ -13,17 +13,17 @@ class CategoryRowDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     // final screenHeight = MediaQuery.of(context).size.height;
 
-    List categoryImages = [
-      "assets/images/electronic_c.png",
-      "assets/images/clothing_c.png",
-      "assets/images/furniture_c.png",
-      "assets/images/grocery_c.png",
-      "assets/images/stationary_c.png",
-      "assets/images/books_c.png",
-      "assets/images/toys_c.png",
-      "assets/images/sports_c.png",
-      "assets/images/automobile_c.png"
-    ];
+    // List categoryImages = [
+    //   "assets/images/electronic_c.png",
+    //   "assets/images/clothing_c.png",
+    //   "assets/images/furniture_c.png",
+    //   "assets/images/grocery_c.png",
+    //   "assets/images/stationary_c.png",
+    //   "assets/images/books_c.png",
+    //   "assets/images/toys_c.png",
+    //   "assets/images/sports_c.png",
+    //   "assets/images/automobile_c.png"
+    // ];
     return Padding(
       padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
       child: Column(
@@ -124,22 +124,16 @@ class CategoryRowDashboard extends StatelessWidget {
                                                 BorderRadius.circular(50),
                                             color: Colors.white,
                                           ),
-                                          // child: Center(
-                                          //     child: Text(
-                                          //   productProvider
-                                          //       .productCategoryWithoutAll[index].name,
-                                          //   style: TextStyle(
-                                          //       fontSize: 12,
-                                          //       color: CommonColor.darkGreyColor,
-                                          //       fontWeight: FontWeight.w600),
-                                          //   overflow: TextOverflow.ellipsis,
-                                          // )),
+                                          // child: ClipRRect(
+                                          //   borderRadius: BorderRadius.circular(50),
+                                          //   child: Image.network(""),
+                                          // ),
+
                                           child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(50),
                                               child: Image.asset(
                                                 "assets/images/profile.jpg",
-                                                // categoryImages[index],
                                                 fit: BoxFit.cover,
                                               )),
                                         ),

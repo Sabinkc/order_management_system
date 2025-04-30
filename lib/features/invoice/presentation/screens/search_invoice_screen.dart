@@ -257,8 +257,11 @@ class _SearchOrderScreenState extends State<SearchInvoiceScreen> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               15),
-                                                      color:
-                                                          Colors.yellow[100]),
+                                                      color: invoice
+                                                                  .paidStatus ==
+                                                              "true"
+                                                          ? Colors.green[100]
+                                                          : Colors.yellow[100]),
                                                   child: Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment

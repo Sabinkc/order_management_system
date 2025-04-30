@@ -9,17 +9,17 @@ class AllCategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List categoryImages = [
-      "assets/images/electronic_c.png",
-      "assets/images/clothing_c.png",
-      "assets/images/furniture_c.png",
-      "assets/images/grocery_c.png",
-      "assets/images/stationary_c.png",
-      "assets/images/books_c.png",
-      "assets/images/toys_c.png",
-      "assets/images/sports_c.png",
-      "assets/images/automobile_c.png"
-    ];
+    // List categoryImages = [
+    //   "assets/images/electronic_c.png",
+    //   "assets/images/clothing_c.png",
+    //   "assets/images/furniture_c.png",
+    //   "assets/images/grocery_c.png",
+    //   "assets/images/stationary_c.png",
+    //   "assets/images/books_c.png",
+    //   "assets/images/toys_c.png",
+    //   "assets/images/sports_c.png",
+    //   "assets/images/automobile_c.png"
+    // ];
 
     return Scaffold(
       backgroundColor: CommonColor.scaffoldbackgroundColor,

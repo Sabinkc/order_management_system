@@ -7,10 +7,11 @@ import 'package:order_management_system/features/location/presentation/widgets/c
 import 'package:provider/provider.dart';
 
 class AddShippingLoationScreen extends StatefulWidget {
- const AddShippingLoationScreen({super.key});
+  const AddShippingLoationScreen({super.key});
 
   @override
-  State<AddShippingLoationScreen> createState() => _AddShippingLoationScreenState();
+  State<AddShippingLoationScreen> createState() =>
+      _AddShippingLoationScreenState();
 }
 
 class _AddShippingLoationScreenState extends State<AddShippingLoationScreen> {
@@ -173,12 +174,17 @@ class _AddShippingLoationScreenState extends State<AddShippingLoationScreen> {
                             final locationProvider =
                                 Provider.of<LocationProvider>(context,
                                     listen: false);
+
+                            double latitude =
+                                double.parse(locationProvider.latitude);
+                            double longitude =
+                                double.parse(locationProvider.longitude);
                             await locationProvider.createShippingLocation(
                                 fullNameController.text.trim(),
                                 phoneController.text.trim(),
                                 emailController.text.trim(),
-                                12.00,
-                                13.00,
+                                latitude,
+                                longitude,
                                 prefectureController.text.trim(),
                                 cityController.text.trim(),
                                 areaController.text.trim(),

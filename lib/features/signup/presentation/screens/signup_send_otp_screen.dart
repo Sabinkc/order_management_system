@@ -57,6 +57,9 @@ class _SignupSendOtpScreenState extends State<SignupSendOtpScreen> {
                       final authProvider =
                           Provider.of<AuthProvider>(context, listen: false);
                       await authProvider.sendOtp();
+                      if (!context.mounted) {
+                        return;
+                      }
                       final settingProvider =
                           Provider.of<SettingsProvider>(context, listen: false);
                       await settingProvider.getProfile();

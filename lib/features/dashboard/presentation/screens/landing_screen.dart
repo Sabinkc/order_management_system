@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/domain/bottom_navigationbar_provider.dart';
+import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/cart%20screens/cart_screen.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:order_management_system/features/invoice/presentation/screens/invoice_screen.dart';
@@ -96,12 +97,23 @@ class _LandingScreenState extends State<LandingScreen> {
                   ),
                   BottomNavigationBarItem(
                     label: S.current.cart,
-                    icon: Icon(
-                      Icons.shopping_cart_outlined,
-                      size: 29,
-                      color: provider.selectedIndex == 1
-                          ? CommonColor.primaryColor
-                          : CommonColor.darkGreyColor,
+                    icon: Badge(
+                      isLabelVisible: true,
+                      backgroundColor: Colors.red[400],
+                      label: Consumer<CartQuantityProvider>(
+                          builder: (context, cartProvider, child) {
+                        return Text(
+                          cartProvider.cartItems.length.toString(),
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        );
+                      }),
+                      child: Icon(
+                        Icons.shopping_cart_outlined,
+                        size: 29,
+                        color: provider.selectedIndex == 1
+                            ? CommonColor.primaryColor
+                            : CommonColor.darkGreyColor,
+                      ),
                     ),
                   ),
                   BottomNavigationBarItem(

@@ -6,6 +6,7 @@ import 'package:order_management_system/features/dashboard/presentation/screens/
 import 'package:order_management_system/features/location/domain/location_provider.dart';
 import 'package:order_management_system/features/location/presentation/widgets/common_location_textform_field.dart';
 import 'package:provider/provider.dart';
+import 'dart:developer' as logger;
 
 class AddAddressScreen extends StatefulWidget {
   const AddAddressScreen({super.key});
@@ -158,9 +159,15 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   height: screenHeight * 0.06,
                   child: ElevatedButton(
                       onPressed: () async {
-                        final loationProvider = Provider.of<LocationProvider>(
+                        final locationProvider = Provider.of<LocationProvider>(
                             context,
                             listen: false);
+                        double latitude =
+                            double.parse(locationProvider.latitude);
+                        double longitude =
+                            double.parse(locationProvider.longitude);
+                        logger.log(latitude.toString());
+                        logger.log(longitude.toString());
                         if (fullNameController.text.trim().isEmpty ||
                             phoneController.text.trim().isEmpty ||
                             emailController.text.trim().isEmpty ||
@@ -175,12 +182,13 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             final locationProvider =
                                 Provider.of<LocationProvider>(context,
                                     listen: false);
+
                             await locationProvider.createShippingLocation(
                                 fullNameController.text.trim(),
                                 phoneController.text.trim(),
                                 emailController.text.trim(),
-                                double.parse(locationProvider.latitude),
-                                double.parse(locationProvider.longitude),
+                                latitude,
+                                longitude,
                                 prefectureController.text.trim(),
                                 cityController.text.trim(),
                                 areaController.text.trim(),

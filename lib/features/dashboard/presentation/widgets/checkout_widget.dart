@@ -253,6 +253,7 @@ class CheckoutWidget extends StatelessWidget {
                                     Utilities.showCommonSnackBar(
                                         context,
                                         durationMilliseconds: 2000,
+                                        icon: Icons.shopping_bag_outlined,
                                         "Your order has been placed successfully!");
                                   },
                                   child: Text(

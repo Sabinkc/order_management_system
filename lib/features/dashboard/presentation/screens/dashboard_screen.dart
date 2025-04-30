@@ -75,12 +75,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       await productProvider.getProductCategoriesWithoutAll();
-      productProvider.resetAllProducts();
-      await productProvider.getAllProduct("");
-      // productProvider.resetWidgetProducts();
-      // await productProvider.getWidgetProduct("");
+      // productProvider.resetAllProducts();
+      // await productProvider.getAllProduct("");
 
-      // await productProvider.getCategoryProducts(0);
+      productProvider.resetWidgetProducts();
+      await productProvider.getWidgetProduct("");
       if (!mounted) return;
       final settingProvider =
           Provider.of<SettingsProvider>(context, listen: false);
@@ -154,7 +153,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
               final productProvider =
                   Provider.of<ProductProvider>(context, listen: false);
               await productProvider.getProductCategoriesWithoutAll();
-              await productProvider.getAllProduct("");
+              // productProvider.resetAllProducts();
+              // await productProvider.getAllProduct("");
+              productProvider.resetWidgetProducts();
+              await productProvider.getWidgetProduct("");
               await productProvider.getCategoryProducts(0, "", reset: true);
               if (!context.mounted) return;
               final settingProvider =
@@ -180,7 +182,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     height: screenWidth * 0.03,
                   ),
                   CategoryRowDashboard(),
-                  // OfferWidget(),
+                  OfferWidget(),
                   AllProductWidget(),
                   SizedBox(
                     height: screenHeight * 0.01,

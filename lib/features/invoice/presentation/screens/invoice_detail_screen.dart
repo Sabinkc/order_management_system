@@ -132,7 +132,9 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
                                         border: Border.all(
                                             color: Colors.brown[100]!),
                                         borderRadius: BorderRadius.circular(15),
-                                        color: Colors.yellow[100]),
+                                        color: invoice.paidStatus == "true"
+                                            ? Colors.green[100]
+                                            : Colors.yellow[100]),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
