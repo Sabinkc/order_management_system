@@ -19,7 +19,9 @@
 //   State<AllProductScreen> createState() => _AllProductScreenState();
 // }
 
-// class _AllProductScreenState extends State<AllProductScreen> {
+// class _AllProductScreenState extends State<AllProductScreen>
+//     {
+
 //   final ScrollController scrollController = ScrollController();
 //   final SearchController searchController = SearchController();
 //   Timer? debounce;
@@ -33,8 +35,10 @@
 //       }
 //       final productProvider =
 //           Provider.of<ProductProvider>(context, listen: false);
-//       productProvider.resetAllProducts();
-//       await productProvider.getAllProduct("");
+//       // if (productProvider.product.isEmpty) {
+//         productProvider.resetAllProducts();
+//         await productProvider.getAllProduct("");
+//       // }
 //     });
 //     super.initState();
 //   }
@@ -46,7 +50,7 @@
 //         Provider.of<ProductProvider>(context, listen: false);
 //     if (scrollController.position.pixels ==
 //         scrollController.position.maxScrollExtent) {
-//       productProvider.getAllProduct("");
+//       productProvider.getAllProduct(searchController.text.trim());
 //     }
 //   }
 
@@ -81,10 +85,10 @@
 //           ),
 //           leading: IconButton(
 //               onPressed: () {
-//                 final productProvider =
-//                     Provider.of<ProductProvider>(context, listen: false);
-//                 productProvider.resetAllProducts();
-//                 productProvider.getAllProduct("");
+//                 // final productProvider =
+//                 //     Provider.of<ProductProvider>(context, listen: false);
+//                 // productProvider.resetAllProducts();
+//                 // productProvider.getAllProduct("");
 //                 Navigator.pop(context);
 //               },
 //               icon: Icon(
@@ -184,7 +188,6 @@
 //                           : Expanded(
 //                               child: GridView.builder(
 //                                   controller: scrollController,
-//                                   // shrinkWrap: true,
 //                                   physics: AlwaysScrollableScrollPhysics(),
 //                                   gridDelegate:
 //                                       SliverGridDelegateWithFixedCrossAxisCount(
@@ -482,6 +485,7 @@
 
 import 'dart:async';
 import 'dart:typed_data';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
@@ -515,8 +519,10 @@ class _AllProductScreenState extends State<AllProductScreen> {
       }
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
+      // if (productProvider.product.isEmpty) {
       productProvider.resetAllProducts();
       await productProvider.getAllProduct("");
+      // }
     });
     super.initState();
   }
@@ -563,10 +569,10 @@ class _AllProductScreenState extends State<AllProductScreen> {
           ),
           leading: IconButton(
               onPressed: () {
-                final productProvider =
-                    Provider.of<ProductProvider>(context, listen: false);
-                productProvider.resetAllProducts();
-                productProvider.getAllProduct("");
+                // final productProvider =
+                //     Provider.of<ProductProvider>(context, listen: false);
+                // productProvider.resetAllProducts();
+                // productProvider.getAllProduct("");
                 Navigator.pop(context);
               },
               icon: Icon(
@@ -666,7 +672,6 @@ class _AllProductScreenState extends State<AllProductScreen> {
                           : Expanded(
                               child: GridView.builder(
                                   controller: scrollController,
-                                  // shrinkWrap: true,
                                   physics: AlwaysScrollableScrollPhysics(),
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
@@ -678,8 +683,11 @@ class _AllProductScreenState extends State<AllProductScreen> {
                                         productProvider.product.length) {
                                       final productApiService =
                                           ProductApiSevice();
+
                                       final product =
                                           productProvider.product[index];
+                                      // productApiService
+                                      //     .getImageByFilename(product.imageUrl);
                                       return Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: GestureDetector(
@@ -716,77 +724,106 @@ class _AllProductScreenState extends State<AllProductScreen> {
                                                   ),
                                                   height: 130,
                                                   width: double.infinity,
+                                                  // child: ClipRRect(
+                                                  //     borderRadius:
+                                                  //         BorderRadius.only(
+                                                  //             topLeft: Radius
+                                                  //                 .circular(8),
+                                                  //             topRight: Radius
+                                                  //                 .circular(8)),
+                                                  //     // child: Image.network(
+                                                  //     //   productProvider.product[index].imageUrl,
+                                                  //     //   fit: BoxFit.cover,
+                                                  //     //   errorBuilder:
+                                                  //     //       (context, error, stackTrace) =>
+                                                  //     //           Icon(Icons.broken_image),
+                                                  //     // ),
+                                                  //     child: FutureBuilder<
+                                                  //         Uint8List>(
+                                                  //       future: productApiService
+                                                  //           .getImageByFilename(
+                                                  //               product
+                                                  //                   .imageUrl),
+                                                  //       builder: (context,
+                                                  //           snapshot) {
+                                                  //         if (snapshot
+                                                  //                 .connectionState ==
+                                                  //             ConnectionState
+                                                  //                 .waiting) {
+                                                  //           return Center(
+                                                  //               child: Shimmer
+                                                  //                   .fromColors(
+                                                  //             baseColor: Colors
+                                                  //                 .grey[300]!,
+                                                  //             highlightColor:
+                                                  //                 Colors.grey[
+                                                  //                     100]!,
+                                                  //             child: Container(
+                                                  //               color:
+                                                  //                   Colors.red,
+                                                  //             ),
+                                                  //           ));
+                                                  //         } else if (snapshot
+                                                  //             .hasError) {
+                                                  //           return Icon(Icons
+                                                  //               .broken_image);
+                                                  //         } else if (snapshot
+                                                  //             .hasData) {
+                                                  //           return ClipRRect(
+                                                  //             borderRadius: BorderRadius.only(
+                                                  //                 topLeft: Radius
+                                                  //                     .circular(
+                                                  //                         8),
+                                                  //                 topRight: Radius
+                                                  //                     .circular(
+                                                  //                         8)),
+                                                  //             child:
+                                                  //                 Image.memory(
+                                                  //               snapshot.data!,
+                                                  //               fit: BoxFit
+                                                  //                   .cover,
+                                                  //               errorBuilder: (context,
+                                                  //                       error,
+                                                  //                       stackTrace) =>
+                                                  //                   Icon(Icons
+                                                  //                       .broken_image),
+                                                  //             ),
+                                                  //           );
+                                                  //         } else {
+                                                  //           return Icon(Icons
+                                                  //               .broken_image);
+                                                  //         }
+                                                  //       },
+                                                  //     )),
                                                   child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                              topLeft: Radius
-                                                                  .circular(8),
-                                                              topRight: Radius
-                                                                  .circular(8)),
-                                                      // child: Image.network(
-                                                      //   productProvider.product[index].imageUrl,
-                                                      //   fit: BoxFit.cover,
-                                                      //   errorBuilder:
-                                                      //       (context, error, stackTrace) =>
-                                                      //           Icon(Icons.broken_image),
-                                                      // ),
-                                                      child: FutureBuilder<
-                                                          Uint8List>(
-                                                        future: productApiService
-                                                            .getImageByFilename(
-                                                                product
-                                                                    .imageUrl),
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          if (snapshot
-                                                                  .connectionState ==
-                                                              ConnectionState
-                                                                  .waiting) {
-                                                            return Center(
-                                                                child: Shimmer
-                                                                    .fromColors(
-                                                              baseColor: Colors
-                                                                  .grey[300]!,
-                                                              highlightColor:
-                                                                  Colors.grey[
-                                                                      100]!,
-                                                              child: Container(
-                                                                color:
-                                                                    Colors.red,
-                                                              ),
-                                                            ));
-                                                          } else if (snapshot
-                                                              .hasError) {
-                                                            return Icon(Icons
-                                                                .broken_image);
-                                                          } else if (snapshot
-                                                              .hasData) {
-                                                            return ClipRRect(
-                                                              borderRadius: BorderRadius.only(
-                                                                  topLeft: Radius
-                                                                      .circular(
-                                                                          8),
-                                                                  topRight: Radius
-                                                                      .circular(
-                                                                          8)),
-                                                              child:
-                                                                  Image.memory(
-                                                                snapshot.data!,
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                                errorBuilder: (context,
-                                                                        error,
-                                                                        stackTrace) =>
-                                                                    Icon(Icons
-                                                                        .broken_image),
-                                                              ),
-                                                            );
-                                                          } else {
-                                                            return Icon(Icons
-                                                                .broken_image);
-                                                          }
-                                                        },
-                                                      )),
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(8),
+                                                      topRight:
+                                                          Radius.circular(8),
+                                                    ),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl:
+                                                          product.imageUrl,
+                                                      fit: BoxFit.cover,
+                                                      placeholder: (context,
+                                                              url) =>
+                                                          Shimmer.fromColors(
+                                                        baseColor:
+                                                            Colors.grey[300]!,
+                                                        highlightColor:
+                                                            Colors.grey[100]!,
+                                                        child: Container(
+                                                            color: Colors
+                                                                .grey[200]),
+                                                      ),
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          Icon(Icons
+                                                              .broken_image),
+                                                    ),
+                                                  ),
                                                 ),
                                                 const SizedBox(height: 15),
                                                 Padding(

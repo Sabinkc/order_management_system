@@ -29,18 +29,21 @@ class _InvoiceScreenState extends State<SettingsInvoiceScreen> {
       }
       final simpleUiProvider =
           Provider.of<SimpleUiProvider>(context, listen: false);
-      simpleUiProvider.clearInvoiceDateRange();
-      simpleUiProvider.clearInvoiceFilter();
-      if (!mounted) {
-        return;
-      }
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
-      await productProvider.getAllInvoice(
-          true,
-          simpleUiProvider.selectedInvoiceStatus,
-          simpleUiProvider.selectedInvoiceStartDate,
-          simpleUiProvider.selectedInvoiceEndDate);
+      // if (productProvider.invoices.isEmpty) {
+        simpleUiProvider.clearInvoiceDateRange();
+        simpleUiProvider.clearInvoiceFilter();
+        if (!mounted) {
+          return;
+        }
+
+        await productProvider.getAllInvoice(
+            true,
+            simpleUiProvider.selectedInvoiceStatus,
+            simpleUiProvider.selectedInvoiceStartDate,
+            simpleUiProvider.selectedInvoiceEndDate);
+      // }
     });
     super.initState();
   }

@@ -28,6 +28,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
       if (!mounted) return;
       final orderProvider =
           Provider.of<OrderScreenProvider>(context, listen: false);
+      // if (orderProvider.ordersBySandD.isEmpty) {
       final simpleUiProvider =
           Provider.of<SimpleUiProvider>(context, listen: false);
       orderProvider.clearFilters();
@@ -39,6 +40,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
           simpleUiProvider.selectedStatus,
           simpleUiProvider.selectedStartDate,
           simpleUiProvider.selectedEndDate);
+      // }
     });
 
     super.initState();
