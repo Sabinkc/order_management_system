@@ -174,6 +174,61 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
+  
+  bool isWidgetCategoryProductLoading = false;
+  List widgetCategoryProducts = [];
+  int widgetCategoryProductPage = 1;
+  bool hasMoreWidgetCategoryProducts = true;
+
+  Future<void> getWidgetCategoryProducts(int categoryId, String s,
+      {bool reset = false}) async {
+    logger.log("passed category id: $categoryId, passed search Keyword:$s");
+    if (isWidgetCategoryProductLoading) return;
+
+    // Reset pagination and clear products if needed
+    if (reset) {
+      widgetCategoryProducts.clear();
+      widgetCategoryProductPage = 1;
+      hasMoreWidgetCategoryProducts = true;
+    }
+
+    if (!hasMoreWidgetCategoryProducts) return;
+
+    isWidgetCategoryProductLoading = true;
+    notifyListeners();
+
+    try {
+      List newProducts;
+      if (categoryId == 0) {
+        newProducts = await _service.getAllProducts(s, widgetCategoryProductPage);
+      } else {
+        newProducts = await _service.getProductsByCategory(
+            categoryId, s, widgetCategoryProductPage);
+      }
+
+      if (newProducts.isEmpty) {
+        hasMoreWidgetCategoryProducts = false;
+      } else {
+        // Always add to the list for consistent pagination behavior
+        widgetCategoryProducts.addAll(newProducts);
+        widgetCategoryProductPage += 1;
+      }
+      // logger.log("category Products: $categoryProducts");
+      logger.log("category product length: ${widgetCategoryProducts.length}");
+      // Update filtered products
+      // filteredCategoryProducts = List.from(categoryProducts);
+      // logger.log(
+      //     "Fetched ${newProducts.length} products for category $categoryId");
+      // logger.log("Total products now: ${categoryProducts.length}");
+    } catch (e) {
+      logger.log("Error fetching products: $e");
+      hasMoreWidgetCategoryProducts = false;
+    } finally {
+      isWidgetCategoryProductLoading = false;
+      notifyListeners();
+    }
+  }
+
   bool isProductDetailLoading = false;
   ProductDetails productDetail = ProductDetails(
       name: "",

@@ -293,6 +293,7 @@ import 'package:order_management_system/features/dashboard/domain/cart_quantity_
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/all_product_detail_screen.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/home_screens/all_product_screen.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/widget_product_detail_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:developer' as logger;
@@ -372,7 +373,7 @@ class AllProductWidget extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            AllProductDetailScreen(
+                                            WidgetProductDetailScreen(
                                                 sku: product.sku.toString())));
                               },
                               child: Container(
@@ -513,7 +514,7 @@ class AllProductWidget extends StatelessWidget {
                                               Provider.of<CartQuantityProvider>(
                                                       context,
                                                       listen: false)
-                                                  .addToCartFromAllProducts(
+                                                  .addToCartFromWidgetProducts(
                                                       product.sku.toString(),
                                                       context);
                                               logger.log(

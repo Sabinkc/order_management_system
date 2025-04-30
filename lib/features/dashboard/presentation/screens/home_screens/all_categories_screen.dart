@@ -9,7 +9,7 @@ class AllCategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // List categoryImages = [
+  // List categoryImages = [
     //   "assets/images/electronic_c.png",
     //   "assets/images/clothing_c.png",
     //   "assets/images/furniture_c.png",
