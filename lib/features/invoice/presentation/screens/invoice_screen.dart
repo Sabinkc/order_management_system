@@ -68,6 +68,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return KeyboardDismisser(
       child: Scaffold(
           backgroundColor: CommonColor.scaffoldbackgroundColor,
@@ -237,234 +238,248 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                       //   color: Colors.grey,
                       //   thickness: 0.3,
                       // ),
-                      Expanded(
-                        child: productProvider.invoices.isEmpty
-                            ? Center(
+                      productProvider.invoices.isEmpty
+                          ? Center(
+                              child: SingleChildScrollView(
+                              physics: AlwaysScrollableScrollPhysics(),
+                              child: SizedBox(
+                                height: screenHeight * 0.6,
                                 child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    MingCute.shopping_bag_2_line,
-                                    color: CommonColor.darkGreyColor,
-                                    weight: 0.5,
-                                    size: 100,
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text(
-                                    "No invoices found!",
-                                    style: TextStyle(
-                                        color: CommonColor.darkGreyColor,
-                                        fontSize: 20),
-                                  ),
-                                ],
-                              ))
-                            : ListView.builder(
-                                controller: scrollController,
-                                physics: AlwaysScrollableScrollPhysics(),
-                                itemCount: productProvider.invoices.length + 1,
-                                itemBuilder: (context, index) {
-                                  if (index < productProvider.invoices.length) {
-                                    final invoice =
-                                        productProvider.invoices[index];
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      InvoiceDetailScreen(
-                                                          invoiceNo: invoice
-                                                              .invoiceNo)));
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 15, vertical: 15),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            border: Border.all(
-                                                width: 0.1,
-                                                color: CommonColor
-                                                    .mediumGreyColor),
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            spacing: 5,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "Invoice No: ${invoice.invoiceNo}",
-                                                    style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      MingCute.shopping_bag_2_line,
+                                      color: CommonColor.darkGreyColor,
+                                      weight: 0.5,
+                                      size: 100,
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text(
+                                      "No invoices found!",
+                                      style: TextStyle(
+                                          color: CommonColor.darkGreyColor,
+                                          fontSize: 20),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ))
+                          : Expanded(
+                              child: ListView.builder(
+                                  controller: scrollController,
+                                  physics: AlwaysScrollableScrollPhysics(),
+                                  itemCount:
+                                      productProvider.invoices.length + 1,
+                                  itemBuilder: (context, index) {
+                                    if (index <
+                                        productProvider.invoices.length) {
+                                      final invoice =
+                                          productProvider.invoices[index];
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        InvoiceDetailScreen(
+                                                            invoiceNo: invoice
+                                                                .invoiceNo)));
+                                          },
+                                          child: Container(
+                                            padding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 15,
+                                                    vertical: 15),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border.all(
+                                                  width: 0.1,
+                                                  color: CommonColor
+                                                      .mediumGreyColor),
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              spacing: 5,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      "Invoice No: ${invoice.invoiceNo}",
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    "Rs.${invoice.totalAmount}",
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 16,
+                                                    Text(
+                                                      "Rs.${invoice.totalAmount}",
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    invoice.receiverName,
-                                                    style: TextStyle(
-                                                        color: CommonColor
-                                                            .darkGreyColor,
-                                                        fontSize: 15),
-                                                  ),
-                                                  Container(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 8,
-                                                            vertical: 3),
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      invoice.receiverName,
+                                                      style: TextStyle(
+                                                          color: CommonColor
+                                                              .darkGreyColor,
+                                                          fontSize: 15),
+                                                    ),
+                                                    Container(
+                                                      padding: EdgeInsets
+                                                          .symmetric(
+                                                              horizontal: 8,
+                                                              vertical: 3),
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              color: Colors
+                                                                      .brown[
+                                                                  100]!),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      15),
+                                                          color: invoice
+                                                                      .paidStatus ==
+                                                                  "true"
+                                                              ? Colors
+                                                                  .green[100]
+                                                              : Colors.yellow[
+                                                                  100]),
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .access_alarm_outlined,
+                                                            size: 18,
                                                             color: Colors
-                                                                .brown[100]!),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15),
-                                                        color:
+                                                                .brown[400],
+                                                          ),
+                                                          SizedBox(
+                                                            width: 3,
+                                                          ),
+                                                          Text(
                                                             invoice.paidStatus ==
-                                                                    "true"
-                                                                ? Colors
-                                                                    .green[100]
-                                                                : Colors.yellow[
-                                                                    100]),
-                                                    child: Row(
+                                                                    "false"
+                                                                ? "Unpaid"
+                                                                : "Paid",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .brown,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Row(
                                                       children: [
                                                         Icon(
                                                           Icons
-                                                              .access_alarm_outlined,
-                                                          size: 18,
-                                                          color:
-                                                              Colors.brown[400],
+                                                              .shopping_bag_outlined,
+                                                          size: 15,
+                                                          color: CommonColor
+                                                              .mediumGreyColor,
                                                         ),
                                                         SizedBox(
                                                           width: 3,
                                                         ),
                                                         Text(
-                                                          invoice.paidStatus ==
-                                                                  "false"
-                                                              ? "Unpaid"
-                                                              : "Paid",
+                                                          invoice.date
+                                                              .substring(
+                                                                  0, 10),
                                                           style: TextStyle(
-                                                              color:
-                                                                  Colors.brown,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
+                                                            fontSize: 15,
+                                                            color: CommonColor
+                                                                .mediumGreyColor,
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Icon(
-                                                        Icons
-                                                            .shopping_bag_outlined,
-                                                        size: 15,
-                                                        color: CommonColor
-                                                            .mediumGreyColor,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 3,
-                                                      ),
-                                                      Text(
-                                                        invoice.date
-                                                            .substring(0, 10),
-                                                        style: TextStyle(
-                                                          fontSize: 15,
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                          MingCute
+                                                              .shopping_bag_3_line,
+                                                          size: 15,
                                                           color: CommonColor
                                                               .mediumGreyColor,
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Icon(
-                                                        MingCute
-                                                            .shopping_bag_3_line,
-                                                        size: 15,
-                                                        color: CommonColor
-                                                            .mediumGreyColor,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 3,
-                                                      ),
-                                                      Text(
-                                                        "${invoice.totalQuantity} items",
-                                                        style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: CommonColor
-                                                              .mediumGreyColor,
+                                                        SizedBox(
+                                                          width: 3,
                                                         ),
-                                                      ),
-                                                    ],
-                                                  )
-                                                ],
-                                              )
-                                            ],
+                                                        Text(
+                                                          "${invoice.totalQuantity} items",
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                            color: CommonColor
+                                                                .mediumGreyColor,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  } else {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 20),
-                                      child: Center(
-                                        child: productProvider
-                                                    .allInvoiceHasMore &&
-                                                productProvider
-                                                        .invoices.length >=
-                                                    20
-                                            ? CircularProgressIndicator(
-                                                color: CommonColor.primaryColor,
-                                              )
-                                            // : Text(
-                                            //     "No more invoices to fetch",
-                                            //     style: TextStyle(
-                                            //         color: CommonColor
-                                            //             .darkGreyColor,
-                                            //         fontSize: 16),
-                                            //   ),
-                                            : SizedBox.shrink(),
-                                      ),
-                                    );
-                                    // return CircularProgressIndicator();
-                                  }
-                                }),
-                      ),
+                                      );
+                                    } else {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 20),
+                                        child: Center(
+                                          child: productProvider
+                                                      .allInvoiceHasMore &&
+                                                  productProvider
+                                                          .invoices.length >=
+                                                      20
+                                              ? CircularProgressIndicator(
+                                                  color: CommonColor
+                                                      .primaryColor,
+                                                )
+                                              // : Text(
+                                              //     "No more invoices to fetch",
+                                              //     style: TextStyle(
+                                              //         color: CommonColor
+                                              //             .darkGreyColor,
+                                              //         fontSize: 16),
+                                              //   ),
+                                              : SizedBox.shrink(),
+                                        ),
+                                      );
+                                      // return CircularProgressIndicator();
+                                    }
+                                  }),
+                            ),
                     ],
                   );
                 }

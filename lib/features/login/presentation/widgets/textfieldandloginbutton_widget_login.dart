@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/common_textfield.dart';
+import 'package:order_management_system/common/simple_ui_provider.dart';
+import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
+import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/domain/login_textfield_provider.dart';
+import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +32,34 @@ class _TextfieldandloginbuttonWidgetLoginState
     passwordController.dispose();
     super.dispose();
   }
-  
+
+  Future preventEmailSwitchingConflict() async {
+    if (mounted) {
+      Provider.of<CartQuantityProvider>(context, listen: false)
+          .cartItems
+          .clear();
+      Provider.of<OrderScreenProvider>(context, listen: false)
+          .ordersBySandD
+          .clear();
+      final simpleUiProvider =
+          Provider.of<SimpleUiProvider>(context, listen: false);
+      final productProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      productProvider.invoices.clear();
+
+      simpleUiProvider.clearDateRange();
+      simpleUiProvider.clearFilter();
+      simpleUiProvider.clearInvoiceDateRange();
+      simpleUiProvider.clearInvoiceFilter();
+
+      final orderProvider =
+          Provider.of<OrderScreenProvider>(context, listen: false);
+      orderProvider.clearFilters();
+      orderProvider.clearOrders();
+      // await orderProvider.getOrderByStatusAndDate("", "", "");
+      // await productProvider.getAllInvoice(true, "", "", "");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +130,7 @@ class _TextfieldandloginbuttonWidgetLoginState
                       foregroundColor: Colors.white,
                       backgroundColor: CommonColor.primaryColor),
                   onPressed: () async {
+                    preventEmailSwitchingConflict();
                     login(context, emailController, passwordController, logger,
                         provider);
                   },
