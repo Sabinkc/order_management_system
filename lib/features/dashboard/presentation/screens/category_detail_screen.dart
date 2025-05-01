@@ -637,6 +637,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
   final ScrollController scrollController = ScrollController();
   final TextEditingController searchController = TextEditingController();
   Timer? debounce;
+  final productApiService = ProductApiSevice();
   @override
   void initState() {
     scrollController.addListener(onScroll);
@@ -943,8 +944,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                             .widgetCategoryProducts.length) {
                                       final product = productProvider
                                           .widgetCategoryProducts[index];
-                                      final productApiService =
-                                          ProductApiSevice();
+
                                       logger.log(
                                           "built image url: ${product.imageUrl}");
                                       return Consumer<CartQuantityProvider>(
@@ -1039,6 +1039,10 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                                     //   },
                                                     // ),
                                                     child: CachedNetworkImage(
+                                                      maxHeightDiskCache: 100,
+                                                      maxWidthDiskCache: 100,
+                                                      memCacheHeight: 200,
+                                                      memCacheWidth: 200,
                                                       imageUrl:
                                                           product.imageUrl,
                                                       fit: BoxFit.cover,

@@ -509,6 +509,7 @@ class _AllProductScreenState extends State<AllProductScreen> {
   final ScrollController scrollController = ScrollController();
   final SearchController searchController = SearchController();
   Timer? debounce;
+  final productApiService = ProductApiSevice();
 
   @override
   void initState() {
@@ -681,9 +682,6 @@ class _AllProductScreenState extends State<AllProductScreen> {
                                   itemBuilder: (context, index) {
                                     if (index <
                                         productProvider.product.length) {
-                                      final productApiService =
-                                          ProductApiSevice();
-
                                       final product =
                                           productProvider.product[index];
                                       // productApiService
@@ -804,6 +802,10 @@ class _AllProductScreenState extends State<AllProductScreen> {
                                                           Radius.circular(8),
                                                     ),
                                                     child: CachedNetworkImage(
+                                                      maxHeightDiskCache: 100,
+                                                      maxWidthDiskCache: 100,
+                                                      memCacheHeight: 200,
+                                                      memCacheWidth: 200,
                                                       imageUrl:
                                                           product.imageUrl,
                                                       fit: BoxFit.cover,

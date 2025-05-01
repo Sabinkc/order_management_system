@@ -70,6 +70,7 @@ dependencies:
   smooth_page_indicator: ^1.2.1
   carousel_slider: ^5.0.0
   expandable_text: ^2.3.0
+  flutter_cache_manager: ^3.4.1
 
 flutter_native_splash:
   color: "#589A73" # Replace with your desired color in hex format

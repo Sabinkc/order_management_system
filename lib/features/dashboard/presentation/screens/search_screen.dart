@@ -25,6 +25,7 @@ class _SearchScreenState extends State<SearchScreen> {
   final ScrollController scrollController = ScrollController();
   final TextEditingController searchController = SearchController();
   Timer? debounce;
+  final productApiService = ProductApiSevice();
 
   @override
   void initState() {
@@ -281,8 +282,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                             .categoryProducts.length) {
                                       final product = productProvider
                                           .categoryProducts[index];
-                                      final productApiService =
-                                          ProductApiSevice();
+
                                       // logger.log(
                                       //     "built image url: ${product.imageUrl}");
                                       // logger.log("built prouct: ${product.name}");
@@ -384,6 +384,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                                             Radius.circular(8),
                                                       ),
                                                       child: CachedNetworkImage(
+                                                        maxHeightDiskCache: 100,
+                                                        maxWidthDiskCache: 100,
+                                                        memCacheHeight: 200,
+                                                        memCacheWidth: 200,
                                                         imageUrl:
                                                             product.imageUrl,
                                                         fit: BoxFit.cover,
