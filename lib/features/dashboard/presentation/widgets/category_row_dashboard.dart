@@ -1,10 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/common/constants.dart';
+import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/home_screens/all_categories_screen.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/category_detail_screen.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
+
+import 'package:shimmer/shimmer.dart';
 
 class CategoryRowDashboard extends StatelessWidget {
   const CategoryRowDashboard({super.key});
@@ -78,6 +83,12 @@ class CategoryRowDashboard extends StatelessWidget {
                             productProvider.productCategoryWithoutAll.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
+                          final productApiService = ProductApiSevice();
+                          productApiService.getCategoryImageByFilename(
+                              productProvider.productCategoryWithoutAll[index]
+                                  .categoryImage);
+                          logger.log(
+                              "${productProvider.productCategoryWithoutAll[index].categoryImage}");
                           return Padding(
                               padding: const EdgeInsets.only(right: 5),
                               child: Column(
@@ -130,12 +141,33 @@ class CategoryRowDashboard extends StatelessWidget {
                                           // ),
 
                                           child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                              child: Image.asset(
-                                                "assets/images/profile.jpg",
-                                                fit: BoxFit.cover,
-                                              )),
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            // child: Image.asset(
+                                            //   "assets/images/profile.jpg",
+                                            //   fit: BoxFit.cover,
+                                            // ),
+                                            child: CachedNetworkImage(
+                                              maxHeightDiskCache: 100,
+                                              maxWidthDiskCache: 100,
+                                              memCacheHeight: 200,
+                                              memCacheWidth: 200,
+                                              imageUrl:
+                                                  "${Constants.baseUrl}/v1/product-categories/img/${productProvider.productCategoryWithoutAll[index].id}",
+                                              fit: BoxFit.cover,
+                                              placeholder: (context, url) =>
+                                                  Shimmer.fromColors(
+                                                baseColor: Colors.grey[300]!,
+                                                highlightColor:
+                                                    Colors.grey[100]!,
+                                                child: Container(
+                                                    color: Colors.grey[200]),
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.broken_image),
+                                            ),
+                                          ),
                                         ),
                                       )),
                                   SizedBox(

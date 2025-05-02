@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/simple_ui_provider.dart';
+import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/category_row_dashboard.dart';
@@ -75,6 +76,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       await productProvider.getProductCategoriesWithoutAll();
+      productProvider.resetOfferProducts();
+      await productProvider.getOfferProduct("");
       // productProvider.resetAllProducts();
       // await productProvider.getAllProduct("");
 
@@ -85,6 +88,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Provider.of<SettingsProvider>(context, listen: false);
       await settingProvider.getProfile();
       getCurrentLocation();
+      final ProductApiSevice productApiSevice = ProductApiSevice();
+      productApiSevice
+          .getImageByFilename(productProvider.widgetProduct[0].imageUrl);
+      productApiSevice.getCategoryImageByFilename(
+          productProvider.productCategoryWithoutAll[0].categoryImage);
     });
 
     super.initState();
@@ -153,11 +161,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
               final productProvider =
                   Provider.of<ProductProvider>(context, listen: false);
               await productProvider.getProductCategoriesWithoutAll();
+              productProvider.resetOfferProducts();
+              await productProvider.getOfferProduct("");
               // productProvider.resetAllProducts();
               // await productProvider.getAllProduct("");
               productProvider.resetWidgetProducts();
               await productProvider.getWidgetProduct("");
               await productProvider.getCategoryProducts(0, "", reset: true);
+
               if (!context.mounted) return;
               final settingProvider =
                   Provider.of<SettingsProvider>(context, listen: false);

@@ -126,6 +126,71 @@ class ProductApiSevice {
     }
   }
 
+  Future<List<OfferProductDetails>> getOfferProducts(String s, int page) async {
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+    if (token == null) {
+      throw Exception("User not authenticated. Please log in first.");
+    }
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    var url = Uri.parse("${Constants.baseUrl}/v1/products?s=$s&o=1&page=$page");
+    var request = http.Request('GET', url);
+    request.headers.addAll(headers);
+
+    try {
+      http.StreamedResponse response = await request.send();
+      String responseBody = await response.stream.bytesToString();
+      Map<String, dynamic> jsonResponse = json.decode(responseBody);
+
+      if (response.statusCode == 200 && jsonResponse["success"]) {
+        List<dynamic> productJson = jsonResponse["data"];
+        List<OfferProductDetails> products = [];
+        logger.log("get all products api called");
+
+        for (var product in productJson) {
+          // Safely handle unitImages
+          String? imageUrl;
+          if (product["unitImages"] != null &&
+              product["unitImages"].isNotEmpty) {
+            imageUrl = product["unitImages"][0];
+          }
+
+          // Safely parse unitPrice
+          double price = 0.0;
+          if (product["unitPrice"] != null) {
+            price = double.tryParse(product["unitPrice"].toString()) ?? 0.0;
+          }
+
+          products.add(OfferProductDetails(
+            name: product["name"] ?? "No name",
+            description: product["description"] ?? "Description not available",
+            categoryName: product["category"]["name"] ?? "Uncategorized",
+            stockQuantity: product["unitStock"] ?? 0,
+            price: price,
+            isAvailable: product["isAvailable"] ?? false,
+            imageUrl: imageUrl ?? "default_image_url", // Fallback if no image
+            sku: product["sku"] ?? "N/A",
+            images: product["unitImages"] ?? [], // Ensure this is never null
+            discountPercent: product["discountPercent"] ?? "0",
+          ));
+        }
+// logger.log("offer products: $products");
+        logger.log("get all products api success");
+        return products;
+      } else {
+        throw Exception(jsonResponse['message'] ?? 'Failed to fetch products');
+      }
+    } catch (e) {
+      logger.log("Get Products Error: $e");
+      throw Exception('Failed to fetch products: ${e.toString()}');
+    }
+  }
+
   // Future<List<ProductDetails>> getAllProducts(String s, int page) async {
   //   // Get the saved token from SharedPreferences
   //   String? token = await SharedPrefLoggedinState.getAccessToken();
@@ -444,7 +509,8 @@ class ProductApiSevice {
           id: int.parse(id),
           name: categoryJson['name'],
           productsCount: categoryJson['productsCount'],
-          categoryImage: categoryJson["categoryImage"] ?? "default image url",
+          categoryImage: categoryJson["image"] ??
+              "https://media.istockphoto.com/vectors/avatar-photo-placeholder-icon-design-vector-id1221380217?k=20&m=1221380217&s=612x612&w=0&h=avdFJ5PNo-CSkbUZzQ0Xm8h3u5BovGfSNDrfRicPDfY=",
         ));
       }
       logger.log("get all categories without all api called");
@@ -505,6 +571,47 @@ class ProductApiSevice {
         "success": false,
         "message": "Something went wrong. Please try again."
       };
+    }
+  }
+
+// Function to get image as response
+  Future<Uint8List> getCategoryImageByFilename(String filename) async {
+    // Get the saved token from SharedPreferences
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+
+    // If no token is found, return an error
+    if (token == null) {
+      throw Exception("User not authenticated. Please log in first.");
+    }
+
+    // Headers with Authorization token
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token', // Adding token in the header
+    };
+
+    // Constructing the URL to fetch image by filename
+    var url =
+        Uri.parse("${Constants.baseUrl}/v1/product-categories/img/$filename");
+
+    var request = http.Request('GET', url);
+    request.headers.addAll(headers);
+
+    try {
+      http.StreamedResponse response = await request.send();
+
+      logger.log("Response Status Code: ${response.statusCode}");
+
+      if (response.statusCode == 200) {
+        // Getting image data as bytes
+        Uint8List imageData = await response.stream.toBytes();
+        return imageData;
+      } else {
+        throw Exception('Failed to fetch image');
+      }
+    } catch (e) {
+      logger.log("Get Image Error: $e");
+      throw Exception('Failed to fetch image');
     }
   }
 

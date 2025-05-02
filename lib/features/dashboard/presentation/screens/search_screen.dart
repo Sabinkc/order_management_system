@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -260,15 +259,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                   itemCount:
                                       productProvider.categoryProducts.length +
                                           1,
-                                  // itemCount: productProvider
-                                  //         .categoryProducts.length +
-                                  //     (productProvider
-                                  //                 .hasMoreCategoryProducts &&
-                                  //             productProvider.categoryProducts
-                                  //                     .length >=
-                                  //                 pageSize
-                                  //         ? 1
-                                  //         : 0),
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
                                     childAspectRatio: 0.75,
@@ -283,8 +273,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                       final product = productProvider
                                           .categoryProducts[index];
 
-                                      // logger.log(
-                                      //     "built image url: ${product.imageUrl}");
+                                      logger.log(
+                                          "built image url: ${product.imageUrl}");
                                       // logger.log("built prouct: ${product.name}");
                                       return Consumer<CartQuantityProvider>(
                                         builder: (context, provider, child) {
@@ -322,59 +312,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                                     ),
                                                     height: 130,
                                                     width: double.infinity,
-                                                    // child: FutureBuilder<
-                                                    //     Uint8List>(
-                                                    //   future: productApiService
-                                                    //       .getImageByFilename(
-                                                    //           product.imageUrl),
-                                                    //   builder:
-                                                    //       (context, snapshot) {
-                                                    //     if (snapshot
-                                                    //             .connectionState ==
-                                                    //         ConnectionState
-                                                    //             .waiting) {
-                                                    //       return Center(
-                                                    //           child: Shimmer
-                                                    //               .fromColors(
-                                                    //         baseColor: Colors
-                                                    //             .grey[300]!,
-                                                    //         highlightColor:
-                                                    //             Colors
-                                                    //                 .grey[100]!,
-                                                    //         child: Container(
-                                                    //           color: Colors.red,
-                                                    //         ),
-                                                    //       ));
-                                                    //     } else if (snapshot
-                                                    //         .hasError) {
-                                                    //       return Icon(Icons
-                                                    //           .broken_image);
-                                                    //     } else if (snapshot
-                                                    //         .hasData) {
-                                                    //       return ClipRRect(
-                                                    //         borderRadius: BorderRadius.only(
-                                                    //             topLeft: Radius
-                                                    //                 .circular(
-                                                    //                     8),
-                                                    //             topRight: Radius
-                                                    //                 .circular(
-                                                    //                     8)),
-                                                    //         child: Image.memory(
-                                                    //           snapshot.data!,
-                                                    //           fit: BoxFit.cover,
-                                                    //           errorBuilder: (context,
-                                                    //                   error,
-                                                    //                   stackTrace) =>
-                                                    //               Icon(Icons
-                                                    //                   .broken_image),
-                                                    //         ),
-                                                    //       );
-                                                    //     } else {
-                                                    //       return Icon(Icons
-                                                    //           .broken_image);
-                                                    //     }
-                                                    //   },
-                                                    // ),
                                                     child: ClipRRect(
                                                       borderRadius:
                                                           BorderRadius.only(

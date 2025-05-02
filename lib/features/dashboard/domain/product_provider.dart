@@ -81,6 +81,44 @@ class ProductProvider extends ChangeNotifier {
     allProductPage = 1;
   }
 
+  // Provider to fetch all offer products
+  bool isOfferProductLoading = false;
+  List offerProduct = [];
+  bool hasMoreOfferProduct = true;
+  int offerProductPage = 1;
+
+  Future<void> getOfferProduct(String s) async {
+    if (isOfferProductLoading || !hasMoreOfferProduct) {
+      return;
+    }
+    isOfferProductLoading = true;
+    notifyListeners();
+    try {
+      final response = await _service.getOfferProducts(s, offerProductPage);
+      if (response.isEmpty) {
+        hasMoreOfferProduct = false;
+      } else {
+        final newProduct = response;
+        offerProduct.addAll(newProduct);
+        offerProductPage += 1;
+        logger.log("offer products: $product");
+        notifyListeners();
+      }
+    } catch (e) {
+      logger.log("provider error: $e");
+    } finally {
+      isOfferProductLoading = false;
+      notifyListeners();
+    }
+  }
+
+  void resetOfferProducts() {
+    isOfferProductLoading = false;
+    offerProduct.clear();
+    hasMoreOfferProduct = true;
+    offerProductPage = 1;
+  }
+
   // Provider to fetch all product widget
   bool isWidgetProductLoading = false;
   List widgetProduct = [];
@@ -174,7 +212,6 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
-  
   bool isWidgetCategoryProductLoading = false;
   List widgetCategoryProducts = [];
   int widgetCategoryProductPage = 1;
@@ -200,7 +237,8 @@ class ProductProvider extends ChangeNotifier {
     try {
       List newProducts;
       if (categoryId == 0) {
-        newProducts = await _service.getAllProducts(s, widgetCategoryProductPage);
+        newProducts =
+            await _service.getAllProducts(s, widgetCategoryProductPage);
       } else {
         newProducts = await _service.getProductsByCategory(
             categoryId, s, widgetCategoryProductPage);

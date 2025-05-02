@@ -168,6 +168,46 @@ class CartQuantityProvider extends ChangeNotifier {
     notifyListeners(); // Notify listeners to update the UI
   }
 
+  //provider to add to cart from offerProducts
+  void addToCartFromOfferProducts(String sku, BuildContext context) {
+    final products = Provider.of<ProductProvider>(context, listen: false)
+        .offerProduct;
+    logger.log("offer products: $products");
+
+    // Check if the product is already in the cart
+    final existingIndex = cartItems.indexWhere((item) => item.sku == sku);
+
+    if (existingIndex != -1) {
+      // If the product is already in the cart, increase its quantity
+      cartItems[existingIndex].quantity += 1;
+    } else {
+      // Find the product from the `products` list using its `product_id`
+      final productIndex =
+          products.indexWhere((product) => product.sku.toString() == sku);
+      // logger.log(productIndex.toString());
+
+      if (productIndex != -1) {
+        // Add the product to the cart
+        final product = products[productIndex];
+        cartItems.add(
+          CartModel(
+            // id: product.id.toString(),
+            productName: product.name,
+            price: product.price,
+            category: product.categoryName,
+            imagePath: product.imageUrl,
+            sku: product.sku,
+            quantity: 1, // Default quantity
+          ),
+        );
+      } else {
+        // print("Product with ID $productId not found.");
+      }
+    }
+    logger.log("cartItems after addition: $cartItems");
+    notifyListeners(); // Notify listeners to update the UI
+  }
+
   void removeFromCart(String sku) {
     cartItems.removeWhere((item) => item.sku == sku);
     notifyListeners();

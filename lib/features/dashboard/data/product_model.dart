@@ -29,6 +29,39 @@ class ProductDetails {
   }
 }
 
+class OfferProductDetails {
+  // final int id;
+  final String name;
+  final String description;
+  final String categoryName;
+  final String imageUrl;
+  final int stockQuantity;
+  final double price;
+  final bool isAvailable;
+  final List<dynamic> images;
+  final String sku;
+  final String discountPercent;
+
+  OfferProductDetails({
+    // required this.id,
+    required this.name,
+    required this.description,
+    required this.categoryName,
+    required this.imageUrl,
+    required this.stockQuantity,
+    required this.price,
+    required this.isAvailable,
+    required this.images,
+    required this.sku,
+    required this.discountPercent,
+  });
+
+  @override
+  String toString() {
+    return 'ProductDetails{ name: $name, description: $description, categoryName: $categoryName, stockQuantity: $stockQuantity, price: $price, isAvailable: $isAvailable, imageUrl: $imageUrl, sku: $sku,images:$images,discountPercent: $discountPercent}';
+  }
+}
+
 class ProductCategory {
   final int id;
   final String name;
