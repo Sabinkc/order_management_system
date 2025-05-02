@@ -320,30 +320,67 @@ class _SearchScreenState extends State<SearchScreen> {
                                                         topRight:
                                                             Radius.circular(8),
                                                       ),
-                                                      child: CachedNetworkImage(
-                                                        maxHeightDiskCache: 100,
-                                                        maxWidthDiskCache: 100,
-                                                        memCacheHeight: 200,
-                                                        memCacheWidth: 200,
-                                                        imageUrl:
-                                                            product.imageUrl,
-                                                        fit: BoxFit.cover,
-                                                        placeholder: (context,
-                                                                url) =>
-                                                            Shimmer.fromColors(
-                                                          baseColor:
-                                                              Colors.grey[300]!,
-                                                          highlightColor:
-                                                              Colors.grey[100]!,
-                                                          child: Container(
-                                                              color: Colors
-                                                                  .grey[200]),
-                                                        ),
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            Icon(Icons
-                                                                .broken_image),
-                                                      ),
+                                                      // child: CachedNetworkImage(
+                                                      //   maxHeightDiskCache: 100,
+                                                      //   maxWidthDiskCache: 100,
+                                                      //   memCacheHeight: 200,
+                                                      //   memCacheWidth: 200,
+                                                      //   imageUrl:
+                                                      //       product.imageUrl,
+                                                      //   fit: BoxFit.cover,
+                                                      //   placeholder: (context,
+                                                      //           url) =>
+                                                      //       Shimmer.fromColors(
+                                                      //     baseColor:
+                                                      //         Colors.grey[300]!,
+                                                      //     highlightColor:
+                                                      //         Colors.grey[100]!,
+                                                      //     child: Container(
+                                                      //         color: Colors
+                                                      //             .grey[200]),
+                                                      //   ),
+                                                      //   errorWidget: (context,
+                                                      //           url, error) =>
+                                                      //       Icon(Icons
+                                                      //           .broken_image),
+                                                      // ),
+                                                       child: FutureBuilder(
+                                                        future: productApiService
+                                                            .getImageByFilename(
+                                                                product
+                                                                    .imageUrl),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          if (snapshot
+                                                              .hasData) {
+                                                            return Image.memory(
+                                                              snapshot.data!,
+                                                              fit: BoxFit.cover,
+                                                              cacheHeight: 100,
+                                                              cacheWidth: 100,
+                                                            );
+                                                          } else if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return Shimmer
+                                                                .fromColors(
+                                                                    baseColor:
+                                                                        Colors.grey[
+                                                                            100]!,
+                                                                    highlightColor:
+                                                                        Colors
+                                                                            .white,
+                                                                    child:
+                                                                        Container(
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ));
+                                                          } else {
+                                                            return Icon(Icons
+                                                                .broken_image);
+                                                          }
+                                                        }),
                                                     ),
                                                   ),
                                                   const SizedBox(height: 15),

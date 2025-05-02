@@ -1,10 +1,14 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:order_management_system/common/constants.dart';
 import 'package:order_management_system/features/dashboard/data/product_model.dart';
 import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
 import "package:http/http.dart" as http;
 import 'dart:developer' as logger;
+import 'package:flutter/painting.dart';  // Provides imageCache
 
 class ProductApiSevice {
   //get products based on category and availiability
@@ -297,6 +301,56 @@ class ProductApiSevice {
       throw Exception('Failed to fetch image');
     }
   }
+
+  //to handle cache
+// Future<Uint8List> getImageByFilename(String filename) async {
+//   final cacheKey = 'image_${filename.hashCode}';
+//   final cacheManager = DefaultCacheManager();
+
+//   // 1. Try disk cache
+//   final cachedFile = await cacheManager.getFileFromCache(cacheKey);
+//   if (cachedFile != null) {
+//     return await cachedFile.file.readAsBytes();
+//   }
+
+//   // 2. Fetch from network
+//   final token = await SharedPrefLoggedinState.getAccessToken();
+//   if (token == null) throw Exception("Not authenticated");
+
+//   final response = await http.get(
+//     Uri.parse("${Constants.baseUrl}/v1/product-image/$filename"),
+//     headers: {
+//       'Accept': 'application/json',
+//       'Authorization': 'Bearer $token',
+//     },
+//   );
+
+//   if (response.statusCode != 200) {
+//     throw Exception('Failed to fetch image');
+//   }
+
+//   final imageData = response.bodyBytes;
+
+//   // 3. Optional: compress image (define _compressImage if needed)
+//   final compressed = await _compressImage(imageData);
+
+//   // 4. Save to disk cache
+//   await cacheManager.putFile(cacheKey, compressed);
+
+//   return imageData;
+// }
+
+// Future<Uint8List> _compressImage(Uint8List bytes) async {
+//   return await compute((Uint8List data) async {
+//     return await FlutterImageCompress.compressWithList(
+//       data,
+//       minWidth: 200,
+//       minHeight: 200,
+//       quality: 80,
+//     );
+//   }, bytes);
+// }
+
 
 //get products by category
   Future<List<ProductDetails>> getProductsByCategory(

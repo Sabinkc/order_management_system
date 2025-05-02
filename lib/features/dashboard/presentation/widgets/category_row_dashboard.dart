@@ -143,30 +143,30 @@ class CategoryRowDashboard extends StatelessWidget {
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(50),
-                                            // child: Image.asset(
-                                            //   "assets/images/profile.jpg",
-                                            //   fit: BoxFit.cover,
-                                            // ),
-                                            child: CachedNetworkImage(
-                                              maxHeightDiskCache: 100,
-                                              maxWidthDiskCache: 100,
-                                              memCacheHeight: 200,
-                                              memCacheWidth: 200,
-                                              imageUrl:
-                                                  "${Constants.baseUrl}/v1/product-categories/img/${productProvider.productCategoryWithoutAll[index].id}",
+                                            child: Image.asset(
+                                              "assets/images/profile.jpg",
                                               fit: BoxFit.cover,
-                                              placeholder: (context, url) =>
-                                                  Shimmer.fromColors(
-                                                baseColor: Colors.grey[300]!,
-                                                highlightColor:
-                                                    Colors.grey[100]!,
-                                                child: Container(
-                                                    color: Colors.grey[200]),
-                                              ),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Icon(Icons.broken_image),
                                             ),
+                                            // child: CachedNetworkImage(
+                                            //   maxHeightDiskCache: 100,
+                                            //   maxWidthDiskCache: 100,
+                                            //   memCacheHeight: 200,
+                                            //   memCacheWidth: 200,
+                                            //   imageUrl:
+                                            //       "${Constants.baseUrl}/v1/product-categories/img/${productProvider.productCategoryWithoutAll[index].id}",
+                                            //   fit: BoxFit.cover,
+                                            //   placeholder: (context, url) =>
+                                            //       Shimmer.fromColors(
+                                            //     baseColor: Colors.grey[300]!,
+                                            //     highlightColor:
+                                            //         Colors.grey[100]!,
+                                            //     child: Container(
+                                            //         color: Colors.grey[200]),
+                                            //   ),
+                                            //   errorWidget:
+                                            //       (context, url, error) =>
+                                            //           Icon(Icons.broken_image),
+                                            // ),
                                           ),
                                         ),
                                       )),
