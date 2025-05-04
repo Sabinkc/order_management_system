@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
+// import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+// import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:order_management_system/common/constants.dart';
 import 'package:order_management_system/features/dashboard/data/product_model.dart';
 import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
 import "package:http/http.dart" as http;
 import 'dart:developer' as logger;
-import 'package:flutter/painting.dart';  // Provides imageCache
+// import 'package:flutter/painting.dart';  // Provides imageCache
 
 class ProductApiSevice {
   //get products based on category and availiability
@@ -350,7 +350,6 @@ class ProductApiSevice {
 //     );
 //   }, bytes);
 // }
-
 
 //get products by category
   Future<List<ProductDetails>> getProductsByCategory(

@@ -145,9 +145,18 @@ class CheckoutWidget extends StatelessWidget {
                             onPressed: () {
                               checkout(context);
                             },
-                            child: Text(
-                              "Checkout",
-                              style: TextStyle(color: Colors.white),
+                            child: Consumer<CartQuantityProvider>(
+                              builder: (context, cartProvider, child) {
+                                return cartProvider.isCheckoutLoading == true
+                                    //  || productProvider.isGetAllInvoiceLoading && orderProvider.isOrderBySandDLoading == true
+                                    ? CircularProgressIndicator(
+                                        color: Colors.white,
+                                      )
+                                    : Text(
+                                        "Checkout",
+                                        style: TextStyle(color: Colors.white),
+                                      );
+                              },
                             )),
                       ),
                     ],
@@ -185,6 +194,7 @@ class CheckoutWidget extends StatelessWidget {
     logger.log("Orders to be passed: $orders");
 
     try {
+      cartQuantityProvider.setCheckoutLoading(true);
       // Wait for the order creation to complete
       await productProvider.createOrder(shipppingLocationId, orders);
       if (!context.mounted) {
@@ -203,13 +213,17 @@ class CheckoutWidget extends StatelessWidget {
       simpleUiProvider.clearDateRange();
       simpleUiProvider.clearFilter();
       simpleUiProvider.clearDateRange();
-      await orderProvider.getOrderByStatusAndDate("", "", "");
       simpleUiProvider.clearInvoiceDateRange();
       simpleUiProvider.clearInvoiceFilter();
-      await productProvider.getAllInvoice(true, "", "", "");
+
+      await Future.wait([
+        orderProvider.getOrderByStatusAndDate("", "", ""),
+        productProvider.getAllInvoice(true, "", "", ""),
+      ]);
 
       cartQuantityProvider.clearCart();
       if (!context.mounted) return;
+
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -302,6 +316,8 @@ class CheckoutWidget extends StatelessWidget {
           );
         },
       );
+    } finally {
+      cartQuantityProvider.setCheckoutLoading(false);
     }
   }
 }

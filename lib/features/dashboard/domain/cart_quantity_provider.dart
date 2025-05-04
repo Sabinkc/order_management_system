@@ -170,8 +170,8 @@ class CartQuantityProvider extends ChangeNotifier {
 
   //provider to add to cart from offerProducts
   void addToCartFromOfferProducts(String sku, BuildContext context) {
-    final products = Provider.of<ProductProvider>(context, listen: false)
-        .offerProduct;
+    final products =
+        Provider.of<ProductProvider>(context, listen: false).offerProduct;
     logger.log("offer products: $products");
 
     // Check if the product is already in the cart
@@ -241,6 +241,15 @@ class CartQuantityProvider extends ChangeNotifier {
 
   void clearCart() {
     cartItems.clear();
+    notifyListeners();
+  }
+
+  bool _isCheckoutLoading = false;
+
+  bool get isCheckoutLoading => _isCheckoutLoading;
+
+  void setCheckoutLoading(bool value) {
+    _isCheckoutLoading = value;
     notifyListeners();
   }
 }

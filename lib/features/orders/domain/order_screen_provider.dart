@@ -188,6 +188,11 @@ class OrderScreenProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+    bool isHandleCreateOrderLoading = false;
+  Future handleCreateOrder() async{
+
+  }
+
   final TextEditingController searchController = TextEditingController();
 
   String _searchKeyword = ""; // Store the search keyword

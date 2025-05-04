@@ -1,7 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
-import 'package:order_management_system/common/constants.dart';
 import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/home_screens/all_categories_screen.dart';
@@ -9,7 +7,7 @@ import 'package:order_management_system/features/dashboard/presentation/screens/
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
 
-import 'package:shimmer/shimmer.dart';
+
 
 class CategoryRowDashboard extends StatelessWidget {
   const CategoryRowDashboard({super.key});

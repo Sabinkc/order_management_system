@@ -8,6 +8,7 @@ import 'package:order_management_system/features/dashboard/domain/product_provid
 import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/domain/login_textfield_provider.dart';
+import 'package:order_management_system/features/login/presentation/screens/forget_password_email_screen.dart';
 import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
@@ -105,7 +106,12 @@ class _TextfieldandloginbuttonWidgetLoginState
         Align(
           alignment: Alignment.centerRight,
           child: TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ForgetPasswordEmailScreen()));
+            },
             child: Text(
               "Forget password?",
               style: TextStyle(
