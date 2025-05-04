@@ -32,17 +32,17 @@ class _InvoiceScreenState extends State<SettingsInvoiceScreen> {
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       // if (productProvider.invoices.isEmpty) {
-        simpleUiProvider.clearInvoiceDateRange();
-        simpleUiProvider.clearInvoiceFilter();
-        if (!mounted) {
-          return;
-        }
+      simpleUiProvider.clearInvoiceDateRange();
+      simpleUiProvider.clearInvoiceFilter();
+      if (!mounted) {
+        return;
+      }
 
-        await productProvider.getAllInvoice(
-            true,
-            simpleUiProvider.selectedInvoiceStatus,
-            simpleUiProvider.selectedInvoiceStartDate,
-            simpleUiProvider.selectedInvoiceEndDate);
+      await productProvider.getAllInvoice(
+          true,
+          simpleUiProvider.selectedInvoiceStatus,
+          simpleUiProvider.selectedInvoiceStartDate,
+          simpleUiProvider.selectedInvoiceEndDate);
       // }
     });
     super.initState();
@@ -247,6 +247,7 @@ class _InvoiceScreenState extends State<SettingsInvoiceScreen> {
                       productProvider.invoices.isEmpty
                           ? Center(
                               child: SingleChildScrollView(
+                                physics: AlwaysScrollableScrollPhysics(),
                                 child: SizedBox(
                                   height: screenHeight * 0.6,
                                   child: Column(

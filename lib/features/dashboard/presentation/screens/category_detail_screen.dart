@@ -370,87 +370,68 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                                     ),
                                                     height: 130,
                                                     width: double.infinity,
-                                                    // child: FutureBuilder<
-                                                    //     Uint8List>(
-                                                    //   future: productApiService
-                                                    //       .getImageByFilename(
-                                                    //           product
-                                                    //               .imageUrl),
-                                                    //   builder: (context,
-                                                    //       snapshot) {
-                                                    //     if (snapshot
-                                                    //             .connectionState ==
-                                                    //         ConnectionState
-                                                    //             .waiting) {
-                                                    //       return Center(
-                                                    //           child: Shimmer
-                                                    //               .fromColors(
-                                                    //         baseColor: Colors
-                                                    //             .grey[300]!,
-                                                    //         highlightColor:
-                                                    //             Colors.grey[
-                                                    //                 100]!,
-                                                    //         child: Container(
-                                                    //           color:
-                                                    //               Colors.red,
-                                                    //         ),
-                                                    //       ));
-                                                    //     } else if (snapshot
-                                                    //         .hasError) {
-                                                    //       return Icon(Icons
-                                                    //           .broken_image);
-                                                    //     } else if (snapshot
-                                                    //         .hasData) {
-                                                    //       return ClipRRect(
-                                                    //         borderRadius: BorderRadius.only(
-                                                    //             topLeft: Radius
-                                                    //                 .circular(
-                                                    //                     8),
-                                                    //             topRight: Radius
-                                                    //                 .circular(
-                                                    //                     8)),
-                                                    //         child:
-                                                    //             Image.memory(
-                                                    //           snapshot.data!,
-                                                    //           fit: BoxFit
-                                                    //               .cover,
-                                                    //           errorBuilder: (context,
-                                                    //                   error,
-                                                    //                   stackTrace) =>
-                                                    //               Icon(Icons
-                                                    //                   .broken_image),
-                                                    //         ),
-                                                    //       );
-                                                    //     } else {
-                                                    //       return Icon(Icons
-                                                    //           .broken_image);
-                                                    //     }
-                                                    //   },
+
+                                                    // child: CachedNetworkImage(
+                                                    //   maxHeightDiskCache: 100,
+                                                    //   maxWidthDiskCache: 100,
+                                                    //   memCacheHeight: 200,
+                                                    //   memCacheWidth: 200,
+                                                    //   imageUrl:
+                                                    //       product.imageUrl,
+                                                    //   fit: BoxFit.cover,
+                                                    //   placeholder: (context,
+                                                    //           url) =>
+                                                    //       Shimmer.fromColors(
+                                                    //     baseColor:
+                                                    //         Colors.grey[300]!,
+                                                    //     highlightColor:
+                                                    //         Colors.grey[100]!,
+                                                    //     child: Container(
+                                                    //         color: Colors
+                                                    //             .grey[200]),
+                                                    //   ),
+                                                    //   errorWidget: (context,
+                                                    //           url, error) =>
+                                                    //       Icon(Icons
+                                                    //           .broken_image),
                                                     // ),
-                                                    child: CachedNetworkImage(
-                                                      maxHeightDiskCache: 100,
-                                                      maxWidthDiskCache: 100,
-                                                      memCacheHeight: 200,
-                                                      memCacheWidth: 200,
-                                                      imageUrl:
-                                                          product.imageUrl,
-                                                      fit: BoxFit.cover,
-                                                      placeholder: (context,
-                                                              url) =>
-                                                          Shimmer.fromColors(
-                                                        baseColor:
-                                                            Colors.grey[300]!,
-                                                        highlightColor:
-                                                            Colors.grey[100]!,
-                                                        child: Container(
-                                                            color: Colors
-                                                                .grey[200]),
-                                                      ),
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          Icon(Icons
-                                                              .broken_image),
-                                                    ),
+                                                    child: FutureBuilder(
+                                                        future: productApiService
+                                                            .getImageByFilename(
+                                                                product
+                                                                    .imageUrl),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          if (snapshot
+                                                              .hasData) {
+                                                            return Image.memory(
+                                                              snapshot.data!,
+                                                              fit: BoxFit.cover,
+                                                              cacheHeight: 100,
+                                                              cacheWidth: 100,
+                                                            );
+                                                          } else if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return Shimmer
+                                                                .fromColors(
+                                                                    baseColor:
+                                                                        Colors.grey[
+                                                                            100]!,
+                                                                    highlightColor:
+                                                                        Colors
+                                                                            .white,
+                                                                    child:
+                                                                        Container(
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ));
+                                                          } else {
+                                                            return Icon(Icons
+                                                                .broken_image);
+                                                          }
+                                                        }),
                                                   ),
                                                   const SizedBox(height: 15),
                                                   Padding(

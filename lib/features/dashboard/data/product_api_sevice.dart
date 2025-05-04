@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 // import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 // import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:order_management_system/common/constants.dart';
@@ -263,93 +265,104 @@ class ProductApiSevice {
   // }
 
 // Function to get image as response
-  Future<Uint8List> getImageByFilename(String filename) async {
-    // Get the saved token from SharedPreferences
-    String? token = await SharedPrefLoggedinState.getAccessToken();
+  // Future<Uint8List> getImageByFilename(String filename) async {
+  //   // Get the saved token from SharedPreferences
+  //   String? token = await SharedPrefLoggedinState.getAccessToken();
 
-    // If no token is found, return an error
-    if (token == null) {
-      throw Exception("User not authenticated. Please log in first.");
-    }
+  //   // If no token is found, return an error
+  //   if (token == null) {
+  //     throw Exception("User not authenticated. Please log in first.");
+  //   }
 
-    // Headers with Authorization token
-    var headers = {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token', // Adding token in the header
-    };
+  //   // Headers with Authorization token
+  //   var headers = {
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Bearer $token', // Adding token in the header
+  //   };
 
-    // Constructing the URL to fetch image by filename
-    var url = Uri.parse("${Constants.baseUrl}/v1/product-image/$filename");
+  //   // Constructing the URL to fetch image by filename
+  //   var url = Uri.parse("${Constants.baseUrl}/v1/product-image/$filename");
 
-    var request = http.Request('GET', url);
-    request.headers.addAll(headers);
+  //   var request = http.Request('GET', url);
+  //   request.headers.addAll(headers);
 
-    try {
-      http.StreamedResponse response = await request.send();
+  //   try {
+  //     http.StreamedResponse response = await request.send();
 
-      // logger.log("Response Status Code: ${response.statusCode}");
+  //     // logger.log("Response Status Code: ${response.statusCode}");
 
-      if (response.statusCode == 200) {
-        // Getting image data as bytes
-        Uint8List imageData = await response.stream.toBytes();
-        return imageData;
-      } else {
-        throw Exception('Failed to fetch image');
-      }
-    } catch (e) {
-      logger.log("Get Image Error: $e");
-      throw Exception('Failed to fetch image');
+  //     if (response.statusCode == 200) {
+  //       // Getting image data as bytes
+  //       Uint8List imageData = await response.stream.toBytes();
+  //       return imageData;
+  //     } else {
+  //       throw Exception('Failed to fetch image');
+  //     }
+  //   } catch (e) {
+  //     logger.log("Get Image Error: $e");
+  //     throw Exception('Failed to fetch image');
+  //   }
+  // }
+
+Future<Uint8List> getImageByFilename(String filename) async {
+  // Use the full URL as cache key for better reliability
+  final cacheKey = 'image_${Constants.baseUrl}/v1/product-image/$filename';
+  final cacheManager = DefaultCacheManager();
+
+  // 1. Try disk cache first
+  final cachedFile = await cacheManager.getFileFromCache(cacheKey);
+  if (cachedFile != null) {
+    final bytes = await cachedFile.file.readAsBytes();
+    if (bytes.isNotEmpty) {
+      logger.log('Loaded from cache: $filename (${bytes.length} bytes)');
+      return bytes;
     }
   }
 
-  //to handle cache
-// Future<Uint8List> getImageByFilename(String filename) async {
-//   final cacheKey = 'image_${filename.hashCode}';
-//   final cacheManager = DefaultCacheManager();
+  // 2. Network fetch if not in cache
+  final token = await SharedPrefLoggedinState.getAccessToken();
+  if (token == null) throw Exception("Not authenticated");
 
-//   // 1. Try disk cache
-//   final cachedFile = await cacheManager.getFileFromCache(cacheKey);
-//   if (cachedFile != null) {
-//     return await cachedFile.file.readAsBytes();
-//   }
+  logger.log('Fetching from network: $filename');
+  final response = await http.get(
+    Uri.parse("${Constants.baseUrl}/v1/product-image/$filename"),
+    headers: {'Authorization': 'Bearer $token'},
+  );
 
-//   // 2. Fetch from network
-//   final token = await SharedPrefLoggedinState.getAccessToken();
-//   if (token == null) throw Exception("Not authenticated");
+  if (response.statusCode != 200) {
+    throw Exception('Failed to fetch image: ${response.statusCode}');
+  }
 
-//   final response = await http.get(
-//     Uri.parse("${Constants.baseUrl}/v1/product-image/$filename"),
-//     headers: {
-//       'Accept': 'application/json',
-//       'Authorization': 'Bearer $token',
-//     },
-//   );
+  // 3. Compress and cache the image
+  final compressedBytes = await _compressImage(response.bodyBytes);
+  logger.log('Compressed ${response.bodyBytes.length} → ${compressedBytes.length} bytes');
 
-//   if (response.statusCode != 200) {
-//     throw Exception('Failed to fetch image');
-//   }
+  // Store in cache (only if compression succeeded)
+  if (compressedBytes.isNotEmpty) {
+    await cacheManager.putFile(cacheKey, compressedBytes);
+  } else {
+    logger.log('Compression failed, storing original');
+    await cacheManager.putFile(cacheKey, response.bodyBytes);
+  }
 
-//   final imageData = response.bodyBytes;
+  return compressedBytes.isNotEmpty ? compressedBytes : response.bodyBytes;
+}
 
-//   // 3. Optional: compress image (define _compressImage if needed)
-//   final compressed = await _compressImage(imageData);
+Future<Uint8List> _compressImage(Uint8List bytes) async {
+  try {
+    return await FlutterImageCompress.compressWithList(
+      bytes,
+      minWidth: 800,
+      minHeight: 800,
+      quality: 80,
+      format: CompressFormat.jpeg,
+    );
+  } catch (e) {
+    logger.log('Compression error: $e');
+    return bytes; // Return original if compression fails
+  }
+}
 
-//   // 4. Save to disk cache
-//   await cacheManager.putFile(cacheKey, compressed);
-
-//   return imageData;
-// }
-
-// Future<Uint8List> _compressImage(Uint8List bytes) async {
-//   return await compute((Uint8List data) async {
-//     return await FlutterImageCompress.compressWithList(
-//       data,
-//       minWidth: 200,
-//       minHeight: 200,
-//       quality: 80,
-//     );
-//   }, bytes);
-// }
 
 //get products by category
   Future<List<ProductDetails>> getProductsByCategory(
