@@ -170,8 +170,8 @@ class _AllOffersScreenState extends State<AllOffersScreen> {
                                                       
                                                       snapshot.data!,
                                                       fit: BoxFit.cover,
-                                                      cacheHeight: 100,
-                                                      cacheWidth: 100,
+                                                      cacheHeight: 150,
+                                                      cacheWidth: 150,
                                                     );
                                                   } else if (snapshot
                                                           .connectionState ==

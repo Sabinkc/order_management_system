@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
-import 'package:order_management_system/common/constants.dart';
+import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:order_management_system/features/my%20order/domain/switch_order_screen_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
+import 'dart:developer' as logger;
 
 class OrderHistoryTopCard extends StatelessWidget {
-  const OrderHistoryTopCard({super.key});
+  OrderHistoryTopCard({super.key});
+
+  final productApiService = ProductApiSevice();
 
   @override
   Widget build(BuildContext context) {
@@ -82,13 +86,39 @@ class OrderHistoryTopCard extends StatelessWidget {
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
-                                  child: Image.network(
-                                    "${Constants.imageStorageBaseUrl}/${order[0].products[0].imagePath}", // First item image
-                                    fit: BoxFit.cover,
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            Icon(Icons.broken_image),
-                                  ),
+                                  // child: Image.network(
+                                  //   "${Constants.imageStorageBaseUrl}/${order[0].products[0].imagePath}", // First item image
+                                  //   fit: BoxFit.cover,
+                                  //   errorBuilder:
+                                  //       (context, error, stackTrace) =>
+                                  //           Icon(Icons.broken_image),
+                                  // ),
+                                  child: FutureBuilder(
+                                      future:
+                                          productApiService.getImageByFilename(
+                                              order[0].products[0].imagePath),
+                                      builder: (context, snapshot) {
+                                        logger.log(
+                                            "top response: ${order[0].products[0].imagePath}");
+                                        if (snapshot.hasData) {
+                                          return Image.memory(
+                                            snapshot.data!,
+                                            fit: BoxFit.cover,
+                                            cacheHeight: 150,
+                                            cacheWidth: 150,
+                                          );
+                                        } else if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Shimmer.fromColors(
+                                              baseColor: Colors.grey[100]!,
+                                              highlightColor: Colors.white,
+                                              child: Container(
+                                                color: Colors.white,
+                                              ));
+                                        } else {
+                                          return Icon(Icons.broken_image);
+                                        }
+                                      }),
                                 ),
                               ),
                               SizedBox(width: 15),

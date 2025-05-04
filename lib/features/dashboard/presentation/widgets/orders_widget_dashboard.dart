@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/constants.dart';
+import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
 
+import 'package:shimmer/shimmer.dart';
+
 class OrdersWidgetDashboard extends StatelessWidget {
-  const OrdersWidgetDashboard({super.key});
+  OrdersWidgetDashboard({super.key});
+
+  final productApiService = ProductApiSevice();
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +56,36 @@ class OrdersWidgetDashboard extends StatelessWidget {
                                 width: 90,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
-                                  child: Image.network(
-                                    "${Constants.imageStorageBaseUrl}/${item.imagePath}",
-                                    fit: BoxFit.cover,
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            Icon(Icons.broken_image),
-                                  ),
+                                  // child: Image.network(
+                                  //   "${Constants.imageStorageBaseUrl}/${item.imagePath}",
+                                  //   fit: BoxFit.cover,
+                                  //   errorBuilder:
+                                  //       (context, error, stackTrace) =>
+                                  //           Icon(Icons.broken_image),
+                                  // ),
+                                  child: FutureBuilder(
+                                      future: productApiService
+                                          .getImageByFilename(item.imagePath),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Image.memory(
+                                            snapshot.data!,
+                                            fit: BoxFit.cover,
+                                            cacheHeight: 150,
+                                            cacheWidth: 150,
+                                          );
+                                        } else if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Shimmer.fromColors(
+                                              baseColor: Colors.grey[100]!,
+                                              highlightColor: Colors.white,
+                                              child: Container(
+                                                color: Colors.white,
+                                              ));
+                                        } else {
+                                          return Icon(Icons.broken_image);
+                                        }
+                                      }),
                                 ),
                               ),
                               SizedBox(

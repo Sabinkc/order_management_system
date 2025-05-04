@@ -739,62 +739,46 @@ class _AllProductScreenState extends State<AllProductScreen> {
                                                       topRight:
                                                           Radius.circular(8),
                                                     ),
-                                                    // child: CachedNetworkImage(
-                                                    //   maxHeightDiskCache: 100,
-                                                    //   maxWidthDiskCache: 100,
-                                                    //   memCacheHeight: 200,
-                                                    //   memCacheWidth: 200,
-                                                    //   imageUrl:
-                                                    //       product.imageUrl,
-                                                    //   // imageBuilder: (context,
-                                                    //   //     imageProvider) {
-                                                    //   //   logger.log(
-                                                    //   //       "Resolved image URL: ${product.imageUrl}");
-                                                    //   //   return Image(
-                                                    //   //       image:
-                                                    //   //           imageProvider);
-                                                    //   // },
-                                                    //   fit: BoxFit.cover,
-                                                    //   placeholder: (context,
-                                                    //           url) =>
-                                                    //       Shimmer.fromColors(
-                                                    //     baseColor:
-                                                    //         Colors.grey[300]!,
-                                                    //     highlightColor:
-                                                    //         Colors.grey[100]!,
-                                                    //     child: Container(
-                                                    //         color: Colors
-                                                    //             .grey[200]),
-                                                    //   ),
-                                                    //   errorWidget: (context,
-                                                    //           url, error) =>
-                                                    //       Icon(Icons
-                                                    //           .broken_image),
-                                                    // ),
-child: FutureBuilder(
-      future: productApiService.getImageByFilename(product.imageUrl),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          // Use MemoryImage directly with automatic memory caching
-          return Image.memory(
-            snapshot.data!,
-            fit: BoxFit.cover,
-            cacheHeight: 200,  // Optimize for grid display
-            cacheWidth: 200,
-          );
-        }
-        // Loading state
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
-            child: Container(color: Colors.white),
-          );
-        }
-        // Error state
-        return Icon(Icons.broken_image, size: 40);
-      },
-    ),
+
+                                                    child: FutureBuilder(
+                                                      future: productApiService
+                                                          .getImageByFilename(
+                                                              product.imageUrl),
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (snapshot.hasData) {
+                                                          // Use MemoryImage directly with automatic memory caching
+                                                          return Image.memory(
+                                                            snapshot.data!,
+                                                            fit: BoxFit.cover,
+                                                            cacheHeight:
+                                                                150, // Optimize for grid display
+                                                            cacheWidth: 150,
+                                                          );
+                                                        }
+                                                        // Loading state
+                                                        if (snapshot
+                                                                .connectionState ==
+                                                            ConnectionState
+                                                                .waiting) {
+                                                          return Shimmer
+                                                              .fromColors(
+                                                            baseColor: Colors
+                                                                .grey[300]!,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .grey[100]!,
+                                                            child: Container(
+                                                                color: Colors
+                                                                    .white),
+                                                          );
+                                                        }
+                                                        // Error state
+                                                        return Icon(
+                                                            Icons.broken_image,
+                                                            size: 40);
+                                                      },
+                                                    ),
                                                   ),
                                                 ),
                                                 const SizedBox(height: 15),
