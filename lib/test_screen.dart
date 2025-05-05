@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 
 class TestScreen extends StatelessWidget {
   const TestScreen({super.key});
@@ -13,7 +13,8 @@ class TestScreen extends StatelessWidget {
         children: [
           ElevatedButton(
               onPressed: () async {
-      
+                final productApiService = ProductApiSevice();
+                productApiService.clearCache();
               },
               child: Text("Press")),
           Center(child: Text("Test Screen")),

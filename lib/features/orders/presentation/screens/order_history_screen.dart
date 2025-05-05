@@ -73,6 +73,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Consumer<OrderScreenProvider>(
       builder: (context, orderScreenProvider, child) {
         return KeyboardDismisser(
@@ -257,27 +258,34 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                           child: Consumer<OrderScreenProvider>(
                             builder: (context, searchProvider, child) {
                               if (orderProvider.ordersBySandD.isEmpty) {
-                                return Center(
-                                    child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      MingCute.shopping_bag_1_line,
-                                      color: CommonColor.darkGreyColor,
-                                      weight: 0.5,
-                                      size: 100,
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Text(
-                                      "No orders found!",
-                                      style: TextStyle(
+                                return SingleChildScrollView(
+                                  physics: AlwaysScrollableScrollPhysics(),
+                                  child: SizedBox(
+                                    height: screenHeight * 0.6,
+                                    child: Center(
+                                        child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          MingCute.shopping_bag_1_line,
                                           color: CommonColor.darkGreyColor,
-                                          fontSize: 20),
-                                    ),
-                                  ],
-                                ));
+                                          weight: 0.5,
+                                          size: 100,
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          "No orders found!",
+                                          style: TextStyle(
+                                              color: CommonColor.darkGreyColor,
+                                              fontSize: 20),
+                                        ),
+                                      ],
+                                    )),
+                                  ),
+                                );
                               }
                               //filtered list displayed in listview
                               return ListView.builder(

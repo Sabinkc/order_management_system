@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -10,6 +11,8 @@ import 'package:order_management_system/features/dashboard/data/product_model.da
 import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
 import "package:http/http.dart" as http;
 import 'dart:developer' as logger;
+
+import 'package:path_provider/path_provider.dart';
 // import 'package:flutter/painting.dart';  // Provides imageCache
 
 class ProductApiSevice {
@@ -304,65 +307,93 @@ class ProductApiSevice {
   //   }
   // }
 
-Future<Uint8List> getImageByFilename(String filename) async {
-  // Use the full URL as cache key for better reliability
-  final cacheKey = 'image_${Constants.baseUrl}/v1/product-image/$filename';
-  final cacheManager = DefaultCacheManager();
+  Future<Uint8List> getImageByFilename(String filename) async {
+    // Use the full URL as cache key for better reliability
+    final cacheKey = 'image_${Constants.baseUrl}/v1/product-image/$filename';
+    final cacheManager = DefaultCacheManager();
 
-  // 1. Try disk cache first
-  final cachedFile = await cacheManager.getFileFromCache(cacheKey);
-  if (cachedFile != null) {
-    final bytes = await cachedFile.file.readAsBytes();
-    if (bytes.isNotEmpty) {
-      logger.log('Loaded from cache: $filename (${bytes.length} bytes)');
-      return bytes;
+    // 1. Try disk cache first
+    final cachedFile = await cacheManager.getFileFromCache(cacheKey);
+    if (cachedFile != null) {
+      final bytes = await cachedFile.file.readAsBytes();
+      if (bytes.isNotEmpty) {
+        logger.log('Loaded from cache: $filename (${bytes.length} bytes)');
+        return bytes;
+      }
+    }
+
+    // 2. Network fetch if not in cache
+    final token = await SharedPrefLoggedinState.getAccessToken();
+    if (token == null) throw Exception("Not authenticated");
+
+    logger.log('Fetching from network: $filename');
+    final response = await http.get(
+      Uri.parse("${Constants.baseUrl}/v1/product-image/$filename"),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to fetch image: ${response.statusCode}');
+    }
+
+    // 3. Compress and cache the image
+    final compressedBytes = await _compressImage(response.bodyBytes);
+    logger.log(
+        'Compressed ${response.bodyBytes.length} → ${compressedBytes.length} bytes');
+
+    // Store in cache (only if compression succeeded)
+    if (compressedBytes.isNotEmpty) {
+      await cacheManager.putFile(cacheKey, compressedBytes);
+    } else {
+      logger.log('Compression failed, storing original');
+      await cacheManager.putFile(cacheKey, response.bodyBytes);
+    }
+    final cacheSize = await calculateCacheSize();
+    logger.log(
+        'Total cache size: ${(cacheSize / (1024 * 1024)).toStringAsFixed(2)} MB');
+
+    return compressedBytes.isNotEmpty ? compressedBytes : response.bodyBytes;
+  }
+
+  Future<Directory> getCacheDirectory() async {
+    return await getTemporaryDirectory();
+  }
+
+  Future<int> calculateCacheSize() async {
+    final cacheDir = await getCacheDirectory();
+    int totalSize = 0;
+
+    if (await cacheDir.exists()) {
+      final files = cacheDir.listSync(recursive: true);
+      for (var file in files) {
+        if (file is File) {
+          totalSize += await file.length();
+        }
+      }
+    }
+
+    return totalSize;
+  }
+
+  Future<Uint8List> _compressImage(Uint8List bytes) async {
+    try {
+      return await FlutterImageCompress.compressWithList(
+        bytes,
+        minWidth: 800,
+        minHeight: 800,
+        quality: 80,
+        format: CompressFormat.jpeg,
+      );
+    } catch (e) {
+      logger.log('Compression error: $e');
+      return bytes; // Return original if compression fails
     }
   }
 
-  // 2. Network fetch if not in cache
-  final token = await SharedPrefLoggedinState.getAccessToken();
-  if (token == null) throw Exception("Not authenticated");
-
-  logger.log('Fetching from network: $filename');
-  final response = await http.get(
-    Uri.parse("${Constants.baseUrl}/v1/product-image/$filename"),
-    headers: {'Authorization': 'Bearer $token'},
-  );
-
-  if (response.statusCode != 200) {
-    throw Exception('Failed to fetch image: ${response.statusCode}');
+  Future<void> clearCache() async {
+    await DefaultCacheManager().emptyCache();
+    logger.log("cache cleaned");
   }
-
-  // 3. Compress and cache the image
-  final compressedBytes = await _compressImage(response.bodyBytes);
-  logger.log('Compressed ${response.bodyBytes.length} → ${compressedBytes.length} bytes');
-
-  // Store in cache (only if compression succeeded)
-  if (compressedBytes.isNotEmpty) {
-    await cacheManager.putFile(cacheKey, compressedBytes);
-  } else {
-    logger.log('Compression failed, storing original');
-    await cacheManager.putFile(cacheKey, response.bodyBytes);
-  }
-
-  return compressedBytes.isNotEmpty ? compressedBytes : response.bodyBytes;
-}
-
-Future<Uint8List> _compressImage(Uint8List bytes) async {
-  try {
-    return await FlutterImageCompress.compressWithList(
-      bytes,
-      minWidth: 800,
-      minHeight: 800,
-      quality: 80,
-      format: CompressFormat.jpeg,
-    );
-  } catch (e) {
-    logger.log('Compression error: $e');
-    return bytes; // Return original if compression fails
-  }
-}
-
 
 //get products by category
   Future<List<ProductDetails>> getProductsByCategory(
