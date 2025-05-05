@@ -34,4 +34,8 @@ class Constants {
       "https://oms.sysqube.com.np/api/v1/email/verification-notify";
         static final String verifyEmailUrl =
       "https://oms.sysqube.com.np/api/v1/email/verify";
+      static final String forgetPasswordOtpUrl = "https://oms.sysqube.com.np/api/v1/password/send-reset";
+       static final String forgetPasswordCheckCodeUrl = "https://oms.sysqube.com.np/api/v1/password/check-code";
+        static final String resetForgotternPassUrl = "https://oms.sysqube.com.np/api/v1/password/reset";
 }
+

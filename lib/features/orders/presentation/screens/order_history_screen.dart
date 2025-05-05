@@ -7,6 +7,7 @@ import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/simple_ui_provider.dart';
 import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
+import 'package:order_management_system/features/orders/presentation/screens/order_detail_screen.dart';
 import 'package:order_management_system/features/orders/presentation/screens/search_order_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -31,15 +32,17 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
       // if (orderProvider.ordersBySandD.isEmpty) {
       final simpleUiProvider =
           Provider.of<SimpleUiProvider>(context, listen: false);
-      orderProvider.clearFilters();
-      orderProvider.clearSearchKeyword();
-      simpleUiProvider.clearDateRange();
-      simpleUiProvider.clearFilter();
-      orderProvider.resetAllOrders();
-      await orderProvider.getOrderByStatusAndDate(
-          simpleUiProvider.selectedStatus,
-          simpleUiProvider.selectedStartDate,
-          simpleUiProvider.selectedEndDate);
+      if (orderProvider.ordersBySandD.isEmpty) {
+        orderProvider.clearFilters();
+        orderProvider.clearSearchKeyword();
+        simpleUiProvider.clearDateRange();
+        simpleUiProvider.clearFilter();
+        orderProvider.resetAllOrders();
+        await orderProvider.getOrderByStatusAndDate(
+            simpleUiProvider.selectedStatus,
+            simpleUiProvider.selectedStartDate,
+            simpleUiProvider.selectedEndDate);
+      }
       // }
     });
 
@@ -70,8 +73,6 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final Logger logger = Logger();
-
     return Consumer<OrderScreenProvider>(
       builder: (context, orderScreenProvider, child) {
         return KeyboardDismisser(
@@ -295,14 +296,22 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                                           vertical: 10),
                                       child: GestureDetector(
                                         onTap: () {
-                                          Provider.of<OrderScreenProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .switchInvoiceDetailPage();
-                                          Provider.of<OrderScreenProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .selectInvoiceKey(order.orderNo);
+                                          // Provider.of<OrderScreenProvider>(
+                                          //         context,
+                                          //         listen: false)
+                                          //     .switchInvoiceDetailPage();
+                                          // Provider.of<OrderScreenProvider>(
+                                          //         context,
+                                          //         listen: false)
+                                          //     .selectInvoiceKey(order.orderNo);
+
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      OrderDetailScreen(
+                                                          orderKey:
+                                                              order.orderNo)));
                                         },
                                         child: Container(
                                           padding: const EdgeInsets.symmetric(

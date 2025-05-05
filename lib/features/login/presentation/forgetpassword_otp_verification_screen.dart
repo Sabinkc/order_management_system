@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/common/utils.dart';
+import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/presentation/screens/forget_password_reset_screen.dart';
 import 'package:pinput/pinput.dart';
-
+import 'package:provider/provider.dart';
 
 class ForgetpasswordOtpVerificationScreen extends StatefulWidget {
-  const ForgetpasswordOtpVerificationScreen({super.key});
+  final String email;
+  const ForgetpasswordOtpVerificationScreen({super.key, required this.email});
 
   @override
   State<ForgetpasswordOtpVerificationScreen> createState() =>
@@ -49,15 +52,15 @@ class _EmailVerificationScreenState
             SizedBox(
               height: 10,
             ),
-      
-               Text(
-                "Please enter the forget password verification code sent to test@example.com",
-                style: TextStyle(
-                    color: CommonColor.darkGreyColor,
-                    fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-            
+
+            Text(
+              "Please enter the forget password verification code sent to ${widget.email}",
+              style: TextStyle(
+                  color: CommonColor.darkGreyColor,
+                  fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+
             SizedBox(
               height: 30,
             ),
@@ -99,18 +102,59 @@ class _EmailVerificationScreenState
                           borderRadius: BorderRadius.circular(8)),
                       backgroundColor: CommonColor.primaryColor),
                   onPressed: () async {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ForgetPasswordResetScreen()));
+                    if (pinController.text.length < 5) {
+                      Utilities.showCommonSnackBar(
+                          context, "Please input all the fileds!");
+                      return;
+                    }
+                    try {
+                      final authProvider =
+                          Provider.of<AuthProvider>(context, listen: false);
+
+                      final response = await authProvider.forgetPassCheckOtp(
+                          widget.email, pinController.text);
+
+                      if (response["success"] == true) {
+                        // String message = response["message"];
+                        if (context.mounted) {
+                          if (!context.mounted) {
+                            return;
+                          }
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ForgetPasswordResetScreen(email: widget.email,otp: pinController.text,)));
+                          // Utilities.showCommonSnackBar(context, message,
+                          //     durationMilliseconds: 1000);
+                        }
+                      } else {
+                        String message = response["message"];
+
+                        if (context.mounted) {
+                          Utilities.showCommonSnackBar(context, message);
+                        }
+                      }
+                    } catch (e) {
+                      if (context.mounted) {
+                        Utilities.showCommonSnackBar(context, e.toString());
+                      }
+                    }
                   },
-                  child: Text(
-                    "Continue",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                  )),
+                  child: Consumer<AuthProvider>(
+                      builder: (context, authProvider, child) {
+                    return authProvider.isForgetPasswordCheckOtpLoading == true
+                        ? CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : Text(
+                            "Continue",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          );
+                  })),
             ),
 
             SizedBox(

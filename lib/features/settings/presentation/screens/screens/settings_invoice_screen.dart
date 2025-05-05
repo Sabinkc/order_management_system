@@ -31,19 +31,19 @@ class _InvoiceScreenState extends State<SettingsInvoiceScreen> {
           Provider.of<SimpleUiProvider>(context, listen: false);
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
-      // if (productProvider.invoices.isEmpty) {
-      simpleUiProvider.clearInvoiceDateRange();
-      simpleUiProvider.clearInvoiceFilter();
-      if (!mounted) {
-        return;
-      }
+      if (productProvider.invoices.isEmpty) {
+        simpleUiProvider.clearInvoiceDateRange();
+        simpleUiProvider.clearInvoiceFilter();
+        if (!mounted) {
+          return;
+        }
 
-      await productProvider.getAllInvoice(
-          true,
-          simpleUiProvider.selectedInvoiceStatus,
-          simpleUiProvider.selectedInvoiceStartDate,
-          simpleUiProvider.selectedInvoiceEndDate);
-      // }
+        await productProvider.getAllInvoice(
+            true,
+            simpleUiProvider.selectedInvoiceStatus,
+            simpleUiProvider.selectedInvoiceStartDate,
+            simpleUiProvider.selectedInvoiceEndDate);
+      }
     });
     super.initState();
   }

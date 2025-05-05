@@ -89,4 +89,55 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  bool isForgetPasswordOtpLoading = false;
+  Future forgetPassSendOtp(String email) async {
+    isForgetPasswordOtpLoading = true;
+    notifyListeners();
+    try {
+      final response = await apiService.forgetPasswordOtp(email);
+      logger.log("authprovider response: $response");
+      return response;
+    } catch (e) {
+      logger.log("send otp error: $e");
+      rethrow;
+    } finally {
+      isForgetPasswordOtpLoading = false;
+      notifyListeners();
+    }
+  }
+
+  bool isForgetPasswordCheckOtpLoading = false;
+  Future forgetPassCheckOtp(String email, String otp) async {
+    isForgetPasswordCheckOtpLoading = true;
+    notifyListeners();
+    try {
+      final response = await apiService.checkForgetPassResetCode(email, otp);
+      // logger.log("authprovider response: $response");
+      return response;
+    } catch (e) {
+      logger.log("check otp error: $e");
+      rethrow;
+    } finally {
+      isForgetPasswordCheckOtpLoading = false;
+      notifyListeners();
+    }
+  }
+
+    bool isresetForgettenPasswordLoading = false;
+  Future resetForgottenPassword(String email,String newPassword, String otp) async {
+    isresetForgettenPasswordLoading = true;
+    notifyListeners();
+    try {
+      final response = await apiService.resetForgettenPassword(email, otp, newPassword);
+      // logger.log("authprovider response: $response");
+      return response;
+    } catch (e) {
+      logger.log("resetForgottenPassword error: $e");
+      rethrow;
+    } finally {
+      isresetForgettenPasswordLoading = false;
+      notifyListeners();
+    }
+  }
 }

@@ -8,6 +8,7 @@ class CommonTextfield extends StatelessWidget {
   final TextEditingController? controller;
   final void Function()? onSuffixPressed;
   final bool isObscure;
+  final bool isEnabled;
 
   const CommonTextfield({
     super.key,
@@ -17,11 +18,13 @@ class CommonTextfield extends StatelessWidget {
     this.controller,
     this.onSuffixPressed,
     this.isObscure = false,
+    this.isEnabled = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: isEnabled,
       obscureText: isObscure,
       controller: controller,
       decoration: InputDecoration(

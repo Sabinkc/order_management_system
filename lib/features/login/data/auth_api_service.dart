@@ -9,7 +9,7 @@ class AuthApiService {
 
   /// **Login Function**
   Future<Map<String, dynamic>> signup(
-     String name, String email, String password, String device) async {
+      String name, String email, String password, String device) async {
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ class AuthApiService {
     var request = http.Request('POST', Uri.parse(Constants.signupUrl));
 
     request.body = json.encode({
-      "name":name,
+      "name": name,
       "email": email,
       "password": password,
       "device": device,
@@ -61,8 +61,8 @@ class AuthApiService {
       };
     }
   }
-  
-    Future<Map<String, dynamic>> login(
+
+  Future<Map<String, dynamic>> login(
       String email, String password, String device) async {
     var headers = {
       'Accept': 'application/json',
@@ -114,8 +114,6 @@ class AuthApiService {
       };
     }
   }
-  
-
 
   /// **Logout Function**
   Future<bool> logout() async {
@@ -158,5 +156,137 @@ class AuthApiService {
   /// **Check if user is logged in**
   Future<bool> isUserLoggedIn() async {
     return await SharedPrefLoggedinState.getLoginState();
+  }
+
+  Future forgetPasswordOtp(String email) async {
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    };
+
+    var request =
+        http.Request('POST', Uri.parse(Constants.forgetPasswordOtpUrl));
+
+    request.body = json.encode({
+      "email": email,
+    });
+
+    request.headers.addAll(headers);
+
+    try {
+      http.StreamedResponse response = await request.send();
+      String responseBody = await response.stream.bytesToString();
+
+      logger.i("Response Status Code: ${response.statusCode}");
+      logger.i("Response Body: $responseBody");
+
+      Map<String, dynamic> jsonResponse = json.decode(responseBody);
+      logger.i("jsonResponse:$jsonResponse");
+
+      if (response.statusCode == 201) {
+        return {"success": true, "data": jsonResponse};
+      } else {
+        return {
+          "success": false,
+          "message": jsonResponse["message"] ?? "Sending OTP failed"
+        };
+      }
+    } catch (e) {
+      logger.e("Login Error: $e");
+      return {
+        "success": false,
+        "message": "Something went wrong. Please try again."
+      };
+    }
+  }
+
+  Future checkForgetPassResetCode(String email, String otp) async {
+    logger.i("passed email: $email, passed otp: $otp");
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    };
+
+    var request =
+        http.Request('POST', Uri.parse(Constants.forgetPasswordCheckCodeUrl));
+
+    request.body = json.encode({
+      "email": email,
+      "otp": otp,
+    });
+
+    request.headers.addAll(headers);
+
+    try {
+      http.StreamedResponse response = await request.send();
+      String responseBody = await response.stream.bytesToString();
+
+      logger.i("Response Status Code: ${response.statusCode}");
+      logger.i("Response Body: $responseBody");
+
+      Map<String, dynamic> jsonResponse = json.decode(responseBody);
+      logger.i("jsonResponse:$jsonResponse");
+
+      if (response.statusCode == 200) {
+        return {"success": true, "data": jsonResponse};
+      } else {
+        return {
+          "success": false,
+          "message": jsonResponse["message"] ?? "Check OTP failed"
+        };
+      }
+    } catch (e) {
+      logger.e("Login Error: $e");
+      return {
+        "success": false,
+        "message": "Something went wrong. Please try again."
+      };
+    }
+  }
+
+    Future resetForgettenPassword(String email, String otp, String newPassword) async {
+    // logger.i("passed email: $email, passed otp: $otp");
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    };
+
+    var request =
+        http.Request('POST', Uri.parse(Constants.resetForgotternPassUrl));
+
+    request.body = json.encode({
+      "email": email,
+      "password": newPassword,
+      "otp": otp,
+      
+    });
+
+    request.headers.addAll(headers);
+
+    try {
+      http.StreamedResponse response = await request.send();
+      String responseBody = await response.stream.bytesToString();
+
+      logger.i("Response Status Code: ${response.statusCode}");
+      logger.i("Response Body: $responseBody");
+
+      Map<String, dynamic> jsonResponse = json.decode(responseBody);
+      logger.i("jsonResponse:$jsonResponse");
+
+      if (response.statusCode == 200) {
+        return {"success": true, "data": jsonResponse};
+      } else {
+        return {
+          "success": false,
+          "message": jsonResponse["message"] ?? "Reset password failed"
+        };
+      }
+    } catch (e) {
+      logger.e("Login Error: $e");
+      return {
+        "success": false,
+        "message": "Something went wrong. Please try again."
+      };
+    }
   }
 }

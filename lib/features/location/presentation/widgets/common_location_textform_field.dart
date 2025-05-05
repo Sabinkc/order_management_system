@@ -6,16 +6,18 @@ class CommonLocationTextformField extends StatelessWidget {
   final String hintText;
   final TextInputType? keyboardType;
   final Color? fillColor;
+  final bool isEnabled;
   const CommonLocationTextformField(
       {super.key,
       this.controller,
       required this.hintText,
       this.keyboardType,
-      this.fillColor});
+      this.fillColor, this.isEnabled = true});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: isEnabled,
       keyboardType: keyboardType,
       controller: controller,
       decoration: InputDecoration(

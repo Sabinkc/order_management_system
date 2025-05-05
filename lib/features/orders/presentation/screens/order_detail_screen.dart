@@ -38,8 +38,9 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
             backgroundColor: CommonColor.primaryColor,
             leading: IconButton(
                 onPressed: () {
-                  Provider.of<OrderScreenProvider>(context, listen: false)
-                      .switchInvoiceDetailPage();
+                  // Provider.of<OrderScreenProvider>(context, listen: false)
+                  //     .switchInvoiceDetailPage();
+                  Navigator.pop(context);
                 },
                 icon: Icon(
                   Icons.arrow_back_ios,

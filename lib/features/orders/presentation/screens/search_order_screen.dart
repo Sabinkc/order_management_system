@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/constants.dart';
+import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SearchOrderScreen extends StatefulWidget {
   const SearchOrderScreen({super.key});
@@ -14,6 +16,7 @@ class SearchOrderScreen extends StatefulWidget {
 
 class _SearchOrderScreenState extends State<SearchOrderScreen> {
   final TextEditingController searchController = TextEditingController();
+  final productApiService = ProductApiSevice();
 
   @override
   void initState() {
@@ -240,17 +243,50 @@ class _SearchOrderScreenState extends State<SearchOrderScreen> {
                                                                   BorderRadius
                                                                       .circular(
                                                                           8),
+                                                              // child:
+                                                              //     Image.network(
+                                                              //   "${Constants.imageStorageBaseUrl}/${item.imagePath}",
+                                                              //   fit: BoxFit
+                                                              //       .cover,
+                                                              //   errorBuilder: (context,
+                                                              //           error,
+                                                              //           stackTrace) =>
+                                                              //       Icon(Icons
+                                                              //           .broken_image),
+                                                              // ),
                                                               child:
-                                                                  Image.network(
-                                                                "${Constants.imageStorageBaseUrl}/${item.imagePath}",
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                                errorBuilder: (context,
-                                                                        error,
-                                                                        stackTrace) =>
-                                                                    Icon(Icons
-                                                                        .broken_image),
-                                                              ),
+                                                                  FutureBuilder(
+                                                                      future: productApiService
+                                                                          .getImageByFilename(item
+                                                                              .imagePath),
+                                                                      builder:
+                                                                          (context,
+                                                                              snapshot) {
+                                                                        if (snapshot
+                                                                            .hasData) {
+                                                                          return Image
+                                                                              .memory(
+                                                                            snapshot.data!,
+                                                                            fit:
+                                                                                BoxFit.cover,
+                                                                            cacheHeight:
+                                                                                150,
+                                                                            cacheWidth:
+                                                                                150,
+                                                                          );
+                                                                        } else if (snapshot.connectionState ==
+                                                                            ConnectionState.waiting) {
+                                                                          return Shimmer.fromColors(
+                                                                              baseColor: Colors.grey[100]!,
+                                                                              highlightColor: Colors.white,
+                                                                              child: Container(
+                                                                                color: Colors.white,
+                                                                              ));
+                                                                        } else {
+                                                                          return Icon(
+                                                                              Icons.broken_image);
+                                                                        }
+                                                                      }),
                                                             ),
                                                           ),
                                                           SizedBox(width: 15),
