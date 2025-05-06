@@ -256,7 +256,7 @@ class _SearchOrderScreenState extends State<SearchOrderScreen> {
                                                               child:
                                                                   FutureBuilder(
                                                                       future: productApiService
-                                                                          .getImageByFilename(item
+                                                                          .getThumbnailByFilename(item
                                                                               .imagePath),
                                                                       builder:
                                                                           (context,
@@ -269,9 +269,9 @@ class _SearchOrderScreenState extends State<SearchOrderScreen> {
                                                                             fit:
                                                                                 BoxFit.cover,
                                                                             cacheHeight:
-                                                                                150,
+                                                                                120,
                                                                             cacheWidth:
-                                                                                150,
+                                                                                120,
                                                                           );
                                                                         } else if (snapshot.connectionState ==
                                                                             ConnectionState.waiting) {

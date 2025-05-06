@@ -321,7 +321,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                                       ),
                                                       child: FutureBuilder(
                                                           future: productApiService
-                                                              .getImageByFilename(
+                                                              .getThumbnailByFilename(
                                                                   product
                                                                       .imageUrl),
                                                           builder: (context,
@@ -334,8 +334,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                                                 fit: BoxFit
                                                                     .cover,
                                                                 cacheHeight:
-                                                                    150,
-                                                                cacheWidth: 150,
+                                                                    120,
+                                                                cacheWidth: 120,
                                                               );
                                                             } else if (snapshot
                                                                     .connectionState ==

@@ -268,48 +268,50 @@ class ProductApiSevice {
   // }
 
 // Function to get image as response
-  // Future<Uint8List> getImageByFilename(String filename) async {
-  //   // Get the saved token from SharedPreferences
-  //   String? token = await SharedPrefLoggedinState.getAccessToken();
-
-  //   // If no token is found, return an error
-  //   if (token == null) {
-  //     throw Exception("User not authenticated. Please log in first.");
-  //   }
-
-  //   // Headers with Authorization token
-  //   var headers = {
-  //     'Accept': 'application/json',
-  //     'Authorization': 'Bearer $token', // Adding token in the header
-  //   };
-
-  //   // Constructing the URL to fetch image by filename
-  //   var url = Uri.parse("${Constants.baseUrl}/v1/product-image/$filename");
-
-  //   var request = http.Request('GET', url);
-  //   request.headers.addAll(headers);
-
-  //   try {
-  //     http.StreamedResponse response = await request.send();
-
-  //     // logger.log("Response Status Code: ${response.statusCode}");
-
-  //     if (response.statusCode == 200) {
-  //       // Getting image data as bytes
-  //       Uint8List imageData = await response.stream.toBytes();
-  //       return imageData;
-  //     } else {
-  //       throw Exception('Failed to fetch image');
-  //     }
-  //   } catch (e) {
-  //     logger.log("Get Image Error: $e");
-  //     throw Exception('Failed to fetch image');
-  //   }
-  // }
-
   Future<Uint8List> getImageByFilename(String filename) async {
+    // Get the saved token from SharedPreferences
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+
+    // If no token is found, return an error
+    if (token == null) {
+      throw Exception("User not authenticated. Please log in first.");
+    }
+
+    // Headers with Authorization token
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token', // Adding token in the header
+    };
+
+    // Constructing the URL to fetch image by filename
+    var url =
+        Uri.parse("${Constants.baseUrl}/v1/storage/img/products/$filename");
+
+    var request = http.Request('GET', url);
+    request.headers.addAll(headers);
+
+    try {
+      http.StreamedResponse response = await request.send();
+
+      // logger.log("Response Status Code: ${response.statusCode}");
+
+      if (response.statusCode == 200) {
+        // Getting image data as bytes
+        Uint8List imageData = await response.stream.toBytes();
+        return imageData;
+      } else {
+        throw Exception('Failed to fetch image');
+      }
+    } catch (e) {
+      logger.log("Get Image Error: $e");
+      throw Exception('Failed to fetch image');
+    }
+  }
+
+  Future<Uint8List> getThumbnailByFilename(String filename) async {
     // Use the full URL as cache key for better reliability
-    final cacheKey = 'image_${Constants.baseUrl}/v1/product-image/$filename';
+    final cacheKey =
+        'image_${Constants.baseUrl}/v1/storage/img/products/thumbnails/$filename';
     final cacheManager = DefaultCacheManager();
 
     // 1. Try disk cache first
@@ -328,7 +330,58 @@ class ProductApiSevice {
 
     logger.log('Fetching from network: $filename');
     final response = await http.get(
-      Uri.parse("${Constants.baseUrl}/v1/product-image/$filename"),
+      Uri.parse(
+          "${Constants.baseUrl}/v1/storage/img/products/thumbnails/$filename"),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to fetch image: ${response.statusCode}');
+    }
+
+    // 3. Compress and cache the image
+    final compressedBytes = await _compressImage(response.bodyBytes);
+    logger.log(
+        'Compressed ${response.bodyBytes.length} → ${compressedBytes.length} bytes');
+
+    // Store in cache (only if compression succeeded)
+    if (compressedBytes.isNotEmpty) {
+      await cacheManager.putFile(cacheKey, compressedBytes);
+    } else {
+      logger.log('Compression failed, storing original');
+      await cacheManager.putFile(cacheKey, response.bodyBytes);
+    }
+    final cacheSize = await calculateCacheSize();
+    logger.log(
+        'Total cache size: ${(cacheSize / (1024 * 1024)).toStringAsFixed(2)} MB');
+
+    return compressedBytes.isNotEmpty ? compressedBytes : response.bodyBytes;
+  }
+
+  Future<Uint8List> getCategoryImage(String filename) async {
+    // Use the full URL as cache key for better reliability
+    final cacheKey =
+        'image_${Constants.baseUrl}/v1/storage/img/product-categories/$filename';
+    final cacheManager = DefaultCacheManager();
+
+    // 1. Try disk cache first
+    final cachedFile = await cacheManager.getFileFromCache(cacheKey);
+    if (cachedFile != null) {
+      final bytes = await cachedFile.file.readAsBytes();
+      if (bytes.isNotEmpty) {
+        logger.log('Loaded from cache: $filename (${bytes.length} bytes)');
+        return bytes;
+      }
+    }
+
+    // 2. Network fetch if not in cache
+    final token = await SharedPrefLoggedinState.getAccessToken();
+    if (token == null) throw Exception("Not authenticated");
+
+    logger.log('Fetching from network: $filename');
+    final response = await http.get(
+      Uri.parse(
+          "${Constants.baseUrl}/v1/storage/img/product-categories/$filename"),
       headers: {'Authorization': 'Bearer $token'},
     );
 
@@ -377,13 +430,11 @@ class ProductApiSevice {
 
   Future<Uint8List> _compressImage(Uint8List bytes) async {
     try {
-      return await FlutterImageCompress.compressWithList(
-        bytes,
-        minWidth: 800,
-        minHeight: 800,
-        quality: 80,
-        format: CompressFormat.jpeg,
-      );
+      return await FlutterImageCompress.compressWithList(bytes,
+          minWidth: 800,
+          minHeight: 800,
+          quality: 80,
+          format: CompressFormat.webp);
     } catch (e) {
       logger.log('Compression error: $e');
       return bytes; // Return original if compression fails
@@ -602,12 +653,28 @@ class ProductApiSevice {
 
       for (var categoryJson in categoriesJson) {
         String id = categoryJson['id'];
+        // categories.add(
+        //   ProductCategory(
+        //     id: int.parse(id),
+        //     name: categoryJson['name'],
+        //     productsCount: categoryJson['productsCount'],
+        //     categoryImage: categoryJson["image"] ?? "no image",
+        //     subCategories: categoryJson["subcategories"] ?? [],
+        //   ),
         categories.add(ProductCategory(
           id: int.parse(id),
           name: categoryJson['name'],
           productsCount: categoryJson['productsCount'],
-          categoryImage: categoryJson["image"] ??
-              "https://media.istockphoto.com/vectors/avatar-photo-placeholder-icon-design-vector-id1221380217?k=20&m=1221380217&s=612x612&w=0&h=avdFJ5PNo-CSkbUZzQ0Xm8h3u5BovGfSNDrfRicPDfY=",
+          categoryImage: categoryJson["image"] ?? "no image",
+          subCategories: (categoryJson["subcategories"] as List?)
+                  ?.map((subCatJson) => SubCategory(
+                        id: int.parse(subCatJson['id']),
+                        name: subCatJson['name'],
+                        productsCount: subCatJson['productsCount'],
+                        categoryImage: subCatJson['image'] ?? "no image",
+                      ))
+                  .toList() ??
+              [], // Fallback to empty list
         ));
       }
       logger.log("get all categories without all api called");
@@ -671,46 +738,46 @@ class ProductApiSevice {
     }
   }
 
-// Function to get image as response
-  Future<Uint8List> getCategoryImageByFilename(String filename) async {
-    // Get the saved token from SharedPreferences
-    String? token = await SharedPrefLoggedinState.getAccessToken();
+// // Function to get image as response
+//   Future<Uint8List> getCategoryImageByFilename(String filename) async {
+//     // Get the saved token from SharedPreferences
+//     String? token = await SharedPrefLoggedinState.getAccessToken();
 
-    // If no token is found, return an error
-    if (token == null) {
-      throw Exception("User not authenticated. Please log in first.");
-    }
+//     // If no token is found, return an error
+//     if (token == null) {
+//       throw Exception("User not authenticated. Please log in first.");
+//     }
 
-    // Headers with Authorization token
-    var headers = {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token', // Adding token in the header
-    };
+//     // Headers with Authorization token
+//     var headers = {
+//       'Accept': 'application/json',
+//       'Authorization': 'Bearer $token', // Adding token in the header
+//     };
 
-    // Constructing the URL to fetch image by filename
-    var url =
-        Uri.parse("${Constants.baseUrl}/v1/product-categories/img/$filename");
+//     // Constructing the URL to fetch image by filename
+//     var url =
+//         Uri.parse("${Constants.baseUrl}/v1/product-categories/img/$filename");
 
-    var request = http.Request('GET', url);
-    request.headers.addAll(headers);
+//     var request = http.Request('GET', url);
+//     request.headers.addAll(headers);
 
-    try {
-      http.StreamedResponse response = await request.send();
+//     try {
+//       http.StreamedResponse response = await request.send();
 
-      logger.log("Response Status Code: ${response.statusCode}");
+//       logger.log("Response Status Code: ${response.statusCode}");
 
-      if (response.statusCode == 200) {
-        // Getting image data as bytes
-        Uint8List imageData = await response.stream.toBytes();
-        return imageData;
-      } else {
-        throw Exception('Failed to fetch image');
-      }
-    } catch (e) {
-      logger.log("Get Image Error: $e");
-      throw Exception('Failed to fetch image');
-    }
-  }
+//       if (response.statusCode == 200) {
+//         // Getting image data as bytes
+//         Uint8List imageData = await response.stream.toBytes();
+//         return imageData;
+//       } else {
+//         throw Exception('Failed to fetch image');
+//       }
+//     } catch (e) {
+//       logger.log("Get Image Error: $e");
+//       throw Exception('Failed to fetch image');
+//     }
+//   }
 
   Future<Map<String, dynamic>> createOrders(
       int shippingLocationId, List<Map<String, dynamic>> orders) async {

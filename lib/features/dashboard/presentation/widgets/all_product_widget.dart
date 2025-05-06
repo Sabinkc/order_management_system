@@ -15,7 +15,6 @@ class AllProductWidget extends StatelessWidget {
 
   final productApiService = ProductApiSevice();
 
-
   @override
   Widget build(BuildContext context) {
     // final screenHeight = MediaQuery.of(context).size.height;
@@ -143,15 +142,15 @@ class AllProductWidget extends StatelessWidget {
                                           // ),
                                           child: FutureBuilder(
                                               future: productApiService
-                                                  .getImageByFilename(
+                                                  .getThumbnailByFilename(
                                                       product.imageUrl),
                                               builder: (context, snapshot) {
                                                 if (snapshot.hasData) {
                                                   return Image.memory(
                                                     snapshot.data!,
                                                     fit: BoxFit.cover,
-                                                    cacheHeight: 150,
-                                                    cacheWidth: 150,
+                                                    cacheHeight: 120,
+                                                    cacheWidth: 120,
                                                   );
                                                 } else if (snapshot
                                                         .connectionState ==
@@ -169,8 +168,7 @@ class AllProductWidget extends StatelessWidget {
                                                       Icons.broken_image);
                                                 }
                                               }),
-
-                                ),
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(height: 15),

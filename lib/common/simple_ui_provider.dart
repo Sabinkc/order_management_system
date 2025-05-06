@@ -89,4 +89,11 @@ class SimpleUiProvider extends ChangeNotifier {
     carouselIndex=0;
     notifyListeners();
    }
+
+   int selectedSubCategoryIndex = 0;
+
+   void updateSelectedCategoryIndex(int index){
+    selectedSubCategoryIndex = index;
+    notifyListeners();
+   }
 }

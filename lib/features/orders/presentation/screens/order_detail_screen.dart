@@ -149,7 +149,7 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                                                 // ),
                                                 child: FutureBuilder(
                                                     future: productApiService
-                                                        .getImageByFilename(
+                                                        .getThumbnailByFilename(
                                                             item.imagePath),
                                                     builder:
                                                         (context, snapshot) {
@@ -157,8 +157,8 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                                                         return Image.memory(
                                                           snapshot.data!,
                                                           fit: BoxFit.cover,
-                                                          cacheHeight: 150,
-                                                          cacheWidth: 150,
+                                                          cacheHeight: 120,
+                                                          cacheWidth: 120,
                                                         );
                                                       } else if (snapshot
                                                               .connectionState ==

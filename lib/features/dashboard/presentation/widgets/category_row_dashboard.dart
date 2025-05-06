@@ -7,26 +7,15 @@ import 'package:order_management_system/features/dashboard/presentation/screens/
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
 
-
+import 'package:shimmer/shimmer.dart';
 
 class CategoryRowDashboard extends StatelessWidget {
-  const CategoryRowDashboard({super.key});
+  CategoryRowDashboard({super.key});
+
+  final productApiSevice = ProductApiSevice();
 
   @override
   Widget build(BuildContext context) {
-    // final screenHeight = MediaQuery.of(context).size.height;
-
-    // List categoryImages = [
-    //   "assets/images/electronic_c.png",
-    //   "assets/images/clothing_c.png",
-    //   "assets/images/furniture_c.png",
-    //   "assets/images/grocery_c.png",
-    //   "assets/images/stationary_c.png",
-    //   "assets/images/books_c.png",
-    //   "assets/images/toys_c.png",
-    //   "assets/images/sports_c.png",
-    //   "assets/images/automobile_c.png"
-    // ];
     return Padding(
       padding: const EdgeInsets.only(top: 15, left: 20, right: 20),
       child: Column(
@@ -81,10 +70,6 @@ class CategoryRowDashboard extends StatelessWidget {
                             productProvider.productCategoryWithoutAll.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          final productApiService = ProductApiSevice();
-                          productApiService.getCategoryImageByFilename(
-                              productProvider.productCategoryWithoutAll[index]
-                                  .categoryImage);
                           logger.log(
                               "${productProvider.productCategoryWithoutAll[index].categoryImage}");
                           return Padding(
@@ -103,7 +88,7 @@ class CategoryRowDashboard extends StatelessWidget {
                                                       category: productProvider
                                                           .productCategoryWithoutAll[
                                                               index]
-                                                          .name,
+                                                          ,
                                                       index: productProvider
                                                           .productCategoryWithoutAll[
                                                               index]
@@ -141,30 +126,37 @@ class CategoryRowDashboard extends StatelessWidget {
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(50),
-                                            child: Image.asset(
-                                              "assets/images/profile.jpg",
-                                              fit: BoxFit.cover,
-                                            ),
-                                            // child: CachedNetworkImage(
-                                            //   maxHeightDiskCache: 100,
-                                            //   maxWidthDiskCache: 100,
-                                            //   memCacheHeight: 200,
-                                            //   memCacheWidth: 200,
-                                            //   imageUrl:
-                                            //       "${Constants.baseUrl}/v1/product-categories/img/${productProvider.productCategoryWithoutAll[index].id}",
-                                            //   fit: BoxFit.cover,
-                                            //   placeholder: (context, url) =>
-                                            //       Shimmer.fromColors(
-                                            //     baseColor: Colors.grey[300]!,
-                                            //     highlightColor:
-                                            //         Colors.grey[100]!,
-                                            //     child: Container(
-                                            //         color: Colors.grey[200]),
-                                            //   ),
-                                            //   errorWidget:
-                                            //       (context, url, error) =>
-                                            //           Icon(Icons.broken_image),
-                                            // ),
+                                            child: FutureBuilder(
+                                                future: productApiSevice
+                                                    .getCategoryImage(
+                                                        productProvider
+                                                            .productCategoryWithoutAll[
+                                                                index]
+                                                            .categoryImage),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.hasData) {
+                                                    return Image.memory(
+                                                      snapshot.data!,
+                                                      fit: BoxFit.cover,
+                                                      cacheHeight: 120,
+                                                      cacheWidth: 120,
+                                                    );
+                                                  } else if (snapshot
+                                                          .connectionState ==
+                                                      ConnectionState.waiting) {
+                                                    return Shimmer.fromColors(
+                                                        baseColor:
+                                                            Colors.grey[100]!,
+                                                        highlightColor:
+                                                            Colors.white,
+                                                        child: Container(
+                                                          color: Colors.white,
+                                                        ));
+                                                  } else {
+                                                    return Icon(
+                                                        Icons.broken_image);
+                                                  }
+                                                }),
                                           ),
                                         ),
                                       )),

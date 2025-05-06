@@ -1,26 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/features/dashboard/data/product_api_sevice.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/category_detail_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class AllCategoriesScreen extends StatelessWidget {
-  const AllCategoriesScreen({super.key});
+  AllCategoriesScreen({super.key});
+
+  final productApiService = ProductApiSevice();
 
   @override
   Widget build(BuildContext context) {
-  // List categoryImages = [
-    //   "assets/images/electronic_c.png",
-    //   "assets/images/clothing_c.png",
-    //   "assets/images/furniture_c.png",
-    //   "assets/images/grocery_c.png",
-    //   "assets/images/stationary_c.png",
-    //   "assets/images/books_c.png",
-    //   "assets/images/toys_c.png",
-    //   "assets/images/sports_c.png",
-    //   "assets/images/automobile_c.png"
-    // ];
-
     return Scaffold(
       backgroundColor: CommonColor.scaffoldbackgroundColor,
       appBar: AppBar(
@@ -72,9 +64,8 @@ class AllCategoriesScreen extends StatelessWidget {
                                       builder: (context) =>
                                           CategoryDetailScreen(
                                             category: productProvider
-                                                .productCategoryWithoutAll[
-                                                    index]
-                                                .name,
+                                                    .productCategoryWithoutAll[
+                                                index],
                                             index: productProvider
                                                 .productCategoryWithoutAll[
                                                     index]
@@ -113,12 +104,33 @@ class AllCategoriesScreen extends StatelessWidget {
                                 //   overflow: TextOverflow.ellipsis,
                                 // )),
                                 child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: Image.asset(
-                                      "assets/images/profile.jpg",
-                                      // categoryImages[index],
-                                      fit: BoxFit.cover,
-                                    )),
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: FutureBuilder(
+                                      future: productApiService
+                                          .getCategoryImage(productProvider
+                                              .productCategoryWithoutAll[index]
+                                              .categoryImage),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Image.memory(
+                                            snapshot.data!,
+                                            fit: BoxFit.cover,
+                                            cacheHeight: 120,
+                                            cacheWidth: 120,
+                                          );
+                                        } else if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Shimmer.fromColors(
+                                              baseColor: Colors.grey[100]!,
+                                              highlightColor: Colors.white,
+                                              child: Container(
+                                                color: Colors.white,
+                                              ));
+                                        } else {
+                                          return Icon(Icons.broken_image);
+                                        }
+                                      }),
+                                ),
                               ),
                             )),
                         SizedBox(

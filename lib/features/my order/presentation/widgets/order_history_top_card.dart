@@ -95,7 +95,7 @@ class OrderHistoryTopCard extends StatelessWidget {
                                   // ),
                                   child: FutureBuilder(
                                       future:
-                                          productApiService.getImageByFilename(
+                                          productApiService.getThumbnailByFilename(
                                               order[0].products[0].imagePath),
                                       builder: (context, snapshot) {
                                         logger.log(
@@ -104,8 +104,8 @@ class OrderHistoryTopCard extends StatelessWidget {
                                           return Image.memory(
                                             snapshot.data!,
                                             fit: BoxFit.cover,
-                                            cacheHeight: 150,
-                                            cacheWidth: 150,
+                                            cacheHeight: 120,
+                                            cacheWidth: 120,
                                           );
                                         } else if (snapshot.connectionState ==
                                             ConnectionState.waiting) {

@@ -162,7 +162,7 @@ class _AllOffersScreenState extends State<AllOffersScreen> {
                                                 topRight: Radius.circular(8)),
                                             child: FutureBuilder(
                                                 future: productApiService
-                                                    .getImageByFilename(
+                                                    .getThumbnailByFilename(
                                                         offerProduct.imageUrl),
                                                 builder: (context, snapshot) {
                                                   if (snapshot.hasData) {

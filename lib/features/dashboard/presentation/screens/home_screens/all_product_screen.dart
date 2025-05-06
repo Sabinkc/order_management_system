@@ -742,7 +742,7 @@ class _AllProductScreenState extends State<AllProductScreen> {
 
                                                     child: FutureBuilder(
                                                       future: productApiService
-                                                          .getImageByFilename(
+                                                          .getThumbnailByFilename(
                                                               product.imageUrl),
                                                       builder:
                                                           (context, snapshot) {
@@ -752,8 +752,8 @@ class _AllProductScreenState extends State<AllProductScreen> {
                                                             snapshot.data!,
                                                             fit: BoxFit.cover,
                                                             cacheHeight:
-                                                                150, // Optimize for grid display
-                                                            cacheWidth: 150,
+                                                                120, // Optimize for grid display
+                                                            cacheWidth: 120,
                                                           );
                                                         }
                                                         // Loading state

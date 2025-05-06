@@ -123,7 +123,7 @@ class OfferWidget extends StatelessWidget {
                                                   topLeft: Radius.circular(8),
                                                   topRight: Radius.circular(8)),
                                               child: FutureBuilder(
-                                                future: productApiSevice.getImageByFilename(offerProduct.imageUrl),
+                                                future: productApiSevice.getThumbnailByFilename(offerProduct.imageUrl),
                                                 builder: (context, snapshot) {
                                                   if (snapshot.hasData) {
                                                     return Image.memory(

@@ -20,6 +20,7 @@ class ProductProvider extends ChangeNotifier {
       ProductCategory(
           id: 0,
           name: "All",
+          subCategories: [],
           productsCount: product.length,
           categoryImage: "not availiable"),
       ...response
@@ -39,7 +40,7 @@ class ProductProvider extends ChangeNotifier {
     final response = await _service.getProductCategories();
     productCategoryWithoutAll = response;
     isCategoryWithoutallLoading = false;
-    // logger.log(productCategoryWithoutAll.toString());
+    logger.log("product categories with out all: ${productCategoryWithoutAll.toString()}");
     notifyListeners();
   }
 

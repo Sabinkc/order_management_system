@@ -65,14 +65,14 @@ class OrdersWidgetDashboard extends StatelessWidget {
                                   // ),
                                   child: FutureBuilder(
                                       future: productApiService
-                                          .getImageByFilename(item.imagePath),
+                                          .getThumbnailByFilename(item.imagePath),
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
                                           return Image.memory(
                                             snapshot.data!,
                                             fit: BoxFit.cover,
-                                            cacheHeight: 150,
-                                            cacheWidth: 150,
+                                            cacheHeight: 120,
+                                            cacheWidth: 120,
                                           );
                                         } else if (snapshot.connectionState ==
                                             ConnectionState.waiting) {

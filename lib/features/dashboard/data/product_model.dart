@@ -67,8 +67,29 @@ class ProductCategory {
   final String name;
   final int productsCount;
   final String categoryImage;
+  final List<SubCategory> subCategories;
 
   ProductCategory({
+    required this.id,
+    required this.name,
+    required this.productsCount,
+    required this.categoryImage,
+    required this.subCategories,
+  });
+
+  @override
+  String toString() {
+    return 'ProductCategory(id: $id, name: $name, productsCount: $productsCount), categoryImage: $categoryImage, subCategories: $subCategories';
+  }
+}
+
+class SubCategory {
+  final int id;
+  final String name;
+  final int productsCount;
+  final String categoryImage;
+
+  SubCategory({
     required this.id,
     required this.name,
     required this.productsCount,
@@ -77,7 +98,7 @@ class ProductCategory {
 
   @override
   String toString() {
-    return 'ProductCategory(id: $id, name: $name, productsCount: $productsCount), categoryImage: $categoryImage';
+    return 'SubCategory(id: $id, name: $name, productsCount: $productsCount), categoryImage: $categoryImage';
   }
 }
 
