@@ -95,7 +95,7 @@ class ProductApiSevice {
       if (response.statusCode == 200 && jsonResponse["success"]) {
         List<dynamic> productJson = jsonResponse["data"];
         List<ProductDetails> products = [];
-        logger.log("get all products api called");
+        // logger.log("get all products api called");
 
         for (var product in productJson) {
           // Safely handle unitImages
@@ -114,6 +114,72 @@ class ProductApiSevice {
           products.add(ProductDetails(
             name: product["name"] ?? "No name",
             description: product["description"] ?? "Description not available",
+            categoryName: product["category"]["name"] ?? "Uncategorized",
+            stockQuantity: product["unitStock"] ?? 0,
+            price: price,
+            isAvailable: product["isAvailable"] ?? false,
+            imageUrl: imageUrl ?? "default_image_url", // Fallback if no image
+            sku: product["sku"] ?? "N/A",
+            images: product["unitImages"] ?? [], // Ensure this is never null
+          ));
+        }
+
+        // logger.log("get all products api success");
+        return products;
+      } else {
+        throw Exception(jsonResponse['message'] ?? 'Failed to fetch products');
+      }
+    } catch (e) {
+      logger.log("Get Products Error: $e");
+      throw Exception('Failed to fetch products: ${e.toString()}');
+    }
+  }
+
+  Future<List<ProductDetails>> getAllProductsinJapanese(
+      String s, int page) async {
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+    if (token == null) {
+      throw Exception("User not authenticated. Please log in first.");
+    }
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    var url = Uri.parse("${Constants.baseUrl}/v1/products?s=$s&page=$page");
+    var request = http.Request('GET', url);
+    request.headers.addAll(headers);
+
+    try {
+      http.StreamedResponse response = await request.send();
+      String responseBody = await response.stream.bytesToString();
+      Map<String, dynamic> jsonResponse = json.decode(responseBody);
+
+      if (response.statusCode == 200 && jsonResponse["success"]) {
+        List<dynamic> productJson = jsonResponse["data"];
+        List<ProductDetails> products = [];
+        // logger.log("get all products api called");
+
+        for (var product in productJson) {
+          // Safely handle unitImages
+          String? imageUrl;
+          if (product["unitImages"] != null &&
+              product["unitImages"].isNotEmpty) {
+            imageUrl = product["unitImages"][0];
+          }
+
+          // Safely parse unitPrice
+          double price = 0.0;
+          if (product["unitPrice"] != null) {
+            price = double.tryParse(product["unitPrice"].toString()) ?? 0.0;
+          }
+
+          products.add(ProductDetails(
+            name: product["japaneseName"] ?? "No name",
+            description:
+                product["japaneseDescription"] ?? "Description not available",
             categoryName: product["category"]["name"] ?? "Uncategorized",
             stockQuantity: product["unitStock"] ?? 0,
             price: price,
@@ -319,7 +385,7 @@ class ProductApiSevice {
     if (cachedFile != null) {
       final bytes = await cachedFile.file.readAsBytes();
       if (bytes.isNotEmpty) {
-        logger.log('Loaded from cache: $filename (${bytes.length} bytes)');
+        // logger.log('Loaded from cache: $filename (${bytes.length} bytes)');
         return bytes;
       }
     }
@@ -328,7 +394,7 @@ class ProductApiSevice {
     final token = await SharedPrefLoggedinState.getAccessToken();
     if (token == null) throw Exception("Not authenticated");
 
-    logger.log('Fetching from network: $filename');
+    // logger.log('Fetching from network: $filename');
     final response = await http.get(
       Uri.parse(
           "${Constants.baseUrl}/v1/storage/img/products/thumbnails/$filename"),
@@ -341,19 +407,19 @@ class ProductApiSevice {
 
     // 3. Compress and cache the image
     final compressedBytes = await _compressImage(response.bodyBytes);
-    logger.log(
-        'Compressed ${response.bodyBytes.length} → ${compressedBytes.length} bytes');
+    // logger.log(
+    // 'Compressed ${response.bodyBytes.length} → ${compressedBytes.length} bytes');
 
     // Store in cache (only if compression succeeded)
     if (compressedBytes.isNotEmpty) {
       await cacheManager.putFile(cacheKey, compressedBytes);
     } else {
-      logger.log('Compression failed, storing original');
+      // logger.log('Compression failed, storing original');
       await cacheManager.putFile(cacheKey, response.bodyBytes);
     }
-    final cacheSize = await calculateCacheSize();
-    logger.log(
-        'Total cache size: ${(cacheSize / (1024 * 1024)).toStringAsFixed(2)} MB');
+    // final cacheSize = await calculateCacheSize();
+    // logger.log(
+    // 'Total cache size: ${(cacheSize / (1024 * 1024)).toStringAsFixed(2)} MB');
 
     return compressedBytes.isNotEmpty ? compressedBytes : response.bodyBytes;
   }
@@ -369,7 +435,7 @@ class ProductApiSevice {
     if (cachedFile != null) {
       final bytes = await cachedFile.file.readAsBytes();
       if (bytes.isNotEmpty) {
-        logger.log('Loaded from cache: $filename (${bytes.length} bytes)');
+        // logger.log('Loaded from cache: $filename (${bytes.length} bytes)');
         return bytes;
       }
     }
@@ -378,7 +444,7 @@ class ProductApiSevice {
     final token = await SharedPrefLoggedinState.getAccessToken();
     if (token == null) throw Exception("Not authenticated");
 
-    logger.log('Fetching from network: $filename');
+    // logger.log('Fetching from network: $filename');
     final response = await http.get(
       Uri.parse(
           "${Constants.baseUrl}/v1/storage/img/product-categories/$filename"),
@@ -391,19 +457,19 @@ class ProductApiSevice {
 
     // 3. Compress and cache the image
     final compressedBytes = await _compressImage(response.bodyBytes);
-    logger.log(
-        'Compressed ${response.bodyBytes.length} → ${compressedBytes.length} bytes');
+    // logger.log(
+    // 'Compressed ${response.bodyBytes.length} → ${compressedBytes.length} bytes');
 
     // Store in cache (only if compression succeeded)
     if (compressedBytes.isNotEmpty) {
       await cacheManager.putFile(cacheKey, compressedBytes);
     } else {
-      logger.log('Compression failed, storing original');
+      // logger.log('Compression failed, storing original');
       await cacheManager.putFile(cacheKey, response.bodyBytes);
     }
-    final cacheSize = await calculateCacheSize();
-    logger.log(
-        'Total cache size: ${(cacheSize / (1024 * 1024)).toStringAsFixed(2)} MB');
+    // final cacheSize = await calculateCacheSize();
+    // logger.log(
+    // 'Total cache size: ${(cacheSize / (1024 * 1024)).toStringAsFixed(2)} MB');
 
     return compressedBytes.isNotEmpty ? compressedBytes : response.bodyBytes;
   }
@@ -503,7 +569,7 @@ class ProductApiSevice {
             images: product["unitImages"] ?? [],
           ));
         }
-        logger.log("get products by category called");
+        // logger.log("get products by category called");
         // logger.log("products: $products");
         return products;
       } else {
@@ -624,6 +690,64 @@ class ProductApiSevice {
     }
   }
 
+  Future<ProductDetails> getProductDetailsinJapaneseById(
+      String productId) async {
+    // Get the saved token from SharedPreferences
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+
+    // If no token is found, return an error
+    if (token == null) {
+      throw "User not authenticated. Please log in first.";
+    }
+
+    // Headers with Authorization token
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token', // Adding token in the header
+    };
+
+    // Constructing the URL with the productId to fetch product details
+    var url = Uri.parse("${Constants.baseUrl}/v1/products/$productId");
+
+    var request = http.Request('GET', url);
+    request.headers.addAll(headers);
+
+    try {
+      http.StreamedResponse response = await request.send();
+      String responseBody = await response.stream.bytesToString();
+
+      // logger.log("Response Status Code: ${response.statusCode}");
+      // logger.log("Response Body: $responseBody");
+
+      Map<String, dynamic> jsonResponse = json.decode(responseBody);
+      // logger.log("jsonResponse: $jsonResponse");
+
+      if (response.statusCode == 200) {
+        // return {"success": true, "data": jsonResponse};
+        return ProductDetails(
+            name: jsonResponse["product"]["japaneseName"] ??
+                "Not entered by admin",
+            description: jsonResponse["product"]["japaneseDescription"] ??
+                "Japanese description not availiable",
+            categoryName: jsonResponse["product"]["category"]
+                    ["japanese_name"] ??
+                "Category not set in japanese",
+            imageUrl: jsonResponse["product"]["unitImages"][0],
+            stockQuantity: jsonResponse["product"]["unitStock"],
+            price: double.parse(jsonResponse["product"]["unitPrice"]),
+            isAvailable: jsonResponse["product"]["isUnitAvailable"],
+            images: jsonResponse["product"]["unitImages"] ?? [],
+            sku: jsonResponse["product"]["sku"]);
+      } else {
+        throw jsonResponse["message"] ?? "Failed to fetch product details";
+      }
+    } catch (e) {
+      logger.log("Get Product by ID Error: $e");
+      rethrow;
+    }
+  }
+
 //get product categories
   Future<List<ProductCategory>> getProductCategories() async {
     String? token = await SharedPrefLoggedinState.getAccessToken();
@@ -653,17 +777,63 @@ class ProductApiSevice {
 
       for (var categoryJson in categoriesJson) {
         String id = categoryJson['id'];
-        // categories.add(
-        //   ProductCategory(
-        //     id: int.parse(id),
-        //     name: categoryJson['name'],
-        //     productsCount: categoryJson['productsCount'],
-        //     categoryImage: categoryJson["image"] ?? "no image",
-        //     subCategories: categoryJson["subcategories"] ?? [],
         //   ),
         categories.add(ProductCategory(
           id: int.parse(id),
           name: categoryJson['name'],
+          productsCount: categoryJson['productsCount'],
+          categoryImage: categoryJson["image"] ?? "no image",
+          subCategories: (categoryJson["subcategories"] as List?)
+                  ?.map((subCatJson) => SubCategory(
+                        id: int.parse(subCatJson['id']),
+                        name: subCatJson['name'],
+                        productsCount: subCatJson['productsCount'],
+                        categoryImage: subCatJson['image'] ?? "no image",
+                      ))
+                  .toList() ??
+              [], // Fallback to empty list
+        ));
+      }
+      logger.log("get all categories without all api called");
+      // logger.log("categories: $categories");
+      return categories;
+    } else {
+      throw Exception(jsonResponse['message'] ?? 'Failed to fetch categories');
+    }
+  }
+
+  Future<List<ProductCategory>> getProductCategoriesinJapanese() async {
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+
+    if (token == null) {
+      throw Exception("User not authenticated. Please log in first.");
+    }
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    var url = Uri.parse("${Constants.baseUrl}/v1/product-categories");
+
+    var request = http.Request('GET', url);
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    String responseBody = await response.stream.bytesToString();
+    Map<String, dynamic> jsonResponse = json.decode(responseBody);
+
+    if (response.statusCode == 200 && jsonResponse['success']) {
+      List<dynamic> categoriesJson = jsonResponse['categories'];
+      List<ProductCategory> categories = [];
+
+      for (var categoryJson in categoriesJson) {
+        String id = categoryJson['id'];
+        //   ),
+        categories.add(ProductCategory(
+          id: int.parse(id),
+          name: categoryJson['japaneseName'],
           productsCount: categoryJson['productsCount'],
           categoryImage: categoryJson["image"] ?? "no image",
           subCategories: (categoryJson["subcategories"] as List?)

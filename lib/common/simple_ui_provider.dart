@@ -96,4 +96,9 @@ class SimpleUiProvider extends ChangeNotifier {
     selectedSubCategoryIndex = index;
     notifyListeners();
    }
+
+   void clearSubCategoryIndex(){
+    selectedSubCategoryIndex = 0;
+    notifyListeners();
+   }
 }

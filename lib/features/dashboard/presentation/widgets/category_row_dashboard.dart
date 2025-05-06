@@ -70,8 +70,8 @@ class CategoryRowDashboard extends StatelessWidget {
                             productProvider.productCategoryWithoutAll.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          logger.log(
-                              "${productProvider.productCategoryWithoutAll[index].categoryImage}");
+                          // logger.log(
+                          //     "${productProvider.productCategoryWithoutAll[index].categoryImage}");
                           return Padding(
                               padding: const EdgeInsets.only(right: 5),
                               child: Column(
@@ -86,9 +86,8 @@ class CategoryRowDashboard extends StatelessWidget {
                                                 builder: (context) =>
                                                     CategoryDetailScreen(
                                                       category: productProvider
-                                                          .productCategoryWithoutAll[
-                                                              index]
-                                                          ,
+                                                              .productCategoryWithoutAll[
+                                                          index],
                                                       index: productProvider
                                                           .productCategoryWithoutAll[
                                                               index]

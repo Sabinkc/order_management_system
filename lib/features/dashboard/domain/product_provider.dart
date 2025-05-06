@@ -4,8 +4,11 @@ import 'package:order_management_system/features/dashboard/data/product_api_sevi
 import 'package:order_management_system/features/dashboard/data/product_model.dart';
 import 'dart:developer' as logger;
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class ProductProvider extends ChangeNotifier {
   final _service = ProductApiSevice();
+
 
   // Provider to get all categories
   bool isCategoryLoading = false;
@@ -40,9 +43,27 @@ class ProductProvider extends ChangeNotifier {
     final response = await _service.getProductCategories();
     productCategoryWithoutAll = response;
     isCategoryWithoutallLoading = false;
-    logger.log("product categories with out all: ${productCategoryWithoutAll.toString()}");
+    logger.log(
+        "product categories with out all: ${productCategoryWithoutAll.toString()}");
     notifyListeners();
   }
+
+    Future<void> getProductCategoriesWithoutAllinJapanese() async {
+    isCategoryWithoutallLoading = true;
+    notifyListeners();
+    final response = await _service.getProductCategoriesinJapanese();
+    productCategoryWithoutAll = response;
+    isCategoryWithoutallLoading = false;
+    logger.log(
+        "product categories with out all: ${productCategoryWithoutAll.toString()}");
+    notifyListeners();
+  }
+
+void resetProductCategoriesWithOutAll(){
+  productCategoryWithoutAll.clear();
+  isCategoryWithoutallLoading = false;
+  notifyListeners();
+}
 
   // Provider to fetch all products
   bool isProductLoading = false;
@@ -51,6 +72,31 @@ class ProductProvider extends ChangeNotifier {
   int allProductPage = 1;
 
   Future<void> getAllProduct(String s) async {
+    if (isProductLoading || !hasMoreAllProduct) {
+      return;
+    }
+    isProductLoading = true;
+    notifyListeners();
+    try {
+      final response = await _service.getAllProducts(s, allProductPage);
+      if (response.isEmpty) {
+        hasMoreAllProduct = false;
+      } else {
+        final newProduct = response;
+        product.addAll(newProduct);
+        allProductPage += 1;
+        // logger.log("products: $product");
+        notifyListeners();
+      }
+    } catch (e) {
+      logger.log("provider error: $e");
+    } finally {
+      isProductLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> getAllProductinJapanese(String s) async {
     if (isProductLoading || !hasMoreAllProduct) {
       return;
     }
@@ -134,6 +180,32 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
     try {
       final response = await _service.getAllProducts(s, widgetProductPage);
+      if (response.isEmpty) {
+        hasMoreWidgetProduct = false;
+      } else {
+        final newProduct = response;
+        widgetProduct.addAll(newProduct);
+        widgetProductPage += 1;
+        logger.log("widget product: ${widgetProduct.length}");
+        notifyListeners();
+      }
+    } catch (e) {
+      logger.log("$e");
+    } finally {
+      isWidgetProductLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> getWidgetProductinJapanese(String s) async {
+    if (isWidgetProductLoading || !hasMoreWidgetProduct) {
+      return;
+    }
+    isWidgetProductLoading = true;
+    notifyListeners();
+    try {
+      final response =
+          await _service.getAllProductsinJapanese(s, widgetProductPage);
       if (response.isEmpty) {
         hasMoreWidgetProduct = false;
       } else {
@@ -252,8 +324,8 @@ class ProductProvider extends ChangeNotifier {
         widgetCategoryProducts.addAll(newProducts);
         widgetCategoryProductPage += 1;
       }
-      // logger.log("category Products: $categoryProducts");
-      logger.log("category product length: ${widgetCategoryProducts.length}");
+      logger.log("widget category Products: $widgetCategoryProducts");
+      // logger.log("category product length: ${widgetCategoryProducts.length}");
       // Update filtered products
       // filteredCategoryProducts = List.from(categoryProducts);
       // logger.log(
@@ -268,6 +340,36 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
+
+
+
+  // bool isProductDetailLoading = false;
+  // ProductDetails productDetail = ProductDetails(
+  //     name: "",
+  //     description: "",
+  //     categoryName: "",
+  //     imageUrl: "",
+  //     stockQuantity: 0,
+  //     price: 0,
+  //     isAvailable: true,
+  //     images: [],
+  //     sku: "");
+  // Future getProductDetail(String sku) async {
+  //   isProductDetailLoading = true;
+  //   notifyListeners();
+  //   try {
+  //     final response = await _service.getProductDetailsById(sku);
+  //     productDetail = response;
+  //     logger.log(productDetail.toString());
+  //   } catch (e) {
+  //     logger.log("$e");
+  //   } finally {
+  //     isProductDetailLoading = false;
+  //     notifyListeners();
+  //   }
+  // }
+
+  
   bool isProductDetailLoading = false;
   ProductDetails productDetail = ProductDetails(
       name: "",
@@ -283,8 +385,17 @@ class ProductProvider extends ChangeNotifier {
     isProductDetailLoading = true;
     notifyListeners();
     try {
-      final response = await _service.getProductDetailsById(sku);
-      productDetail = response;
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+ String selectedLan = prefs.getString('language') ?? 'en';
+     if(selectedLan == "en"){
+       final response = await _service.getProductDetailsById(sku);
+       productDetail = response;
+     }
+     else{
+         final response = await _service.getProductDetailsinJapaneseById(sku);
+       productDetail = response;
+     }
+      
       logger.log(productDetail.toString());
     } catch (e) {
       logger.log("$e");
@@ -339,9 +450,6 @@ class ProductProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
-
-
 
   bool isGetAllInvoiceLoading = false; // Loading state
   List<InvoiceModel> invoices = []; // Stores all orders from the API
