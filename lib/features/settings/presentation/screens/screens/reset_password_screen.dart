@@ -6,6 +6,7 @@ import 'package:order_management_system/features/location/presentation/widgets/c
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
  const ResetPasswordScreen({super.key});
@@ -46,7 +47,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           title: RichText(
               text: TextSpan(children: [
             TextSpan(
-              text: "Reset password",
+              text: S.current.resetPassword,
               style: TextStyle(
                   fontSize: 22,
                   color: Colors.white,
@@ -147,7 +148,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               color: Colors.white,
                             )
                           : Text(
-                              "Reset",
+                              S.current.reset,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

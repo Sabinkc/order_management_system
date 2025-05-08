@@ -17,14 +17,12 @@ class ProductProvider extends ChangeNotifier {
     isCategoryLoading = true;
     notifyListeners();
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String selectedLan = prefs.getString('language') ?? 'en';
     final response = await _service.getProductCategories();
     // Add the "All" category at the beginning of the list
     productCategory = [
       ProductCategory(
           id: 0,
-          name: selectedLan == "en" ? "All" : "すべて",
+          name: "All",
           subCategories: [],
           productsCount: product.length,
           categoryImage: "not availiable"),
@@ -44,7 +42,7 @@ class ProductProvider extends ChangeNotifier {
     productCategory = [
       ProductCategory(
           id: 0,
-          name: "All",
+          name: "すべて",
           subCategories: [],
           productsCount: product.length,
           categoryImage: "not availiable"),
@@ -131,7 +129,8 @@ class ProductProvider extends ChangeNotifier {
     isProductLoading = true;
     notifyListeners();
     try {
-      final response = await _service.getAllProducts(s, allProductPage);
+      final response =
+          await _service.getAllProductsinJapanese(s, allProductPage);
       if (response.isEmpty) {
         hasMoreAllProduct = false;
       } else {
@@ -495,13 +494,13 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
-void resetWidgetCategoryProducts(){
-  isWidgetCategoryProductLoading = false;
-  widgetCategoryProductPage=1;
-  hasMoreWidgetCategoryProducts= true;
-  widgetCategoryProducts.clear();
-  notifyListeners();
-}
+  void resetWidgetCategoryProducts() {
+    isWidgetCategoryProductLoading = false;
+    widgetCategoryProductPage = 1;
+    hasMoreWidgetCategoryProducts = true;
+    widgetCategoryProducts.clear();
+    notifyListeners();
+  }
   // bool isProductDetailLoading = false;
   // ProductDetails productDetail = ProductDetails(
   //     name: "",

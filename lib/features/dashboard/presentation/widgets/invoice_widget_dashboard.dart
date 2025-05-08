@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class InvoiceWidgetDashboard extends StatelessWidget {
   const InvoiceWidgetDashboard({super.key});
@@ -17,7 +18,7 @@ class InvoiceWidgetDashboard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Total Amount:",
+                S.current.totalAmount,
                 style: TextStyle(
                   color: Colors.grey,
                   fontWeight: FontWeight.w600,
@@ -54,7 +55,7 @@ class InvoiceWidgetDashboard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Total Quantity:",
+                S.current.totalQuantity,
                 style: TextStyle(
                   color: Colors.grey,
                   fontWeight: FontWeight.w600,

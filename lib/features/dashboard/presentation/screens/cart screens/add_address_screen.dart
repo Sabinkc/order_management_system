@@ -7,6 +7,7 @@ import 'package:order_management_system/features/location/domain/location_provid
 import 'package:order_management_system/features/location/presentation/widgets/common_location_textform_field.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
+import 'package:order_management_system/localization/l10n.dart';
 
 class AddAddressScreen extends StatefulWidget {
   const AddAddressScreen({super.key});
@@ -53,19 +54,13 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
           title: RichText(
               text: TextSpan(children: [
             TextSpan(
-              text: "Add ",
+              text: S.current.addDeliveryAddress,
               style: TextStyle(
                   fontSize: 20,
                   color: Colors.white,
                   fontWeight: FontWeight.bold),
             ),
-            TextSpan(
-              text: "Delivery Details",
-              style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
+           
           ])),
           centerTitle: true,
           leading: IconButton(
@@ -98,7 +93,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 8),
                   child: Text(
-                    "Your Contact Details:",
+                    S.current.yourContactDetails,
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -125,7 +120,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 8),
                   child: Text(
-                    "Your Delivery Address:",
+                    S.current.yourDeliveryAddress,
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -239,7 +234,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                 color: Colors.white,
                               )
                             : Text(
-                                "Add Details",
+                                S.current.addDetails,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,

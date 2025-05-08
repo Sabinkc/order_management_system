@@ -6,7 +6,7 @@ import 'package:order_management_system/features/dashboard/presentation/screens/
 import 'package:order_management_system/features/dashboard/presentation/screens/category_detail_screen.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
-
+import 'package:order_management_system/localization/l10n.dart';
 import 'package:shimmer/shimmer.dart';
 
 class CategoryRowDashboard extends StatelessWidget {
@@ -24,7 +24,7 @@ class CategoryRowDashboard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Categories",
+                S.current.categories,
                 style: TextStyle(
                   color: CommonColor.blackColor,
                   fontSize: 18,
@@ -39,7 +39,7 @@ class CategoryRowDashboard extends StatelessWidget {
                           builder: (context) => AllCategoriesScreen()));
                 },
                 child: Text(
-                  "See all",
+                  S.current.seeAll,
                   style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: CommonColor.primaryColor),

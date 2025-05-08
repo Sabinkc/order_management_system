@@ -24,7 +24,7 @@ import 'package:order_management_system/features/settings/presentation/screens/s
 import 'package:order_management_system/localization/localization_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
-
+import 'package:order_management_system/localization/l10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -71,7 +71,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: RichText(
               text: TextSpan(children: [
             TextSpan(
-              text: "Settings",
+              text: S.current.settings,
               style: TextStyle(
                   fontSize: 22,
                   color: Colors.white,
@@ -305,7 +305,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       size: 28,
                                     ),
                                     title: Text(
-                                      "General",
+                                      S.current.general,
                                       style: TextStyle(
                                           color: CommonColor.darkGreyColor,
                                           fontWeight: FontWeight.w600),
@@ -329,7 +329,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           color: CommonColor.primaryColor,
                                         ),
                                         title: Text(
-                                          "My Profile",
+                                          S.current.myProfile,
                                           style: TextStyle(
                                               color: CommonColor.darkGreyColor),
                                         ),
@@ -347,7 +347,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           color: CommonColor.primaryColor,
                                         ),
                                         title: Text(
-                                          "Address",
+                                          S.current.address,
                                           style: TextStyle(
                                               color: CommonColor.darkGreyColor),
                                         ),
@@ -365,7 +365,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           color: CommonColor.primaryColor,
                                         ),
                                         title: Text(
-                                          "Reset Password",
+                                          S.current.resetPassword,
                                           style: TextStyle(
                                               color: CommonColor.darkGreyColor),
                                         ),
@@ -393,7 +393,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       size: 28,
                                     ),
                                     title: Text(
-                                      "Orders",
+                                      S.current.orders,
                                       style: TextStyle(
                                           color: CommonColor.darkGreyColor,
                                           fontWeight: FontWeight.w600),
@@ -417,7 +417,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           color: CommonColor.primaryColor,
                                         ),
                                         title: Text(
-                                          "Invoices",
+                                          S.current.invoices,
                                           style: TextStyle(
                                               color: CommonColor.darkGreyColor),
                                         ),
@@ -435,7 +435,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           color: CommonColor.primaryColor,
                                         ),
                                         title: Text(
-                                          "Order History",
+                                          S.current.orderHistory,
                                           style: TextStyle(
                                               color: CommonColor.darkGreyColor),
                                         ),
@@ -463,7 +463,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       size: 29,
                                     ),
                                     title: Text(
-                                      "System Settings",
+                                      S.current.systemSettings,
                                       style: TextStyle(
                                           color: CommonColor.darkGreyColor,
                                           fontWeight: FontWeight.w600),
@@ -480,7 +480,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           color: CommonColor.primaryColor,
                                         ),
                                         title: Text(
-                                          "Push Notification",
+                                          S.current.pushNotification,
                                           style: TextStyle(
                                               color: CommonColor.darkGreyColor),
                                         ),
@@ -508,7 +508,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                               color: CommonColor.primaryColor,
                                             ),
                                             title: Text(
-                                              "Language",
+                                              S.current.languages,
                                               style: TextStyle(
                                                   color: CommonColor
                                                       .darkGreyColor),
@@ -632,7 +632,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           color: CommonColor.primaryColor,
                                         ),
                                         title: Text(
-                                          "Logout",
+                                          S.current.logout,
                                           style: TextStyle(
                                               color: CommonColor.darkGreyColor),
                                         ),
@@ -657,7 +657,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     leading: SvgPicture.asset(
                                         "assets/icons/help_and_support.svg"),
                                     title: Text(
-                                      "Contact & Support",
+                                      S.current.contactAndSupport,
                                       style: TextStyle(
                                           color: CommonColor.darkGreyColor,
                                           fontWeight: FontWeight.w600),
@@ -681,7 +681,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           color: CommonColor.primaryColor,
                                         ),
                                         title: Text(
-                                          "Contact",
+                                          S.current.contact,
                                           style: TextStyle(
                                               color: CommonColor.darkGreyColor),
                                         ),
@@ -699,7 +699,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           color: CommonColor.primaryColor,
                                         ),
                                         title: Text(
-                                          "FAQs",
+                                          S.current.faqs,
                                           style: TextStyle(
                                               color: CommonColor.darkGreyColor),
                                         ),
@@ -717,7 +717,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           color: CommonColor.primaryColor,
                                         ),
                                         title: Text(
-                                          "Report Issues",
+                                          S.current.reportIssues,
                                           style: TextStyle(
                                               color: CommonColor.darkGreyColor),
                                         ),

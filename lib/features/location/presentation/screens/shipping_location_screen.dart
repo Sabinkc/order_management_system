@@ -7,6 +7,7 @@ import 'package:order_management_system/features/location/domain/location_provid
 import 'package:order_management_system/features/location/presentation/screens/add_shipping_loation_screen.dart';
 import 'package:order_management_system/features/location/presentation/screens/edit_shipping_location_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class ShippingLocationScreen extends StatefulWidget {
   const ShippingLocationScreen({super.key});
@@ -39,15 +40,11 @@ class _ShippingLocationScreenState extends State<ShippingLocationScreen> {
         title: RichText(
             text: TextSpan(children: [
           TextSpan(
-            text: "Shipping ",
+            text: S.current.shippingAddress,
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          TextSpan(
-            text: "Address",
-            style: TextStyle(
-                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-          ),
+          
         ])),
         centerTitle: true,
         leading: IconButton(

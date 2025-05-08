@@ -9,6 +9,7 @@ import 'package:order_management_system/features/my%20order/domain/order_history
 import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
+import 'package:order_management_system/localization/l10n.dart';
 
 class CheckoutWidget extends StatelessWidget {
   final int shipppingLocationId;
@@ -27,7 +28,7 @@ class CheckoutWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Total Price:",
+                S.current.totalPrice,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
               ),
               Consumer<CartQuantityProvider>(
@@ -64,7 +65,7 @@ class CheckoutWidget extends StatelessWidget {
                   showLogoutDialogAndCheckout(context);
                 },
                 child: Text(
-                  "Check Out",
+                  S.current.checkout,
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

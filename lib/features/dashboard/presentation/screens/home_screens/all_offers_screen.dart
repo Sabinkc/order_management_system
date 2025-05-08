@@ -6,7 +6,9 @@ import 'package:order_management_system/features/dashboard/domain/cart_quantity_
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/offer_detail_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class AllOffersScreen extends StatefulWidget {
   const AllOffersScreen({super.key});
@@ -35,18 +37,30 @@ class _AllOffersScreenState extends State<AllOffersScreen> {
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       productProvider.resetOfferProducts();
-      await productProvider.getOfferProduct("");
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String selectedLan = prefs.getString('language') ?? 'en';
+      if (selectedLan == "en") {
+        await productProvider.getOfferProduct("");
+      } else {
+        await productProvider.getOfferProductinJapanese("");
+      }
     });
     super.initState();
   }
 
   int pageSize = 20;
-  void onScroll() {
+  void onScroll() async {
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
-      productProvider.getOfferProduct("");
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String selectedLan = prefs.getString('language') ?? 'en';
+      if (selectedLan == "en") {
+        productProvider.getOfferProduct("");
+      } else {
+        productProvider.getOfferProductinJapanese("");
+      }
     }
   }
 
@@ -57,10 +71,10 @@ class _AllOffersScreenState extends State<AllOffersScreen> {
       appBar: AppBar(
         backgroundColor: CommonColor.primaryColor,
         title: RichText(
-          text: const TextSpan(
+          text:  TextSpan(
             children: [
               TextSpan(
-                text: "All Offers",
+                text: S.current.allOffers,
                 style: TextStyle(
                   fontSize: 22,
                   color: Colors.white,
@@ -91,7 +105,13 @@ class _AllOffersScreenState extends State<AllOffersScreen> {
           final productProvider =
               Provider.of<ProductProvider>(context, listen: false);
           productProvider.resetOfferProducts();
-          await productProvider.getOfferProduct("");
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          String selectedLan = prefs.getString('language') ?? 'en';
+          if (selectedLan == "en") {
+            await productProvider.getOfferProduct("");
+          } else {
+            await productProvider.getOfferProductinJapanese("");
+          }
         },
         child: Padding(
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -167,7 +187,6 @@ class _AllOffersScreenState extends State<AllOffersScreen> {
                                                 builder: (context, snapshot) {
                                                   if (snapshot.hasData) {
                                                     return Image.memory(
-                                                      
                                                       snapshot.data!,
                                                       fit: BoxFit.cover,
                                                       cacheHeight: 150,
@@ -230,19 +249,22 @@ class _AllOffersScreenState extends State<AllOffersScreen> {
                                   child: Row(
                                     spacing: 10,
                                     children: [
-                                      Text(
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                        offerProduct.name.toString(),
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
+                                      SizedBox(
+                                        width: 70,
+                                        child: Text(
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          offerProduct.name,
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                          ),
                                         ),
                                       ),
                                       Expanded(
                                         child: Text(
-                                          offerProduct.categoryName.toString(),
+                                          offerProduct.categoryName,
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                           style: TextStyle(

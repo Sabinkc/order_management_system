@@ -8,6 +8,8 @@ import 'package:order_management_system/features/my%20order/presentation/widgets
 import 'package:order_management_system/features/my%20order/presentation/widgets/order_history_top_card.dart';
 import 'package:order_management_system/features/my%20order/presentation/widgets/order_history_trackorder_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:order_management_system/localization/l10n.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyOrderHistoryScreen extends StatefulWidget {
   const MyOrderHistoryScreen({super.key});
@@ -44,10 +46,10 @@ class _OrderHistoryScreenState extends State<MyOrderHistoryScreen> {
       appBar: AppBar(
         backgroundColor: CommonColor.primaryColor,
         title: RichText(
-          text: const TextSpan(
+          text:  TextSpan(
             children: [
               TextSpan(
-                text: "My Order",
+                text: S.current.myOrders,
                 style: TextStyle(
                   fontSize: 22,
                   color: Colors.white,

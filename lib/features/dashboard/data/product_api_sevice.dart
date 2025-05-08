@@ -180,7 +180,7 @@ class ProductApiSevice {
             name: product["japaneseName"] ?? "No name",
             description:
                 product["japaneseDescription"] ?? "Description not available",
-            categoryName: product["category"]["name"] ?? "Uncategorized",
+            categoryName: product["category"]["japanese_name"] ?? "Japanese name not availiable",
             stockQuantity: product["unitStock"] ?? 0,
             price: price,
             isAvailable: product["isAvailable"] ?? false,
@@ -311,7 +311,7 @@ class ProductApiSevice {
             name: product["japaneseName"] ?? "Japanese name not availiable",
             description: product["japaneseDescription"] ??
                 "Japanese description not available",
-            categoryName: product["category"]["name"] ?? "Uncategorized",
+            categoryName: product["category"]["japanese_name"] ?? "Japanese name not availiable",
             stockQuantity: product["unitStock"] ?? 0,
             price: price,
             isAvailable: product["isAvailable"] ?? false,
@@ -693,7 +693,7 @@ class ProductApiSevice {
             name: product["japaneseName"] ?? "Japanese name not availiable",
             description: product["japaneseDescription"] ??
                 "Japanese description not availiable",
-            categoryName: product["category"]["name"],
+            categoryName: product["category"]["japanese_name"] ??"Japanese name not availiable",
             stockQuantity: product[
                 "unitStock"], // Accessing stockQuantity from unitTypes[0]
             price:

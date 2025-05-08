@@ -4,6 +4,7 @@ import 'package:order_management_system/features/dashboard/presentation/screens/
 import 'package:order_management_system/features/location/domain/location_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
+import 'package:order_management_system/localization/l10n.dart';
 
 class ChooseAddressScreen extends StatefulWidget {
   const ChooseAddressScreen({super.key});
@@ -23,15 +24,11 @@ class _ChooseAddressScreenState extends State<ChooseAddressScreen> {
         title: RichText(
             text: TextSpan(children: [
           TextSpan(
-            text: "Choose ",
+            text: S.current.chooseAddress,
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          TextSpan(
-            text: "Delivery Details",
-            style: TextStyle(
-                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-          ),
+   
         ])),
         centerTitle: true,
         leading: IconButton(
@@ -205,7 +202,7 @@ class _ChooseAddressScreenState extends State<ChooseAddressScreen> {
                                     )));
                       },
                       child: Text(
-                        "Confirm Address",
+                        S.current.confirmAddress,
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:order_management_system/localization/l10n.dart';
 // import 'dart:developer' as logger;
 
 class OrderHistoryTrackorderWidget extends StatelessWidget {
@@ -66,7 +67,7 @@ class OrderHistoryTrackorderWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Track Order",
+                S.current.trackOrder,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

@@ -8,11 +8,11 @@ import 'package:order_management_system/features/dashboard/presentation/screens/
 import 'package:order_management_system/features/dashboard/presentation/screens/offer_detail_screen.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
-
+import 'package:order_management_system/localization/l10n.dart';
 import 'package:shimmer/shimmer.dart';
 
 class OfferWidget extends StatelessWidget {
-   OfferWidget({super.key});
+  OfferWidget({super.key});
 
   final ProductApiSevice productApiSevice = ProductApiSevice();
 
@@ -28,7 +28,7 @@ class OfferWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Offers",
+                  S.current.offers,
                   style: TextStyle(
                     color: CommonColor.blackColor,
                     fontSize: 18,
@@ -43,7 +43,7 @@ class OfferWidget extends StatelessWidget {
                             builder: (context) => AllOffersScreen()));
                   },
                   child: Text(
-                    "See all",
+                    S.current.seeAll,
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: CommonColor.primaryColor),
@@ -84,13 +84,12 @@ class OfferWidget extends StatelessWidget {
                         return Padding(
                           padding: EdgeInsets.only(right: 15),
                           child: InkWell(
-                            onTap: (){
-                               Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            OfferDetailScreen(
-                                                sku: offerProduct.sku.toString())));
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => OfferDetailScreen(
+                                          sku: offerProduct.sku.toString())));
                             },
                             child: Container(
                               width: 160,
@@ -105,7 +104,8 @@ class OfferWidget extends StatelessWidget {
                                   Container(
                                       decoration: BoxDecoration(
                                         color: const Color(0XFFFAFAFA),
-                                        borderRadius: const BorderRadius.vertical(
+                                        borderRadius:
+                                            const BorderRadius.vertical(
                                           top: Radius.circular(8),
                                         ),
                                       ),
@@ -123,31 +123,35 @@ class OfferWidget extends StatelessWidget {
                                                   topLeft: Radius.circular(8),
                                                   topRight: Radius.circular(8)),
                                               child: FutureBuilder(
-                                                future: productApiSevice.getThumbnailByFilename(offerProduct.imageUrl),
-                                                builder: (context, snapshot) {
-                                                  if (snapshot.hasData) {
-                                                    return Image.memory(
-                                                      snapshot.data!,
-                                                      fit: BoxFit.cover,
-                                                      cacheHeight: 150,
-                                                      cacheWidth: 150,
-                                                    );
-                                                  } else if (snapshot
-                                                          .connectionState ==
-                                                      ConnectionState.waiting) {
-                                                    return Shimmer.fromColors(
-                                                        baseColor:
-                                                            Colors.grey[100]!,
-                                                        highlightColor:
-                                                            Colors.white,
-                                                        child: Container(
-                                                          color: Colors.white,
-                                                        ));
-                                                  } else {
-                                                    return Icon(
-                                                        Icons.broken_image);
-                                                  }
-                                                }),
+                                                  future: productApiSevice
+                                                      .getThumbnailByFilename(
+                                                          offerProduct
+                                                              .imageUrl),
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot.hasData) {
+                                                      return Image.memory(
+                                                        snapshot.data!,
+                                                        fit: BoxFit.cover,
+                                                        cacheHeight: 150,
+                                                        cacheWidth: 150,
+                                                      );
+                                                    } else if (snapshot
+                                                            .connectionState ==
+                                                        ConnectionState
+                                                            .waiting) {
+                                                      return Shimmer.fromColors(
+                                                          baseColor:
+                                                              Colors.grey[100]!,
+                                                          highlightColor:
+                                                              Colors.white,
+                                                          child: Container(
+                                                            color: Colors.white,
+                                                          ));
+                                                    } else {
+                                                      return Icon(
+                                                          Icons.broken_image);
+                                                    }
+                                                  }),
                                             ),
                                           ),
                                           Positioned(
@@ -159,9 +163,8 @@ class OfferWidget extends StatelessWidget {
                                                     color: Colors.red,
                                                     borderRadius:
                                                         BorderRadius.only(
-                                                            bottomRight:
-                                                                Radius.circular(
-                                                                    8),
+                                                            bottomRight: Radius
+                                                                .circular(8),
                                                             topLeft:
                                                                 Radius.circular(
                                                                     8))),
@@ -183,19 +186,22 @@ class OfferWidget extends StatelessWidget {
                                       )),
                                   const SizedBox(height: 15),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
                                     child: Row(
                                       spacing: 10,
                                       children: [
-                                        Text(
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
-                                          offerProduct.name,
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14,
+                                        SizedBox(
+                                          width: 70,
+                                          child: Text(
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            offerProduct.name,
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                            ),
                                           ),
                                         ),
                                         Expanded(
@@ -206,7 +212,8 @@ class OfferWidget extends StatelessWidget {
                                             style: TextStyle(
                                               fontSize: 11,
                                               fontWeight: FontWeight.bold,
-                                              color: CommonColor.mediumGreyColor,
+                                              color:
+                                                  CommonColor.mediumGreyColor,
                                             ),
                                           ),
                                         ),
@@ -215,8 +222,8 @@ class OfferWidget extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 2),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -233,7 +240,8 @@ class OfferWidget extends StatelessWidget {
                                                 decoration:
                                                     TextDecoration.lineThrough,
                                                 fontWeight: FontWeight.bold,
-                                                color: CommonColor.darkGreyColor,
+                                                color:
+                                                    CommonColor.darkGreyColor,
                                               ),
                                             ),
                                             SizedBox(
@@ -246,55 +254,54 @@ class OfferWidget extends StatelessWidget {
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                     fontSize: 14,
-                                                    color:
-                                                        CommonColor.primaryColor,
-                                                    fontWeight: FontWeight.bold),
+                                                    color: CommonColor
+                                                        .primaryColor,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                             ),
                                           ]),
                                         ),
                                         // const SizedBox(width: 8),
                                         InkWell(
-                                          onTap: (){
-                                             Provider.of<CartQuantityProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .addToCartFromOfferProducts(
-                                                        offerProduct.sku.toString(),
-                                                        context);
-                                                logger.log(
-                                                    "tapped product id: ${offerProduct.sku}");
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    Future.delayed(
-                                                        const Duration(
-                                                            seconds: 1), () {
-                                                      if (context.mounted) {
-                                                        Navigator.pop(context);
-                                                      }
-                                                    });
-                                                    return AlertDialog(
-                                                      backgroundColor:
-                                                          Colors.white,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                15),
-                                                      ),
-                                                      title: Center(
-                                                        child: Text(
-                                                          "Item added to cart successfully!",
-                                                          style: TextStyle(
-                                                              color: CommonColor
-                                                                  .darkGreyColor,
-                                                              fontSize: 14),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
+                                          onTap: () {
+                                            Provider.of<CartQuantityProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .addToCartFromOfferProducts(
+                                                    offerProduct.sku.toString(),
+                                                    context);
+                                            logger.log(
+                                                "tapped product id: ${offerProduct.sku}");
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                Future.delayed(
+                                                    const Duration(seconds: 1),
+                                                    () {
+                                                  if (context.mounted) {
+                                                    Navigator.pop(context);
+                                                  }
+                                                });
+                                                return AlertDialog(
+                                                  backgroundColor: Colors.white,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                  ),
+                                                  title: Center(
+                                                    child: Text(
+                                                      "Item added to cart successfully!",
+                                                      style: TextStyle(
+                                                          color: CommonColor
+                                                              .darkGreyColor,
+                                                          fontSize: 14),
+                                                    ),
+                                                  ),
                                                 );
+                                              },
+                                            );
                                           },
                                           child: Icon(
                                             MingCute.shopping_cart_1_line,

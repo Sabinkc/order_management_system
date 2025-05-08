@@ -10,6 +10,7 @@ import 'package:order_management_system/features/dashboard/domain/product_provid
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class AllProductDetailScreen extends StatefulWidget {
   final String sku;
@@ -58,7 +59,7 @@ class _ProductDetailScreenState extends State<AllProductDetailScreen> {
           title: RichText(
               text: TextSpan(children: [
             TextSpan(
-              text: "Product Details",
+              text: S.current.productDetails,
               style: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 22,
@@ -412,7 +413,7 @@ class _ProductDetailScreenState extends State<AllProductDetailScreen> {
                                       );
                                     },
                                     child: Text(
-                                      "Add To Cart",
+                                      S.current.addToCart,
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white),

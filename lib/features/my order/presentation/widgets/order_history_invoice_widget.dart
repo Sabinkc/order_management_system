@@ -4,6 +4,7 @@ import 'package:order_management_system/features/dashboard/data/product_api_sevi
 import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class OrderHistoryInvoiceWidget extends StatelessWidget {
    OrderHistoryInvoiceWidget({super.key});
@@ -166,7 +167,7 @@ final productApiService = ProductApiSevice();
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  "Invoice Details:",
+                  S.current.invoiceDetails,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 )),
             SizedBox(
@@ -181,7 +182,7 @@ final productApiService = ProductApiSevice();
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Total Amount:",
+                        S.current.totalAmount,
                         style: TextStyle(
                           color: Colors.grey,
                           fontWeight: FontWeight.w600,
@@ -214,7 +215,7 @@ final productApiService = ProductApiSevice();
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Total Quantity:",
+                        S.current.totalQuantity,
                         style: TextStyle(
                           color: Colors.grey,
                           fontWeight: FontWeight.w600,

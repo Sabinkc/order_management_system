@@ -5,6 +5,8 @@ import 'package:order_management_system/features/dashboard/presentation/widgets/
 import 'package:order_management_system/features/dashboard/presentation/widgets/invoice_widget_dashboard.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/orders_widget_dashboard.dart';
 import 'package:provider/provider.dart';
+import 'package:order_management_system/localization/l10n.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -18,10 +20,10 @@ class CartScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: CommonColor.primaryColor,
         title: RichText(
-          text: const TextSpan(
+          text:  TextSpan(
             children: [
               TextSpan(
-                text: "Cart",
+                text: S.current.cart,
                 style: TextStyle(
                   fontSize: 22,
                   color: Colors.white,
@@ -72,7 +74,7 @@ class CartScreen extends StatelessWidget {
                       Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           child: Text(
-                            "Orders",
+                            S.current.orders,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           )),
@@ -107,7 +109,7 @@ class CartScreen extends StatelessWidget {
                       Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           child: Text(
-                            "Invoice Details:",
+                            S.current.invoiceDetails,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           )),

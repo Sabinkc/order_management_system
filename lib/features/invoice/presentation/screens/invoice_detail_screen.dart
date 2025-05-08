@@ -4,6 +4,7 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/utils.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class InvoiceDetailScreen extends StatefulWidget {
   final String invoiceNo;
@@ -46,7 +47,7 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
           title: RichText(
               text: TextSpan(children: [
             TextSpan(
-              text: "Invoice Details",
+              text: S.current.invoiceDetails,
               style: TextStyle(
                   fontSize: 22,
                   color: Colors.white,

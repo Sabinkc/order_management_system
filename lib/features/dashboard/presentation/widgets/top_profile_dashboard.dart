@@ -3,6 +3,7 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/send_email_otp_screen.dart';
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class TopProfileDashboard extends StatelessWidget {
   const TopProfileDashboard({super.key});
@@ -33,7 +34,7 @@ class TopProfileDashboard extends StatelessWidget {
                                         SendEmailOtpScreen()));
                           },
                           child: Text(
-                            "Please verify your email!",
+                            S.current.verifyEmail,
                             style: TextStyle(
                                 color: CommonColor.primaryColor,
                                 fontSize: 16,
@@ -48,7 +49,7 @@ class TopProfileDashboard extends StatelessWidget {
                   builder: (context, profileProvider, child) {
                     final name = profileProvider.profile.name;
                     return Text(
-                      "Hello, $name",
+                      "${S.current.hello}, $name",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: CommonColor.darkGreyColor,
@@ -60,14 +61,14 @@ class TopProfileDashboard extends StatelessWidget {
                   height: 4,
                 ),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  const Text(
-                    "What would you like to",
+                  Text(
+                    S.current.whatTo,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  const Text(
-                    "buy today?",
+                  Text(
+                    S.current.buyToday,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/test_screen.dart';
-
+import 'package:order_management_system/localization/l10n.dart';
 
 class ContactScreen extends StatelessWidget {
   const ContactScreen({super.key});
@@ -13,10 +13,10 @@ class ContactScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: CommonColor.primaryColor,
         title: RichText(
-          text: const TextSpan(
+          text:  TextSpan(
             children: [
               TextSpan(
-                text: "Contact Us",
+                text: S.current.contactUs,
                 style: TextStyle(
                   fontSize: 22,
                   color: Colors.white,

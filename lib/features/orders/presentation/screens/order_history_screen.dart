@@ -10,6 +10,7 @@ import 'package:order_management_system/features/orders/domain/order_screen_prov
 import 'package:order_management_system/features/orders/presentation/screens/order_detail_screen.dart';
 import 'package:order_management_system/features/orders/presentation/screens/search_order_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 // import 'dart:developer' as logger;
 class OrderHistoryScreen extends StatefulWidget {
@@ -82,10 +83,10 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
             appBar: AppBar(
               backgroundColor: CommonColor.primaryColor,
               title: RichText(
-                text: const TextSpan(
+                text:  TextSpan(
                   children: [
                     TextSpan(
-                      text: "My Orders",
+                      text: S.current.myOrders,
                       style: TextStyle(
                         fontSize: 22,
                         color: Colors.white,
@@ -244,7 +245,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                             child: Padding(
                               padding: EdgeInsets.only(right: 8),
                               child: Text(
-                                "Reset filter",
+                                S.current.resetFilter,
                                 style: TextStyle(
                                     color: CommonColor.primaryColor,
                                     fontWeight: FontWeight.bold),

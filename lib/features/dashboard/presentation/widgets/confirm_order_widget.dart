@@ -4,7 +4,7 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/cart%20screens/confirm_order_address_screen.dart';
 import 'package:provider/provider.dart';
-
+import 'package:order_management_system/localization/l10n.dart';
 
 class ConfirmOrderWidget extends StatelessWidget {
   const ConfirmOrderWidget({super.key});
@@ -22,7 +22,7 @@ class ConfirmOrderWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Total Price:",
+                S.current.totalPrice,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
               ),
               Consumer<CartQuantityProvider>(
@@ -63,7 +63,7 @@ class ConfirmOrderWidget extends StatelessWidget {
                           builder: (context) => ConfirmOrderAddressScreen()));
                 },
                 child: Text(
-                  "Confirm Order",
+                  S.current.confirmOrder,
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

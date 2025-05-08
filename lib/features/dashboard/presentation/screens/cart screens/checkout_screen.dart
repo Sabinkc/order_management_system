@@ -5,6 +5,7 @@ import 'package:order_management_system/features/dashboard/presentation/widgets/
 import 'package:order_management_system/features/dashboard/presentation/widgets/checkout_widget.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/invoice_widget_dashboard.dart';
 import 'package:provider/provider.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class CheckOutScreen extends StatelessWidget {
   final int shippingLocationid;
@@ -21,15 +22,11 @@ class CheckOutScreen extends StatelessWidget {
         title: RichText(
             text: TextSpan(children: [
           TextSpan(
-            text: "Check ",
+            text: S.current.checkout,
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          TextSpan(
-            text: "Out",
-            style: TextStyle(
-                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-          ),
+          
         ])),
         centerTitle: true,
         leading: IconButton(
@@ -61,7 +58,7 @@ class CheckOutScreen extends StatelessWidget {
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
-                      "Orders",
+                      S.current.orders,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     )),
@@ -97,7 +94,7 @@ class CheckOutScreen extends StatelessWidget {
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
-                      "Invoice Details:",
+                      S.current.invoiceDetails,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     )),

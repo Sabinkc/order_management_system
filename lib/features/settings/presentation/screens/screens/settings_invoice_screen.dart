@@ -9,6 +9,7 @@ import 'package:order_management_system/features/dashboard/domain/product_provid
 import 'package:order_management_system/features/invoice/presentation/screens/invoice_detail_screen.dart';
 import 'package:order_management_system/features/invoice/presentation/screens/search_invoice_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class SettingsInvoiceScreen extends StatefulWidget {
   const SettingsInvoiceScreen({super.key});
@@ -78,10 +79,10 @@ class _InvoiceScreenState extends State<SettingsInvoiceScreen> {
           appBar: AppBar(
             backgroundColor: CommonColor.primaryColor,
             title: RichText(
-              text: const TextSpan(
+              text:  TextSpan(
                 children: [
                   TextSpan(
-                    text: "My Invoices",
+                    text: S.current.invoices,
                     style: TextStyle(
                       fontSize: 22,
                       color: Colors.white,
@@ -234,7 +235,7 @@ class _InvoiceScreenState extends State<SettingsInvoiceScreen> {
                           child: Padding(
                             padding: EdgeInsets.only(right: 8),
                             child: Text(
-                              "Reset filter",
+                              S.current.resetFilter,
                               style: TextStyle(
                                   color: CommonColor.primaryColor,
                                   fontWeight: FontWeight.bold),

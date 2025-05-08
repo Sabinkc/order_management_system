@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/utils.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class ReportIssueScreen extends StatefulWidget {
   const ReportIssueScreen({super.key});
@@ -27,10 +28,10 @@ class _ReportIssueScreenState extends State<ReportIssueScreen> {
         appBar: AppBar(
           backgroundColor: CommonColor.primaryColor,
           title: RichText(
-            text: const TextSpan(
+            text:  TextSpan(
               children: [
                 TextSpan(
-                  text: "Report Issues",
+                  text: S.current.reportIssues,
                   style: TextStyle(
                     fontSize: 22,
                     color: Colors.white,
@@ -133,7 +134,7 @@ class _ReportIssueScreenState extends State<ReportIssueScreen> {
                       backgroundColor: CommonColor.primaryColor,
                     ),
                     child: Text(
-                      "Send Report",
+                      S.current.sendReport,
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     )),

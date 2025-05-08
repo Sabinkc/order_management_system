@@ -5,6 +5,7 @@ import 'package:order_management_system/features/orders/domain/order_screen_prov
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 // import 'dart:developer' as logger;
+import 'package:order_management_system/localization/l10n.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   final String orderKey;
@@ -50,7 +51,7 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
             title: RichText(
                 text: TextSpan(children: [
               TextSpan(
-                text: "Order Details",
+                text: S.current.orderDetails,
                 style: TextStyle(
                     fontSize: 22,
                     color: Colors.white,
@@ -74,7 +75,7 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
-                      "Orders",
+                      S.current.orders,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
@@ -258,7 +259,7 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                   Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Text(
-                        "Order Details:",
+                        S.current.orderDetails,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16),
                       )),
@@ -274,7 +275,7 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Total Amount:",
+                          S.current.totalAmount,
                               style: TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w600,
@@ -307,7 +308,7 @@ class _InvoiceDetailScreenState extends State<OrderDetailScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Total Quantity:",
+                              S.current.totalQuantity,
                               style: TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w600,

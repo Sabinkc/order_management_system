@@ -70,10 +70,10 @@ class S {
   }
 
   /// `Hello World`
-  String get orders {
+  String get myOrders {
     return Intl.message(
       'My Order',
-      name: 'orders',
+      name: 'myOrders',
       desc: '',
       args: [],
     );
@@ -108,6 +108,457 @@ class S {
       args: [],
     );
   }
+
+  String get general {
+    return Intl.message(
+      'General',
+      name: 'general',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get myProfile {
+    return Intl.message(
+      'My Profile',
+      name: 'myProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get address {
+    return Intl.message(
+      'Address',
+      name: 'address',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get resetPassword {
+    return Intl.message(
+      'Reset Password',
+      name: 'resetPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get orders {
+    return Intl.message(
+      'Orders',
+      name: 'orders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get orderHistory {
+    return Intl.message(
+      'Order History',
+      name: 'orderHistory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get systemSettings {
+    return Intl.message(
+      'System Settings',
+      name: 'systemSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get pushNotification {
+    return Intl.message(
+      'Push Notification',
+      name: 'pushNotification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get logout {
+    return Intl.message(
+      'Logout',
+      name: 'logout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get contactAndSupport {
+    return Intl.message(
+      'Contact and Support',
+      name: 'contactAndSupport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get contact {
+    return Intl.message(
+      'Contact',
+      name: 'contact',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get faqs {
+    return Intl.message(
+      'FAQs',
+      name: 'faqs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get reportIssues {
+    return Intl.message(
+      'Report Issues',
+      name: 'reportIssues',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get verifyEmail {
+    return Intl.message(
+      'Please verify your email',
+      name: 'verifyEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get hello {
+    return Intl.message(
+      'Hello',
+      name: 'hello',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get whatTo {
+    return Intl.message(
+      'What would you like to',
+      name: 'whatTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get buyToday {
+    return Intl.message(
+      ' buy today?',
+      name: 'buyToday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get categories {
+    return Intl.message(
+      'Categories',
+      name: 'categories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get offers {
+    return Intl.message(
+      'Offers',
+      name: 'offers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get allProducts {
+    return Intl.message(
+      'All Products',
+      name: 'allProducts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get seeAll {
+    return Intl.message(
+      'See all',
+      name: 'seeAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get invoiceDetails {
+    return Intl.message(
+      'Invoice Details',
+      name: 'invoiceDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get totalQuantity {
+    return Intl.message(
+      'Total Quantity',
+      name: 'totalQuantity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get totalPrice {
+    return Intl.message(
+      'Total Price',
+      name: 'totalPrice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get confirmOrder {
+    return Intl.message(
+      'Confirm Order',
+      name: 'confirmOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get totalAmount {
+    return Intl.message(
+      'Total Amount',
+      name: 'totalAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get chooseAddress {
+    return Intl.message(
+      'Choose Delivery Address',
+      name: 'chooseAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get confirmAddress {
+    return Intl.message(
+      'Confirm Address',
+      name: 'confirmAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get checkout {
+    return Intl.message(
+      'Check Out',
+      name: 'checkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get allCategories {
+    return Intl.message(
+      'All Categories',
+      name: 'allCategories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get productCatalog {
+    return Intl.message(
+      'Product Catalog',
+      name: 'productCatalog',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get productDetails {
+    return Intl.message(
+      'Product Details',
+      name: 'productDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get addToCart {
+    return Intl.message(
+      'Add to Cart',
+      name: 'addToCart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get allOffers {
+    return Intl.message(
+      'All Offers',
+      name: 'allOffers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get addDeliveryAddress {
+    return Intl.message(
+      'Add Delivery Address',
+      name: 'addDeliveryAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get yourContactDetails {
+    return Intl.message(
+      'Your Contact Details',
+      name: 'yourContactDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get yourDeliveryAddress {
+    return Intl.message(
+      'Your Delivery Address',
+      name: 'yourDeliveryAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get addDetails {
+    return Intl.message(
+      'Add Details',
+      name: 'addDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get trackOrder {
+    return Intl.message(
+      'Track Order',
+      name: 'trackOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get viewInvoice {
+    return Intl.message(
+      'View Invoice',
+      name: 'viewInvoice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get resetFilter {
+    return Intl.message(
+      'Reset Filter',
+      name: 'resetFilter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get shippingAddress {
+    return Intl.message(
+      'Shipping Address',
+      name: 'shippingAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get addShippingAddress {
+    return Intl.message(
+      'Add Shipping Address',
+      name: 'addShippingAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get save {
+    return Intl.message(
+      'Save',
+      name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get editShippingAddress {
+    return Intl.message(
+      'Edit Shipping Address',
+      name: 'editShippingAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get reset {
+    return Intl.message(
+      'Reset',
+      name: 'reset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get update {
+  return Intl.message(
+    'Update',
+    name: 'update',
+    desc: '',
+    args: [],
+  );
+}
+String get orderDetails {
+  return Intl.message(
+    'Order Details',
+    name: 'orderDetails',
+    desc: '',
+    args: [],
+  );
+}
+
+String get contactUs {
+  return Intl.message(
+    'Contact Us',
+    name: 'contactUs',
+    desc: '',
+    args: [],
+  );
+}
+
+String get sendReport {
+  return Intl.message(
+    'Send Report',
+    name: 'sendReport',
+    desc: '',
+    args: [],
+  );
+}
+
+
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

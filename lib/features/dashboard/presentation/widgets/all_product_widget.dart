@@ -9,6 +9,7 @@ import 'package:order_management_system/features/dashboard/presentation/screens/
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:developer' as logger;
+import 'package:order_management_system/localization/l10n.dart';
 
 class AllProductWidget extends StatelessWidget {
   AllProductWidget({super.key});
@@ -26,7 +27,7 @@ class AllProductWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "All Products",
+                S.current.allProducts,
                 style: TextStyle(
                   color: CommonColor.blackColor,
                   fontSize: 18,
@@ -41,7 +42,7 @@ class AllProductWidget extends StatelessWidget {
                           builder: (context) => AllProductScreen()));
                 },
                 child: Text(
-                  "See all",
+                  S.current.seeAll,
                   style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: CommonColor.primaryColor),

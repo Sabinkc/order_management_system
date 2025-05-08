@@ -5,6 +5,7 @@ import 'package:order_management_system/common/utils.dart';
 import 'package:order_management_system/features/location/domain/location_provider.dart';
 import 'package:order_management_system/features/location/presentation/widgets/common_location_textform_field.dart';
 import 'package:provider/provider.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class EditShippingLocationScreen extends StatefulWidget {
   final int index;
@@ -71,19 +72,13 @@ class _EditShippingLocationScreenState
           title: RichText(
               text: TextSpan(children: [
             TextSpan(
-              text: "Edit Shippi",
+              text: S.current.editShippingAddress,
               style: TextStyle(
                   fontSize: 20,
                   color: Colors.white,
                   fontWeight: FontWeight.bold),
             ),
-            TextSpan(
-              text: "ng Address",
-              style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
+            
           ])),
           centerTitle: true,
           leading: IconButton(
@@ -116,7 +111,7 @@ class _EditShippingLocationScreenState
                 Padding(
                   padding: EdgeInsets.only(left: 8),
                   child: Text(
-                    "Your Personal Details:",
+                    S.current.yourContactDetails,
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -142,7 +137,7 @@ class _EditShippingLocationScreenState
                 Padding(
                   padding: EdgeInsets.only(left: 8),
                   child: Text(
-                    "Your Delivery Address:",
+                    S.current.yourDeliveryAddress,
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -232,7 +227,7 @@ class _EditShippingLocationScreenState
                                 color: Colors.white,
                               )
                             : Text(
-                                "Save",
+                                S.current.save,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,

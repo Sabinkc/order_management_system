@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class FaqScreen extends StatelessWidget {
   const FaqScreen({super.key});
@@ -11,10 +12,10 @@ class FaqScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: CommonColor.primaryColor,
         title: RichText(
-          text: const TextSpan(
+          text:  TextSpan(
             children: [
               TextSpan(
-                text: "FAQS",
+                text: S.current.faqs,
                 style: TextStyle(
                   fontSize: 22,
                   color: Colors.white,

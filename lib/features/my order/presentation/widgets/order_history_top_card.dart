@@ -6,6 +6,7 @@ import 'package:order_management_system/features/my%20order/domain/switch_order_
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:developer' as logger;
+import 'package:order_management_system/localization/l10n.dart';
 
 class OrderHistoryTopCard extends StatelessWidget {
   OrderHistoryTopCard({super.key});
@@ -199,7 +200,7 @@ class OrderHistoryTopCard extends StatelessWidget {
                                 .switchSelectedIndex(0);
                           },
                           child: Text(
-                            "Track Order",
+                            S.current.trackOrder,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: CommonColor.primaryColor,
@@ -227,7 +228,7 @@ class OrderHistoryTopCard extends StatelessWidget {
                                 .switchSelectedIndex(1);
                           },
                           child: Text(
-                            "View Invoice",
+                            S.current.viewInvoice,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: CommonColor.primaryColor,

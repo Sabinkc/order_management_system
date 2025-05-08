@@ -5,6 +5,7 @@ import 'package:order_management_system/common/utils.dart';
 import 'package:order_management_system/features/location/presentation/widgets/common_location_textform_field.dart';
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class MyProfileScreen extends StatefulWidget {
   const MyProfileScreen({super.key});
@@ -68,7 +69,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             title: RichText(
                 text: TextSpan(children: [
               TextSpan(
-                text: "My Profile",
+                text: S.current.myProfile,
                 style: TextStyle(
                     fontSize: 22,
                     color: Colors.white,
@@ -261,7 +262,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                           color: Colors.white,
                                         )
                                       : Text(
-                                          "Update",
+                                          S.current.update,
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
