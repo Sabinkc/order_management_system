@@ -80,6 +80,10 @@ class MessageLookup extends MessageLookupByLibrary {
 "orderDetails": MessageLookupByLibrary.simpleMessage("注文の詳細"),
 "contactUs": MessageLookupByLibrary.simpleMessage("お問い合わせ"),
 "sendReport": MessageLookupByLibrary.simpleMessage("レポートを送信"),
+"orderStatus": MessageLookupByLibrary.simpleMessage("注文状況"),
+"searchInvoice": MessageLookupByLibrary.simpleMessage("請求書を検索"),
+"searchOrders": MessageLookupByLibrary.simpleMessage("注文を検索"),
+"orderDate": MessageLookupByLibrary.simpleMessage("注文日"),
 
 
       };

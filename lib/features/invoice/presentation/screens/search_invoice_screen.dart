@@ -5,6 +5,7 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/utils.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class SearchInvoiceScreen extends StatefulWidget {
   const SearchInvoiceScreen({super.key});
@@ -45,10 +46,10 @@ class _SearchOrderScreenState extends State<SearchInvoiceScreen> {
           appBar: AppBar(
             backgroundColor: CommonColor.primaryColor,
             title: RichText(
-              text: const TextSpan(
+              text:  TextSpan(
                 children: [
                   TextSpan(
-                    text: "Search Invoices",
+                    text: S.current.searchInvoice,
                     style: TextStyle(
                       fontSize: 22,
                       color: Colors.white,

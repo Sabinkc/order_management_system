@@ -557,6 +557,40 @@ String get sendReport {
     args: [],
   );
 }
+String get orderStatus {
+  return Intl.message(
+    'Order Status',
+    name: 'orderStatus',
+    desc: '',
+    args: [],
+  );
+}
+
+String get searchInvoice {
+  return Intl.message(
+    'Search Invoice',
+    name: 'searchInvoice',
+    desc: '',
+    args: [],
+  );
+}
+
+String get searchOrders {
+  return Intl.message(
+    'Search Orders',
+    name: 'searchOrders',
+    desc: '',
+    args: [],
+  );
+}
+String get orderDate {
+  return Intl.message(
+    'Order Date',
+    name: 'orderDate',
+    desc: '',
+    args: [],
+  );
+}
 
 
 }

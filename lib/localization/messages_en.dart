@@ -94,6 +94,10 @@ class MessageLookup extends MessageLookupByLibrary {
 "orderDetails": MessageLookupByLibrary.simpleMessage("Order Details"),
 "contactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
 "sendReport": MessageLookupByLibrary.simpleMessage("Send Report"),
+"orderStatus": MessageLookupByLibrary.simpleMessage("Order Status"),
+"searchInvoice": MessageLookupByLibrary.simpleMessage("Search Invoice"),
+"searchOrders": MessageLookupByLibrary.simpleMessage("Search Orders"),
+"orderDate": MessageLookupByLibrary.simpleMessage("Order Date"),
 
       };
 }

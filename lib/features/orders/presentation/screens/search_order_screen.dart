@@ -5,6 +5,7 @@ import 'package:order_management_system/features/dashboard/data/product_api_sevi
 import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class SearchOrderScreen extends StatefulWidget {
   const SearchOrderScreen({super.key});
@@ -48,10 +49,10 @@ class _SearchOrderScreenState extends State<SearchOrderScreen> {
           appBar: AppBar(
             backgroundColor: CommonColor.primaryColor,
             title: RichText(
-              text: const TextSpan(
+              text: TextSpan(
                 children: [
                   TextSpan(
-                    text: "Search Orders",
+                    text: S.current.searchOrders,
                     style: TextStyle(
                       fontSize: 22,
                       color: Colors.white,
@@ -186,7 +187,7 @@ class _SearchOrderScreenState extends State<SearchOrderScreen> {
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
-                                    "Orders",
+                                    S.current.orders,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16),
@@ -373,7 +374,7 @@ class _SearchOrderScreenState extends State<SearchOrderScreen> {
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 20),
                                     child: Text(
-                                      "Order Details:",
+                                      S.current.orderDetails,
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16),
@@ -391,7 +392,7 @@ class _SearchOrderScreenState extends State<SearchOrderScreen> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Order Date:",
+                                            S.current.orderDate,
                                             style: TextStyle(
                                               color: Colors.grey,
                                               fontWeight: FontWeight.w600,
@@ -420,7 +421,7 @@ class _SearchOrderScreenState extends State<SearchOrderScreen> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Order Status:",
+                                            S.current.orderStatus,
                                             style: TextStyle(
                                               color: Colors.grey,
                                               fontWeight: FontWeight.w600,
@@ -449,7 +450,7 @@ class _SearchOrderScreenState extends State<SearchOrderScreen> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Total Quantity:",
+                                            S.current.totalQuantity,
                                             style: TextStyle(
                                               color: Colors.grey,
                                               fontWeight: FontWeight.w600,
@@ -478,7 +479,7 @@ class _SearchOrderScreenState extends State<SearchOrderScreen> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Total Amount:",
+                                            S.current.totalAmount,
                                             style: TextStyle(
                                               color: Colors.grey,
                                               fontWeight: FontWeight.w600,
