@@ -10,6 +10,7 @@ import 'package:order_management_system/features/dashboard/domain/cart_quantity_
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/screens/widget_category_product_detail_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:developer' as logger;
 
@@ -32,27 +33,44 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
   void initState() {
     scrollController.addListener(onScroll);
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) return;
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       final simpleUiProvider =
           Provider.of<SimpleUiProvider>(context, listen: false);
       simpleUiProvider.clearSubCategoryIndex();
-      productProvider.getWidgetCategoryProducts(
-          widget.category.subCategories[0].id, "",
-          reset: true);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String selectedLan = prefs.getString('language') ?? 'en';
+      // productProvider.resetWidgetCategoryProducts();
+      if (selectedLan == "en") {
+        productProvider.getWidgetCategoryProducts(
+            widget.category.subCategories[0].id, "",
+            reset: true);
+      } else {
+        productProvider.getWidgetCategoryProductsinJapanese(
+            widget.category.subCategories[0].id, "",
+            reset: true);
+      }
     });
   }
 
-  void onScroll() {
+  void onScroll() async {
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
-      productProvider.getWidgetCategoryProducts(
-          widget.index, searchController.text.trim(),
-          reset: false);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String selectedLan = prefs.getString('language') ?? 'en';
+      if (selectedLan == "en") {
+        productProvider.getWidgetCategoryProducts(
+            widget.index, searchController.text.trim(),
+            reset: false);
+      } else {
+        productProvider.getWidgetCategoryProductsinJapanese(
+            widget.index, searchController.text.trim(),
+            reset: false);
+      }
     }
   }
 
@@ -124,19 +142,33 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                   Provider.of<ProductProvider>(context, listen: false);
               final SimpleUiProvider simpleUiProvider =
                   Provider.of<SimpleUiProvider>(context, listen: false);
-              await productProvider.getWidgetCategoryProducts(
-                  widget
-                      .category
-                      .subCategories[simpleUiProvider.selectedSubCategoryIndex]
-                      .id,
-                  "",
-                  reset: true);
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              String selectedLan = prefs.getString('language') ?? 'en';
+              // productProvider.resetWidgetCategoryProducts();
+              if (selectedLan == "en") {
+                await productProvider.getWidgetCategoryProducts(
+                    widget
+                        .category
+                        .subCategories[
+                            simpleUiProvider.selectedSubCategoryIndex]
+                        .id,
+                    "",
+                    reset: true);
+              } else {
+                await productProvider.getWidgetCategoryProductsinJapanese(
+                    widget
+                        .category
+                        .subCategories[
+                            simpleUiProvider.selectedSubCategoryIndex]
+                        .id,
+                    "",
+                    reset: true);
+              }
             },
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Column(
                 children: [
-
                   //search functionality
                   // Padding(
                   //   padding:
@@ -215,14 +247,33 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                                 Provider.of<ProductProvider>(
                                                     context,
                                                     listen: false);
-                                            await productProvider
-                                                .getWidgetCategoryProducts(
-                                                    widget
-                                                        .category
-                                                        .subCategories[index]
-                                                        .id,
-                                                    "",
-                                                    reset: true);
+                                            SharedPreferences prefs =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            String selectedLan =
+                                                prefs.getString('language') ??
+                                                    'en';
+                                            // productProvider
+                                            //     .resetWidgetCategoryProducts();
+                                            if (selectedLan == "en") {
+                                              await productProvider
+                                                  .getWidgetCategoryProducts(
+                                                      widget
+                                                          .category
+                                                          .subCategories[index]
+                                                          .id,
+                                                      "",
+                                                      reset: true);
+                                            } else {
+                                              await productProvider
+                                                  .getWidgetCategoryProductsinJapanese(
+                                                      widget
+                                                          .category
+                                                          .subCategories[index]
+                                                          .id,
+                                                      "",
+                                                      reset: true);
+                                            }
                                           },
                                           child: Padding(
                                             padding: EdgeInsets.symmetric(

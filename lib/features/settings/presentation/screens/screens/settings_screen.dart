@@ -569,6 +569,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                                 .resetWidgetProducts();
                                                             productProvider
                                                                 .resetProductCategoriesWithOutAll();
+                                                            productProvider
+                                                                .resetOfferProducts();
                                                             // productProvider
                                                             //     .resetAllProducts();
                                                             Future.wait([
@@ -577,6 +579,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                                       ""),
                                                               productProvider
                                                                   .getProductCategoriesWithoutAllinJapanese(),
+                                                              productProvider
+                                                                  .getOfferProductinJapanese(
+                                                                      ""),
                                                               // productProvider
                                                               //     .getAllProduct(
                                                               //         ""),
@@ -588,6 +593,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                                 .resetWidgetProducts();
                                                             productProvider
                                                                 .resetProductCategoriesWithOutAll();
+                                                            productProvider
+                                                                .resetOfferProducts();
                                                             // productProvider
                                                             //     .resetAllProducts();
                                                             Future.wait([
@@ -596,6 +603,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                                       ""),
                                                               productProvider
                                                                   .getProductCategoriesWithoutAll(),
+
+                                                              productProvider
+                                                                  .getOfferProduct(
+                                                                      ""),
                                                               // productProvider
                                                               //     .getAllProductinJapanese(
                                                               //         ""),

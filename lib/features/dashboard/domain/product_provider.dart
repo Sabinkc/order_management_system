@@ -9,7 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ProductProvider extends ChangeNotifier {
   final _service = ProductApiSevice();
 
-
   // Provider to get all categories
   bool isCategoryLoading = false;
   List productCategory = [];
@@ -17,7 +16,30 @@ class ProductProvider extends ChangeNotifier {
   Future<void> getAllProductCategories() async {
     isCategoryLoading = true;
     notifyListeners();
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String selectedLan = prefs.getString('language') ?? 'en';
     final response = await _service.getProductCategories();
+    // Add the "All" category at the beginning of the list
+    productCategory = [
+      ProductCategory(
+          id: 0,
+          name: selectedLan == "en" ? "All" : "すべて",
+          subCategories: [],
+          productsCount: product.length,
+          categoryImage: "not availiable"),
+      ...response
+    ];
+    logger.log(
+        "get all product categories called with calling calling without all categories");
+    isCategoryLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> getAllProductCategoriesinJapanese() async {
+    isCategoryLoading = true;
+    notifyListeners();
+    final response = await _service.getProductCategoriesinJapanese();
     // Add the "All" category at the beginning of the list
     productCategory = [
       ProductCategory(
@@ -29,7 +51,13 @@ class ProductProvider extends ChangeNotifier {
       ...response
     ];
     logger.log(
-        "get all product categories called with calling calling without all categories");
+        "get all product categories called with calling calling without all categories in japanese");
+    isCategoryLoading = false;
+    notifyListeners();
+  }
+
+  void resetProductCategories() {
+    productCategory.clear();
     isCategoryLoading = false;
     notifyListeners();
   }
@@ -48,7 +76,7 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-    Future<void> getProductCategoriesWithoutAllinJapanese() async {
+  Future<void> getProductCategoriesWithoutAllinJapanese() async {
     isCategoryWithoutallLoading = true;
     notifyListeners();
     final response = await _service.getProductCategoriesinJapanese();
@@ -59,11 +87,11 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-void resetProductCategoriesWithOutAll(){
-  productCategoryWithoutAll.clear();
-  isCategoryWithoutallLoading = false;
-  notifyListeners();
-}
+  void resetProductCategoriesWithOutAll() {
+    productCategoryWithoutAll.clear();
+    isCategoryWithoutallLoading = false;
+    notifyListeners();
+  }
 
   // Provider to fetch all products
   bool isProductLoading = false;
@@ -142,6 +170,32 @@ void resetProductCategoriesWithOutAll(){
     notifyListeners();
     try {
       final response = await _service.getOfferProducts(s, offerProductPage);
+      if (response.isEmpty) {
+        hasMoreOfferProduct = false;
+      } else {
+        final newProduct = response;
+        offerProduct.addAll(newProduct);
+        offerProductPage += 1;
+        logger.log("offer products: $product");
+        notifyListeners();
+      }
+    } catch (e) {
+      logger.log("provider error: $e");
+    } finally {
+      isOfferProductLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> getOfferProductinJapanese(String s) async {
+    if (isOfferProductLoading || !hasMoreOfferProduct) {
+      return;
+    }
+    isOfferProductLoading = true;
+    notifyListeners();
+    try {
+      final response =
+          await _service.getOfferProductsInJapanese(s, offerProductPage);
       if (response.isEmpty) {
         hasMoreOfferProduct = false;
       } else {
@@ -285,6 +339,57 @@ void resetProductCategoriesWithOutAll(){
     }
   }
 
+  Future<void> getCategoryProductsinJapanese(int categoryId, String s,
+      {bool reset = false}) async {
+    logger.log("passed category id: $categoryId, passed search Keyword:$s");
+    if (isCategoryLoading) return;
+
+    // Reset pagination and clear products if needed
+    if (reset) {
+      categoryProducts.clear();
+      categoryProductPage = 1;
+      categoryProducts.clear();
+      hasMoreCategoryProducts = true;
+    }
+
+    if (!hasMoreCategoryProducts) return;
+
+    isCategoryProductLoading = true;
+    notifyListeners();
+
+    try {
+      List newProducts;
+      if (categoryId == 0) {
+        newProducts =
+            await _service.getAllProductsinJapanese(s, categoryProductPage);
+      } else {
+        newProducts = await _service.getProductsByCategoryInJapanese(
+            categoryId, s, categoryProductPage);
+      }
+
+      if (newProducts.isEmpty) {
+        hasMoreCategoryProducts = false;
+      } else {
+        // Always add to the list for consistent pagination behavior
+        categoryProducts.addAll(newProducts);
+        categoryProductPage += 1;
+      }
+      // logger.log("category Products: $categoryProducts");
+      logger.log("category product length: ${categoryProducts.length}");
+      // Update filtered products
+      // filteredCategoryProducts = List.from(categoryProducts);
+      // logger.log(
+      //     "Fetched ${newProducts.length} products for category $categoryId");
+      // logger.log("Total products now: ${categoryProducts.length}");
+    } catch (e) {
+      logger.log("Error fetching products: $e");
+      hasMoreCategoryProducts = false;
+    } finally {
+      isCategoryProductLoading = false;
+      notifyListeners();
+    }
+  }
+
   bool isWidgetCategoryProductLoading = false;
   List widgetCategoryProducts = [];
   int widgetCategoryProductPage = 1;
@@ -340,9 +445,63 @@ void resetProductCategoriesWithOutAll(){
     }
   }
 
+  Future<void> getWidgetCategoryProductsinJapanese(int categoryId, String s,
+      {bool reset = false}) async {
+    logger.log("passed category id: $categoryId, passed search Keyword:$s");
+    if (isWidgetCategoryProductLoading) return;
 
+    // Reset pagination and clear products if needed
+    if (reset) {
+      widgetCategoryProducts.clear();
+      widgetCategoryProductPage = 1;
+      hasMoreWidgetCategoryProducts = true;
+    }
 
+    if (!hasMoreWidgetCategoryProducts) return;
 
+    isWidgetCategoryProductLoading = true;
+    notifyListeners();
+
+    try {
+      List newProducts;
+      if (categoryId == 0) {
+        newProducts = await _service.getAllProductsinJapanese(
+            s, widgetCategoryProductPage);
+      } else {
+        newProducts = await _service.getProductsByCategoryInJapanese(
+            categoryId, s, widgetCategoryProductPage);
+      }
+
+      if (newProducts.isEmpty) {
+        hasMoreWidgetCategoryProducts = false;
+      } else {
+        // Always add to the list for consistent pagination behavior
+        widgetCategoryProducts.addAll(newProducts);
+        widgetCategoryProductPage += 1;
+      }
+      logger.log("widget category Products: $widgetCategoryProducts");
+      // logger.log("category product length: ${widgetCategoryProducts.length}");
+      // Update filtered products
+      // filteredCategoryProducts = List.from(categoryProducts);
+      // logger.log(
+      //     "Fetched ${newProducts.length} products for category $categoryId");
+      // logger.log("Total products now: ${categoryProducts.length}");
+    } catch (e) {
+      logger.log("Error fetching products: $e");
+      hasMoreWidgetCategoryProducts = false;
+    } finally {
+      isWidgetCategoryProductLoading = false;
+      notifyListeners();
+    }
+  }
+
+void resetWidgetCategoryProducts(){
+  isWidgetCategoryProductLoading = false;
+  widgetCategoryProductPage=1;
+  hasMoreWidgetCategoryProducts= true;
+  widgetCategoryProducts.clear();
+  notifyListeners();
+}
   // bool isProductDetailLoading = false;
   // ProductDetails productDetail = ProductDetails(
   //     name: "",
@@ -369,7 +528,6 @@ void resetProductCategoriesWithOutAll(){
   //   }
   // }
 
-  
   bool isProductDetailLoading = false;
   ProductDetails productDetail = ProductDetails(
       name: "",
@@ -385,17 +543,16 @@ void resetProductCategoriesWithOutAll(){
     isProductDetailLoading = true;
     notifyListeners();
     try {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
- String selectedLan = prefs.getString('language') ?? 'en';
-     if(selectedLan == "en"){
-       final response = await _service.getProductDetailsById(sku);
-       productDetail = response;
-     }
-     else{
-         final response = await _service.getProductDetailsinJapaneseById(sku);
-       productDetail = response;
-     }
-      
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String selectedLan = prefs.getString('language') ?? 'en';
+      if (selectedLan == "en") {
+        final response = await _service.getProductDetailsById(sku);
+        productDetail = response;
+      } else {
+        final response = await _service.getProductDetailsinJapaneseById(sku);
+        productDetail = response;
+      }
+
       logger.log(productDetail.toString());
     } catch (e) {
       logger.log("$e");
