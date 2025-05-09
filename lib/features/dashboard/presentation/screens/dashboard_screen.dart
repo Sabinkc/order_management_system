@@ -13,7 +13,6 @@ import 'package:order_management_system/features/settings/domain/settings_provid
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
 
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -185,7 +184,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     height: screenWidth * 0.03,
                   ),
                   CategoryRowDashboard(),
-                  OfferWidget(),
+                  // OfferWidget(),
+                  Consumer<ProductProvider>(
+                      builder: (context, productProvider, child) {
+                    if (productProvider.offerProduct.isEmpty &&
+                        productProvider.isOfferProductLoading == true) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 70),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: CommonColor.primaryColor,
+                          ),
+                        ),
+                      );
+                    } else if (productProvider.offerProduct.isEmpty) {
+                      return SizedBox.shrink();
+                    } else {
+                      return OfferWidget();
+                    }
+                  }),
                   AllProductWidget(),
                   SizedBox(
                     height: screenHeight * 0.01,

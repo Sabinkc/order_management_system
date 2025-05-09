@@ -10,7 +10,7 @@ import 'package:order_management_system/features/invoice/presentation/screens/in
 import 'package:order_management_system/features/invoice/presentation/screens/search_invoice_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:order_management_system/localization/l10n.dart';
-import 'package:order_management_system/localization/l10n.dart';
+
 
 class InvoiceScreen extends StatefulWidget {
   const InvoiceScreen({super.key});

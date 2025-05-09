@@ -6,7 +6,7 @@ import 'package:order_management_system/features/dashboard/presentation/widgets/
 import 'package:order_management_system/features/dashboard/presentation/widgets/orders_widget_dashboard.dart';
 import 'package:provider/provider.dart';
 import 'package:order_management_system/localization/l10n.dart';
-import 'package:order_management_system/localization/l10n.dart';
+
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});

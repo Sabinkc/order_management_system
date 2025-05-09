@@ -58,17 +58,17 @@ class OfferWidget extends StatelessWidget {
               height: 200,
               child: Center(child: Consumer<ProductProvider>(
                   builder: (context, productProvider, child) {
-                logger.log(
-                    "offer prodcut length: ${productProvider.offerProduct.length.toString()}");
-                if (productProvider.isOfferProductLoading == true &&
-                    productProvider.offerProduct.isEmpty) {
-                  return Center(
-                      child: CircularProgressIndicator(
-                    color: CommonColor.primaryColor,
-                  ));
-                } else if (productProvider.offerProduct.isEmpty) {
-                  return Center(child: Text("No offer products to show"));
-                } else {
+                // logger.log(
+                //     "offer prodcut length: ${productProvider.offerProduct.length.toString()}");
+                // if (productProvider.isOfferProductLoading == true &&
+                //     productProvider.offerProduct.isEmpty) {
+                //   return Center(
+                //       child: CircularProgressIndicator(
+                //     color: CommonColor.primaryColor,
+                //   ));
+                // } else if (productProvider.offerProduct.isEmpty) {
+                //   return SizedBox.shrink();
+                // } else {
                   return ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: productProvider.offerProduct.length > 3
@@ -317,7 +317,7 @@ class OfferWidget extends StatelessWidget {
                           ),
                         );
                       });
-                }
+                // }
               })),
             )
           ],

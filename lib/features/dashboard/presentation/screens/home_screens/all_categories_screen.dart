@@ -5,6 +5,7 @@ import 'package:order_management_system/features/dashboard/domain/product_provid
 import 'package:order_management_system/features/dashboard/presentation/screens/category_detail_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:order_management_system/localization/l10n.dart';
 
 class AllCategoriesScreen extends StatelessWidget {
   AllCategoriesScreen({super.key});
@@ -18,10 +19,10 @@ class AllCategoriesScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: CommonColor.primaryColor,
         title: RichText(
-          text: const TextSpan(
+          text:  TextSpan(
             children: [
               TextSpan(
-                text: "All Categories",
+                text: S.current.allCategories,
                 style: TextStyle(
                   fontSize: 22,
                   color: Colors.white,
