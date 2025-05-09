@@ -71,8 +71,8 @@ class OfferWidget extends StatelessWidget {
                 // } else {
                   return ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: productProvider.offerProduct.length > 3
-                          ? 3
+                      itemCount: productProvider.offerProduct.length > 5
+                          ? 5
                           : productProvider.offerProduct.length,
                       itemBuilder: (context, index) {
                         final offerProduct =
