@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/category_row_dashboard.dart';
@@ -10,7 +9,6 @@ import 'package:order_management_system/features/dashboard/presentation/widgets/
 import 'package:order_management_system/features/dashboard/presentation/widgets/search_row_dashboard.dart';
 import 'package:order_management_system/features/dashboard/presentation/widgets/top_profile_dashboard.dart';
 import 'package:order_management_system/features/location/domain/location_provider.dart';
-import 'package:order_management_system/features/settings/data/push_notification_shared_pref.dart';
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as logger;
