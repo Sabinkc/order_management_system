@@ -549,6 +549,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                       Utilities.showCommonSnackBar(
                                                           context,
                                                           "Notification permission denied");
+                                                          
                                                     }
                                                   }
                                                 } else {
