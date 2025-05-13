@@ -29,4 +29,6 @@ class SharedPrefLoggedinState {
     prefs.remove(isLoggedinKey);
     prefs.remove(accessTokenkey);
   }
+
+
 }

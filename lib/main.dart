@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:order_management_system/common/simple_ui_provider.dart';
 import 'package:order_management_system/features/connectivity/connectivty_provider.dart';
 import 'package:order_management_system/features/connectivity/dependency_injection.dart';
@@ -18,6 +19,7 @@ import 'package:order_management_system/features/login/domain/login_textfield_pr
 import 'package:order_management_system/features/login/presentation/screens/login_screen.dart';
 import 'package:order_management_system/features/my%20order/domain/order_history_provider.dart';
 import 'package:order_management_system/features/my%20order/domain/switch_order_screen_provider.dart';
+import 'package:order_management_system/features/settings/data/push_notification_shared_pref.dart';
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:order_management_system/features/signup/domain/checkbox_provider.dart';
 import 'package:order_management_system/features/signup/domain/signup_textfield_provider.dart';
@@ -66,6 +68,17 @@ void main(List<String> args) async {
       child: MyApplication(
         isLoggedin: isLoggedin,
       )));
+  final notificationsEnabled =
+      await PushNotificationSharedPref.getNotificationOptIn();
+  // Initialize OneSignal
+  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+  OneSignal.initialize("68b2e7e4-510b-4997-9104-000d0978e8ce");
+
+  // Request permission only if user had opted-in previously
+  if (!notificationsEnabled) {
+    OneSignal.Notifications.requestPermission(
+        false); // silently requests (no prompt)
+  }
 
   DependencyInjection.init();
 }

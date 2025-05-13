@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:order_management_system/features/settings/data/password_api_service.dart';
 import 'package:order_management_system/features/settings/data/profile_api_service.dart';
 import 'package:order_management_system/features/settings/data/profile_model.dart';
+import 'package:order_management_system/features/settings/data/push_notification_shared_pref.dart';
 // import 'dart:developer' as logger;
 
 class SettingsProvider extends ChangeNotifier {
@@ -18,10 +19,16 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   //provider to switch push notification
-  bool notficationSwitchState = true;
+  bool notficationSwitchState = false;
 
-  void switchPushNotification() {
-    notficationSwitchState = !notficationSwitchState;
+  Future<void> initializeNotificationState() async {
+    notficationSwitchState =
+        await PushNotificationSharedPref.getNotificationOptIn();
+    notifyListeners();
+  }
+
+  void switchPushNotification(bool value) {
+    notficationSwitchState = value;
     notifyListeners();
   }
 
@@ -91,7 +98,6 @@ class SettingsProvider extends ChangeNotifier {
     } catch (e) {
       throw "$e";
     } finally {
-      
       isUpdateProfileLoading = false;
       notifyListeners();
       // logger.log("profile: $profile");
@@ -170,5 +176,15 @@ class SettingsProvider extends ChangeNotifier {
       isPasswordResetting = false;
       notifyListeners();
     }
+  }
+
+  // Add this in your provider or settings model
+  bool _receiveNotifications = true;
+
+  bool get receiveNotifications => _receiveNotifications;
+
+  void toggleNotificationPermission(bool value) {
+    _receiveNotifications = value;
+    notifyListeners();
   }
 }

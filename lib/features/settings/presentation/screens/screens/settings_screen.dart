@@ -5,6 +5,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/utils.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
@@ -13,6 +14,7 @@ import 'package:order_management_system/features/orders/presentation/screens/ord
 import 'package:order_management_system/features/login/data/google_signin_api_service.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
 import 'package:order_management_system/features/login/presentation/screens/login_screen.dart';
+import 'package:order_management_system/features/settings/data/push_notification_shared_pref.dart';
 import 'package:order_management_system/features/settings/domain/settings_provider.dart';
 import 'package:order_management_system/features/settings/presentation/screens/screens/contact_screen.dart';
 import 'package:order_management_system/features/settings/presentation/screens/screens/faqs_screen.dart';
@@ -44,6 +46,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       final settingProvider =
           Provider.of<SettingsProvider>(context, listen: false);
       await settingProvider.getProfile();
+        final sharedPrefNotificationValue =
+        await PushNotificationSharedPref.getNotificationOptIn();
+      settingProvider.notficationSwitchState = sharedPrefNotificationValue;
     });
     super.initState();
   }
@@ -57,6 +62,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
       if (!mounted) return;
       logger.log("$e");
       // Utilities.showCommonSnackBar(context, "$e");
+    }
+  }
+
+
+
+
+
+  Future<void> updateNotificationSubscription(bool isSubscribed) async {
+    if (isSubscribed) {
+      await OneSignal.User.pushSubscription.optIn(); // Enables notifications
+    } else {
+      await OneSignal.User.pushSubscription.optOut(); // Disables notifications
     }
   }
 
@@ -474,6 +491,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       size: 30,
                                     ),
                                     children: [
+                                      // Consumer<SettingsProvider>(
+                                      //   builder:
+                                      //       (context, settingsProvider, _) {
+                                      //     return SwitchListTile(
+                                      //       title:
+                                      //           Text("Receive Notifications"),
+                                      //       value: settingsProvider
+                                      //           .receiveNotifications,
+                                      //       onChanged: (value) async {
+                                      //         settingsProvider
+                                      //             .toggleNotificationPermission(
+                                      //                 value);
+                                      //         await updateNotificationSubscription(
+                                      //             value);
+                                      //       },
+                                      //     );
+                                      //   },
+                                      // ),
+
                                       ListTile(
                                         leading: Icon(
                                           Icons.notification_important_outlined,
@@ -491,12 +527,51 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                   CommonColor.primaryColor,
                                               inactiveThumbColor:
                                                   CommonColor.mediumGreyColor,
-                                              value: provider
-                                                  .notficationSwitchState,
-                                              onChanged: (bool? value) {
-                                                provider
-                                                    .switchPushNotification();
-                                              }),
+                                              value:
+                                                  provider.notficationSwitchState,
+                                              onChanged: (bool? value) async {
+                                                if (value == true) {
+                                                  // Ask for push notification permission
+                                                  bool granted = await OneSignal
+                                                          .Notifications
+                                                      .requestPermission(true);
+                                                  if (granted) {
+                                                    provider
+                                                        .switchPushNotification(
+                                                            true);
+                                                    await updateNotificationSubscription(
+                                                        true);
+                                                    await PushNotificationSharedPref
+                                                        .setNotificationOptIn(
+                                                            true);
+                                                  } else {
+                                                    if (context.mounted) {
+                                                      Utilities.showCommonSnackBar(
+                                                          context,
+                                                          "Notification permission denied");
+                                                    }
+                                                  }
+                                                } else {
+                                                  // User turned off the switch
+                                                  provider
+                                                      .switchPushNotification(
+                                                          false);
+                                                  await updateNotificationSubscription(
+                                                      false);
+                                                  await PushNotificationSharedPref
+                                                      .setNotificationOptIn(
+                                                          false);
+                                                }
+                                              }
+
+                                              // onChanged: (bool? value) async {
+                                              //   provider.switchPushNotification();
+                                              //   await updateNotificationSubscription(
+                                              //       value!);
+                                              //   await PushNotificationSharedPref
+                                              //       .setNotificationOptIn(value);
+                                              // },
+                                              ),
                                         ),
                                       ),
                                       Consumer<LocalizationProvider>(builder:

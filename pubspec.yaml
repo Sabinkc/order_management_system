@@ -70,6 +70,7 @@ dependencies:
   flutter_cache_manager: ^3.4.1
   flutter_image_compress: ^2.4.0
   path_provider: ^2.1.5
+  onesignal_flutter: ^5.3.2
 
 flutter_native_splash:
   color: "#589A73" # Replace with your desired color in hex format
