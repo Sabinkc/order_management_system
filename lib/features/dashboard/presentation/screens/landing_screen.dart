@@ -12,7 +12,8 @@ import 'package:order_management_system/localization/l10n.dart';
 import 'package:provider/provider.dart';
 
 class LandingScreen extends StatefulWidget {
-  const LandingScreen({super.key});
+  final int selectedIndex;
+  const LandingScreen({super.key, this.selectedIndex = 0});
 
   @override
   State<LandingScreen> createState() => _LandingScreenState();
@@ -26,6 +27,7 @@ class _LandingScreenState extends State<LandingScreen> {
       final bottomNavBarProvider =
           Provider.of<BottomNavigationbarProvider>(context, listen: false);
       bottomNavBarProvider.resetSelectedIndex();
+      bottomNavBarProvider.updateSelectedIndex(widget.selectedIndex);
     });
 
     super.initState();

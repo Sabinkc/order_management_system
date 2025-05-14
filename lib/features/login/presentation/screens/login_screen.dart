@@ -29,69 +29,73 @@ class _LoginScreenState extends State<LoginScreen> {
               child: ConstrainedBox(
                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: IntrinsicHeight(
-                  child: Stack(
-                    children: [
-                      // Green background container
-                      Positioned(
-                        top: screenHeight * 0.27,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        child: Container(
-                          height: double
-                              .infinity, // Ensures it covers the remaining area
-                          decoration: BoxDecoration(
-                            color: CommonColor.commonGreyColor,
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(25),
-                              topRight: Radius.circular(25),
-                            ),
-                          ),
-                        ),
-                      ),
-                      // Main content
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 25, vertical: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: screenHeight * 0.12),
-                            const TopTextLogin(),
-                            SizedBox(height: screenHeight * 0.1),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TextfieldandloginbuttonWidgetLogin(),
-                                  SizedBox(height: screenHeight * 0.05),
-                                  // const DividerTextLogin(),
-                                  // SizedBox(height: screenHeight * 0.05),
-                                  // const GoogleButtonLogin(),
-                                  SizedBox(
-                                    height: screenHeight * 0.13,
-                                  ),
-                                  SizedBox(height: screenHeight * 0.045),
-                                  const BottomTextLogin(),
-                                ],
+                  child: MediaQuery.removePadding(
+                    context: context,
+                    removeBottom: true,
+                    child: Stack(
+                      children: [
+                        // Green background container
+                        Positioned(
+                          top: screenHeight * 0.27,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: Container(
+                            height: double
+                                .infinity, // Ensures it covers the remaining area
+                            decoration: BoxDecoration(
+                              color: CommonColor.commonGreyColor,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(25),
+                                topRight: Radius.circular(25),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      if (authProvider.isLoginWithGoogleLoading)
-                        Positioned.fill(
-                          top: screenHeight * 0.3,
-                          child: Align(
-                            alignment: Alignment.topCenter,
-                            child: CircularProgressIndicator(
-                              color: Colors.grey[400],
-                            ),
                           ),
                         ),
-                    ],
+                        // Main content
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: screenHeight * 0.12),
+                              const TopTextLogin(),
+                              SizedBox(height: screenHeight * 0.1),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextfieldandloginbuttonWidgetLogin(),
+                                    SizedBox(height: screenHeight * 0.05),
+                                    // const DividerTextLogin(),
+                                    // SizedBox(height: screenHeight * 0.05),
+                                    // const GoogleButtonLogin(),
+                                    SizedBox(
+                                      height: screenHeight * 0.13,
+                                    ),
+                                    SizedBox(height: screenHeight * 0.045),
+                                    const BottomTextLogin(),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        if (authProvider.isLoginWithGoogleLoading)
+                          Positioned.fill(
+                            top: screenHeight * 0.3,
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: CircularProgressIndicator(
+                                color: Colors.grey[400],
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                 ),
               ),

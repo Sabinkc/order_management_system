@@ -10,7 +10,6 @@ import 'package:order_management_system/features/my%20order/presentation/widgets
 import 'package:provider/provider.dart';
 import 'package:order_management_system/localization/l10n.dart';
 
-
 class MyOrderHistoryScreen extends StatefulWidget {
   const MyOrderHistoryScreen({super.key});
 
@@ -46,7 +45,7 @@ class _OrderHistoryScreenState extends State<MyOrderHistoryScreen> {
       appBar: AppBar(
         backgroundColor: CommonColor.primaryColor,
         title: RichText(
-          text:  TextSpan(
+          text: TextSpan(
             children: [
               TextSpan(
                 text: S.current.myOrders,
@@ -89,26 +88,32 @@ class _OrderHistoryScreenState extends State<MyOrderHistoryScreen> {
                 );
               }
               if (orderProvider.ordersBySandD.isEmpty) {
-                return Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      MingCute.shopping_bag_1_line,
-                      color: CommonColor.darkGreyColor,
-                      weight: 0.5,
-                      size: 100,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      "No orders till now!",
-                      style: TextStyle(
-                          color: CommonColor.darkGreyColor, fontSize: 20),
-                    ),
-                  ],
-                ));
+                return SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: SizedBox(
+                    height: screenHeight * 0.6,
+                    child: Center(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          MingCute.shopping_bag_1_line,
+                          color: CommonColor.darkGreyColor,
+                          weight: 0.5,
+                          size: 100,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "No orders till now!",
+                          style: TextStyle(
+                              color: CommonColor.darkGreyColor, fontSize: 20),
+                        ),
+                      ],
+                    )),
+                  ),
+                );
               }
 
               return SingleChildScrollView(

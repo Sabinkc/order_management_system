@@ -25,50 +25,54 @@ class _SignupScreenState extends State<SignupScreen> {
               child: ConstrainedBox(
                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: IntrinsicHeight(
-                  child: Stack(
-                    children: [
-                      // Green background container
-                      Positioned(
-                        top: screenHeight * 0.23,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        child: Container(
-                          height: double
-                              .infinity, // Ensures it covers the remaining area
-                          decoration: BoxDecoration(
-                            color: CommonColor.commonGreyColor,
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(25),
-                              topRight: Radius.circular(25),
+                  child: MediaQuery.removePadding(
+                    context: context,
+                    removeBottom: true,
+                    child: Stack(
+                      children: [
+                        // Green background container
+                        Positioned(
+                          top: screenHeight * 0.23,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: Container(
+                            height: double
+                                .infinity, // Ensures it covers the remaining area
+                            decoration: BoxDecoration(
+                              color: CommonColor.commonGreyColor,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(25),
+                                topRight: Radius.circular(25),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      // Main content
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 25, vertical: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: screenHeight * 0.06),
-                            const TopTextSignup(),
-                            SizedBox(height: screenHeight * 0.1),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                   TextfieldWidgetSignup(),
-                                ],
+                        // Main content
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: screenHeight * 0.06),
+                              const TopTextSignup(),
+                              SizedBox(height: screenHeight * 0.1),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextfieldWidgetSignup(),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

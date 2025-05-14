@@ -26,6 +26,9 @@ import 'package:order_management_system/localization/l10n.dart';
 import 'package:order_management_system/localization/localization_provider.dart';
 import 'package:provider/provider.dart';
 
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   final isLoggedin = await SharedPrefLoggedinState.getLoginState();
@@ -79,6 +82,13 @@ void main(List<String> args) async {
   //       false); // silently requests (no prompt)
   // }
 
+  OneSignal.Notifications.addClickListener((event) {
+  navigatorKey.currentState?.push(MaterialPageRoute(
+    builder: (_) => isLoggedin ? LandingScreen(selectedIndex: 2) : LoginScreen(),
+  ));
+});
+
+
   DependencyInjection.init();
 }
 
@@ -90,7 +100,9 @@ class MyApplication extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<LocalizationProvider>(
         builder: (context, localizationProvider, child) {
+          
       return GetMaterialApp(
+        navigatorKey: navigatorKey,
         theme: ThemeData(
           textTheme: GoogleFonts.interTextTheme(),
         ),

@@ -9,9 +9,6 @@ import 'package:order_management_system/features/login/data/sharedpref_loginstat
 import "package:http/http.dart" as http;
 import 'dart:developer' as logger;
 
-
-
-
 class ProductApiSevice {
   //get products based on category and availiability
   Future<Map<String, dynamic>> getProductByCandA(int c, int a) async {
@@ -177,7 +174,8 @@ class ProductApiSevice {
             name: product["japaneseName"] ?? "No name",
             description:
                 product["japaneseDescription"] ?? "Description not available",
-            categoryName: product["category"]["japanese_name"] ?? "Japanese name not availiable",
+            categoryName: product["category"]["japanese_name"] ??
+                "Japanese name not availiable",
             stockQuantity: product["unitStock"] ?? 0,
             price: price,
             isAvailable: product["isAvailable"] ?? false,
@@ -308,7 +306,8 @@ class ProductApiSevice {
             name: product["japaneseName"] ?? "Japanese name not availiable",
             description: product["japaneseDescription"] ??
                 "Japanese description not available",
-            categoryName: product["category"]["japanese_name"] ?? "Japanese name not availiable",
+            categoryName: product["category"]["japanese_name"] ??
+                "Japanese name not availiable",
             stockQuantity: product["unitStock"] ?? 0,
             price: price,
             isAvailable: product["isAvailable"] ?? false,
@@ -576,90 +575,87 @@ class ProductApiSevice {
   //   logger.log("cache cleaned");
   // }
 
+  Future<Uint8List> getThumbnailByFilename(String filename) async {
+    final cacheKey =
+        'image_${Constants.baseUrl}/v1/storage/img/products/thumbnails/$filename';
+    final cacheManager = LimitedCacheManager(); // ✅ Use custom cache manager
 
-Future<Uint8List> getThumbnailByFilename(String filename) async {
-  final cacheKey =
-      'image_${Constants.baseUrl}/v1/storage/img/products/thumbnails/$filename';
-  final cacheManager = LimitedCacheManager(); // ✅ Use custom cache manager
-
-  // 1. Try disk cache first
-  final cachedFile = await cacheManager.getFileFromCache(cacheKey);
-  if (cachedFile != null) {
-    final bytes = await cachedFile.file.readAsBytes();
-    if (bytes.isNotEmpty) {
-      return bytes;
+    // 1. Try disk cache first
+    final cachedFile = await cacheManager.getFileFromCache(cacheKey);
+    if (cachedFile != null) {
+      final bytes = await cachedFile.file.readAsBytes();
+      if (bytes.isNotEmpty) {
+        return bytes;
+      }
     }
+
+    // 2. Network fetch if not in cache
+    final token = await SharedPrefLoggedinState.getAccessToken();
+    if (token == null) throw Exception("Not authenticated");
+
+    final response = await http.get(
+      Uri.parse(
+          "${Constants.baseUrl}/v1/storage/img/products/thumbnails/$filename"),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to fetch image: ${response.statusCode}');
+    }
+
+    // 3. Compress and cache the image
+    final compressedBytes = await _compressImage(response.bodyBytes);
+
+    if (compressedBytes.isNotEmpty) {
+      await cacheManager.putFile(cacheKey, compressedBytes);
+    } else {
+      await cacheManager.putFile(cacheKey, response.bodyBytes);
+    }
+
+    return compressedBytes.isNotEmpty ? compressedBytes : response.bodyBytes;
   }
-
-  // 2. Network fetch if not in cache
-  final token = await SharedPrefLoggedinState.getAccessToken();
-  if (token == null) throw Exception("Not authenticated");
-
-  final response = await http.get(
-    Uri.parse(
-        "${Constants.baseUrl}/v1/storage/img/products/thumbnails/$filename"),
-    headers: {'Authorization': 'Bearer $token'},
-  );
-
-  if (response.statusCode != 200) {
-    throw Exception('Failed to fetch image: ${response.statusCode}');
-  }
-
-  // 3. Compress and cache the image
-  final compressedBytes = await _compressImage(response.bodyBytes);
-
-  if (compressedBytes.isNotEmpty) {
-    await cacheManager.putFile(cacheKey, compressedBytes);
-  } else {
-    await cacheManager.putFile(cacheKey, response.bodyBytes);
-  }
-
-  return compressedBytes.isNotEmpty ? compressedBytes : response.bodyBytes;
-}
-
-
 
   Future<Uint8List> getCategoryImage(String filename) async {
-  final cacheKey =
-      'image_${Constants.baseUrl}/v1/storage/img/product-categories/$filename';
-  final cacheManager = LimitedCacheManager(); // ✅ use custom manager
+    final cacheKey =
+        'image_${Constants.baseUrl}/v1/storage/img/product-categories/$filename';
+    final cacheManager = LimitedCacheManager(); // ✅ use custom manager
 
-  // 1. Try disk cache first
-  final cachedFile = await cacheManager.getFileFromCache(cacheKey);
-  if (cachedFile != null) {
-    final bytes = await cachedFile.file.readAsBytes();
-    if (bytes.isNotEmpty) {
-      return bytes;
+    // 1. Try disk cache first
+    final cachedFile = await cacheManager.getFileFromCache(cacheKey);
+    if (cachedFile != null) {
+      final bytes = await cachedFile.file.readAsBytes();
+      if (bytes.isNotEmpty) {
+        return bytes;
+      }
     }
+
+    // 2. Network fetch if not in cache
+    final token = await SharedPrefLoggedinState.getAccessToken();
+    if (token == null) throw Exception("Not authenticated");
+
+    final response = await http.get(
+      Uri.parse(
+          "${Constants.baseUrl}/v1/storage/img/product-categories/$filename"),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to fetch image: ${response.statusCode}');
+    }
+
+    // 3. Compress and cache
+    final compressedBytes = await _compressImage(response.bodyBytes);
+
+    if (compressedBytes.isNotEmpty) {
+      await cacheManager.putFile(cacheKey, compressedBytes);
+    } else {
+      await cacheManager.putFile(cacheKey, response.bodyBytes);
+    }
+
+    return compressedBytes.isNotEmpty ? compressedBytes : response.bodyBytes;
   }
 
-  // 2. Network fetch if not in cache
-  final token = await SharedPrefLoggedinState.getAccessToken();
-  if (token == null) throw Exception("Not authenticated");
-
-  final response = await http.get(
-    Uri.parse(
-        "${Constants.baseUrl}/v1/storage/img/product-categories/$filename"),
-    headers: {'Authorization': 'Bearer $token'},
-  );
-
-  if (response.statusCode != 200) {
-    throw Exception('Failed to fetch image: ${response.statusCode}');
-  }
-
-  // 3. Compress and cache
-  final compressedBytes = await _compressImage(response.bodyBytes);
-
-  if (compressedBytes.isNotEmpty) {
-    await cacheManager.putFile(cacheKey, compressedBytes);
-  } else {
-    await cacheManager.putFile(cacheKey, response.bodyBytes);
-  }
-
-  return compressedBytes.isNotEmpty ? compressedBytes : response.bodyBytes;
-}
-
-Future<Uint8List> _compressImage(Uint8List bytes) async {
+  Future<Uint8List> _compressImage(Uint8List bytes) async {
     try {
       return await FlutterImageCompress.compressWithList(bytes,
           minWidth: 800,
@@ -672,13 +668,10 @@ Future<Uint8List> _compressImage(Uint8List bytes) async {
     }
   }
 
-
-Future<void> clearCache() async {
-  await LimitedCacheManager().emptyCache();
-  logger.log("cache cleaned");
-}
-
-
+  Future<void> clearCache() async {
+    await LimitedCacheManager().emptyCache();
+    logger.log("cache cleaned");
+  }
 
 //get products by category
   Future<List<ProductDetails>> getProductsByCategory(
@@ -794,7 +787,8 @@ Future<void> clearCache() async {
             name: product["japaneseName"] ?? "Japanese name not availiable",
             description: product["japaneseDescription"] ??
                 "Japanese description not availiable",
-            categoryName: product["category"]["japanese_name"] ??"Japanese name not availiable",
+            categoryName: product["category"]["japanese_name"] ??
+                "Japanese name not availiable",
             stockQuantity: product[
                 "unitStock"], // Accessing stockQuantity from unitTypes[0]
             price:
@@ -1262,6 +1256,7 @@ Future<void> clearCache() async {
     // logger.log(responseBody.toString());
     // logger.log("status code: ${response.statusCode}");
     Map<String, dynamic> jsonResponse = json.decode(responseBody);
+    logger.log(jsonResponse.toString());
 
     if (response.statusCode == 200) {
       List<dynamic> ordersJson = jsonResponse["data"];
@@ -1282,7 +1277,7 @@ Future<void> clearCache() async {
             // Use a default value if "id" is missing
             name: product["name"],
             price: double.parse(product["price"].toString()),
-            category: product["category"]["name"],
+            category: product["category"]["name"] ?? "category name not found",
             imagePath: product["image"] ??
                 "N/A", // Use a default value if "imagePath" is missing
             quantity: product["quantity"],
@@ -1478,6 +1473,7 @@ Future<void> clearCache() async {
     // logger.log(responseBody.toString());
     // logger.log("status code: ${response.statusCode}");
     Map<String, dynamic> jsonResponse = json.decode(responseBody);
+    // logger.log(jsonResponse.toString());
 
     if (response.statusCode == 200) {
       List<dynamic> ordersJson = jsonResponse["data"];
@@ -1496,9 +1492,9 @@ Future<void> clearCache() async {
           // Create CartModel object directly
           products.add(OrderProductDetailModel(
             // Use a default value if "id" is missing
-            name: product["name"],
+            name: product["name"] ?? "No product name",
             price: double.parse(product["price"].toString()),
-            category: product["category"]["name"],
+            category: product["category"]["name"] ?? "Category name not found",
             imagePath: product["image"] ??
                 "N/A", // Use a default value if "imagePath" is missing
             quantity: product["quantity"],
