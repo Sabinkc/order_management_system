@@ -10,6 +10,7 @@ import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/utils.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
 import 'package:order_management_system/features/location/presentation/screens/shipping_location_screen.dart';
+import 'package:order_management_system/features/login/data/sharedpref_loginstate.dart';
 import 'package:order_management_system/features/orders/presentation/screens/order_screen.dart';
 import 'package:order_management_system/features/login/data/google_signin_api_service.dart';
 import 'package:order_management_system/features/login/domain/auth_provider.dart';
@@ -809,17 +810,46 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                                             CommonColor.primaryColor,
                                                                       ),
                                                                       onPressed:
-                                                                          () {
-                                                                        Navigator.pop(
-                                                                            context);
+                                                                          () async {
+                                                                        try {
+                                                                          final authProvider = Provider.of<AuthProvider>(
+                                                                              context,
+                                                                              listen: false);
+                                                                          await authProvider
+                                                                              .deleteAccount();
+                                                                          await SharedPrefLoggedinState
+                                                                              .clearLoginState();
+                                                                          if (context
+                                                                              .mounted) {
+                                                                            Navigator.pushAndRemoveUntil(
+                                                                                context,
+                                                                                MaterialPageRoute(builder: (context) => LoginScreen()),
+                                                                                (route) => false);
+                                                                            Utilities.showCommonSnackBar(context,
+                                                                                "Account deleted successfully",
+                                                                                icon: Icons.check);
+                                                                          }
+                                                                        } catch (e) {
+                                                                          if (context
+                                                                              .mounted) {
+                                                                            Utilities.showCommonSnackBar(context,
+                                                                                "$e");
+                                                                          }
+                                                                        }
                                                                       },
-                                                                      child:
-                                                                          Text(
-                                                                        "Delete",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.white),
-                                                                      )),
+                                                                      child: Consumer<AuthProvider>(builder: (context,
+                                                                          authProvider,
+                                                                          child) {
+                                                                        return authProvider.isDeleteAccountLoading ==
+                                                                                true
+                                                                            ? CircularProgressIndicator(
+                                                                                color: Colors.white,
+                                                                              )
+                                                                            : Text(
+                                                                                "Delete",
+                                                                                style: TextStyle(color: Colors.white),
+                                                                              );
+                                                                      })),
                                                             ),
                                                           ],
                                                         )

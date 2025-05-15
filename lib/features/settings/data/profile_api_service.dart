@@ -22,7 +22,7 @@ class ProfileApiService {
       "Content-Type": "application/json",
       "Authorization": "Bearer $token",
     };
-
+    logger.log("token: $token");
     // Construct the URL for the profile endpoint
     var url = Uri.parse(Constants.getMyProfileUrl);
     var request = http.Request("GET", url);
@@ -32,10 +32,11 @@ class ProfileApiService {
       // Send the request and wait for the response
       http.StreamedResponse response = await request.send();
       String responseBody = await response.stream.bytesToString();
-      // logger.log("Status code: ${response.statusCode}");
+      logger.log("Status code: ${response.statusCode}");
 
       // Decode the JSON response
       Map<String, dynamic> jsonResponse = json.decode(responseBody);
+      logger.log(responseBody);
 
       // Check if the request was successful
       if (response.statusCode == 200 && jsonResponse["success"] == true) {

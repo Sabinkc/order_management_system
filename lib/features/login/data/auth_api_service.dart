@@ -289,4 +289,32 @@ class AuthApiService {
       };
     }
   }
+
+  
+  Future deleteMyAccount() async {
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+
+    if (token == null) {
+      throw "User not authenticated. Please login first.";
+    }
+
+    var headers = {
+      "Authorization": "Bearer $token",
+    };
+
+    var url = Uri.parse(Constants.deleteMyAccountUrl);
+
+    try {
+      var response = await http.delete(url, headers: headers);
+logger.i("delete account status code: ${response.statusCode}");
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw "Failed to delete account";
+      }
+    } catch (e) {
+      logger.i("Error deleting account: $e");
+      throw "$e";
+    }
+  }
 }

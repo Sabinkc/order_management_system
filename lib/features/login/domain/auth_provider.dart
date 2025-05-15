@@ -140,4 +140,23 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  
+  bool isDeleteAccountLoading = false;
+  
+  
+  Future deleteAccount() async {
+    isDeleteAccountLoading = true;
+    notifyListeners();
+    try {
+      await apiService.deleteMyAccount();
+  
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    } finally {
+      isDeleteAccountLoading = false;
+      notifyListeners();
+    }
+  }
 }
