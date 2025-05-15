@@ -591,6 +591,14 @@ String get orderDate {
     args: [],
   );
 }
+String get deleteAccount {
+  return Intl.message(
+    'Delete Account',
+    name: 'deleteAccount',
+    desc: '',
+    args: [],
+  );
+}
 
 
 }

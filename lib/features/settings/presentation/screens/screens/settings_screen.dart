@@ -46,8 +46,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       final settingProvider =
           Provider.of<SettingsProvider>(context, listen: false);
       await settingProvider.getProfile();
-        final sharedPrefNotificationValue =
-        await PushNotificationSharedPref.getNotificationOptIn();
+      final sharedPrefNotificationValue =
+          await PushNotificationSharedPref.getNotificationOptIn();
       settingProvider.notficationSwitchState = sharedPrefNotificationValue;
     });
     super.initState();
@@ -64,10 +64,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       // Utilities.showCommonSnackBar(context, "$e");
     }
   }
-
-
-
-
 
   Future<void> updateNotificationSubscription(bool isSubscribed) async {
     if (isSubscribed) {
@@ -527,8 +523,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                   CommonColor.primaryColor,
                                               inactiveThumbColor:
                                                   CommonColor.mediumGreyColor,
-                                              value:
-                                                  provider.notficationSwitchState,
+                                              value: provider
+                                                  .notficationSwitchState,
                                               onChanged: (bool? value) async {
                                                 if (value == true) {
                                                   // Ask for push notification permission
@@ -549,7 +545,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                       Utilities.showCommonSnackBar(
                                                           context,
                                                           "Notification permission denied");
-                                                          
                                                     }
                                                   }
                                                 } else {
@@ -709,6 +704,135 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         ),
                                         title: Text(
                                           S.current.logout,
+                                          style: TextStyle(
+                                              color: CommonColor.darkGreyColor),
+                                        ),
+                                      ),
+                                      ListTile(
+                                        onTap: () {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15)),
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    alignment: Alignment.center,
+                                                    titlePadding:
+                                                        EdgeInsets.only(
+                                                      top: 12,
+                                                      bottom: 10,
+                                                    ),
+                                                    contentPadding:
+                                                        EdgeInsets.only(
+                                                            bottom: 12),
+                                                    title: Text(
+                                                      "Confirm to delete account?",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    content: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      spacing: 10,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10),
+                                                          child: Text(
+                                                            "Are you sure you want to delete this account?",
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontSize: 13,
+                                                                color: CommonColor
+                                                                    .darkGreyColor),
+                                                          ),
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          spacing: 15,
+                                                          children: [
+                                                            SizedBox(
+                                                              width: 122,
+                                                              child:
+                                                                  ElevatedButton(
+                                                                      style: ElevatedButton
+                                                                          .styleFrom(
+                                                                        shape: RoundedRectangleBorder(
+                                                                            side: BorderSide(
+                                                                              color: CommonColor.primaryColor,
+                                                                            ),
+                                                                            borderRadius: BorderRadius.circular(8)),
+                                                                        backgroundColor:
+                                                                            Colors.white,
+                                                                      ),
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                      child:
+                                                                          Text(
+                                                                        "Cancel",
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                CommonColor.primaryColor),
+                                                                      )),
+                                                            ),
+                                                            SizedBox(
+                                                              width: 122,
+                                                              child:
+                                                                  ElevatedButton(
+                                                                      style: ElevatedButton
+                                                                          .styleFrom(
+                                                                        shape: RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(8)),
+                                                                        backgroundColor:
+                                                                            CommonColor.primaryColor,
+                                                                      ),
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                      child:
+                                                                          Text(
+                                                                        "Delete",
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                Colors.white),
+                                                                      )),
+                                                            ),
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ));
+                                              });
+                                        },
+                                        leading: Icon(
+                                          Icons.delete_outline,
+                                          color: CommonColor.primaryColor,
+                                        ),
+                                        title: Text(
+                                          S.current.deleteAccount,
                                           style: TextStyle(
                                               color: CommonColor.darkGreyColor),
                                         ),

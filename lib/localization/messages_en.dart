@@ -98,6 +98,7 @@ class MessageLookup extends MessageLookupByLibrary {
 "searchInvoice": MessageLookupByLibrary.simpleMessage("Search Invoice"),
 "searchOrders": MessageLookupByLibrary.simpleMessage("Search Orders"),
 "orderDate": MessageLookupByLibrary.simpleMessage("Order Date"),
+"deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
 
       };
 }

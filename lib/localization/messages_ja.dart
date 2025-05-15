@@ -84,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
 "searchInvoice": MessageLookupByLibrary.simpleMessage("請求書を検索"),
 "searchOrders": MessageLookupByLibrary.simpleMessage("注文を検索"),
 "orderDate": MessageLookupByLibrary.simpleMessage("注文日"),
+"deleteAccount": MessageLookupByLibrary.simpleMessage("アカウントを削除する"),
 
 
       };
