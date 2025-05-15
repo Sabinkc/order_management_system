@@ -55,7 +55,6 @@ class FaqScreen extends StatelessWidget {
               ExpansionTile(
                 iconColor: Colors.red[300],
                 collapsedIconColor: CommonColor.primaryColor,
-                backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -83,7 +82,6 @@ class FaqScreen extends StatelessWidget {
               ExpansionTile(
                 iconColor: Colors.red[300],
                 collapsedIconColor: CommonColor.primaryColor,
-                backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -111,7 +109,6 @@ class FaqScreen extends StatelessWidget {
               ExpansionTile(
                 iconColor: Colors.red[300],
                 collapsedIconColor: CommonColor.primaryColor,
-                backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -139,7 +136,6 @@ class FaqScreen extends StatelessWidget {
               ExpansionTile(
                 iconColor: Colors.red[300],
                 collapsedIconColor: CommonColor.primaryColor,
-                backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -167,7 +163,6 @@ class FaqScreen extends StatelessWidget {
               ExpansionTile(
                 iconColor: Colors.red[300],
                 collapsedIconColor: CommonColor.primaryColor,
-                backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
