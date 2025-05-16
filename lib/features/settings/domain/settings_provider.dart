@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:order_management_system/features/settings/data/faq_model.dart';
+import 'package:order_management_system/features/settings/data/information_model.dart';
 import 'package:order_management_system/features/settings/data/information_api_service.dart';
 import 'package:order_management_system/features/settings/data/password_api_service.dart';
 import 'package:order_management_system/features/settings/data/profile_api_service.dart';
@@ -210,4 +210,47 @@ class SettingsProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  
+  bool isPolicyLoading = false;
+  List<PrivacyPolicyModel> privacyPolicies = [];
+  
+
+  Future fetchPolicies() async {
+    isPolicyLoading = true;
+    notifyListeners();
+
+    try {
+      final response = await informationApiService.getPrivacyPolicy();
+      privacyPolicies = response;
+      logger.log("privacy Policies: $privacyPolicies");
+    } catch (e) {
+      // logger.log("$e");
+      throw "$e";
+    } finally {
+      isPolicyLoading = false;
+      notifyListeners();
+    }
+  }
+
+  bool isTermsLoading = false;
+List<TermsOfConditionModel> termsAndConditions = [];
+
+Future fetchTermsAndConditions() async {
+  isTermsLoading = true;
+  notifyListeners();
+
+  try {
+    final response = await informationApiService.getTermsAndConditions();
+    termsAndConditions = response;
+    logger.log("Terms & Conditions: $termsAndConditions");
+  } catch (e) {
+    // logger.log("$e");
+    throw "$e";
+  } finally {
+    isTermsLoading = false;
+    notifyListeners();
+  }
+}
+
 }

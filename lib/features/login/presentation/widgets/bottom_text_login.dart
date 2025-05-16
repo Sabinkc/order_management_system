@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/features/login/presentation/screens/privacy_policy_screen.dart';
+import 'package:order_management_system/features/login/presentation/screens/terms_of_conditions_screen.dart';
 
 class BottomTextLogin extends StatelessWidget {
   const BottomTextLogin({super.key});
@@ -19,7 +21,12 @@ class BottomTextLogin extends StatelessWidget {
                   color: Colors.black),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PrivacyPolicyScreen()));
+              },
               child: Text(
                 "Privacy Policy ",
                 style: TextStyle(fontSize: 9, color: CommonColor.primaryColor),
@@ -32,15 +39,22 @@ class BottomTextLogin extends StatelessWidget {
                   fontSize: 9,
                   color: Colors.black),
             ),
-            Text(
-              "Terms of",
-              style: TextStyle(fontSize: 9, color: CommonColor.primaryColor),
+            InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsOfConditionsScreen()));
+              },
+              child: Text(
+                "Terms and",
+                style: TextStyle(fontSize: 9, color: CommonColor.primaryColor),
+              ),
             ),
           ],
         ),
         Center(
           child: GestureDetector(
-            onTap: () {},
+               onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsOfConditionsScreen()));
+              },
             child: Text(
               "Condition",
               style: TextStyle(fontSize: 9, color: CommonColor.primaryColor),

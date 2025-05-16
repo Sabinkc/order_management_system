@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:order_management_system/common/common_color.dart';
+import 'package:order_management_system/features/login/presentation/screens/terms_of_conditions_screen.dart';
 import 'package:order_management_system/features/signup/domain/checkbox_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -26,9 +27,17 @@ class CheckboxWidgetSignup extends StatelessWidget {
           style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 12, color: Colors.black),
         ),
-        Text(
-          "Terms & Conditions",
-          style: TextStyle(fontSize: 12, color: CommonColor.primaryColor),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TermsOfConditionsScreen()));
+          },
+          child: Text(
+            "Terms & Conditions",
+            style: TextStyle(fontSize: 12, color: CommonColor.primaryColor),
+          ),
         ),
       ],
     );

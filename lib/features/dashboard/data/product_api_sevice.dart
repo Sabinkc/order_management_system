@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:order_management_system/common/constants.dart';
 import 'package:order_management_system/features/dashboard/data/custom_cache_manager.dart';
 import 'package:order_management_system/features/dashboard/data/product_model.dart';
@@ -438,103 +437,172 @@ class ProductApiSevice {
   }
 
 
+  // Future<Uint8List> getThumbnailByFilename(String filename) async {
+  //   final cacheKey =
+  //       'image_${Constants.baseUrl}/v1/storage/img/products/thumbnails/$filename';
+  //   final cacheManager = LimitedCacheManager(); // ✅ Use custom cache manager
+
+  //   // 1. Try disk cache first
+  //   final cachedFile = await cacheManager.getFileFromCache(cacheKey);
+  //   if (cachedFile != null) {
+  //     final bytes = await cachedFile.file.readAsBytes();
+  //     if (bytes.isNotEmpty) {
+  //       return bytes;
+  //     }
+  //   }
+
+  //   // 2. Network fetch if not in cache
+  //   final token = await SharedPrefLoggedinState.getAccessToken();
+  //   if (token == null) throw Exception("Not authenticated");
+
+  //   final response = await http.get(
+  //     Uri.parse(
+  //         "${Constants.baseUrl}/v1/storage/img/products/thumbnails/$filename"),
+  //     headers: {'Authorization': 'Bearer $token'},
+  //   );
+
+  //   if (response.statusCode != 200) {
+  //     throw Exception('Failed to fetch image: ${response.statusCode}');
+  //   }
+
+  //   // 3. Compress and cache the image
+  //   final compressedBytes = await _compressImage(response.bodyBytes);
+
+  //   if (compressedBytes.isNotEmpty) {
+  //     await cacheManager.putFile(cacheKey, compressedBytes);
+  //   } else {
+  //     await cacheManager.putFile(cacheKey, response.bodyBytes);
+  //   }
+
+  //   return compressedBytes.isNotEmpty ? compressedBytes : response.bodyBytes;
+  // }
+
+  // Future<Uint8List> getCategoryImage(String filename) async {
+  //   final cacheKey =
+  //       'image_${Constants.baseUrl}/v1/storage/img/product-categories/$filename';
+  //   final cacheManager = LimitedCacheManager(); // ✅ use custom manager
+
+  //   // 1. Try disk cache first
+  //   final cachedFile = await cacheManager.getFileFromCache(cacheKey);
+  //   if (cachedFile != null) {
+  //     final bytes = await cachedFile.file.readAsBytes();
+  //     if (bytes.isNotEmpty) {
+  //       return bytes;
+  //     }
+  //   }
+
+  //   // 2. Network fetch if not in cache
+  //   final token = await SharedPrefLoggedinState.getAccessToken();
+  //   if (token == null) throw Exception("Not authenticated");
+
+  //   final response = await http.get(
+  //     Uri.parse(
+  //         "${Constants.baseUrl}/v1/storage/img/product-categories/$filename"),
+  //     headers: {'Authorization': 'Bearer $token'},
+  //   );
+
+  //   if (response.statusCode != 200) {
+  //     throw Exception('Failed to fetch image: ${response.statusCode}');
+  //   }
+
+  //   // 3. Compress and cache
+  //   final compressedBytes = await _compressImage(response.bodyBytes);
+
+  //   if (compressedBytes.isNotEmpty) {
+  //     await cacheManager.putFile(cacheKey, compressedBytes);
+  //   } else {
+  //     await cacheManager.putFile(cacheKey, response.bodyBytes);
+  //   }
+
+  //   return compressedBytes.isNotEmpty ? compressedBytes : response.bodyBytes;
+  // }
+
+  // Future<Uint8List> _compressImage(Uint8List bytes) async {
+  //   try {
+  //     return await FlutterImageCompress.compressWithList(bytes,
+  //         minWidth: 800,
+  //         minHeight: 800,
+  //         quality: 80,
+  //         format: CompressFormat.webp);
+  //   } catch (e) {
+  //     logger.log('Compression error: $e');
+  //     return bytes; // Return original if compression fails
+  //   }
+  // }
+
   Future<Uint8List> getThumbnailByFilename(String filename) async {
-    final cacheKey =
-        'image_${Constants.baseUrl}/v1/storage/img/products/thumbnails/$filename';
-    final cacheManager = LimitedCacheManager(); // ✅ Use custom cache manager
+  final cacheKey =
+      'image_${Constants.baseUrl}/v1/storage/img/products/thumbnails/$filename';
+  final cacheManager = LimitedCacheManager();
 
-    // 1. Try disk cache first
-    final cachedFile = await cacheManager.getFileFromCache(cacheKey);
-    if (cachedFile != null) {
-      final bytes = await cachedFile.file.readAsBytes();
-      if (bytes.isNotEmpty) {
-        return bytes;
-      }
-    }
-
-    // 2. Network fetch if not in cache
-    final token = await SharedPrefLoggedinState.getAccessToken();
-    if (token == null) throw Exception("Not authenticated");
-
-    final response = await http.get(
-      Uri.parse(
-          "${Constants.baseUrl}/v1/storage/img/products/thumbnails/$filename"),
-      headers: {'Authorization': 'Bearer $token'},
-    );
-
-    if (response.statusCode != 200) {
-      throw Exception('Failed to fetch image: ${response.statusCode}');
-    }
-
-    // 3. Compress and cache the image
-    final compressedBytes = await _compressImage(response.bodyBytes);
-
-    if (compressedBytes.isNotEmpty) {
-      await cacheManager.putFile(cacheKey, compressedBytes);
-    } else {
-      await cacheManager.putFile(cacheKey, response.bodyBytes);
-    }
-
-    return compressedBytes.isNotEmpty ? compressedBytes : response.bodyBytes;
-  }
-
-  Future<Uint8List> getCategoryImage(String filename) async {
-    final cacheKey =
-        'image_${Constants.baseUrl}/v1/storage/img/product-categories/$filename';
-    final cacheManager = LimitedCacheManager(); // ✅ use custom manager
-
-    // 1. Try disk cache first
-    final cachedFile = await cacheManager.getFileFromCache(cacheKey);
-    if (cachedFile != null) {
-      final bytes = await cachedFile.file.readAsBytes();
-      if (bytes.isNotEmpty) {
-        return bytes;
-      }
-    }
-
-    // 2. Network fetch if not in cache
-    final token = await SharedPrefLoggedinState.getAccessToken();
-    if (token == null) throw Exception("Not authenticated");
-
-    final response = await http.get(
-      Uri.parse(
-          "${Constants.baseUrl}/v1/storage/img/product-categories/$filename"),
-      headers: {'Authorization': 'Bearer $token'},
-    );
-
-    if (response.statusCode != 200) {
-      throw Exception('Failed to fetch image: ${response.statusCode}');
-    }
-
-    // 3. Compress and cache
-    final compressedBytes = await _compressImage(response.bodyBytes);
-
-    if (compressedBytes.isNotEmpty) {
-      await cacheManager.putFile(cacheKey, compressedBytes);
-    } else {
-      await cacheManager.putFile(cacheKey, response.bodyBytes);
-    }
-
-    return compressedBytes.isNotEmpty ? compressedBytes : response.bodyBytes;
-  }
-
-  Future<Uint8List> _compressImage(Uint8List bytes) async {
-    try {
-      return await FlutterImageCompress.compressWithList(bytes,
-          minWidth: 800,
-          minHeight: 800,
-          quality: 80,
-          format: CompressFormat.webp);
-    } catch (e) {
-      logger.log('Compression error: $e');
-      return bytes; // Return original if compression fails
+  // 1. Try disk cache first
+  final cachedFile = await cacheManager.getFileFromCache(cacheKey);
+  if (cachedFile != null) {
+    final bytes = await cachedFile.file.readAsBytes();
+    if (bytes.isNotEmpty) {
+      return bytes;
     }
   }
 
-    Future<void> clearCache() async {
-    await LimitedCacheManager().emptyCache();
-    logger.log("cache cleaned");
+  // 2. Network fetch if not in cache
+  final token = await SharedPrefLoggedinState.getAccessToken();
+  if (token == null) throw Exception("Not authenticated");
+
+  final response = await http.get(
+    Uri.parse(
+        "${Constants.baseUrl}/v1/storage/img/products/thumbnails/$filename"),
+    headers: {'Authorization': 'Bearer $token'},
+  );
+
+  if (response.statusCode != 200) {
+    throw Exception('Failed to fetch image: ${response.statusCode}');
   }
+
+  // 3. Cache and return original image bytes
+  await cacheManager.putFile(cacheKey, response.bodyBytes);
+  return response.bodyBytes;
+}
+
+Future<Uint8List> getCategoryImage(String filename) async {
+  final cacheKey =
+      'image_${Constants.baseUrl}/v1/storage/img/product-categories/$filename';
+  final cacheManager = LimitedCacheManager();
+
+  // 1. Try disk cache first
+  final cachedFile = await cacheManager.getFileFromCache(cacheKey);
+  if (cachedFile != null) {
+    final bytes = await cachedFile.file.readAsBytes();
+    if (bytes.isNotEmpty) {
+      return bytes;
+    }
+  }
+
+  // 2. Network fetch if not in cache
+  final token = await SharedPrefLoggedinState.getAccessToken();
+  if (token == null) throw Exception("Not authenticated");
+
+  final response = await http.get(
+    Uri.parse(
+        "${Constants.baseUrl}/v1/storage/img/product-categories/$filename"),
+    headers: {'Authorization': 'Bearer $token'},
+  );
+
+  if (response.statusCode != 200) {
+    throw Exception('Failed to fetch image: ${response.statusCode}');
+  }
+
+  // 3. Cache and return original image bytes
+  await cacheManager.putFile(cacheKey, response.bodyBytes);
+  return response.bodyBytes;
+}
+
+
+
+
+  //   Future<void> clearCache() async {
+  //   await LimitedCacheManager().emptyCache();
+  //   logger.log("cache cleaned");
+  // }
 
 //   Future<Uint8List> getThumbnailByFilename(String filename) async {
 //   final token = await SharedPrefLoggedinState.getAccessToken();
