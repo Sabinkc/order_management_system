@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:order_management_system/features/settings/data/faq_model.dart';
+import 'package:order_management_system/features/settings/data/information_api_service.dart';
 import 'package:order_management_system/features/settings/data/password_api_service.dart';
 import 'package:order_management_system/features/settings/data/profile_api_service.dart';
 import 'package:order_management_system/features/settings/data/profile_model.dart';
 import 'package:order_management_system/features/settings/data/push_notification_shared_pref.dart';
-// import 'dart:developer' as logger;
+import 'dart:developer' as logger;
 
 class SettingsProvider extends ChangeNotifier {
   //provider to add profile data
@@ -186,5 +188,26 @@ class SettingsProvider extends ChangeNotifier {
   void toggleNotificationPermission(bool value) {
     _receiveNotifications = value;
     notifyListeners();
+  }
+
+  bool isFaqLoading = false;
+  List<FaqModel> faqs = [];
+  final informationApiService = InformationApiService();
+
+  Future fetchFaq() async {
+    isFaqLoading = true;
+    notifyListeners();
+
+    try {
+      final response = await informationApiService.getFaq();
+      faqs = response;
+      logger.log("faqs: $faqs");
+    } catch (e) {
+      logger.log("$e");
+      throw "$e";
+    } finally {
+      isFaqLoading = false;
+      notifyListeners();
+    }
   }
 }
