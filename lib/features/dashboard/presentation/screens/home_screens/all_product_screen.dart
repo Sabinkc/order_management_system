@@ -83,7 +83,7 @@ class _AllProductScreenState extends State<AllProductScreen> {
         appBar: AppBar(
           backgroundColor: CommonColor.primaryColor,
           title: RichText(
-            text:  TextSpan(
+            text: TextSpan(
               children: [
                 TextSpan(
                   text: S.current.allProducts,
@@ -294,9 +294,6 @@ class _AllProductScreenState extends State<AllProductScreen> {
                                                           return Image.memory(
                                                             snapshot.data!,
                                                             fit: BoxFit.cover,
-                                                            cacheHeight:
-                                                                120, // Optimize for grid display
-                                                            cacheWidth: 120,
                                                           );
                                                         }
                                                         // Loading state

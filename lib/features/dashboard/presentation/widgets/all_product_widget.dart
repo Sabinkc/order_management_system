@@ -149,9 +149,9 @@ class AllProductWidget extends StatelessWidget {
                                                 if (snapshot.hasData) {
                                                   return Image.memory(
                                                     snapshot.data!,
-                                                    fit: BoxFit.cover,
-                                                    cacheHeight: 120,
-                                                    cacheWidth: 120,
+                                                    fit: BoxFit.contain,
+                                                    // cacheHeight: 120,
+                                                    // cacheWidth: 120,
                                                   );
                                                 } else if (snapshot
                                                         .connectionState ==

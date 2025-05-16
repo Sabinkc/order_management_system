@@ -132,8 +132,8 @@ class OfferWidget extends StatelessWidget {
                                                       return Image.memory(
                                                         snapshot.data!,
                                                         fit: BoxFit.cover,
-                                                        cacheHeight: 150,
-                                                        cacheWidth: 150,
+                                                        // cacheHeight: 150,
+                                                        // cacheWidth: 150,
                                                       );
                                                     } else if (snapshot
                                                             .connectionState ==

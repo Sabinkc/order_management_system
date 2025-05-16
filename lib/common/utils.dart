@@ -4,7 +4,7 @@ import 'package:order_management_system/common/common_color.dart';
 class Utilities {
   static showCommonSnackBar(BuildContext context, String text,
       {IconData icon = Icons.warning,
-      Color color = Colors.orangeAccent,
+      Color color = Colors.green,
       int durationMilliseconds = 1000}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
