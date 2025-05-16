@@ -84,6 +84,7 @@ class _FaqScreenState extends State<FaqScreen> {
                           : ListView.builder(
                               itemCount: settingProvider.faqs.length,
                               itemBuilder: (context, index) {
+                                final faq = settingProvider.faqs[index];
                                 return Padding(
                                     padding: EdgeInsets.symmetric(vertical: 10),
                                     child: Column(
@@ -101,7 +102,7 @@ class _FaqScreenState extends State<FaqScreen> {
                                             side: BorderSide.none,
                                           ),
                                           title: Text(
-                                            "1. How can I place a new product order through the app?",
+                                            "${faq.id}. ${faq.title}",
                                             style: TextStyle(
                                               color: CommonColor.darkGreyColor,
                                               fontWeight: FontWeight.w600,
@@ -112,7 +113,7 @@ class _FaqScreenState extends State<FaqScreen> {
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 20),
                                               child: Text(
-                                                "You can place a new order by browsing the product catalog, selecting the desired items, choosing the quantity, and tapping the Place Order button. A confirmation screen will appear before finalizing your order.",
+                                                faq.description,
                                                 style: TextStyle(
                                                     color: CommonColor
                                                         .mediumGreyColor),
@@ -120,9 +121,12 @@ class _FaqScreenState extends State<FaqScreen> {
                                             )
                                           ],
                                         ),
-                                        Divider(
-                                            color: CommonColor.mediumGreyColor,
-                                            thickness: 0.3),
+                                        if (index !=
+                                            settingProvider.faqs.length - 1)
+                                          Divider(
+                                              color:
+                                                  CommonColor.mediumGreyColor,
+                                              thickness: 0.3),
                                       ],
                                     ));
                               });
