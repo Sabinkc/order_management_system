@@ -48,3 +48,20 @@ class TermsOfConditionModel {
     return 'PrivacyPolicyModel(id: $id, title: $title, description: $description)';
   }
 }
+
+class ContactAndSupportModel {
+  final String field;
+  final String value;
+  final String type;
+
+  ContactAndSupportModel({
+    required this.field,
+    required this.value,
+    required this.type,
+  });
+
+  @override
+  String toString() {
+    return 'PrivacyPolicyModel(field: $field, value: $value, type: $type)';
+  }
+}

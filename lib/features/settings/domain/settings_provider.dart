@@ -211,10 +211,8 @@ class SettingsProvider extends ChangeNotifier {
     }
   }
 
-  
   bool isPolicyLoading = false;
   List<PrivacyPolicyModel> privacyPolicies = [];
-  
 
   Future fetchPolicies() async {
     isPolicyLoading = true;
@@ -234,23 +232,42 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   bool isTermsLoading = false;
-List<TermsOfConditionModel> termsAndConditions = [];
+  List<TermsOfConditionModel> termsAndConditions = [];
 
-Future fetchTermsAndConditions() async {
-  isTermsLoading = true;
-  notifyListeners();
-
-  try {
-    final response = await informationApiService.getTermsAndConditions();
-    termsAndConditions = response;
-    logger.log("Terms & Conditions: $termsAndConditions");
-  } catch (e) {
-    // logger.log("$e");
-    throw "$e";
-  } finally {
-    isTermsLoading = false;
+  Future fetchTermsAndConditions() async {
+    isTermsLoading = true;
     notifyListeners();
-  }
-}
 
+    try {
+      final response = await informationApiService.getTermsAndConditions();
+      termsAndConditions = response;
+      logger.log("Terms & Conditions: $termsAndConditions");
+    } catch (e) {
+      // logger.log("$e");
+      throw "$e";
+    } finally {
+      isTermsLoading = false;
+      notifyListeners();
+    }
+  }
+
+  bool isContactsLoading = false;
+  List<ContactAndSupportModel> contacts = [];
+
+  Future fetchContacts() async {
+    isContactsLoading = true;
+    notifyListeners();
+
+    try {
+      final response = await informationApiService.getContact();
+      contacts = response;
+      logger.log("Contacts: $contacts");
+    } catch (e) {
+      // logger.log("$e");
+      throw "$e";
+    } finally {
+      isContactsLoading = false;
+      notifyListeners();
+    }
+  }
 }

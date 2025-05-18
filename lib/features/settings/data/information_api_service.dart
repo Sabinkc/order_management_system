@@ -150,4 +150,58 @@ Future<List<TermsOfConditionModel>> getTermsAndConditions() async {
   }
 }
 
+  Future<List<ContactAndSupportModel>> getContact() async {
+    // Get the saved token from SharedPreferences
+    String? token = await SharedPrefLoggedinState.getAccessToken();
+
+    // If no token is found, return an error
+    if (token == null) {
+      throw Exception("User not authenticated. Please log in first.");
+    }
+
+    // Headers with Authorization token
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token', // Adding token in the header
+    };
+
+    // Constructing the URL to fetch FAQs
+    var url = Uri.parse("${Constants.baseUrl}/v1/contact-us");
+
+    var request = http.Request('GET', url);
+    request.headers.addAll(headers);
+
+    try {
+      http.StreamedResponse response = await request.send();
+      String responseBody = await response.stream.bytesToString();
+
+      // logger.log("Response Status Code: ${response.statusCode}");
+      // logger.log("Response Body: $responseBody"); // Log the response body for debugging
+
+      Map<String, dynamic> jsonResponse = json.decode(responseBody);
+
+      if (response.statusCode == 200 && jsonResponse['success'] == true) {
+        List<dynamic> contactJsonList = jsonResponse['contacts'];
+        List<ContactAndSupportModel> contacts = [];
+
+        for (var contactJson in contactJsonList) {
+          contacts.add(ContactAndSupportModel(
+            field: contactJson['field'].toString(), // Assuming 'id' is an integer
+            value: contactJson['value'],
+            type: contactJson['type'],
+          ));
+        }
+        // logger.log("Fetched FAQs: $faqs");
+        return contacts;
+      } else {
+        logger.log(
+            "Failed to fetch contacts. Status Code: ${response.statusCode}, Body: $responseBody");
+        throw Exception(jsonResponse['message'] ?? 'Failed to fetch contacts');
+      }
+    } catch (e) {
+      logger.log("Get contacts Error: $e");
+      throw Exception('Failed to fetch contacts');
+    }
+  }
+
 }
