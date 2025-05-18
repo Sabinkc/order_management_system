@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:order_management_system/features/login/domain/device_info_helper.dart';
 import 'package:order_management_system/features/settings/data/information_model.dart';
 import 'package:order_management_system/features/settings/data/information_api_service.dart';
 import 'package:order_management_system/features/settings/data/password_api_service.dart';
@@ -269,5 +271,56 @@ class SettingsProvider extends ChangeNotifier {
       isContactsLoading = false;
       notifyListeners();
     }
+  }
+
+  bool isSendingReport = false;
+  File? selectedReportImage;
+
+  Future<void> sendReport({
+    required File imageFile,
+    required String heading,
+    required String description,
+  }) async {
+    isSendingReport = true;
+    selectedReportImage = imageFile;
+    notifyListeners();
+
+    try {
+      String device = await DeviceInfoHelper.getDeviceName();
+      await informationApiService.sendReport(
+        imageFile: imageFile,
+        heading: heading,
+        description: description,
+        device: device,
+      );
+      // Optionally notify UI on success
+      notifyListeners();
+    } catch (e) {
+      selectedReportImage = null; // Reset on failure
+      notifyListeners();
+      rethrow;
+    } finally {
+      isSendingReport = false;
+      notifyListeners();
+    }
+  }
+
+  File? _pickedImage;
+
+  File? get pickedImage => _pickedImage;
+
+  Future<void> pickImage() async {
+    final imagePicker = ImagePicker();
+    final image = await imagePicker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      _pickedImage = File(image.path);
+      notifyListeners();
+    }
+  }
+
+  void clearReportData() {
+    _pickedImage = null;
+    logger.log("report data clearred");
+    notifyListeners();
   }
 }
