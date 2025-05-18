@@ -7,8 +7,8 @@ import 'package:shimmer/shimmer.dart';
 import 'package:order_management_system/localization/l10n.dart';
 
 class OrderHistoryInvoiceWidget extends StatelessWidget {
-   OrderHistoryInvoiceWidget({super.key});
-final productApiService = ProductApiSevice();
+  OrderHistoryInvoiceWidget({super.key});
+  final productApiService = ProductApiSevice();
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -70,29 +70,33 @@ final productApiService = ProductApiSevice();
                                         //       (context, error, stackTrace) =>
                                         //           Icon(Icons.broken_image),
                                         // ),
-                                          child: FutureBuilder(
-                                      future: productApiService
-                                          .getThumbnailByFilename(item.imagePath),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasData) {
-                                          return Image.memory(
-                                            snapshot.data!,
-                                            fit: BoxFit.cover,
-                                            cacheHeight: 120,
-                                            cacheWidth: 120,
-                                          );
-                                        } else if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return Shimmer.fromColors(
-                                              baseColor: Colors.grey[100]!,
-                                              highlightColor: Colors.white,
-                                              child: Container(
-                                                color: Colors.white,
-                                              ));
-                                        } else {
-                                          return Icon(Icons.broken_image);
-                                        }
-                                      }),
+                                        child: FutureBuilder(
+                                            future: productApiService
+                                                .getThumbnailByFilename(
+                                                    item.imagePath),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return Image.memory(
+                                                  snapshot.data!,
+                                                  fit: BoxFit.cover,
+                                                  // cacheHeight: 120,
+                                                  // cacheWidth: 120,
+                                                );
+                                              } else if (snapshot
+                                                      .connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return Shimmer.fromColors(
+                                                    baseColor:
+                                                        Colors.grey[100]!,
+                                                    highlightColor:
+                                                        Colors.white,
+                                                    child: Container(
+                                                      color: Colors.white,
+                                                    ));
+                                              } else {
+                                                return Icon(Icons.broken_image);
+                                              }
+                                            }),
                                       ),
                                     ),
                                     SizedBox(width: 20),
@@ -225,7 +229,7 @@ final productApiService = ProductApiSevice();
                       Row(
                         children: [
                           Text(
-                            "(${order[0].products.fold(0, (sum, item) => sum + item.quantity)})",
+                            "${order[0].products.fold(0, (sum, item) => sum + item.quantity)}",
                             style: TextStyle(
                               color: CommonColor.primaryColor,
                               fontWeight: FontWeight.bold,

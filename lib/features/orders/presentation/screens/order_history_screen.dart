@@ -83,7 +83,7 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
             appBar: AppBar(
               backgroundColor: CommonColor.primaryColor,
               title: RichText(
-                text:  TextSpan(
+                text: TextSpan(
                   children: [
                     TextSpan(
                       text: S.current.myOrders,
@@ -436,8 +436,18 @@ class _InvoiceHistoryScreenState extends State<OrderHistoryScreen> {
                                                   Text(
                                                     order.status,
                                                     style: TextStyle(
-                                                        color:
-                                                            Colors.brown[500],
+                                                        color: order.status ==
+                                                                "pending"
+                                                            ? Colors.red
+                                                            : order.status ==
+                                                                    "confirmed"
+                                                                ? Colors.blue
+                                                                : order.status ==
+                                                                        "shipped"
+                                                                    ? Colors
+                                                                        .purple
+                                                                    : Colors
+                                                                        .brown,
                                                         // color: CommonColor
                                                         //     .primaryColor,
                                                         fontWeight:

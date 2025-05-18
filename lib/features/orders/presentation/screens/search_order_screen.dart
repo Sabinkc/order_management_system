@@ -34,9 +34,6 @@ class _SearchOrderScreenState extends State<SearchOrderScreen> {
   @override
   void dispose() {
     searchController.dispose();
-    final orderProvider =
-        Provider.of<OrderScreenProvider>(context, listen: false);
-    orderProvider.clearSearchedOrder();
     super.dispose();
   }
 
@@ -269,10 +266,10 @@ class _SearchOrderScreenState extends State<SearchOrderScreen> {
                                                                             snapshot.data!,
                                                                             fit:
                                                                                 BoxFit.cover,
-                                                                            cacheHeight:
-                                                                                120,
-                                                                            cacheWidth:
-                                                                                120,
+                                                                            // cacheHeight:
+                                                                            //     120,
+                                                                            // cacheWidth:
+                                                                            //     120,
                                                                           );
                                                                         } else if (snapshot.connectionState ==
                                                                             ConnectionState.waiting) {

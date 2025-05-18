@@ -137,8 +137,8 @@ class CategoryRowDashboard extends StatelessWidget {
                                                     return Image.memory(
                                                       snapshot.data!,
                                                       fit: BoxFit.cover,
-                                                      cacheHeight: 120,
-                                                      cacheWidth: 120,
+                                                      // cacheHeight: 120,
+                                                      // cacheWidth: 120,
                                                     );
                                                   } else if (snapshot
                                                           .connectionState ==

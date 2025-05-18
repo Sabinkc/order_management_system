@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:order_management_system/common/common_color.dart';
 import 'package:order_management_system/common/simple_ui_provider.dart';
 import 'package:order_management_system/common/utils.dart';
 import 'package:order_management_system/features/dashboard/data/cart_model.dart';
 import 'package:order_management_system/features/dashboard/domain/cart_quantity_provider.dart';
 import 'package:order_management_system/features/dashboard/domain/product_provider.dart';
+import 'package:order_management_system/features/dashboard/presentation/screens/landing_screen.dart';
 import 'package:order_management_system/features/my%20order/domain/order_history_provider.dart';
 import 'package:order_management_system/features/orders/domain/order_screen_provider.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +20,7 @@ class CheckoutWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: Row(
@@ -62,7 +65,136 @@ class CheckoutWidget extends StatelessWidget {
                   backgroundColor: CommonColor.primaryColor,
                 ),
                 onPressed: () {
-                  showLogoutDialogAndCheckout(context);
+                  // showDialogAndCheckout(context);
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Container(
+                          height: screenHeight * 0.5,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 15),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Choose payment method",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    InkWell(
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Icon(
+                                          Icons.close,
+                                          color: CommonColor.mediumGreyColor,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 20),
+                                  decoration: BoxDecoration(
+                                      color: CommonColor.commonGreyColor,
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                          color: CommonColor.mediumGreyColor,
+                                          width: 0.5)),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        spacing: 15,
+                                        children: [
+                                          Icon(
+                                            EvaIcons.credit_card_outline,
+                                            color: CommonColor.darkGreyColor,
+                                          ),
+                                          Text(
+                                            "Cash on Delivery",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        ],
+                                      ),
+                                      Icon(
+                                        Icons.check_circle,
+                                        color: CommonColor.primaryColor,
+                                        size: 28,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Spacer(),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 20),
+                                  decoration: BoxDecoration(
+                                    color: Colors.green[50],
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    spacing: 15,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        BoxIcons.bx_info_circle,
+                                        color: CommonColor.darkGreyColor,
+                                      ),
+                                      Expanded(
+                                          child: Text(
+                                              "We only accept cash on delivery at the moment."))
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                child: SizedBox(
+                                  height: 50,
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        backgroundColor:
+                                            CommonColor.primaryColor,
+                                      ),
+                                      onPressed: () {
+                                        showDialogAndCheckout(context);
+                                      },
+                                      child: Text("Continue",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold))),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      });
                 },
                 child: Text(
                   S.current.checkout,
@@ -77,9 +209,9 @@ class CheckoutWidget extends StatelessWidget {
     );
   }
 
-  //loical part
+//loical part
   //function to show logoutdialog and checkout dialog
-  showLogoutDialogAndCheckout(BuildContext context) {
+  showDialogAndCheckout(BuildContext context) {
     showDialog(
         context: context,
         builder: (context) {
@@ -225,68 +357,80 @@ class CheckoutWidget extends StatelessWidget {
       cartQuantityProvider.clearCart();
       if (!context.mounted) return;
 
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          // Future.delayed(Duration(seconds: 1), () {
-          //   if (context.mounted) {
-          //     Navigator.pop(context); // Close the dialog
-          //     Navigator.pop(context); // Go back to the previous screen
-          //   }
-          // });
-          return AlertDialog(
-            backgroundColor: Colors.white,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            content: SizedBox(
-              height: 90,
-              child: Center(
-                child: Consumer<ProductProvider>(
-                  builder: (context, productProvider, child) {
-                    return productProvider.isCreateOrderLoading
-                        ? Center(
-                            child: CircularProgressIndicator(
-                            color: CommonColor.primaryColor,
-                          ))
-                        : Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            spacing: 20,
-                            children: [
-                              Text(
-                                "Checkout completed!",
-                                style: TextStyle(
-                                    color: CommonColor.darkGreyColor,
-                                    fontSize: 14),
-                              ),
-                              InkWell(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    Navigator.pop(context);
-                                    Navigator.pop(context);
-                                    Navigator.pop(context);
-                                    Utilities.showCommonSnackBar(
-                                        context,
-                                        durationMilliseconds: 2000,
-                                        icon: Icons.shopping_bag_outlined,
-                                        "Your order has been placed successfully!");
-                                  },
-                                  child: Text(
-                                    "OK",
-                                    style: TextStyle(
-                                        color: CommonColor.darkGreyColor,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                            ],
-                          );
-                  },
-                ),
-              ),
-            ),
-          );
-        },
-      );
-      if (!context.mounted) return;
+      // showDialog(
+      //   context: context,
+      //   barrierDismissible: false,
+
+      //   builder: (context) {
+      //     // Future.delayed(Duration(seconds: 1), () {
+      //     //   if (context.mounted) {
+      //     //     Navigator.pop(context); // Close the dialog
+      //     //     Navigator.pop(context); // Go back to the previous screen
+      //     //   }
+      //     // });
+      //     return AlertDialog(
+      //       backgroundColor: Colors.white,
+      //       shape:
+      //           RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      //       content: SizedBox(
+      //         height: 90,
+      //         child: Center(
+      //           child: Consumer<ProductProvider>(
+      //             builder: (context, productProvider, child) {
+      //               return productProvider.isCreateOrderLoading
+      //                   ? Center(
+      //                       child: CircularProgressIndicator(
+      //                       color: CommonColor.primaryColor,
+      //                     ))
+      //                   : Column(
+      //                       mainAxisAlignment: MainAxisAlignment.center,
+      //                       spacing: 20,
+      //                       children: [
+      //                         Text(
+      //                           "Checkout completed!",
+      //                           style: TextStyle(
+      //                               color: CommonColor.darkGreyColor,
+      //                               fontWeight: FontWeight.bold,
+      //                               fontSize: 14),
+      //                         ),
+      //                         InkWell(
+      //                             onTap: () {
+
+      //                             },
+      //                             child: Container(
+      //                               decoration: BoxDecoration(
+      //                                   color: CommonColor.primaryColor,
+      //                                   borderRadius: BorderRadius.circular(8)),
+      //                               padding: EdgeInsets.symmetric(
+      //                                   horizontal: 20, vertical: 10),
+      //                               child: Text(
+      //                                 "OK",
+      //                                 style: TextStyle(
+      //                                     color: Colors.white,
+      //                                     fontWeight: FontWeight.bold),
+      //                               ),
+      //                             )),
+      //                       ],
+      //                     );
+      //             },
+      //           ),
+      //         ),
+      //       ),
+      //     );
+      //   },
+      // );
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+              builder: (context) => LandingScreen(
+                    selectedIndex: 2,
+                  )),
+          (route) => false);
+      Utilities.showCommonSnackBar(
+          context,
+          durationMilliseconds: 2000,
+          icon: Icons.shopping_bag_outlined,
+          "Your order has been placed successfully!");
     } catch (e) {
       logger.log("Error during order creation: $e");
 

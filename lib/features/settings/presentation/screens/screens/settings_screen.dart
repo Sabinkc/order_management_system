@@ -488,89 +488,70 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       size: 30,
                                     ),
                                     children: [
-                                      // Consumer<SettingsProvider>(
-                                      //   builder:
-                                      //       (context, settingsProvider, _) {
-                                      //     return SwitchListTile(
-                                      //       title:
-                                      //           Text("Receive Notifications"),
-                                      //       value: settingsProvider
-                                      //           .receiveNotifications,
-                                      //       onChanged: (value) async {
-                                      //         settingsProvider
-                                      //             .toggleNotificationPermission(
-                                      //                 value);
-                                      //         await updateNotificationSubscription(
-                                      //             value);
-                                      //       },
-                                      //     );
-                                      //   },
+                                      // ListTile(
+                                      //   leading: Icon(
+                                      //     Icons.notification_important_outlined,
+                                      //     color: CommonColor.primaryColor,
+                                      //   ),
+                                      //   title: Text(
+                                      //     S.current.pushNotification,
+                                      //     style: TextStyle(
+                                      //         color: CommonColor.darkGreyColor),
+                                      //   ),
+                                      //   trailing: Transform.scale(
+                                      //     scale: 0.8,
+                                      //     child: Switch(
+                                      //         activeColor:
+                                      //             CommonColor.primaryColor,
+                                      //         inactiveThumbColor:
+                                      //             CommonColor.mediumGreyColor,
+                                      //         value: provider
+                                      //             .notficationSwitchState,
+                                      //         onChanged: (bool? value) async {
+                                      //           if (value == true) {
+                                      //             // Ask for push notification permission
+                                      //             bool granted = await OneSignal
+                                      //                     .Notifications
+                                      //                 .requestPermission(true);
+                                      //             if (granted) {
+                                      //               provider
+                                      //                   .switchPushNotification(
+                                      //                       true);
+                                      //               await updateNotificationSubscription(
+                                      //                   true);
+                                      //               await PushNotificationSharedPref
+                                      //                   .setNotificationOptIn(
+                                      //                       true);
+                                      //             } else {
+                                      //               if (context.mounted) {
+                                      //                 Utilities.showCommonSnackBar(
+                                      //                     context,
+                                      //                     "Notification permission denied");
+                                      //               }
+                                      //             }
+                                      //           } else {
+                                      //             // User turned off the switch
+                                      //             provider
+                                      //                 .switchPushNotification(
+                                      //                     false);
+                                      //             await updateNotificationSubscription(
+                                      //                 false);
+                                      //             await PushNotificationSharedPref
+                                      //                 .setNotificationOptIn(
+                                      //                     false);
+                                      //           }
+                                      //         }
+
+                                      //         // onChanged: (bool? value) async {
+                                      //         //   provider.switchPushNotification();
+                                      //         //   await updateNotificationSubscription(
+                                      //         //       value!);
+                                      //         //   await PushNotificationSharedPref
+                                      //         //       .setNotificationOptIn(value);
+                                      //         // },
+                                      //         ),
+                                      //   ),
                                       // ),
-
-                                      ListTile(
-                                        leading: Icon(
-                                          Icons.notification_important_outlined,
-                                          color: CommonColor.primaryColor,
-                                        ),
-                                        title: Text(
-                                          S.current.pushNotification,
-                                          style: TextStyle(
-                                              color: CommonColor.darkGreyColor),
-                                        ),
-                                        trailing: Transform.scale(
-                                          scale: 0.8,
-                                          child: Switch(
-                                              activeColor:
-                                                  CommonColor.primaryColor,
-                                              inactiveThumbColor:
-                                                  CommonColor.mediumGreyColor,
-                                              value: provider
-                                                  .notficationSwitchState,
-                                              onChanged: (bool? value) async {
-                                                if (value == true) {
-                                                  // Ask for push notification permission
-                                                  bool granted = await OneSignal
-                                                          .Notifications
-                                                      .requestPermission(true);
-                                                  if (granted) {
-                                                    provider
-                                                        .switchPushNotification(
-                                                            true);
-                                                    await updateNotificationSubscription(
-                                                        true);
-                                                    await PushNotificationSharedPref
-                                                        .setNotificationOptIn(
-                                                            true);
-                                                  } else {
-                                                    if (context.mounted) {
-                                                      Utilities.showCommonSnackBar(
-                                                          context,
-                                                          "Notification permission denied");
-                                                    }
-                                                  }
-                                                } else {
-                                                  // User turned off the switch
-                                                  provider
-                                                      .switchPushNotification(
-                                                          false);
-                                                  await updateNotificationSubscription(
-                                                      false);
-                                                  await PushNotificationSharedPref
-                                                      .setNotificationOptIn(
-                                                          false);
-                                                }
-                                              }
-
-                                              // onChanged: (bool? value) async {
-                                              //   provider.switchPushNotification();
-                                              //   await updateNotificationSubscription(
-                                              //       value!);
-                                              //   await PushNotificationSharedPref
-                                              //       .setNotificationOptIn(value);
-                                              // },
-                                              ),
-                                        ),
-                                      ),
                                       Consumer<LocalizationProvider>(builder:
                                           (context, localizationProvider,
                                               child) {

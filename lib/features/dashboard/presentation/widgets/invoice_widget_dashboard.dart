@@ -67,7 +67,7 @@ class InvoiceWidgetDashboard extends StatelessWidget {
                   Consumer<CartQuantityProvider>(
                     builder: (context, provider, child) {
                       return Text(
-                        "(${provider.getTotalQuantity().toString()})",
+                        provider.getTotalQuantity().toString(),
                         style: TextStyle(
                           color: CommonColor.primaryColor,
                           fontWeight: FontWeight.bold,

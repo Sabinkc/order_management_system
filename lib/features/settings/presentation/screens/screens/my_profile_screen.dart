@@ -241,7 +241,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                     if (context.mounted) {
                                       Navigator.pop(context);
                                       Utilities.showCommonSnackBar(context,
-                                          "Profile Updated Successully!");
+                                          "Profile Updated Successully!",
+                                          icon: Icons.check);
                                     }
                                     await profileProvider.getProfile();
                                   }

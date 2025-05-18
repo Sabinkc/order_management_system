@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:order_management_system/common/simple_ui_provider.dart';
 import 'package:order_management_system/features/connectivity/connectivty_provider.dart';
 import 'package:order_management_system/features/connectivity/dependency_injection.dart';
@@ -70,23 +69,17 @@ void main(List<String> args) async {
       child: MyApplication(
         isLoggedin: isLoggedin,
       )));
-  // final notificationsEnabled =
-  //     await PushNotificationSharedPref.getNotificationOptIn();
-  // Initialize OneSignal
-  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
-  OneSignal.initialize("68b2e7e4-510b-4997-9104-000d0978e8ce");
 
-  // Request permission only if user had opted-in previously
-  // if (!notificationsEnabled) {
-  //   OneSignal.Notifications.requestPermission(
-  //       false); // silently requests (no prompt)
-  // }
+//   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+//   OneSignal.initialize("68b2e7e4-510b-4997-9104-000d0978e8ce");
 
-  OneSignal.Notifications.addClickListener((event) {
-  navigatorKey.currentState?.push(MaterialPageRoute(
-    builder: (_) => isLoggedin ? LandingScreen(selectedIndex: 2) : LoginScreen(),
-  ));
-});
+
+
+//   OneSignal.Notifications.addClickListener((event) {
+//   navigatorKey.currentState?.push(MaterialPageRoute(
+//     builder: (_) => isLoggedin ? LandingScreen(selectedIndex: 2) : LoginScreen(),
+//   ));
+// });
 
 
   DependencyInjection.init();
