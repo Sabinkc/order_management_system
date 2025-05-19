@@ -1,0 +1,1 @@
+C:\Users\Dell\Desktop\Office\Ordermanagement System\order_management_system\build\app\intermediates\cxx\RelWithDebInfo\596y675z\obj\arm64-v8a
