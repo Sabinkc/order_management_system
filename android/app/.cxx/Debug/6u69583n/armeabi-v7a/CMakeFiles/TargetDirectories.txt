@@ -1,0 +1,2 @@
+/Users/sabinkc/order_management_system/android/app/.cxx/Debug/6u69583n/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/sabinkc/order_management_system/android/app/.cxx/Debug/6u69583n/armeabi-v7a/CMakeFiles/rebuild_cache.dir
