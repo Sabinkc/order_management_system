@@ -530,10 +530,11 @@ class ProductApiSevice {
   //   }
   // }
 
+  final cacheManager = LimitedCacheManager();
+
   Future<Uint8List> getThumbnailByFilename(String filename) async {
   final cacheKey =
       'image_${Constants.baseUrl}/v1/storage/img/products/thumbnails/$filename';
-  final cacheManager = LimitedCacheManager();
 
   // 1. Try disk cache first
   final cachedFile = await cacheManager.getFileFromCache(cacheKey);
@@ -566,7 +567,7 @@ class ProductApiSevice {
 Future<Uint8List> getCategoryImage(String filename) async {
   final cacheKey =
       'image_${Constants.baseUrl}/v1/storage/img/product-categories/$filename';
-  final cacheManager = LimitedCacheManager();
+  
 
   // 1. Try disk cache first
   final cachedFile = await cacheManager.getFileFromCache(cacheKey);

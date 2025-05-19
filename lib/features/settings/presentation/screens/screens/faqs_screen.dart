@@ -57,16 +57,18 @@ class _FaqScreenState extends State<FaqScreen> {
           automaticallyImplyLeading: false,
         ),
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
               SizedBox(
                 height: 10,
               ),
-              Text(
-                "We are here to help you with anything and every thing on this app.",
-                style:
-                    TextStyle(color: CommonColor.mediumGreyColor, fontSize: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  "We are here to help you with anything and every thing on this app.",
+                  style: TextStyle(color: CommonColor.mediumGreyColor),
+                ),
               ),
               SizedBox(
                 height: 20,
