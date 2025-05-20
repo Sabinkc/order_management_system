@@ -58,7 +58,7 @@ class _LandingScreenState extends State<LandingScreen> {
         bottomNavigationBar: Consumer<BottomNavigationbarProvider>(
           builder: (context, provider, child) {
             return SizedBox(
-              height: 85,
+              height: 90,
               child: BottomNavigationBar(
                 type: BottomNavigationBarType.fixed,
                 elevation: 1,

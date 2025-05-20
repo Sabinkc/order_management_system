@@ -329,8 +329,8 @@ class _ProductDetailScreenState extends State<AllProductDetailScreen> {
                     ),
                     Divider(),
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 25),
                       child: Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         spacing: 20,

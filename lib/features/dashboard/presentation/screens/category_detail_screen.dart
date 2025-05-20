@@ -224,169 +224,177 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                   SizedBox(
                     height: 5,
                   ),
-                  Consumer<ProductProvider>(
-                      builder: (context, productProvider, child) {
-                    return SizedBox(
-                      height: 115,
-                      child: IntrinsicHeight(
-                        child: ListView.builder(
-                            itemCount: widget.category.subCategories.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return Column(
-                                children: [
-                                  Consumer<SimpleUiProvider>(
-                                    builder:
-                                        (context, simpleUiProvider, child) {
-                                      return GestureDetector(
-                                          onTap: () async {
-                                            simpleUiProvider
-                                                .updateSelectedCategoryIndex(
-                                                    index);
-                                            final productProvider =
-                                                Provider.of<ProductProvider>(
-                                                    context,
-                                                    listen: false);
-                                            SharedPreferences prefs =
-                                                await SharedPreferences
-                                                    .getInstance();
-                                            String selectedLan =
-                                                prefs.getString('language') ??
-                                                    'en';
-                                            // productProvider
-                                            //     .resetWidgetCategoryProducts();
-                                            if (selectedLan == "en") {
-                                              await productProvider
-                                                  .getWidgetCategoryProducts(
-                                                      widget
-                                                          .category
-                                                          .subCategories[index]
-                                                          .id,
-                                                      "",
-                                                      reset: true);
-                                            } else {
-                                              await productProvider
-                                                  .getWidgetCategoryProductsinJapanese(
-                                                      widget
-                                                          .category
-                                                          .subCategories[index]
-                                                          .id,
-                                                      "",
-                                                      reset: true);
-                                            }
-                                          },
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 5, horizontal: 8),
-                                            child: Container(
-                                              // height: 90,
-                                              height: 70,
-                                              width: 70,
-                                              decoration: BoxDecoration(
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      offset: Offset(0, 0),
-                                                      blurRadius: 3,
-                                                      color: Colors.grey),
-                                                  // // BoxShadow(
-                                                  //     offset: Offset(-2, -2),
-                                                  //     blurRadius: 1,
-                                                  //     color: Colors.grey)
-                                                ],
-                                                border: Border.all(
-                                                    color: index ==
-                                                            simpleUiProvider
-                                                                .selectedSubCategoryIndex
-                                                        ? CommonColor
-                                                            .primaryColor
-                                                        : Colors.white),
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                color: Colors.white,
-                                              ),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                // child: Image.asset(
-                                                //   "assets/images/profile.jpg",
-                                                //   fit: BoxFit.cover,
-                                                // ),
-                                                child: FutureBuilder(
-                                                    future: productApiService
-                                                        .getCategoryImage(widget
+                  if (widget.category.subCategories.isNotEmpty)
+                    Consumer<ProductProvider>(
+                        builder: (context, productProvider, child) {
+                      return SizedBox(
+                        height: 115,
+                        child: IntrinsicHeight(
+                          child: ListView.builder(
+                              itemCount: widget.category.subCategories.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    Consumer<SimpleUiProvider>(
+                                      builder:
+                                          (context, simpleUiProvider, child) {
+                                        return GestureDetector(
+                                            onTap: () async {
+                                              simpleUiProvider
+                                                  .updateSelectedCategoryIndex(
+                                                      index);
+                                              final productProvider =
+                                                  Provider.of<ProductProvider>(
+                                                      context,
+                                                      listen: false);
+                                              SharedPreferences prefs =
+                                                  await SharedPreferences
+                                                      .getInstance();
+                                              String selectedLan =
+                                                  prefs.getString('language') ??
+                                                      'en';
+                                              // productProvider
+                                              //     .resetWidgetCategoryProducts();
+                                              if (selectedLan == "en") {
+                                                await productProvider
+                                                    .getWidgetCategoryProducts(
+                                                        widget
                                                             .category
                                                             .subCategories[
                                                                 index]
-                                                            .categoryImage),
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      if (snapshot.hasData) {
-                                                        return Image.memory(
-                                                          snapshot.data!,
-                                                          fit: BoxFit.cover,
-                                                          // cacheHeight: 120,
-                                                          // cacheWidth: 120,
-                                                        );
-                                                      } else if (snapshot
-                                                              .connectionState ==
-                                                          ConnectionState
-                                                              .waiting) {
-                                                        return Shimmer
-                                                            .fromColors(
-                                                                baseColor:
-                                                                    Colors.grey[
-                                                                        100]!,
-                                                                highlightColor:
-                                                                    Colors
+                                                            .id,
+                                                        "",
+                                                        reset: true);
+                                              } else {
+                                                await productProvider
+                                                    .getWidgetCategoryProductsinJapanese(
+                                                        widget
+                                                            .category
+                                                            .subCategories[
+                                                                index]
+                                                            .id,
+                                                        "",
+                                                        reset: true);
+                                              }
+                                            },
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 5, horizontal: 8),
+                                              child: Container(
+                                                // height: 90,
+                                                height: 70,
+                                                width: 70,
+                                                decoration: BoxDecoration(
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        offset: Offset(0, 0),
+                                                        blurRadius: 3,
+                                                        color: Colors.grey),
+                                                    // // BoxShadow(
+                                                    //     offset: Offset(-2, -2),
+                                                    //     blurRadius: 1,
+                                                    //     color: Colors.grey)
+                                                  ],
+                                                  border: Border.all(
+                                                      color: index ==
+                                                              simpleUiProvider
+                                                                  .selectedSubCategoryIndex
+                                                          ? CommonColor
+                                                              .primaryColor
+                                                          : Colors.white),
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
+                                                  color: Colors.white,
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
+                                                  // child: Image.asset(
+                                                  //   "assets/images/profile.jpg",
+                                                  //   fit: BoxFit.cover,
+                                                  // ),
+                                                  child: FutureBuilder(
+                                                      future: productApiService
+                                                          .getCategoryImage(widget
+                                                              .category
+                                                              .subCategories[
+                                                                  index]
+                                                              .categoryImage),
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (snapshot.hasData) {
+                                                          return Image.memory(
+                                                            snapshot.data!,
+                                                            fit: BoxFit.cover,
+                                                            // cacheHeight: 120,
+                                                            // cacheWidth: 120,
+                                                          );
+                                                        } else if (snapshot
+                                                                .connectionState ==
+                                                            ConnectionState
+                                                                .waiting) {
+                                                          return Shimmer
+                                                              .fromColors(
+                                                                  baseColor:
+                                                                      Colors.grey[
+                                                                          100]!,
+                                                                  highlightColor:
+                                                                      Colors
+                                                                          .white,
+                                                                  child:
+                                                                      Container(
+                                                                    color: Colors
                                                                         .white,
-                                                                child:
-                                                                    Container(
-                                                                  color: Colors
-                                                                      .white,
-                                                                ));
-                                                      } else {
-                                                        return Icon(
-                                                            Icons.broken_image);
-                                                      }
-                                                    }),
+                                                                  ));
+                                                        } else {
+                                                          return Icon(Icons
+                                                              .broken_image);
+                                                        }
+                                                      }),
+                                                ),
                                               ),
-                                            ),
-                                          ));
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 4,
-                                  ),
-                                  Consumer<SimpleUiProvider>(
-                                    builder:
-                                        (context, simpleUiProvider, child) {
-                                      return Text(
-                                        widget
-                                            .category.subCategories[index].name,
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: index ==
-                                                    simpleUiProvider
-                                                        .selectedSubCategoryIndex
-                                                ? CommonColor.primaryColor
-                                                : CommonColor.darkGreyColor,
-                                            fontWeight: FontWeight.w600),
-                                        overflow: TextOverflow.ellipsis,
-                                      );
-                                    },
-                                  )
-                                ],
-                              );
-                            }),
-                      ),
-                    );
-                  }),
-                  Divider(
-                    color: Colors.grey[300],
-                    thickness: 1,
-                    height: 20,
-                  ),
+                                            ));
+                                      },
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                    Consumer<SimpleUiProvider>(
+                                      builder:
+                                          (context, simpleUiProvider, child) {
+                                        return Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 5),
+                                          child: Text(
+                                            widget.category.subCategories[index]
+                                                .name,
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: index ==
+                                                        simpleUiProvider
+                                                            .selectedSubCategoryIndex
+                                                    ? CommonColor.primaryColor
+                                                    : CommonColor.darkGreyColor,
+                                                fontWeight: FontWeight.w600),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        );
+                                      },
+                                    )
+                                  ],
+                                );
+                              }),
+                        ),
+                      );
+                    }),
+                  if (widget.category.subCategories.isNotEmpty)
+                    Divider(
+                      color: Colors.grey[300],
+                      thickness: 1,
+                      height: 20,
+                    ),
                   SizedBox(
                     height: 10,
                   ),

@@ -17,10 +17,12 @@ class WidgetCategoryProductDetailScreen extends StatefulWidget {
   const WidgetCategoryProductDetailScreen({super.key, required this.sku});
 
   @override
-  State<WidgetCategoryProductDetailScreen> createState() => _ProductDetailScreenState();
+  State<WidgetCategoryProductDetailScreen> createState() =>
+      _ProductDetailScreenState();
 }
 
-class _ProductDetailScreenState extends State<WidgetCategoryProductDetailScreen> {
+class _ProductDetailScreenState
+    extends State<WidgetCategoryProductDetailScreen> {
   final PageController smoothController = PageController();
   final CarouselSliderController carouselSliderController =
       CarouselSliderController();
@@ -328,8 +330,8 @@ class _ProductDetailScreenState extends State<WidgetCategoryProductDetailScreen>
                     ),
                     Divider(),
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 25),
                       child: Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         spacing: 20,
